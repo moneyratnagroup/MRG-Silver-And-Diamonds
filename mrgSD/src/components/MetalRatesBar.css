@@ -1,0 +1,60 @@
+.metal-rates-bar {
+  background-color: rgba(94, 25, 36, 0.9); /* Velvet red-wine with slight transparency */
+  backdrop-filter: blur(8px); /* Optional: Adds a premium frosted glass effect */
+  color: white;
+  padding: 0.6rem 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1040;
+}
+
+.rates-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.rate-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rate-label {
+  color: #ebd391; /* Soft metallic gold to contrast with red wine */
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.rate-value {
+  font-weight: 500;
+}
+
+.rate-divider {
+  width: 1px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.rate-info {
+  margin-left: auto;
+  color: #888;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .metal-rates-bar {
+    font-size: 0.75rem;
+  }
+  
+  .rates-container {
+    gap: 1rem;
+  }
+}

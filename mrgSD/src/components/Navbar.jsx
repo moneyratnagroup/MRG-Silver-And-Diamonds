@@ -1,15 +1,42 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Search, User, Heart, ShoppingBag, ChevronDown, Sparkles, Watch, Baby, Sun, Coins, Crown } from 'lucide-react';
+import { Search, User, Heart, ShoppingBag, ChevronDown, Sparkles, Watch, Baby, Sun, Coins, Crown, LayoutGrid } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useShop } from '../context/ShopContext';
 import './Navbar.css';
 
 const MRGNavbar = () => {
-  const [cartCount, setCartCount] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+  const { getCartCount, getWishlistCount, setIsCartOpen, setIsWishlistOpen } = useShop();
+  const navigate = useNavigate();
+  
+  const cartCount = getCartCount();
+  const wishlistCount = getWishlistCount();
+
+  const handleWishlistClick = () => {
+    if (window.innerWidth < 992) {
+      setIsWishlistOpen(true);
+    } else {
+      navigate('/wishlist');
+    }
+  };
+
+  const handleCartClick = () => {
+    setIsCartOpen(true);
+  };
+
+  const [forceClose, setForceClose] = useState(false);
+
+  const closeMenu = () => {
+    setExpanded(false);
+    setForceClose(true);
+    setTimeout(() => setForceClose(false), 300);
+  };
 
   return (
-    <Navbar sticky="top" className="custom-navbar">
+    <Navbar expanded={expanded} onToggle={setExpanded} sticky="top" expand="lg" className="custom-navbar">
       <Container fluid className="px-4 px-lg-5">
-        <Navbar.Brand href="/" className="brand-logo-container">
+        <Navbar.Brand as={Link} to="/" className="brand-logo-container">
           <svg className="brand-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22c4-4 4-10 0-14-4 4-4 10 0 14z" />
             <path d="M12 22c-4-4-4-10 0-14 4 4 4 10 0 14z" />
@@ -23,90 +50,105 @@ const MRGNavbar = () => {
           </div>
         </Navbar.Brand>
         
-        <Nav className="mx-auto nav-links-container">
-          <Nav.Link href="/" className="nav-link-custom active">HOME</Nav.Link>
-          
-          <div className="nav-item-dropdown">
-            <div className="nav-link-custom active-dropdown">
-              COLLECTIONS <ChevronDown size={14} className="ms-1" />
-            </div>
-            <div className="dropdown-mega-menu">
-              <a href="/women" className="dropdown-item-mega">
-                <div className="mega-icon-wrapper">
-                  <Sparkles size={20} />
-                </div>
-                <div className="mega-text-content">
-                  <span className="mega-title">WOMEN</span>
-                  <span className="mega-subtitle">Rings, Earrings, Necklaces</span>
-                </div>
-              </a>
-              <a href="/men" className="dropdown-item-mega">
-                <div className="mega-icon-wrapper">
-                  <Watch size={20} />
-                </div>
-                <div className="mega-text-content">
-                  <span className="mega-title">MEN</span>
-                  <span className="mega-subtitle">Chains, Bracelets, Rings</span>
-                </div>
-              </a>
-              <a href="/kids" className="dropdown-item-mega">
-                <div className="mega-icon-wrapper">
-                  <Baby size={20} />
-                </div>
-                <div className="mega-text-content">
-                  <span className="mega-title">KIDS</span>
-                  <span className="mega-subtitle">Anklets, Tiny Studs</span>
-                </div>
-              </a>
-              <a href="/religious" className="dropdown-item-mega">
-                <div className="mega-icon-wrapper">
-                  <Sun size={20} />
-                </div>
-                <div className="mega-text-content">
-                  <span className="mega-title">RELIGIOUS</span>
-                  <span className="mega-subtitle">Idols, Pooja Thalis, Coins</span>
-                </div>
-              </a>
-              <a href="/investment" className="dropdown-item-mega">
-                <div className="mega-icon-wrapper">
-                  <Coins size={20} />
-                </div>
-                <div className="mega-text-content">
-                  <span className="mega-title">INVESTMENT</span>
-                  <span className="mega-subtitle">Silver Bars, Bullions</span>
-                </div>
-              </a>
-              <a href="/special" className="dropdown-item-mega">
-                <div className="mega-icon-wrapper">
-                  <Crown size={20} />
-                </div>
-                <div className="mega-text-content">
-                  <span className="mega-title">SPECIAL</span>
-                  <span className="mega-subtitle">Diamond Accents, Bridal</span>
-                </div>
-              </a>
-            </div>
+        <div className="d-flex align-items-center ms-auto ms-lg-0 order-lg-last mobile-nav-actions">
+          <div className="utilities me-2 me-lg-0">
+            <button className="utility-btn" aria-label="Search">
+              <Search size={20} strokeWidth={1.5} />
+            </button>
+            <button className="utility-btn" aria-label="User Account">
+              <User size={20} strokeWidth={1.5} />
+            </button>
+            <button className="utility-btn" aria-label="Wishlist" onClick={handleWishlistClick}>
+              <Heart size={20} strokeWidth={1.5} />
+              {wishlistCount > 0 && <span className="cart-badge" style={{backgroundColor: '#1a1a1a'}}>{wishlistCount}</span>}
+            </button>
+            <button className="utility-btn" aria-label="Shopping Bag" onClick={handleCartClick}>
+              <ShoppingBag size={20} strokeWidth={1.5} />
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            </button>
           </div>
-          
-          <Nav.Link href="/about" className="nav-link-custom">ABOUT US</Nav.Link>
-          <Nav.Link href="/contact" className="nav-link-custom">CONTACT US</Nav.Link>
-        </Nav>
-        
-        <div className="utilities">
-          <button className="utility-btn" aria-label="Search">
-            <Search size={20} strokeWidth={1.5} />
-          </button>
-          <button className="utility-btn" aria-label="User Account">
-            <User size={20} strokeWidth={1.5} />
-          </button>
-          <button className="utility-btn" aria-label="Wishlist">
-            <Heart size={20} strokeWidth={1.5} />
-          </button>
-          <button className="utility-btn" aria-label="Shopping Bag">
-            <ShoppingBag size={20} strokeWidth={1.5} />
-            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-          </button>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className="custom-toggler" />
         </div>
+
+        <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse">
+          <Nav className="mx-auto nav-links-container">
+            <Nav.Link as={Link} to="/" className="nav-link-custom active" onClick={closeMenu}>HOME</Nav.Link>
+            
+            <div className="nav-item-dropdown">
+              <div className="nav-link-custom active-dropdown">
+                COLLECTIONS <ChevronDown size={14} className="ms-1" />
+              </div>
+              <div className={`dropdown-mega-menu ${forceClose ? 'd-none' : ''}`}>
+                <Link to="/collections/all" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <LayoutGrid size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">ALL COLLECTIONS</span>
+                    <span className="mega-subtitle">View Everything</span>
+                  </div>
+                </Link>
+                <Link to="/collections/women" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Sparkles size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">WOMEN</span>
+                    <span className="mega-subtitle">Rings, Earrings, Necklaces</span>
+                  </div>
+                </Link>
+                <Link to="/collections/men" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Watch size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">MEN</span>
+                    <span className="mega-subtitle">Chains, Bracelets, Rings</span>
+                  </div>
+                </Link>
+                <Link to="/collections/kids" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Baby size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">KIDS</span>
+                    <span className="mega-subtitle">Anklets, Tiny Studs</span>
+                  </div>
+                </Link>
+                <Link to="/collections/religious" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Sun size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">RELIGIOUS</span>
+                    <span className="mega-subtitle">Idols, Pooja Thalis, Coins</span>
+                  </div>
+                </Link>
+                <Link to="/collections/investment" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Coins size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">INVESTMENT</span>
+                    <span className="mega-subtitle">Silver Bars, Bullions</span>
+                  </div>
+                </Link>
+                <Link to="/collections/special" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Crown size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">SPECIAL</span>
+                    <span className="mega-subtitle">Diamond Accents, Bridal</span>
+                  </div>
+                </Link>
+              </div>
+            </div>
+            
+            <Nav.Link as={Link} to="/about" className="nav-link-custom" onClick={closeMenu}>ABOUT US</Nav.Link>
+            <Nav.Link as={Link} to="/contact" className="nav-link-custom" onClick={closeMenu}>CONTACT US</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );
