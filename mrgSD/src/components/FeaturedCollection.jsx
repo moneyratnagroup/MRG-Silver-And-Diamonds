@@ -1,0 +1,161 @@
+import React, { useState } from 'react';
+import { useShop } from '../context/ShopContext';
+import './ProductsGallery.css'; // Reusing the exact same styling as requested
+import braceletImg from '../assets/silver_charm_bracelet.png';
+
+const FeaturedCollection = () => {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const { addToCart, toggleWishlist, isInWishlist } = useShop();
+
+  // Mock data for the first populated product
+  const sampleProduct = {
+    id: 1,
+    name: "Classic Silver Charm Bracelet",
+    originalPrice: "₹2,999",
+    price: "₹2,499",
+    img: braceletImg,
+    images: [
+      braceletImg, // front view
+      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=600", // side view
+      "https://images.unsplash.com/photo-1599643478514-4a1101858ff6?auto=format&fit=crop&q=80&w=600", // on human body
+      "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=600" // certificate
+    ],
+    category: "Bracelets",
+    desc: "A timeless sterling silver charm bracelet perfect for any occasion. Elegantly designed to hold your most precious memories."
+  };
+
+  // We need 8 items total. 1 populated, 7 skeletons.
+  const placeholders = [1, 2, 3, 4, 5, 6, 7];
+
+  const calculateDiscount = (original, selling) => {
+    if (!original || !selling) return null;
+    const origVal = parseFloat(original.replace(/[^\d.]/g, ''));
+    const sellVal = parseFloat(selling.replace(/[^\d.]/g, ''));
+    if (origVal > sellVal) {
+      return Math.round(((origVal - sellVal) / origVal) * 100);
+    }
+    return null;
+  };
+
+  const openModal = (product) => {
+    setSelectedProduct(product);
+    setActiveImageIndex(0);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeModal = () => {
+    setSelectedProduct(null);
+    document.body.style.overflow = 'unset';
+  };
+
+  return (
+    <section className="products-gallery-section" style={{ backgroundColor: '#ffffff' }}>
+      <div className="pg-header">
+        <h2 className="pg-title">Featured Collection</h2>
+        <p className="pg-tagline">
+          Handpicked silver jewellery crafted to celebrate elegance, tradition, and everyday beauty.
+        </p>
+      </div>
+
+      <div className="pg-grid">
+        {/* Sample Fully Populated Product Card */}
+        <div className="pg-card">
+          <div className="pg-image-container" onClick={() => openModal(sampleProduct)} style={{cursor: 'pointer'}}>
+            {sampleProduct.originalPrice && calculateDiscount(sampleProduct.originalPrice, sampleProduct.price) && (
+              <span className="pg-discount-badge">
+                {calculateDiscount(sampleProduct.originalPrice, sampleProduct.price)}% OFF
+              </span>
+            )}
+            <img src={sampleProduct.img} alt={sampleProduct.name} className="pg-image" />
+            <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(sampleProduct); }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(sampleProduct.id) ? "#e53e3e" : "none"} stroke={isInWishlist(sampleProduct.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+          </div>
+          <div className="pg-details">
+            <h3 className="pg-item-name">{sampleProduct.name}</h3>
+            <div className="pg-price-container">
+              <p className="pg-item-price">{sampleProduct.price}</p>
+              {sampleProduct.originalPrice && (
+                <p className="pg-item-original-price">{sampleProduct.originalPrice}</p>
+              )}
+            </div>
+            <button className="pg-add-to-cart" onClick={(e) => { e.stopPropagation(); addToCart(sampleProduct); }}>Add to Cart</button>
+          </div>
+        </div>
+
+        {/* Skeleton Placeholders for the remaining 7 items */}
+        {placeholders.map((item) => (
+          <div className="pg-card skeleton-card" key={item}>
+            <div className="pg-image-container skeleton-img"></div>
+            <div className="pg-details">
+              <div className="skeleton-text skeleton-title"></div>
+              <div className="skeleton-text skeleton-price"></div>
+              <div className="skeleton-btn"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Product Quick View Modal */}
+      {selectedProduct && (
+        <div className="product-modal-overlay" onClick={closeModal}>
+          <div className="product-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={closeModal} aria-label="Close modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            
+            <div className="modal-left">
+              <div className="modal-image-gallery">
+                <div className="modal-thumbnails">
+                  {selectedProduct.images.map((img, idx) => (
+                    <div 
+                      key={idx} 
+                      className={`thumbnail-container ${activeImageIndex === idx ? 'active' : ''}`}
+                      onClick={() => setActiveImageIndex(idx)}
+                    >
+                      <img src={img} alt={`View ${idx + 1}`} className="thumbnail-img" />
+                    </div>
+                  ))}
+                </div>
+                <div className="modal-main-image-container">
+                  <img 
+                    src={selectedProduct.images[activeImageIndex]} 
+                    alt={selectedProduct.name} 
+                    className="modal-main-image" 
+                  />
+                </div>
+              </div>
+              <div className="modal-category left-aligned-category">
+                <span className="category-label">Category:</span> {selectedProduct.category}
+              </div>
+            </div>
+
+            <div className="modal-right">
+              <h2 className="modal-product-name">{selectedProduct.name}</h2>
+              <div className="modal-price-container">
+                <p className="modal-product-price">{selectedProduct.price}</p>
+                {selectedProduct.originalPrice && (
+                  <p className="modal-product-original-price">{selectedProduct.originalPrice}</p>
+                )}
+              </div>
+              <p className="modal-product-desc">{selectedProduct.desc}</p>
+              
+              <div className="modal-actions">
+                <button className="btn-add-cart" onClick={() => addToCart(selectedProduct)}>Add to Cart</button>
+                <button className="btn-buy-now">Buy Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+};
+
+export default FeaturedCollection;
