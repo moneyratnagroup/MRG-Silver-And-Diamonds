@@ -216,7 +216,7 @@ export const ShopProvider = ({ children }) => {
       paymentStatus: "Paid", // Paid, Pending, COD
       paymentMethod: "Razorpay", // UPI, Card, COD, Razorpay
       fulfillmentStatus: "Processing", // New, Processing, Shipped, Delivered, Cancelled
-      tracking: { courier: '', trackingId: '' },
+      tracking: { courier: '', trackingId: '', url: '', shippingDate: '', expectedDelivery: '', deliveredDate: '' },
       refundStatus: 'None'
     },
     {
@@ -248,7 +248,7 @@ export const ShopProvider = ({ children }) => {
       paymentStatus: "COD",
       paymentMethod: "COD",
       fulfillmentStatus: "New",
-      tracking: { courier: '', trackingId: '' },
+      tracking: { courier: '', trackingId: '', url: '', shippingDate: '', expectedDelivery: '', deliveredDate: '' },
       refundStatus: 'None'
     },
     {
@@ -280,7 +280,14 @@ export const ShopProvider = ({ children }) => {
       paymentStatus: "Paid",
       paymentMethod: "UPI",
       fulfillmentStatus: "Delivered",
-      tracking: { courier: 'BlueDart', trackingId: 'BD987654321' },
+      tracking: { 
+        courier: 'BlueDart', 
+        trackingId: 'BD987654321', 
+        url: 'https://bluedart.com/tracking', 
+        shippingDate: '2026-07-20', 
+        expectedDelivery: '2026-07-24', 
+        deliveredDate: '2026-07-23' 
+      },
       refundStatus: 'None'
     }
   ]);
@@ -309,6 +316,52 @@ export const ShopProvider = ({ children }) => {
 
   const deleteProduct = (id) => {
     setProducts(products.filter(p => p.id !== id));
+  };
+
+  // Inventory Movements
+  const [inventoryMovements, setInventoryMovements] = useState([
+    {
+      id: 1,
+      date: new Date().toISOString(),
+      productId: 1,
+      productName: "Classic Silver Charm Bracelet",
+      type: "add",
+      quantity: 12,
+      reason: "Initial Stock",
+      reference: "PO-001",
+      notes: "Initial inventory setup"
+    }
+  ]);
+
+  const updateInventory = (productId, adjustment) => {
+    // adjustment is an object: { type: 'add'|'remove', quantity: number, reason: string, reference: string, notes: string }
+    const qty = parseInt(adjustment.quantity, 10);
+    if (isNaN(qty) || qty <= 0) return;
+
+    setProducts(prevProducts => prevProducts.map(p => {
+      if (p.id === productId) {
+        let newStock = p.stockQuantity;
+        if (adjustment.type === 'add') newStock += qty;
+        else if (adjustment.type === 'remove') newStock = Math.max(0, newStock - qty);
+        
+        // Log movement
+        const newMovement = {
+          id: Date.now(),
+          date: new Date().toISOString(),
+          productId: p.id,
+          productName: p.name,
+          type: adjustment.type,
+          quantity: qty,
+          reason: adjustment.reason,
+          reference: adjustment.reference,
+          notes: adjustment.notes
+        };
+        setInventoryMovements(prev => [newMovement, ...prev]);
+
+        return { ...p, stockQuantity: newStock };
+      }
+      return p;
+    }));
   };
 
   // Add to cart
@@ -383,6 +436,8 @@ export const ShopProvider = ({ children }) => {
     addProduct,
     updateProduct,
     deleteProduct,
+    updateInventory,
+    inventoryMovements,
     announcementText,
     updateAnnouncementText,
     heroBanners,

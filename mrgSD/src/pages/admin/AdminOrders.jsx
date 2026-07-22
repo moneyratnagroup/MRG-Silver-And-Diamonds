@@ -16,9 +16,14 @@ const AdminOrders = () => {
   const [minAmount, setMinAmount] = useState('');
   const [maxAmount, setMaxAmount] = useState('');
 
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-    return new Date(dateString).toLocaleDateString('en-IN', options);
+  const formatDateTime = (dateString) => {
+    const d = new Date(dateString);
+    const dateOpts = { year: 'numeric', month: 'short', day: 'numeric' };
+    const timeOpts = { hour: '2-digit', minute: '2-digit', hour12: true };
+    return {
+      date: d.toLocaleDateString('en-IN', dateOpts),
+      time: d.toLocaleTimeString('en-IN', timeOpts)
+    };
   };
 
   const getDeliveryStatus = (status) => {
@@ -204,7 +209,10 @@ const AdminOrders = () => {
                     <div className="order-id">{order.id}</div>
                   </td>
                   <td>
-                    <div className="order-date" style={{ marginTop: 0 }}>{formatDate(order.date)}</div>
+                    <div className="order-date" style={{ marginTop: 0 }}>
+                      <div style={{ fontWeight: 500, color: '#333' }}>{formatDateTime(order.date).date}</div>
+                      <div style={{ fontSize: '0.8rem', color: '#888', marginTop: '2px' }}>{formatDateTime(order.date).time}</div>
+                    </div>
                   </td>
                   <td>
                     <div className="order-customer">

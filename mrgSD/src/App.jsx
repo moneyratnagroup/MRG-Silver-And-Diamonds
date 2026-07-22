@@ -23,6 +23,7 @@ import AdminCategories from './pages/admin/AdminCategories'
 import AdminCoupons from './pages/admin/AdminCoupons'
 import AdminOrders from './pages/admin/AdminOrders'
 import AdminOrderDetails from './pages/admin/AdminOrderDetails'
+import AdminInventory from './pages/admin/AdminInventory'
 
 import './App.css'
 
@@ -45,6 +46,7 @@ function App() {
               <Route path="coupons" element={<AdminCoupons />} />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="orders/:id" element={<AdminOrderDetails />} />
+              <Route path="inventory" element={<AdminInventory />} />
             </Route>
 
             {/* User Routes */}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, TrendingUp, Package, Users, Settings, LogOut, Home, MessageSquare, Tags, Ticket, ShoppingBag } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, Package, Users, Settings, LogOut, Home, MessageSquare, Tags, Ticket, ShoppingBag, Archive } from 'lucide-react';
 import './AdminSidebar.css';
 
 const AdminSidebar = () => {
@@ -19,6 +19,10 @@ const AdminSidebar = () => {
         <NavLink to="/admin/orders" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`}>
           <ShoppingBag size={20} />
           <span>Orders</span>
+        </NavLink>
+        <NavLink to="/admin/inventory" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`}>
+          <Archive size={20} />
+          <span>Inventory</span>
         </NavLink>
         <NavLink to="/admin/homepage" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`}>
           <Home size={20} />
