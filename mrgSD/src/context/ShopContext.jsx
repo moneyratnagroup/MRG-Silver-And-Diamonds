@@ -42,26 +42,23 @@ export const ShopProvider = ({ children }) => {
     {
       id: 1,
       image: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2940&auto=format&fit=crop",
-      badge: "New Collection",
-      title: "Elegance<br/>Redefined",
-      subtitle: "Discover our exclusive silver collection, delicately crafted for the modern muse.",
-      buttonText: "Shop Silver"
+      title: "Pure Silver.<br/>Timeless Beauty.",
+      subtitle: "Discover our exquisite collection of 925 silver jewelry, elevated with the sparkle of small diamond accents.",
+      buttonText: "EXPLORE COLLECTION"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?q=80&w=2940&auto=format&fit=crop",
-      badge: "Certified Pure",
-      title: "Timeless<br/>Brilliance",
-      subtitle: "Make every moment unforgettable with our ethically sourced, breathtaking diamonds.",
-      buttonText: "Explore Diamonds"
+      image: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2940&auto=format&fit=crop",
+      title: "Elegant Design.<br/>Modern Muse.",
+      subtitle: "Experience luxury with our delicately crafted pieces, designed to complement your everyday style.",
+      buttonText: "SHOP NEW ARRIVALS"
     },
     {
       id: 3,
       image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=2940&auto=format&fit=crop",
-      badge: "Made For You",
-      title: "Bespoke<br/>Masterpieces",
-      subtitle: "Celebrate your unique story with custom-designed premium jewelry services.",
-      buttonText: "Custom Orders"
+      title: "Bespoke Art.<br/>Masterpieces.",
+      subtitle: "Celebrate your unique story with custom-designed premium jewelry services tailored just for you.",
+      buttonText: "CUSTOM ORDERS"
     }
   ]);
 

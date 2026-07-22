@@ -1,10 +1,16 @@
 import React, { useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
 import './AdminInventory.css';
 
 const AdminInventory = () => {
   const { products, updateInventory, inventoryMovements } = useShop();
-  const [activeTab, setActiveTab] = useState('management'); // overview, management, history, reports
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get('tab') || 'overview'; // overview, management, history, reports
+
+  const setActiveTab = (tab) => {
+    setSearchParams({ tab });
+  };
 
   // Adjust Stock Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
