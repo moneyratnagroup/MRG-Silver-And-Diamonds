@@ -1,16 +1,12 @@
 import React from 'react';
+import { useShop } from '../context/ShopContext';
 import './AnnouncementBar.css';
 
-const announcements = [
-  "✨ 925 Hallmarked Silver Jewellery",
-  "💎 Certified Diamond Jewellery",
-  "🎁 Premium Gift Packaging Available",
-  "✨ New Arrivals Just Dropped",
-  "💍 Customized Jewellery Available",
-  "📦 Safe Delivery Across India"
-];
-
 const AnnouncementBar = () => {
+  const { announcementText } = useShop();
+
+  // Create an array of identical announcements to fill the marquee
+  const announcements = Array(6).fill(announcementText);
   return (
     <div className="announcement-bar-container">
       <div className="announcement-marquee">

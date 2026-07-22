@@ -2,7 +2,7 @@
 
 :root {
   --text-h: #08060d;
-  --bg: #ffeacb;
+  --bg: #f8f4e6; /* Soft beach sand color */
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
@@ -53,6 +53,8 @@
 
 body {
   margin: 0;
+  background-color: var(--bg) !important;
+  color: var(--text-h);
 }
 
 #root {
