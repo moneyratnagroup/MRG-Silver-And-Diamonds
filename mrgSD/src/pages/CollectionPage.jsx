@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
-import { Filter } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
+import { Filter, ChevronDown, ChevronRight, ChevronLeft } from 'lucide-react';
 import ProductsGallery from '../components/ProductsGallery';
 import FilterDrawer from '../components/FilterDrawer';
 import SidebarFilter from '../components/SidebarFilter';
@@ -10,10 +10,18 @@ import './Pages.css';
 const CollectionPage = () => {
   const { collectionId } = useParams();
   const [searchParams] = useSearchParams();
-  const { products: allProductsContext } = useShop();
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const { products: allProductsContext, categories } = useShop();
+  const navigate = useNavigate();
+  const scrollContainerRef = useRef(null);
   
+  const scroll = (scrollOffset) => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft += scrollOffset;
+    }
+  };
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const typeFilter = searchParams.get('type');
+  const occasionFilter = searchParams.get('occasion');
   
   // Filter by collection
   let products = collectionId === 'all' 
@@ -22,6 +30,10 @@ const CollectionPage = () => {
   
   if (typeFilter) {
     products = products.filter(p => p.category && p.category.toUpperCase() === typeFilter.toUpperCase());
+  }
+
+  if (occasionFilter) {
+    products = products.filter(p => p.occasion && p.occasion.toLowerCase() === occasionFilter.toLowerCase());
   }
   
   // Format title
@@ -33,30 +45,24 @@ const CollectionPage = () => {
     displayTitle = typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase();
   }
 
+  const activeFiltersCount = (collectionId !== 'all' ? 1 : 0) + (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
+
   return (
     <div className="collection-page-container">
-      {isAll && (
-        <div className="collection-actions-bar mobile-only">
-          <button className="btn-filter" onClick={() => setIsFilterOpen(true)}>
-            <Filter size={18} className="me-2" />
-            Filter Categories
-          </button>
-        </div>
-      )}
-      
-      <div className={`collection-layout ${isAll ? 'with-sidebar' : ''}`}>
-        {isAll && (
-          <aside className="collection-sidebar desktop-only">
-            <h3 className="sidebar-title">Categories</h3>
-            <SidebarFilter />
-          </aside>
-        )}
-        
+      <div className="collection-layout">
         <div className="collection-main">
           <ProductsGallery 
             title={displayTitle}
             tagline={typeFilter ? `Explore our stunning collection of ${displayTitle.toLowerCase()}.` : isAll ? "Browse our entire catalog of premium silver and diamond jewelry." : `Explore our exclusive ${baseTitle} jewelry, curated for elegance and style.`}
             products={products}
+            filterComponent={
+              <button className="pill-filter-btn" onClick={() => setIsFilterOpen(true)}>
+                <Filter size={16} />
+                <span>Filter By</span>
+                {activeFiltersCount > 0 && <span className="filter-count-badge">{activeFiltersCount}</span>}
+                <ChevronDown size={16} />
+              </button>
+            }
           />
         </div>
       </div>

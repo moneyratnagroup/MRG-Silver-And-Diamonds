@@ -1,9 +1,17 @@
 .footer-section {
-  background-color: #201815;
-  color: #e5dfd9;
+  background: linear-gradient(270deg, #2c3e50, #34495e, #212f3c, #2c3e50);
+  background-size: 400% 400%;
+  animation: footerGradient 15s ease infinite;
+  color: #F5F2EB;
   padding: 70px 0 30px;
   font-family: 'Inter', sans-serif;
   margin-top: auto;
+}
+
+@keyframes footerGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .footer-top {
@@ -18,7 +26,7 @@
 }
 
 .footer-logo-circle {
-  background-color: #932a32;
+  background-color: #722F37;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -46,13 +54,13 @@
   font-weight: 600;
   letter-spacing: 2.5px;
   margin-top: 6px;
-  color: #a39c96;
+  color: #D1D5DB;
 }
 
 .footer-description {
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #c9c1bb;
+  color: #F5F2EB;
   margin-bottom: 32px;
   max-width: 320px;
 }
@@ -69,23 +77,23 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1px solid #483f3a;
-  color: #c9c1bb;
+  border: 1px solid #D1D5DB;
+  color: #D1D5DB;
   transition: all 0.3s ease;
   text-decoration: none;
 }
 
 .footer-social a:hover {
-  background-color: #c9c1bb;
-  color: #201815;
-  border-color: #c9c1bb;
+  background-color: #722F37;
+  color: #ffffff;
+  border-color: #722F37;
 }
 
 .footer-heading {
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 2px;
-  color: #a39c96;
+  color: #D1D5DB;
   margin-bottom: 28px;
   text-transform: uppercase;
 }
@@ -100,14 +108,14 @@
 }
 
 .footer-links a {
-  color: #e5dfd9;
+  color: #D1D5DB;
   text-decoration: none;
   font-size: 0.95rem;
   transition: color 0.2s ease;
 }
 
 .footer-links a:hover {
-  color: #ffffff;
+  color: #722F37;
 }
 
 .footer-contact {
@@ -123,13 +131,13 @@
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  color: #e5dfd9;
+  color: #F5F2EB;
   font-size: 0.95rem;
   line-height: 1.5;
 }
 
 .contact-icon {
-  color: #932a32;
+  color: #722F37;
   margin-top: 2px;
   flex-shrink: 0;
 }
@@ -138,7 +146,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #3c332d;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 28px;
   flex-wrap: wrap;
   gap: 16px;
@@ -146,7 +154,7 @@
 
 .footer-copyright {
   font-size: 0.85rem;
-  color: #a39c96;
+  color: #D1D5DB;
 }
 
 .footer-legal {
@@ -155,14 +163,14 @@
 }
 
 .footer-legal a {
-  color: #a39c96;
+  color: #D1D5DB;
   text-decoration: none;
   font-size: 0.85rem;
   transition: color 0.2s ease;
 }
 
 .footer-legal a:hover {
-  color: #ffffff;
+  color: #722F37;
 }
 
 @media (max-width: 991px) {

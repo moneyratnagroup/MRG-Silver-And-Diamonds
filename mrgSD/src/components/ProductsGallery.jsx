@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useShop } from '../context/ShopContext';
 import './ProductsGallery.css';
 import braceletImg from '../assets/silver_charm_bracelet.png';
+import ProductModal from './ProductModal';
 
-const ProductsGallery = ({ title = "Our Collection", tagline, products = [] }) => {
+const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { addToCart, toggleWishlist, isInWishlist } = useShop();
@@ -36,10 +37,18 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [] }) =
 
   return (
     <section className="products-gallery-section">
-      <div className="pg-header">
-        <h2 className="pg-title">{title}</h2>
-        {tagline && <p className="pg-tagline">{tagline}</p>}
-      </div>
+      {(title || tagline) && (
+        <div className="pg-header">
+          {title && <h2 className="pg-title">{title}</h2>}
+          {tagline && <p className="pg-tagline">{tagline}</p>}
+        </div>
+      )}
+
+      {filterComponent && (
+        <div className="pg-filter-container">
+          {filterComponent}
+        </div>
+      )}
 
       <div className="pg-grid">
         {products.length > 0 ? (
@@ -85,60 +94,7 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [] }) =
       </div>
 
       {/* Product Quick View Modal */}
-      {selectedProduct && (
-        <div className="product-modal-overlay" onClick={closeModal}>
-          <div className="product-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={closeModal} aria-label="Close modal">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-            
-            <div className="modal-left">
-              <div className="modal-image-gallery">
-                <div className="modal-thumbnails">
-                  {selectedProduct.images.map((img, idx) => (
-                    <div 
-                      key={idx} 
-                      className={`thumbnail-container ${activeImageIndex === idx ? 'active' : ''}`}
-                      onClick={() => setActiveImageIndex(idx)}
-                    >
-                      <img src={img} alt={`View ${idx + 1}`} className="thumbnail-img" />
-                    </div>
-                  ))}
-                </div>
-                <div className="modal-main-image-container">
-                  <img 
-                    src={selectedProduct.images[activeImageIndex]} 
-                    alt={selectedProduct.name} 
-                    className="modal-main-image" 
-                  />
-                </div>
-              </div>
-              <div className="modal-category left-aligned-category">
-                <span className="category-label">Category:</span> {selectedProduct.category}
-              </div>
-            </div>
-
-            <div className="modal-right">
-              <h2 className="modal-product-name">{selectedProduct.name}</h2>
-              <div className="modal-price-container">
-                <p className="modal-product-price">{selectedProduct.price}</p>
-                {selectedProduct.originalPrice && (
-                  <p className="modal-product-original-price">{selectedProduct.originalPrice}</p>
-                )}
-              </div>
-              <p className="modal-product-desc">{selectedProduct.desc}</p>
-              
-              <div className="modal-actions">
-                <button className="btn-add-cart" onClick={() => addToCart(selectedProduct)}>Add to Cart</button>
-                <button className="btn-buy-now">Buy Now</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <ProductModal product={selectedProduct} onClose={closeModal} />
     </section>
   );
 };

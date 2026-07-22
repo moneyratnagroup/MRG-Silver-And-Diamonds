@@ -25,10 +25,10 @@ const HeroSlider = () => {
               
               <div className="slide-text-layer">
                 <div className="glass-card">
-                  <div className="badge-modern">
-                    <Sparkles size={14} /> <span>{banner.badge}</span>
-                  </div>
                   <h2 className="modern-slide-title" dangerouslySetInnerHTML={{ __html: banner.title }}></h2>
+                  <div className="modern-divider">
+                    <Sparkles size={14} className="modern-divider-icon" />
+                  </div>
                   <p className="modern-slide-text">
                     {banner.subtitle}
                   </p>

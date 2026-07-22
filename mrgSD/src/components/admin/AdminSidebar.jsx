@@ -1,9 +1,16 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, TrendingUp, Package, Users, Settings, LogOut, Home, MessageSquare, Tags, Ticket, ShoppingBag, Archive } from 'lucide-react';
+import React, { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { LayoutDashboard, TrendingUp, Package, Users, Settings, LogOut, Home, MessageSquare, Tags, Ticket, ShoppingBag, Archive, ChevronDown, ChevronRight } from 'lucide-react';
 import './AdminSidebar.css';
 
 const AdminSidebar = () => {
+  const location = useLocation();
+  const [isProductsOpen, setIsProductsOpen] = useState(location.pathname.includes('/admin/products') || location.pathname.includes('/admin/categories'));
+  const [isInventoryOpen, setIsInventoryOpen] = useState(location.pathname.includes('/admin/inventory'));
+
+  const toggleProducts = () => setIsProductsOpen(!isProductsOpen);
+  const toggleInventory = () => setIsInventoryOpen(!isInventoryOpen);
+
   return (
     <aside className="admin-sidebar">
       <div className="admin-brand">
@@ -20,10 +27,34 @@ const AdminSidebar = () => {
           <ShoppingBag size={20} />
           <span>Orders</span>
         </NavLink>
-        <NavLink to="/admin/inventory" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`}>
-          <Archive size={20} />
-          <span>Inventory</span>
-        </NavLink>
+
+        {/* Inventory Group */}
+        <div className="admin-nav-group">
+          <div className={`admin-nav-item-header ${location.pathname.includes('/admin/inventory') ? 'active' : ''}`} onClick={toggleInventory}>
+            <div className="admin-nav-header-left">
+              <Archive size={20} />
+              <span>Inventory</span>
+            </div>
+            {isInventoryOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+          </div>
+          {isInventoryOpen && (
+            <div className="admin-subnav">
+              <NavLink to="/admin/inventory?tab=overview" className={() => (location.search === '?tab=overview' || (location.pathname === '/admin/inventory' && !location.search)) ? 'admin-subnav-link active' : 'admin-subnav-link'}>
+                Overview
+              </NavLink>
+              <NavLink to="/admin/inventory?tab=management" className={() => location.search === '?tab=management' ? 'admin-subnav-link active' : 'admin-subnav-link'}>
+                Stock Management
+              </NavLink>
+              <NavLink to="/admin/inventory?tab=history" className={() => location.search === '?tab=history' ? 'admin-subnav-link active' : 'admin-subnav-link'}>
+                Stock History
+              </NavLink>
+              <NavLink to="/admin/inventory?tab=reports" className={() => location.search === '?tab=reports' ? 'admin-subnav-link active' : 'admin-subnav-link'}>
+                Reports
+              </NavLink>
+            </div>
+          )}
+        </div>
+
         <NavLink to="/admin/homepage" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`}>
           <Home size={20} />
           <span>Homepage</span>
@@ -32,17 +63,34 @@ const AdminSidebar = () => {
           <TrendingUp size={20} />
           <span>Metal Rates</span>
         </NavLink>
-        <NavLink to="/admin/products" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`}>
-          <Package size={20} />
-          <span>Products</span>
-        </NavLink>
+
+        {/* Products Group */}
+        <div className="admin-nav-group">
+          <div className={`admin-nav-item-header ${(location.pathname.includes('/admin/products') || location.pathname.includes('/admin/categories')) ? 'active' : ''}`} onClick={toggleProducts}>
+            <div className="admin-nav-header-left">
+              <Package size={20} />
+              <span>Products</span>
+            </div>
+            {isProductsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+          </div>
+          {isProductsOpen && (
+            <div className="admin-subnav">
+              <NavLink to="/admin/products" end className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`}>
+                All Products
+              </NavLink>
+              <NavLink to="/admin/products/new" className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`}>
+                Add Product
+              </NavLink>
+              <NavLink to="/admin/categories" className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`}>
+                Categories
+              </NavLink>
+            </div>
+          )}
+        </div>
+
         <NavLink to="/admin/customers" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`}>
           <Users size={20} />
           <span>Customers</span>
-        </NavLink>
-        <NavLink to="/admin/categories" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`}>
-          <Tags size={20} />
-          <span>Categories</span>
         </NavLink>
         <NavLink to="/admin/testimonials" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`}>
           <MessageSquare size={20} />
