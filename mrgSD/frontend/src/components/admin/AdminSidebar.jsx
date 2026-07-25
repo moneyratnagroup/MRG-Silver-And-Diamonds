@@ -7,9 +7,11 @@ const AdminSidebar = () => {
   const location = useLocation();
   const [isProductsOpen, setIsProductsOpen] = useState(location.pathname.includes('/admin/products') || location.pathname.includes('/admin/categories'));
   const [isInventoryOpen, setIsInventoryOpen] = useState(location.pathname.includes('/admin/inventory'));
+  const [isRatesOpen, setIsRatesOpen] = useState(location.pathname.includes('/admin/rates'));
 
   const toggleProducts = () => setIsProductsOpen(!isProductsOpen);
   const toggleInventory = () => setIsInventoryOpen(!isInventoryOpen);
+  const toggleRates = () => setIsRatesOpen(!isRatesOpen);
 
   return (
     <aside className="admin-sidebar">
@@ -59,10 +61,27 @@ const AdminSidebar = () => {
           <Home size={20} />
           <span>Homepage</span>
         </NavLink>
-        <NavLink to="/admin/rates" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`}>
-          <TrendingUp size={20} />
-          <span>Metal Rates</span>
-        </NavLink>
+
+        {/* Metal Rates Group */}
+        <div className="admin-nav-group">
+          <div className={`admin-nav-item-header ${location.pathname.includes('/admin/rates') ? 'active' : ''}`} onClick={toggleRates}>
+            <div className="admin-nav-header-left">
+              <TrendingUp size={20} />
+              <span>Metal Rates</span>
+            </div>
+            {isRatesOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+          </div>
+          {isRatesOpen && (
+            <div className="admin-subnav">
+              <NavLink to="/admin/rates/new" className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`}>
+                Add Metal Type
+              </NavLink>
+              <NavLink to="/admin/rates" end className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`}>
+                Manage Rates
+              </NavLink>
+            </div>
+          )}
+        </div>
 
         {/* Products Group */}
         <div className="admin-nav-group">

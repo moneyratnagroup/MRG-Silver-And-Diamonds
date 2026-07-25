@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { allProducts } from '../data/mockProducts';
 
 // Create Context
@@ -19,20 +19,133 @@ export const ShopProvider = ({ children }) => {
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
   // Metal Rates (Global State for Admin & Frontend)
-  const [metalRates, setMetalRates] = useState({
-    gold22k: "₹7,250",
-    gold24k: "₹7,910",
-    silver: "₹92",
-    silver999: "₹94",
-    lastUpdated: "Today, 10:00 AM"
-  });
+  const [activeMetals, setActiveMetals] = useState([]);
+  const [lastUpdated, setLastUpdated] = useState("");
+  const [metalRateHistory, setMetalRateHistory] = useState([]);
 
-  const updateMetalRates = (newRates) => {
-    setMetalRates({
-      ...metalRates,
-      ...newRates,
-      lastUpdated: new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
-    });
+  const fetchRates = useCallback(async () => {
+    try {
+      const activeRes = await fetch("http://localhost:8000/api/v1/metal-rates/active");
+      if (activeRes.ok) {
+        const data = await activeRes.json();
+        setActiveMetals(data);
+        
+        let lastUpdatedTime = "";
+        data.forEach(item => {
+           if (!lastUpdatedTime || new Date(item.created_at) > new Date(lastUpdatedTime)) {
+              lastUpdatedTime = item.created_at;
+           }
+        });
+        setLastUpdated(lastUpdatedTime ? new Date(lastUpdatedTime).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : "");
+      }
+
+      const historyRes = await fetch("http://localhost:8000/api/v1/metal-rates");
+      if (historyRes.ok) {
+        const historyData = await historyRes.json();
+        const groupedByDate = {};
+        historyData.forEach(item => {
+           const date = item.created_at.split('T')[0];
+           if (!groupedByDate[date]) {
+               groupedByDate[date] = { date, ids: [] };
+           }
+           const key = item.metal_name;
+           if (key) {
+               groupedByDate[date][key] = parseFloat(item.rate);
+               groupedByDate[date].ids.push(item.id);
+           }
+        });
+        
+        const historyArr = Object.values(groupedByDate).sort((a, b) => new Date(a.date) - new Date(b.date));
+        setMetalRateHistory(historyArr);
+      }
+    } catch (err) {
+      console.error("Failed to fetch metal rates", err);
+    }
+  }, []);
+
+  const fetchTestimonials = useCallback(async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/testimonials");
+      if (res.ok) {
+        const data = await res.json();
+        const mappedData = data.map(t => ({
+          id: t.id,
+          customerName: t.customer_name,
+          place: t.location,
+          image: t.image_key ? `http://localhost:8000${t.image_key}` : null,
+          imageKey: t.image_key,
+          rating: t.rating,
+          message: t.message,
+          isActive: t.is_active,
+          displayOrder: t.display_order,
+          adminNotes: t.admin_notes
+        }));
+        setTestimonials(mappedData);
+      }
+    } catch (err) {
+      console.error("Failed to fetch testimonials", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchRates();
+    fetchTestimonials();
+  }, [fetchRates, fetchTestimonials]);
+
+  const updateMetalRates = async (newRates) => {
+    const cleanRates = {};
+
+    for (const [key, val] of Object.entries(newRates)) {
+      // Safe string conversion before replace
+      const strVal = String(val);
+      const num = parseFloat(strVal.replace(/[₹,]/g, ''));
+      if (!isNaN(num)) {
+          cleanRates[key] = num;
+      }
+    }
+
+    try {
+        const res = await fetch("http://localhost:8000/api/v1/metal-rates/batch", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ rates: cleanRates })
+        });
+        if (res.ok) {
+            await fetchRates();
+        }
+    } catch (err) {
+        console.error("Failed to update metal rates", err);
+    }
+  };
+
+  const deleteMetalRatesHistory = async (ids) => {
+    try {
+        const res = await fetch("http://localhost:8000/api/v1/metal-rates/batch-delete", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(ids)
+        });
+        if (res.ok) {
+            await fetchRates();
+        }
+    } catch (err) {
+        console.error("Failed to delete metal rates", err);
+    }
+  };
+
+  const addNewMetalType = async (newMetal) => {
+    try {
+        const res = await fetch("http://localhost:8000/api/v1/metal-rates", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newMetal)
+        });
+        if (res.ok) {
+            await fetchRates();
+        }
+    } catch (err) {
+        console.error("Failed to add new metal type", err);
+    }
   };
 
   // Homepage Content (Admin)
@@ -71,36 +184,71 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Testimonials (Admin)
-  const [testimonials, setTestimonials] = useState([
-    {
-      id: 1,
-      customerName: "Sarah M.",
-      message: "The silver necklace I purchased is absolutely stunning. The craftsmanship is flawless and I receive compliments every time I wear it.",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150",
-      rating: 5,
-      place: "Mumbai, Maharashtra"
-    },
-    {
-      id: 2,
-      customerName: "Priya K.",
-      message: "MRG has the most beautiful diamond collections. Their customer service helped me pick the perfect ring for my engagement.",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150&h=150",
-      rating: 5,
-      place: "Delhi"
+  const [testimonials, setTestimonials] = useState([]);
+
+  const addTestimonial = async (newTestimonial) => {
+    try {
+      const payload = {
+        customer_name: newTestimonial.customerName,
+        location: newTestimonial.place,
+        image_key: newTestimonial.imageKey || null, // Updated from AdminTestimonialForm
+        rating: newTestimonial.rating,
+        message: newTestimonial.message,
+        is_active: newTestimonial.isActive,
+        display_order: newTestimonial.displayOrder,
+        admin_notes: newTestimonial.adminNotes
+      };
+      
+      const res = await fetch("http://localhost:8000/api/v1/testimonials", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        await fetchTestimonials();
+      }
+    } catch (error) {
+      console.error("Failed to add testimonial", error);
     }
-  ]);
-
-  const addTestimonial = (newTestimonial) => {
-    const newId = testimonials.length > 0 ? Math.max(...testimonials.map(t => t.id)) + 1 : 1;
-    setTestimonials([...testimonials, { ...newTestimonial, id: newId }]);
   };
 
-  const updateTestimonial = (updatedTestimonial) => {
-    setTestimonials(testimonials.map(t => t.id === updatedTestimonial.id ? updatedTestimonial : t));
+  const updateTestimonial = async (updatedTestimonial) => {
+    try {
+      const payload = {
+        customer_name: updatedTestimonial.customerName,
+        location: updatedTestimonial.place,
+        image_key: updatedTestimonial.imageKey || null, // Will keep old if not updated
+        rating: updatedTestimonial.rating,
+        message: updatedTestimonial.message,
+        is_active: updatedTestimonial.isActive,
+        display_order: updatedTestimonial.displayOrder,
+        admin_notes: updatedTestimonial.adminNotes
+      };
+      
+      const res = await fetch(`http://localhost:8000/api/v1/testimonials/${updatedTestimonial.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        await fetchTestimonials();
+      }
+    } catch (error) {
+      console.error("Failed to update testimonial", error);
+    }
   };
 
-  const deleteTestimonial = (id) => {
-    setTestimonials(testimonials.filter(t => t.id !== id));
+  const deleteTestimonial = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/testimonials/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        setTestimonials(testimonials.filter(t => t.id !== id));
+      }
+    } catch (error) {
+      console.error("Failed to delete testimonial", error);
+    }
   };
 
   // Categories & Collections
@@ -427,8 +575,12 @@ export const ShopProvider = ({ children }) => {
     setIsCartOpen,
     isWishlistOpen,
     setIsWishlistOpen,
-    metalRates,
+    activeMetals,
+    lastUpdated,
+    addNewMetalType,
     updateMetalRates,
+    metalRateHistory,
+    deleteMetalRatesHistory,
     products,
     addProduct,
     updateProduct,

@@ -15,10 +15,12 @@ import ContactPage from './pages/ContactPage'
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminMetalRates from './pages/admin/AdminMetalRates'
+import AdminAddMetal from './pages/admin/AdminAddMetal'
 import AdminProducts from './pages/admin/AdminProducts'
 import AdminProductForm from './pages/admin/AdminProductForm'
 import AdminHomepage from './pages/admin/AdminHomepage'
 import AdminTestimonials from './pages/admin/AdminTestimonials'
+import AdminTestimonialForm from './pages/admin/AdminTestimonialForm'
 import AdminCategories from './pages/admin/AdminCategories'
 import AdminCoupons from './pages/admin/AdminCoupons'
 import AdminOrders from './pages/admin/AdminOrders'
@@ -37,11 +39,14 @@ function App() {
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="rates" element={<AdminMetalRates />} />
+              <Route path="rates/new" element={<AdminAddMetal />} />
               <Route path="products" element={<AdminProducts />} />
               <Route path="products/new" element={<AdminProductForm />} />
               <Route path="products/edit/:id" element={<AdminProductForm />} />
               <Route path="homepage" element={<AdminHomepage />} />
               <Route path="testimonials" element={<AdminTestimonials />} />
+              <Route path="testimonials/new" element={<AdminTestimonialForm />} />
+              <Route path="testimonials/edit/:id" element={<AdminTestimonialForm />} />
               <Route path="categories" element={<AdminCategories />} />
               <Route path="coupons" element={<AdminCoupons />} />
               <Route path="orders" element={<AdminOrders />} />
