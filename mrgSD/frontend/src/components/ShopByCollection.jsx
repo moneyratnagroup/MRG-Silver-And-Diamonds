@@ -62,16 +62,19 @@ const ShopByCollection = () => {
       </div>
       <div className="collection-grid">
         {collections.map((item, index) => (
-          <div className="collection-card" key={index} style={{ backgroundColor: item.bgColor }}>
+          <Link to={`/collections/${item.linkId}`} className="collection-card" key={index}>
             <div className="collection-image-container">
               <img src={item.img} alt={item.title} />
+              <div className="collection-overlay"></div>
             </div>
             <div className="collection-content">
               <h3 className="collection-card-title">{item.title}</h3>
+              <div className="collection-card-divider">
+                <span></span>
+              </div>
               <p className="collection-card-desc">{item.desc}</p>
-              <Link to={`/collections/${item.linkId}`} className="collection-card-btn" style={{display: 'inline-block', textDecoration: 'none'}}>EXPLORE <span>&rarr;</span></Link>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>
