@@ -9,6 +9,7 @@ const AdminHomepage = () => {
   const [localAnnouncement, setLocalAnnouncement] = useState(announcementText);
   const [localBanners, setLocalBanners] = useState([...heroBanners]);
   const [isSaved, setIsSaved] = useState(false);
+  const [expandedSubtitles, setExpandedSubtitles] = useState([]);
   
   // Banner Modal State
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
@@ -19,7 +20,8 @@ const AdminHomepage = () => {
     badge: '',
     title: '',
     subtitle: '',
-    buttonText: ''
+    buttonText: '',
+    status: 'publish'
   });
 
   const handleOpenBannerModal = (banner = null) => {
@@ -34,10 +36,17 @@ const AdminHomepage = () => {
         badge: '',
         title: '',
         subtitle: '',
-        buttonText: ''
+        buttonText: '',
+        status: 'publish'
       });
     }
     setIsBannerModalOpen(true);
+  };
+
+  const toggleSubtitle = (id) => {
+    setExpandedSubtitles(prev => 
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
   };
 
   const handleBannerFormChange = (e) => {
@@ -121,22 +130,52 @@ const AdminHomepage = () => {
                   <th>Subtitle</th>
                   <th>Badge</th>
                   <th>Button</th>
+                  <th>Status</th>
                   <th className="text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {localBanners.map((banner) => (
-                  <tr key={banner.id}>
-                    <td>
-                      <div className="table-img-container banner-table-img">
-                        <img src={banner.image} alt="Banner Preview" />
-                      </div>
-                    </td>
-                    <td className="font-medium" dangerouslySetInnerHTML={{ __html: banner.title }}></td>
-                    <td><div className="truncate-text">{banner.subtitle}</div></td>
-                    <td>{banner.badge ? <span className="badge-pill">{banner.badge}</span> : '-'}</td>
-                    <td>{banner.buttonText || '-'}</td>
-                    <td>
+                {localBanners.map((banner) => {
+                  const isExpanded = expandedSubtitles.includes(banner.id);
+                  const shouldTruncate = banner.subtitle && banner.subtitle.length > 35;
+                  const displaySubtitle = !shouldTruncate || isExpanded 
+                    ? banner.subtitle 
+                    : banner.subtitle.substring(0, 35);
+                    
+                  return (
+                    <tr key={banner.id}>
+                      <td>
+                        <div className="table-img-container banner-table-img">
+                          <img src={banner.image} alt="Banner Preview" />
+                        </div>
+                      </td>
+                      <td className="font-medium" dangerouslySetInnerHTML={{ __html: banner.title }}></td>
+                      <td style={{ maxWidth: '300px' }}>
+                        <div>
+                          {displaySubtitle}
+                          {shouldTruncate && !isExpanded && (
+                            <span 
+                              className="expand-subtitle-btn"
+                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSubtitle(banner.id); }}
+                            >...</span>
+                          )}
+                          {shouldTruncate && isExpanded && (
+                            <span 
+                              className="expand-subtitle-btn"
+                              style={{ fontWeight: 'normal', fontSize: '0.8rem' }}
+                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSubtitle(banner.id); }}
+                            > (less)</span>
+                          )}
+                        </div>
+                      </td>
+                      <td>{banner.badge ? <span className="badge-pill">{banner.badge}</span> : '-'}</td>
+                      <td><span className="admin-banner-btn-text">{banner.buttonText || '-'}</span></td>
+                      <td>
+                        <span className={`status-badge ${banner.status}`}>
+                          {banner.status ? banner.status.charAt(0).toUpperCase() + banner.status.slice(1) : 'Publish'}
+                        </span>
+                      </td>
+                      <td>
                       <div className="table-actions">
                         <button type="button" className="btn-icon edit" onClick={() => handleOpenBannerModal(banner)} title="Edit">
                           <Edit2 size={16} />
@@ -147,7 +186,8 @@ const AdminHomepage = () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
                 {localBanners.length === 0 && (
                   <tr>
                     <td colSpan="6" className="text-center empty-table">
@@ -217,6 +257,19 @@ const AdminHomepage = () => {
                     placeholder="e.g. Shop Now"
                   />
                 </div>
+              </div>
+
+              <div className="form-group">
+                <label>Status</label>
+                <select 
+                  name="status" 
+                  value={bannerFormData.status || 'publish'} 
+                  onChange={handleBannerFormChange}
+                >
+                  <option value="publish">Publish</option>
+                  <option value="draft">Draft</option>
+                  <option value="archived">Archived</option>
+                </select>
               </div>
 
               <div className="form-group">

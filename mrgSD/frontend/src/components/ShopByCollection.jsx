@@ -7,21 +7,21 @@ const collections = [
     title: "Women's Collection",
     linkId: "women",
     desc: "Elegant designs in silver and diamonds, crafted to celebrate every woman.",
-    img: "https://images.unsplash.com/photo-1599643478514-4a1101858ff6?auto=format&fit=crop&q=80&w=600",
+    img: "/womencollection.png",
     bgColor: "#f4f0e6"
   },
   {
     title: "Men's Collection",
     linkId: "men",
     desc: "Bold, timeless and stylish silver pieces made for the modern man.",
-    img: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=600",
+    img: "/menscollection.png",
     bgColor: "#e8e9e6"
   },
   {
     title: "Kids Collection",
     linkId: "kids",
     desc: "Adorable and safe silver jewelry perfect for your little ones.",
-    img: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=600",
+    img: "/kidscoleection.png",
     bgColor: "#f2e4e4"
   },
   {
@@ -35,21 +35,21 @@ const collections = [
     title: "pooja & idols Collection",
     linkId: "religious",
     desc: "Pure silver idols and pooja articles to bring home blessings and purity.",
-    img: "https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&q=80&w=600",
+    img: "/poojaidolcollection.png",
     bgColor: "#f3ead3"
   },
   {
     title: "Silver Coins & Gifts",
     linkId: "investment",
     desc: "A symbol of wealth and prosperity. Perfect for gifting and investment.",
-    img: "https://images.unsplash.com/photo-1610970891636-681fb0db4fb0?auto=format&fit=crop&q=80&w=600",
+    img: "/investment.png",
     bgColor: "#e2e4e6"
   },
   {
     title: "Customized Jewellery",
     linkId: "special",
     desc: "Your vision, our craftsmanship. Create pieces as unique as you.",
-    img: "https://images.unsplash.com/photo-1588444650733-d0767b0dc74d?auto=format&fit=crop&q=80&w=600",
+    img: "/my.png",
     bgColor: "#e5e4e0"
   }
 ];
@@ -62,7 +62,11 @@ const ShopByCollection = () => {
       </div>
       <div className="collection-grid">
         {collections.map((item, index) => (
-          <Link to={`/collections/${item.linkId}`} className="collection-card" key={index}>
+          <Link 
+            to={`/collections/${item.linkId}`} 
+            className="collection-card" 
+            key={index}
+          >
             <div className="collection-image-container">
               <img src={item.img} alt={item.title} />
               <div className="collection-overlay"></div>

@@ -48,10 +48,10 @@
 
 .collection-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 250px;
   gap: 1.5rem;
-  /* Reduced size for desktop by limiting max-width */
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -61,16 +61,37 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 320px; /* Reduced from 380px as requested */
+  height: 100%;
   text-decoration: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  background-color: #1a1a1a; /* Fallback */
+  background-color: #1a1a1a;
+}
+
+/* Asymmetric Magazine Layout */
+.collection-card:nth-child(1) {
+  grid-column: span 8;
+  grid-row: span 2;
+}
+
+.collection-card:nth-child(2),
+.collection-card:nth-child(3) {
+  grid-column: span 4;
+  grid-row: span 1;
+}
+
+.collection-card:nth-child(4),
+.collection-card:nth-child(5),
+.collection-card:nth-child(6),
+.collection-card:nth-child(7) {
+  grid-column: span 3;
+  grid-row: span 1;
 }
 
 .collection-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.25);
+  z-index: 10;
 }
 
 .collection-image-container {
@@ -162,24 +183,20 @@
 }
 
 /* Responsive styles */
-@media (max-width: 1024px) {
-  .collection-grid {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 900px;
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .collection-grid {
     grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 220px;
+    gap: 1rem;
   }
+  
+  /* Override the asymmetric spanning for mobile so they are adjacent pairs */
+  .collection-card:nth-child(n) {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
   .collection-title {
     font-size: 2.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .collection-grid {
-    grid-template-columns: 1fr;
   }
 }

@@ -12,6 +12,7 @@ const AdminMetalRates = () => {
   // dynamic inputs state: { metal_name: "₹rate" }
   const [inputs, setInputs] = useState({});
   const [isSaved, setIsSaved] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   // History Tab Filters
   const [metalFilter, setMetalFilter] = useState('all'); 
@@ -19,19 +20,16 @@ const AdminMetalRates = () => {
   const [showGraph, setShowGraph] = useState(false);
 
   useEffect(() => {
-    // Initialize inputs from activeMetals when it loads or changes
-    const initialInputs = {};
-    if (activeMetals && activeMetals.length > 0) {
+    // Initialize inputs from activeMetals only on first load
+    if (activeMetals && activeMetals.length > 0 && !hasInitialized) {
+      const initialInputs = {};
       activeMetals.forEach(metal => {
-        if (!inputs[metal.metal_name]) {
-           initialInputs[metal.metal_name] = `₹${metal.rate}`;
-        }
+        initialInputs[metal.metal_name] = `₹${metal.rate}`;
       });
-      if (Object.keys(initialInputs).length > 0) {
-         setInputs(prev => ({ ...prev, ...initialInputs }));
-      }
+      setInputs(initialInputs);
+      setHasInitialized(true);
     }
-  }, [activeMetals]);
+  }, [activeMetals, hasInitialized]);
 
   const handleInputChange = (metal_name, value) => {
     setInputs(prev => ({ ...prev, [metal_name]: `₹${value.replace('₹', '').trim()}` }));
@@ -51,6 +49,7 @@ const AdminMetalRates = () => {
     e.preventDefault();
     await updateMetalRates(inputs);
     setIsSaved(true);
+    setInputs({}); // Clear fields after saving
     setTimeout(() => setIsSaved(false), 3000);
   };
 
@@ -95,30 +94,43 @@ const AdminMetalRates = () => {
       <div className="admin-rates-card">
         {activeTab === 'update' && (
           <form onSubmit={handleSave}>
-            {activeMetals && activeMetals.map(metal => (
-              <div className="form-group" key={metal.metal_name}>
-                <label htmlFor={metal.metal_name}>
-                  {metal.purity === 'Bullion' ? `${metal.metal_type} Bullion` : `${metal.purity} ${metal.metal_type}`} Rate (per {metal.unit})
-                </label>
-                <div className="input-with-prefix">
-                  <span className="currency-prefix">₹</span>
-                  <input 
-                    type="text" 
-                    id={metal.metal_name}
-                    value={(inputs[metal.metal_name] || "").replace('₹', '')} 
-                    onChange={(e) => handleInputChange(metal.metal_name, e.target.value)}
-                    placeholder={`e.g. ${metal.rate}`}
-                  />
-                </div>
+            {(!activeMetals || activeMetals.length === 0) ? (
+              <div style={{ textAlign: 'center', padding: '3rem 1rem', color: '#666' }}>
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🪙</div>
+                <h3 style={{ marginBottom: '0.5rem', color: '#333', fontFamily: '"Playfair Display", serif' }}>No Metal Types Found</h3>
+                <p style={{ marginBottom: '1.5rem' }}>You haven't configured any metal types yet to update their rates.</p>
+                <button type="button" className="btn-save-rates" onClick={() => navigate('/admin/rates/new')}>
+                  Add Your First Metal Type
+                </button>
               </div>
-            ))}
+            ) : (
+              <>
+                {activeMetals.map(metal => (
+                  <div className="form-group" key={metal.metal_name}>
+                    <label htmlFor={metal.metal_name}>
+                      {metal.purity === 'Bullion' ? `${metal.metal_type} Bullion` : `${metal.purity} ${metal.metal_type}`} Rate (per {metal.unit})
+                    </label>
+                    <div className="input-with-prefix">
+                      <span className="currency-prefix">₹</span>
+                      <input 
+                        type="text" 
+                        id={metal.metal_name}
+                        value={(inputs[metal.metal_name] || "").replace('₹', '')} 
+                        onChange={(e) => handleInputChange(metal.metal_name, e.target.value)}
+                        placeholder={`e.g. ${metal.rate}`}
+                      />
+                    </div>
+                  </div>
+                ))}
 
-            <div className="form-actions">
-              <button type="submit" className="btn-save-rates">
-                Save Changes
-              </button>
-              {isSaved && <span className="save-success-msg">Rates updated successfully!</span>}
-            </div>
+                <div className="form-actions">
+                  <button type="submit" className="btn-save-rates">
+                    Save Changes
+                  </button>
+                  {isSaved && <span className="save-success-msg">Rates updated successfully!</span>}
+                </div>
+              </>
+            )}
           </form>
         )}
 

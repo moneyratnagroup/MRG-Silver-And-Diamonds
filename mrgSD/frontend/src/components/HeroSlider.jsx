@@ -11,7 +11,7 @@ const HeroSlider = () => {
     <div className="modern-hero-container">
       <Carousel fade interval={6000} pause="hover" indicators={true} controls={false}>
         
-        {heroBanners.map((banner) => (
+        {heroBanners.filter(b => b.status === 'publish').map((banner) => (
           <Carousel.Item key={banner.id}>
             <div className="slide-content-wrapper">
               <div className="slide-image-layer">
