@@ -6,7 +6,7 @@
 }
 
 .promises-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -20,8 +20,8 @@
 
 .promises-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.5rem;
 }
 
 .promise-card {
@@ -36,8 +36,8 @@
 }
 
 .promise-icon-wrapper {
-  width: 80px;
-  height: 80px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
   background-color: #ffffff;
   display: flex;
@@ -58,7 +58,7 @@
 
 .promise-title {
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #1a1a1a;
   margin: 0 0 0.5rem;
@@ -67,18 +67,20 @@
 
 .promise-desc {
   font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #666;
   margin: 0;
   line-height: 1.4;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .promises-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
   }
 }
+
+
 
 @media (max-width: 600px) {
   .promises-grid {

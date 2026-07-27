@@ -13,22 +13,42 @@
 .admin-brand {
   padding: 2rem 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.admin-brand h2 {
+.admin-brand-text h2 {
   font-family: 'Playfair Display', serif;
   color: white;
   margin: 0 0 0.5rem 0;
   font-size: 1.5rem;
 }
 
-.admin-brand p {
+.admin-brand-text p {
   color: #a84c19;
   margin: 0;
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 600;
+}
+
+.mobile-close-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .mobile-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .admin-nav {

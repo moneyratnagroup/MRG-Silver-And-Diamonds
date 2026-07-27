@@ -47,6 +47,45 @@
   text-overflow: ellipsis;
 }
 
+.admin-homepage-container .admin-products-table td {
+  font-size: 0.85rem;
+}
+
+.expand-subtitle-btn {
+  color: #a84c19;
+  cursor: pointer !important;
+  font-weight: bold;
+  padding: 0 4px;
+}
+.expand-subtitle-btn:hover {
+  text-decoration: underline;
+}
+
+.admin-banner-btn-text {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.status-badge.publish {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+.status-badge.draft {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+.status-badge.archived {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
 .banner-editor-card h3 {
   font-size: 1.1rem;
   margin-top: 0;

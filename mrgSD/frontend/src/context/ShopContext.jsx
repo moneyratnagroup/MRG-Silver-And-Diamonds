@@ -154,24 +154,19 @@ export const ShopProvider = ({ children }) => {
   const [heroBanners, setHeroBanners] = useState([
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2940&auto=format&fit=crop",
+      image: "/banner1.jpg",
       title: "Pure Silver.<br/>Timeless Beauty.",
       subtitle: "Discover our exquisite collection of 925 silver jewelry, elevated with the sparkle of small diamond accents.",
-      buttonText: "EXPLORE COLLECTION"
+      buttonText: "EXPLORE COLLECTION",
+      status: "publish"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2940&auto=format&fit=crop",
+      image: "/banner2.jpg",
       title: "Elegant Design.<br/>Modern Muse.",
       subtitle: "Experience luxury with our delicately crafted pieces, designed to complement your everyday style.",
-      buttonText: "SHOP NEW ARRIVALS"
-    },
-    {
-      id: 3,
-      image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=2940&auto=format&fit=crop",
-      title: "Bespoke Art.<br/>Masterpieces.",
-      subtitle: "Celebrate your unique story with custom-designed premium jewelry services tailored just for you.",
-      buttonText: "CUSTOM ORDERS"
+      buttonText: "SHOP NEW ARRIVALS",
+      status: "publish"
     }
   ]);
 
