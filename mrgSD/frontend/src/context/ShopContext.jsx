@@ -167,6 +167,14 @@ export const ShopProvider = ({ children }) => {
       subtitle: "Experience luxury with our delicately crafted pieces, designed to complement your everyday style.",
       buttonText: "SHOP NEW ARRIVALS",
       status: "publish"
+    },
+    {
+      id: 3,
+      image: "/banner3.png",
+      title: "Silver & Diamonds.<br/>Perfect Harmony.",
+      subtitle: "Find the perfect balance of classic silver elegance and the brilliant shine of hand-set diamonds.",
+      buttonText: "SHOP NOW",
+      status: "publish"
     }
   ]);
 
@@ -260,12 +268,12 @@ export const ShopProvider = ({ children }) => {
   ]);
 
   const [collections, setCollections] = useState([
-    { id: 1, name: 'women', displayName: "Women's Collection" },
-    { id: 2, name: 'men', displayName: "Men's Collection" },
-    { id: 3, name: 'kids', displayName: "Kids Collection" },
-    { id: 4, name: 'religious', displayName: "Religious" },
-    { id: 5, name: 'investment', displayName: "Investment" },
-    { id: 6, name: 'special', displayName: "Special/Bridal" }
+    { id: 1, name: 'women', displayName: "Women's Collection", categoryIds: [1, 2, 3] },
+    { id: 2, name: 'men', displayName: "Men's Collection", categoryIds: [1, 3, 4] },
+    { id: 3, name: 'kids', displayName: "Kids Collection", categoryIds: [2, 4, 6] },
+    { id: 4, name: 'religious', displayName: "Religious", categoryIds: [5, 7] },
+    { id: 5, name: 'investment', displayName: "Investment", categoryIds: [8] },
+    { id: 6, name: 'special', displayName: "Special/Bridal", categoryIds: [9, 1, 2] }
   ]);
 
   const addCategory = (name) => {
@@ -277,13 +285,19 @@ export const ShopProvider = ({ children }) => {
     setCategories(categories.filter(c => c.id !== id));
   };
 
-  const addCollection = (name, displayName) => {
+  const addCollection = (name, displayName, categoryIds = []) => {
     const newId = collections.length > 0 ? Math.max(...collections.map(c => c.id)) + 1 : 1;
-    setCollections([...collections, { id: newId, name, displayName }]);
+    setCollections([...collections, { id: newId, name, displayName, categoryIds }]);
   };
 
   const deleteCollection = (id) => {
     setCollections(collections.filter(c => c.id !== id));
+  };
+
+  const updateCollection = (id, name, displayName, categoryIds = []) => {
+    setCollections(collections.map(c => 
+      c.id === id ? { ...c, name, displayName, categoryIds } : c
+    ));
   };
 
   // Coupons (Admin & Frontend)
@@ -595,6 +609,7 @@ export const ShopProvider = ({ children }) => {
     deleteCategory,
     collections,
     addCollection,
+    updateCollection,
     deleteCollection,
     coupons,
     addCoupon,

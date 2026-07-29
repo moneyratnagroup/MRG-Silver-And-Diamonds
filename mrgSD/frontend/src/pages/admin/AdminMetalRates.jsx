@@ -5,7 +5,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import './AdminMetalRates.css';
 
 const AdminMetalRates = () => {
-  const { activeMetals, updateMetalRates, metalRateHistory, deleteMetalRatesHistory } = useShop();
+  const { activeMetals, updateMetalRates, metalRateHistory, deleteMetalRatesHistory, lastUpdated } = useShop();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('update');
   
@@ -105,6 +105,11 @@ const AdminMetalRates = () => {
               </div>
             ) : (
               <>
+                {lastUpdated && (
+                  <div style={{ marginBottom: '1.5rem', color: '#555', fontSize: '0.9rem', padding: '0.5rem 0.75rem', backgroundColor: '#f8f9fa', borderRadius: '4px', borderLeft: '3px solid var(--accent)' }}>
+                    <strong>Last Updated:</strong> {lastUpdated}
+                  </div>
+                )}
                 {activeMetals.map(metal => (
                   <div className="form-group" key={metal.metal_name}>
                     <label htmlFor={metal.metal_name}>
