@@ -149,23 +149,25 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Homepage Content (Admin)
-  const [announcementText, setAnnouncementText] = useState("USE CODE \"WELCOME10\" FOR 10% OFF YOUR FIRST ORDER | FREE SHIPPING ON ORDERS OVER ₹5000");
+  const [announcementText, setAnnouncementText] = useState('<span style="color: #FFFFFF">FREE SHIPPING OVER ₹5000</span> &nbsp;&nbsp;|&nbsp;&nbsp; <span style="color: #C7A66A">USE CODE WELCOME10</span>');
   
   const [heroBanners, setHeroBanners] = useState([
     {
       id: 1,
-      image: "/banner1.jpg",
+      image: "/Banner11.jpg",
+      preTitle: "925 STERLING SILVER",
       title: "Pure Silver.<br/>Timeless Beauty.",
-      subtitle: "Discover our exquisite collection of 925 silver jewelry, elevated with the sparkle of small diamond accents.",
-      buttonText: "EXPLORE COLLECTION",
+      subtitle: "Discover handcrafted sterling silver jewellery designed with elegance, purity, and modern luxury.",
+      buttonText: "SHOP COLLECTION",
       status: "publish"
     },
     {
       id: 2,
-      image: "/banner2.jpg",
-      title: "Elegant Design.<br/>Modern Muse.",
-      subtitle: "Experience luxury with our delicately crafted pieces, designed to complement your everyday style.",
-      buttonText: "SHOP NEW ARRIVALS",
+      image: "/banner12.png",
+      preTitle: "NATURAL DIAMOND COLLECTION",
+      title: "Where Every<br/>Diamond Tells<br/>A Story",
+      subtitle: "Handcrafted diamond jewellery designed to celebrate life's most precious moments.",
+      buttonText: "EXPLORE DIAMONDS",
       status: "publish"
     },
     {

@@ -12,21 +12,15 @@ const AnnouncementBar = () => {
       <div className="announcement-marquee">
         <div className="marquee-content">
           {announcements.map((text, index) => (
-            <span key={index} className="announcement-item">
-              {text}
-            </span>
+            <span key={index} className="announcement-item" dangerouslySetInnerHTML={{ __html: text }}></span>
           ))}
           {/* Duplicate for infinite scroll effect */}
           {announcements.map((text, index) => (
-            <span key={`dup-${index}`} className="announcement-item">
-              {text}
-            </span>
+            <span key={`dup-${index}`} className="announcement-item" dangerouslySetInnerHTML={{ __html: text }}></span>
           ))}
           {/* Duplicate twice to ensure it covers wide screens */}
           {announcements.map((text, index) => (
-            <span key={`dup2-${index}`} className="announcement-item">
-              {text}
-            </span>
+            <span key={`dup2-${index}`} className="announcement-item" dangerouslySetInnerHTML={{ __html: text }}></span>
           ))}
         </div>
       </div>
