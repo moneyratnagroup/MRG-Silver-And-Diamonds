@@ -1,5 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { ShopProvider } from './context/ShopContext'
 import UserLayout from './layouts/UserLayout'
 import AdminLayout from './layouts/AdminLayout'
@@ -34,6 +36,7 @@ function App() {
     <ShopProvider>
       <Router>
         <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <ToastContainer position="top-right" autoClose={3000} />
           <Routes>
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>

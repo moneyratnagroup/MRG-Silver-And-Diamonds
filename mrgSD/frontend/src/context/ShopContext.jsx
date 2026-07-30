@@ -149,23 +149,33 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Homepage Content (Admin)
-  const [announcementText, setAnnouncementText] = useState("USE CODE \"WELCOME10\" FOR 10% OFF YOUR FIRST ORDER | FREE SHIPPING ON ORDERS OVER ₹5000");
+  const [announcementText, setAnnouncementText] = useState('<span style="color: #FFFFFF">FREE SHIPPING OVER ₹5000</span> &nbsp;&nbsp;|&nbsp;&nbsp; <span style="color: #C7A66A">USE CODE WELCOME10</span>');
   
   const [heroBanners, setHeroBanners] = useState([
     {
       id: 1,
-      image: "/banner1.jpg",
+      image: "/Banner11.jpg",
+      preTitle: "925 STERLING SILVER",
       title: "Pure Silver.<br/>Timeless Beauty.",
-      subtitle: "Discover our exquisite collection of 925 silver jewelry, elevated with the sparkle of small diamond accents.",
-      buttonText: "EXPLORE COLLECTION",
+      subtitle: "Discover handcrafted sterling silver jewellery designed with elegance, purity, and modern luxury.",
+      buttonText: "SHOP COLLECTION",
       status: "publish"
     },
     {
       id: 2,
-      image: "/banner2.jpg",
-      title: "Elegant Design.<br/>Modern Muse.",
-      subtitle: "Experience luxury with our delicately crafted pieces, designed to complement your everyday style.",
-      buttonText: "SHOP NEW ARRIVALS",
+      image: "/banner12.png",
+      preTitle: "NATURAL DIAMOND COLLECTION",
+      title: "Where Every<br/>Diamond Tells<br/>A Story",
+      subtitle: "Handcrafted diamond jewellery designed to celebrate life's most precious moments.",
+      buttonText: "EXPLORE DIAMONDS",
+      status: "publish"
+    },
+    {
+      id: 3,
+      image: "/banner3.png",
+      title: "Silver & Diamonds.<br/>Perfect Harmony.",
+      subtitle: "Find the perfect balance of classic silver elegance and the brilliant shine of hand-set diamonds.",
+      buttonText: "SHOP NOW",
       status: "publish"
     }
   ]);
@@ -260,12 +270,12 @@ export const ShopProvider = ({ children }) => {
   ]);
 
   const [collections, setCollections] = useState([
-    { id: 1, name: 'women', displayName: "Women's Collection" },
-    { id: 2, name: 'men', displayName: "Men's Collection" },
-    { id: 3, name: 'kids', displayName: "Kids Collection" },
-    { id: 4, name: 'religious', displayName: "Religious" },
-    { id: 5, name: 'investment', displayName: "Investment" },
-    { id: 6, name: 'special', displayName: "Special/Bridal" }
+    { id: 1, name: 'women', displayName: "Women's Collection", categoryIds: [1, 2, 3] },
+    { id: 2, name: 'men', displayName: "Men's Collection", categoryIds: [1, 3, 4] },
+    { id: 3, name: 'kids', displayName: "Kids Collection", categoryIds: [2, 4, 6] },
+    { id: 4, name: 'religious', displayName: "Religious", categoryIds: [5, 7] },
+    { id: 5, name: 'investment', displayName: "Investment", categoryIds: [8] },
+    { id: 6, name: 'special', displayName: "Special/Bridal", categoryIds: [9, 1, 2] }
   ]);
 
   const addCategory = (name) => {
@@ -277,13 +287,19 @@ export const ShopProvider = ({ children }) => {
     setCategories(categories.filter(c => c.id !== id));
   };
 
-  const addCollection = (name, displayName) => {
+  const addCollection = (name, displayName, categoryIds = []) => {
     const newId = collections.length > 0 ? Math.max(...collections.map(c => c.id)) + 1 : 1;
-    setCollections([...collections, { id: newId, name, displayName }]);
+    setCollections([...collections, { id: newId, name, displayName, categoryIds }]);
   };
 
   const deleteCollection = (id) => {
     setCollections(collections.filter(c => c.id !== id));
+  };
+
+  const updateCollection = (id, name, displayName, categoryIds = []) => {
+    setCollections(collections.map(c => 
+      c.id === id ? { ...c, name, displayName, categoryIds } : c
+    ));
   };
 
   // Coupons (Admin & Frontend)
@@ -595,6 +611,7 @@ export const ShopProvider = ({ children }) => {
     deleteCategory,
     collections,
     addCollection,
+    updateCollection,
     deleteCollection,
     coupons,
     addCoupon,
