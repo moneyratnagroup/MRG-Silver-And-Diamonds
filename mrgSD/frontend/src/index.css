@@ -129,6 +129,14 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   
 
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
    font: 18px/145% var(--sans);
   --container: 1320px;*/
 
