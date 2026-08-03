@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
 import { useShop } from '../context/ShopContext';
 import { Trash2 } from 'lucide-react';
-import ProductModal from '../components/ProductModal';
+import { useNavigate } from 'react-router-dom';
 import './Pages.css';
 
 const WishlistPage = () => {
   const { wishlistItems, toggleWishlist, addToCart } = useShop();
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigate = useNavigate();
 
-  const openModal = (product) => {
-    setSelectedProduct(product);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeModal = () => {
-    setSelectedProduct(null);
-    document.body.style.overflow = 'unset';
+  const handleProductClick = (item) => {
+    navigate(`/product/${item.id}`);
   };
 
   return (
@@ -31,7 +25,7 @@ const WishlistPage = () => {
         <div className="wishlist-grid">
           {wishlistItems.map(item => (
             <div key={item.id} className="wishlist-card">
-              <div className="wishlist-card-img" onClick={() => openModal(item)} style={{ cursor: 'pointer' }}>
+              <div className="wishlist-card-img" onClick={() => handleProductClick(item)} style={{ cursor: 'pointer' }}>
                 <img src={item.img} alt={item.name} />
                 <button className="btn-remove-absolute" onClick={(e) => { e.stopPropagation(); toggleWishlist(item); }}>
                   <Trash2 size={18} />
@@ -54,8 +48,6 @@ const WishlistPage = () => {
           ))}
         </div>
       )}
-      
-      <ProductModal product={selectedProduct} onClose={closeModal} />
     </div>
   );
 };

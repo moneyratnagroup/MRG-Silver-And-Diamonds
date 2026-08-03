@@ -58,12 +58,12 @@ const FilterDrawer = ({ isOpen, setIsOpen }) => {
   const occasionsList = ["Daily", "Office", "Modern", "Traditional"];
 
   const handleClearAll = () => {
-    navigate('/collections/all');
+    navigate('/silver/all');
   };
 
   const handleFilterSelect = (type, value) => {
     if (type === 'collection') {
-      navigate(`/collections/${value}?${searchParams.toString()}`);
+      navigate(`/silver/${value}?${searchParams.toString()}`);
     } else {
       const newParams = new URLSearchParams(searchParams);
       if (newParams.get(type) === value) {

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import { Sparkles } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import './ProductsGallery.css';
+import { useNavigate } from 'react-router-dom';
 import braceletImg from '../assets/silver_charm_bracelet.png';
-import ProductModal from './ProductModal';
 
 const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null }) => {
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const navigate = useNavigate();
   const { addToCart, toggleWishlist, isInWishlist } = useShop();
 
 
@@ -24,22 +24,23 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
     return null;
   };
 
-  const openModal = (product) => {
-    setSelectedProduct(product);
-    setActiveImageIndex(0);
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-  };
-
-  const closeModal = () => {
-    setSelectedProduct(null);
-    document.body.style.overflow = 'unset';
+  const handleProductClick = (product) => {
+    navigate(`/product/${product.id}`);
   };
 
   return (
     <section className="products-gallery-section">
       {(title || tagline) && (
         <div className="pg-header">
-          {title && <h2 className="pg-title">{title}</h2>}
+          {title && (
+            <div className="pg-title-with-lines">
+              <div className="pg-line"></div>
+              <Sparkles size={12} color="#C7A66A" className="pg-sparkle" />
+              <h2 className="pg-title">{title}</h2>
+              <Sparkles size={12} color="#C7A66A" className="pg-sparkle" />
+              <div className="pg-line"></div>
+            </div>
+          )}
           {tagline && <p className="pg-tagline">{tagline}</p>}
         </div>
       )}
@@ -54,7 +55,7 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
         {products.length > 0 ? (
           products.map((product) => (
             <div className="pg-card" key={product.id}>
-              <div className="pg-image-container" onClick={() => openModal(product)} style={{cursor: 'pointer'}}>
+              <div className="pg-image-container" onClick={() => handleProductClick(product)} style={{cursor: 'pointer'}}>
                 {product.originalPrice && calculateDiscount(product.originalPrice, product.price) && (
                   <span className="pg-discount-badge">
                     {calculateDiscount(product.originalPrice, product.price)}% OFF
@@ -93,8 +94,6 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
         )}
       </div>
 
-      {/* Product Quick View Modal */}
-      <ProductModal product={selectedProduct} onClose={closeModal} />
     </section>
   );
 };

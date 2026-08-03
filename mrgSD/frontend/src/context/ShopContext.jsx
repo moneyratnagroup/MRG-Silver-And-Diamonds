@@ -149,7 +149,7 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Homepage Content (Admin)
-  const [announcementText, setAnnouncementText] = useState('<span style="color: #FFFFFF">FREE SHIPPING OVER ₹5000</span> &nbsp;&nbsp;|&nbsp;&nbsp; <span style="color: #C7A66A">USE CODE WELCOME10</span>');
+  const [announcementText, setAnnouncementText] = useState('<span>FREE SHIPPING OVER ₹5000</span> &nbsp;&nbsp;|&nbsp;&nbsp; <span style="color: #C7A66A">USE CODE WELCOME10</span>');
   
   const [heroBanners, setHeroBanners] = useState([
     {

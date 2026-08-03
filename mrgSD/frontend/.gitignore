@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Unused new HeroSection design
+src/components/HeroSection.jsx
+src/components/HeroSection.css
