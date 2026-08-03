@@ -1,7 +1,7 @@
 .metal-rates-bar {
-  background-color: #26384F;
+  background-color: #6B2737;
   backdrop-filter: blur(8px);
-  color: #F5E7D4;
+  color: #F7E7CE;
   padding: 0.6rem 0;
   font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
@@ -28,13 +28,13 @@
 }
 
 .rate-label {
-  color: #D4B277;
+  color: #D4B06A;
   font-weight: 600;
   text-transform: uppercase;
 }
 
 .rate-value {
-  color: #F8F3EC;
+  color: #F7E7CE;
   font-weight: 500;
 }
 

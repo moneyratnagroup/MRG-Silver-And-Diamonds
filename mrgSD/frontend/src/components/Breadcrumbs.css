@@ -1,5 +1,5 @@
 .breadcrumbs-wrapper {
-  background-color: #f9f9f9;
+  background-color: transparent;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -36,5 +36,11 @@
 .breadcrumb-text {
   color: #1a1a1a;
   font-weight: 600;
+  text-transform: uppercase;
+}
+
+.breadcrumb-non-clickable {
+  color: #7f8c8d;
+  font-weight: 500;
   text-transform: uppercase;
 }

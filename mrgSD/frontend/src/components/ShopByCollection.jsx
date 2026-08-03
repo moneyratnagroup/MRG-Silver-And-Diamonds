@@ -63,7 +63,7 @@ const ShopByCollection = () => {
       <div className="collection-grid">
         {collections.map((item, index) => (
           <Link 
-            to={`/collections/${item.linkId}`} 
+            to={`/silver/${item.linkId}`} 
             className="collection-card" 
             key={index}
           >

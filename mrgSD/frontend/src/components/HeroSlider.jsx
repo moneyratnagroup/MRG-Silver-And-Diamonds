@@ -39,10 +39,10 @@ const HeroSlider = () => {
               <div className="slide-text-layer">
                 <div className="glass-card">
                   {banner.preTitle && <span className="modern-slide-pretitle">{banner.preTitle}</span>}
-                  <h2 className="modern-slide-title" dangerouslySetInnerHTML={{ __html: banner.title }}></h2>
                   <div className="modern-divider">
                     <CustomDiamond size={20} className="modern-divider-icon" />
                   </div>
+                  <h2 className="modern-slide-title" dangerouslySetInnerHTML={{ __html: banner.title }}></h2>
                   {banner.subtitle && (
                     <p className="modern-slide-text">
                       {banner.subtitle}

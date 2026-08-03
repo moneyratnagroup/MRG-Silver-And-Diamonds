@@ -16,21 +16,38 @@
   margin-bottom: 1.5rem;
 }
 
+.pg-title-with-lines {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.pg-line {
+  width: 40px;
+  height: 1px;
+  background: #C7A66A;
+}
+
 .pg-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 4vw, 3rem);
-  color: #1a1a1a;
-  margin: 0 0 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
   font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #C7A66A;
+  margin: 0;
 }
 
 .pg-tagline {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.1rem;
-  color: #666;
-  max-width: 750px;
+  font-family: 'Cormorant Upright', serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #555;
+  max-width: 800px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .pg-grid {
