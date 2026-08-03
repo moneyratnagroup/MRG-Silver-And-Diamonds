@@ -40,15 +40,13 @@
   width: 100%;
   height: 100%;
 
-  background:
-
-    linear-gradient(90deg,
-      rgba(3, 9, 20, .70) 0%,
-      rgba(5, 10, 22, .45) 35%,
-      rgba(0, 0, 0, 0) 70%);
-
-  /* A very soft light overlay fading from left to right to ensure text readability */
-  /* background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.5) 45%, rgba(255, 255, 255, 0) 100%); */
+  background: linear-gradient(
+    90deg,
+    rgba(3, 8, 18, 0.92),
+    rgba(3, 8, 18, 0.75),
+    rgba(3, 8, 18, 0.20),
+    transparent
+  );
 }
 
 @keyframes subtleZoom {
@@ -83,14 +81,39 @@
   padding: 0;
   max-width: 620px;
   box-shadow: none;
-  transform: translateY(30px);
-  opacity: 1;
-  filter: blur(0);
 }
 
-.carousel-item.active .glass-card {
-  animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 0.3s;
+/* 1. Hide everything by default so it doesn't flash during the crossfade */
+.carousel-item .modern-slide-pretitle,
+.carousel-item .modern-divider,
+.carousel-item .modern-slide-title,
+.carousel-item .modern-slide-text,
+.carousel-item .modern-hero-btn {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.carousel-item .modern-slide-title {
+  filter: blur(3px);
+}
+
+/* 2. Trigger the staggered animations when the slide becomes active */
+.carousel-item.active .modern-slide-pretitle,
+.carousel-item.active .modern-divider,
+.carousel-item.active .modern-slide-title,
+.carousel-item.active .modern-slide-text,
+.carousel-item.active .modern-hero-btn {
+  animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.carousel-item.active .modern-slide-pretitle { animation-delay: 0.1s; }
+.carousel-item.active .modern-divider { animation-delay: 0.25s; }
+.carousel-item.active .modern-slide-title { animation-delay: 0.4s; }
+.carousel-item.active .modern-slide-text { animation-delay: 0.55s; }
+.carousel-item.active .modern-hero-btn { animation-delay: 0.7s; }
+
+.carousel-fade .carousel-item {
+  transition: opacity 900ms ease-in-out;
 }
 
 .modern-divider {
@@ -135,7 +158,7 @@
   color: #E7D4BF;
   margin-bottom: 28px;
   letter-spacing: -0.02em;
-  max-width: 600px;
+  max-width: 560px;
 }
 
 .modern-slide-text {
@@ -146,7 +169,7 @@
   color: #D8C8B2;
   line-height: 1.6;
   margin-bottom: 40px;
-  max-width: 500px;
+  max-width: 480px;
 }
 
 .modern-hero-btn {
@@ -164,6 +187,7 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: auto;
 }
 
 .modern-hero-btn:hover {
@@ -185,6 +209,7 @@
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 

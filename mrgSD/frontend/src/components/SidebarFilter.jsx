@@ -9,13 +9,13 @@ const SidebarFilter = ({ onNavigate }) => {
   const [searchParams] = useSearchParams();
 
   const categories = [
-    { title: "All Collections", path: "/collections/all", icon: <LayoutGrid size={20}/> },
-    { title: "Women's Collection", path: "/collections/women", icon: <Sparkles size={20}/> },
-    { title: "Men's Collection", path: "/collections/men", icon: <Watch size={20}/> },
-    { title: "Kids Collection", path: "/collections/kids", icon: <Baby size={20}/> },
-    { title: "Religious & Idols", path: "/collections/religious", icon: <Sun size={20}/> },
-    { title: "Investment & Coins", path: "/collections/investment", icon: <Coins size={20}/> },
-    { title: "Special & Bridal", path: "/collections/special", icon: <Crown size={20}/> },
+    { title: "All Collections", path: "/silver/all", icon: <LayoutGrid size={20}/> },
+    { title: "Women's Collection", path: "/silver/women", icon: <Sparkles size={20}/> },
+    { title: "Men's Collection", path: "/silver/men", icon: <Watch size={20}/> },
+    { title: "Kids Collection", path: "/silver/kids", icon: <Baby size={20}/> },
+    { title: "Religious & Idols", path: "/silver/religious", icon: <Sun size={20}/> },
+    { title: "Investment & Coins", path: "/silver/investment", icon: <Coins size={20}/> },
+    { title: "Special & Bridal", path: "/silver/special", icon: <Crown size={20}/> },
   ];
 
 

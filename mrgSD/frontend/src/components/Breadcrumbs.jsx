@@ -28,11 +28,17 @@ const Breadcrumbs = () => {
               let formattedName = name.replace(/-/g, ' ');
               formattedName = formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
 
+              // Define paths that do not have their own page and shouldn't be clickable
+              const nonClickablePaths = ['/silver', '/product'];
+              const isClickable = !nonClickablePaths.includes(routeTo);
+
               return (
                 <li key={name} className={`breadcrumb-item ${isLast ? 'active' : ''}`} aria-current={isLast ? 'page' : undefined}>
                   <ChevronRight size={14} className="breadcrumb-separator mx-2" strokeWidth={2} />
                   {isLast ? (
                     <span className="breadcrumb-text">{formattedName}</span>
+                  ) : !isClickable ? (
+                    <span className="breadcrumb-non-clickable">{formattedName}</span>
                   ) : (
                     <Link to={routeTo} className="breadcrumb-link">{formattedName}</Link>
                   )}
