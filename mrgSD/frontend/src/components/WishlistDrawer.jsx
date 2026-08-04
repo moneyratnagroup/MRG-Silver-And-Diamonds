@@ -6,13 +6,20 @@ import { Link } from 'react-router-dom';
 import './Drawers.css';
 
 const WishlistDrawer = () => {
-  const { isWishlistOpen, setIsWishlistOpen, wishlistItems, toggleWishlist, addToCart } = useShop();
+  const { isWishlistOpen, setIsWishlistOpen, wishlistItems, toggleWishlist } = useShop();
 
   const handleClose = () => setIsWishlistOpen(false);
 
   // Requirement: Max 5-8 products preview in the drawer
   const previewItems = wishlistItems.slice(0, 5);
   const hiddenCount = wishlistItems.length - 5;
+
+  const handleEnquire = (item) => {
+    const phoneNumber = '+919876543210';
+    const message = `Hi, I would like to know more about ${item.name} (Price: ${item.price}) that I saw on your website.`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
 
   return (
     <Offcanvas show={isWishlistOpen} onHide={handleClose} placement="end" className="custom-drawer">
@@ -47,12 +54,10 @@ const WishlistDrawer = () => {
                     <div className="wishlist-item-actions">
                       <button 
                         className="btn-move-to-cart" 
-                        onClick={() => {
-                          addToCart(item);
-                          toggleWishlist(item); // Remove from wishlist after moving to cart
-                        }}
+                        onClick={() => handleEnquire(item)}
+                        style={{ backgroundColor: '#25D366', color: 'white', borderColor: '#25D366' }}
                       >
-                        Move to Cart
+                        Enquire on WhatsApp
                       </button>
                       <button className="btn-remove-icon" onClick={() => toggleWishlist(item)} aria-label="Remove">
                         <Trash2 size={16} />

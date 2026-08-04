@@ -48,7 +48,7 @@ const ShopByCategory = () => {
 
   return (
     <section className="shop-category-section">
-      <motion.div 
+      <motion.div
         className="shop-category-header"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -62,13 +62,13 @@ const ShopByCategory = () => {
           <Sparkles size={12} color="#C7A66A" className="cat-sparkle" />
           <div className="cat-line"></div>
         </div>
-        <h2 className="cat-main-title">Find Your Perfect Style</h2>
-        <p className="cat-description">Explore jewellery crafted for every occasion.</p>
-        <div className="cat-bottom-line-wrapper">
-             <div className="cat-bottom-line"></div>
-             <Sparkles size={10} color="#C7A66A" className="cat-sparkle-small" />
-             <div className="cat-bottom-line"></div>
-        </div>
+        {/* <h2 className="cat-main-title">Find Your Perfect Style</h2>
+        <p className="cat-description">Explore jewellery crafted for every occasion.</p> */}
+        {/* <div className="cat-bottom-line-wrapper">
+          <div className="cat-bottom-line"></div>
+          <Sparkles size={10} color="#C7A66A" className="cat-sparkle-small" />
+          <div className="cat-bottom-line"></div>
+        </div> */}
       </motion.div>
 
       <div className="category-grid-container">
@@ -83,11 +83,11 @@ const ShopByCategory = () => {
           >
             {categories.map((cat, index) => (
               <SwiperSlide key={index} className="cat-item-wrapper swiper-slide-auto">
-                <Link to={`/silver/all?type=${cat.name}`} className="cat-item" style={{textDecoration: 'none'}}>
+                <Link to={`/silver/all?type=${cat.name}`} className="cat-item" style={{ textDecoration: 'none' }}>
                   <div className="cat-image-outer">
-                     <div className="cat-image-wrapper">
-                       <img src={cat.img} alt={cat.name} className="cat-image" />
-                     </div>
+                    <div className="cat-image-wrapper">
+                      <img src={cat.img} alt={cat.name} className="cat-image" />
+                    </div>
                   </div>
                   <h3 className="cat-name">{cat.name}</h3>
                   <p className="cat-desc">{cat.desc}</p>
@@ -96,7 +96,7 @@ const ShopByCategory = () => {
             ))}
           </Swiper>
         ) : (
-          <motion.div 
+          <motion.div
             className="category-grid"
             variants={containerVariants}
             initial="hidden"
@@ -104,21 +104,21 @@ const ShopByCategory = () => {
             viewport={{ once: true, margin: "-50px" }}
           >
             {categories.map((cat, index) => (
-              <motion.div 
-                key={index} 
-                variants={itemVariants} 
+              <motion.div
+                key={index}
+                variants={itemVariants}
                 className="cat-item-wrapper"
-                whileHover={{ 
-                  scale: 1.15, 
-                  y: -10, 
-                  transition: { type: "spring", stiffness: 300, damping: 15 } 
+                whileHover={{
+                  scale: 1.15,
+                  y: -10,
+                  transition: { type: "spring", stiffness: 300, damping: 15 }
                 }}
               >
-                <Link to={`/silver/all?type=${cat.name}`} className="cat-item" style={{textDecoration: 'none'}}>
+                <Link to={`/silver/all?type=${cat.name}`} className="cat-item" style={{ textDecoration: 'none' }}>
                   <div className="cat-image-outer">
-                     <div className="cat-image-wrapper">
-                       <img src={cat.img} alt={cat.name} className="cat-image" />
-                     </div>
+                    <div className="cat-image-wrapper">
+                      <img src={cat.img} alt={cat.name} className="cat-image" />
+                    </div>
                   </div>
                   <h3 className="cat-name">{cat.name}</h3>
                   <p className="cat-desc">{cat.desc}</p>
@@ -129,7 +129,7 @@ const ShopByCategory = () => {
         )}
       </div>
 
-      <motion.div 
+      <motion.div
         className="cat-explore-all"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

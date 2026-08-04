@@ -5,11 +5,18 @@ import { useNavigate } from 'react-router-dom';
 import './Pages.css';
 
 const WishlistPage = () => {
-  const { wishlistItems, toggleWishlist, addToCart } = useShop();
+  const { wishlistItems, toggleWishlist } = useShop();
   const navigate = useNavigate();
 
   const handleProductClick = (item) => {
     navigate(`/product/${item.id}`);
+  };
+
+  const handleEnquire = (item) => {
+    const phoneNumber = '+919876543210';
+    const message = `Hi, I would like to know more about ${item.name} (Price: ${item.price}) that I saw on your website.`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   return (
@@ -36,12 +43,10 @@ const WishlistPage = () => {
                 <p>{item.price}</p>
                 <button 
                   className="btn-primary w-100 mt-2" 
-                  onClick={() => {
-                    addToCart(item);
-                    toggleWishlist(item);
-                  }}
+                  onClick={() => handleEnquire(item)}
+                  style={{ backgroundColor: '#25D366', color: 'white', borderColor: '#25D366' }}
                 >
-                  Move to Cart
+                  Enquire on WhatsApp
                 </button>
               </div>
             </div>

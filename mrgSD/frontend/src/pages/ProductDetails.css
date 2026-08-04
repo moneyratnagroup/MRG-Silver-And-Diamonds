@@ -359,3 +359,91 @@
   color: var(--text-light);
   line-height: 1.6;
 }
+
+/* App Download Modal Styles */
+.app-modal-container {
+  max-width: 850px !important;
+  width: 90%;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.app-modal-content-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .app-modal-content-wrapper {
+    flex-direction: row;
+  }
+}
+
+.app-modal-left {
+  flex: 1.1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.app-modal-left h2 {
+  margin-bottom: 12px;
+  font-size: 2rem;
+  color: var(--heading-color);
+  margin-top: 0;
+  font-family: var(--heading-font);
+}
+
+.app-modal-left p {
+  margin-bottom: 35px;
+  color: var(--text-light);
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.app-modal-right {
+  flex: 0.9;
+  padding: 40px;
+  background-color: var(--surface-alt);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .app-modal-right {
+    border-top: none;
+    border-left: 1px solid var(--border);
+  }
+}
+
+.app-modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  z-index: 10;
+  transition: all 0.3s;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-modal-close-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
