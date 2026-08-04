@@ -536,18 +536,38 @@
 }
 
 .contact-info-block h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: #002B5B;
 }
 
-.contact-detail {
+.contact-item-new {
   display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: #444;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 2rem;
+}
+
+.contact-item-new svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.contact-text-new h4 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 6px 0;
+}
+
+.contact-text-new p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.6;
 }
 
 .contact-form-container {

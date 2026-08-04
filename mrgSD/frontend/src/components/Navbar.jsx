@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Search, User, Heart, ShoppingBag, ChevronDown, Sparkles, Watch, Baby, Sun, Coins, Crown, LayoutGrid } from 'lucide-react';
+import { Search, User, Heart, ChevronDown, Sparkles, Watch, Baby, Sun, Coins, Crown, LayoutGrid } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import './Navbar.css';
 
 const MRGNavbar = () => {
   const [expanded, setExpanded] = useState(false);
-  const { getCartCount, getWishlistCount, setIsCartOpen, setIsWishlistOpen } = useShop();
+  const { getWishlistCount, setIsWishlistOpen } = useShop();
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
-  const cartCount = getCartCount();
   const wishlistCount = getWishlistCount();
 
   const handleWishlistClick = () => {
@@ -20,10 +19,6 @@ const MRGNavbar = () => {
     } else {
       navigate('/wishlist');
     }
-  };
-
-  const handleCartClick = () => {
-    setIsCartOpen(true);
   };
 
   const [forceClose, setForceClose] = useState(false);
@@ -66,10 +61,7 @@ const MRGNavbar = () => {
               <Heart size={20} strokeWidth={1.5} />
               {wishlistCount > 0 && <span className="cart-badge" style={{backgroundColor: '#1a1a1a'}}>{wishlistCount}</span>}
             </button>
-            <button className="utility-btn d-none d-lg-flex" aria-label="Shopping Bag" onClick={handleCartClick}>
-              <ShoppingBag size={20} strokeWidth={1.5} />
-              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-            </button>
+
           </div>
           {/* Desktop toggler (hidden on lg, but needed for bootstrap collapse logic sometimes? No, Bootstrap handles it with d-lg-none) */}
           <Navbar.Toggle aria-controls="basic-navbar-nav" className="d-none" />
@@ -80,7 +72,7 @@ const MRGNavbar = () => {
             <Nav.Link as={Link} to="/" className={`nav-link-custom ${currentPath === '/' ? 'active' : ''}`} onClick={closeMenu}>HOME</Nav.Link>
             
             <div className="nav-item-dropdown">
-              <div className={`nav-link-custom ${currentPath.startsWith('/silver') || currentPath === '/diamonds' ? 'active-dropdown' : ''}`}>
+              <div className={`nav-link-custom ${currentPath.startsWith('/silver') ? 'active-dropdown' : ''}`}>
                 SILVER <ChevronDown size={14} className="ms-1" />
               </div>
               <div className={`dropdown-mega-menu ${forceClose ? 'd-none' : ''}`}>
