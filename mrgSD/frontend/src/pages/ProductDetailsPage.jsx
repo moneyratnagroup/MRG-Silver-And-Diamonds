@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, X } from 'lucide-react';
 import ProductsGallery from '../components/ProductsGallery';
 import './ProductDetails.css';
 
 const ProductDetailsPage = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const { products, addToCart } = useShop();
+  const { products } = useShop();
   const [product, setProduct] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showFullDetails, setShowFullDetails] = useState(false);
   const [showPriceBreakup, setShowPriceBreakup] = useState(false);
+  const [showAppModal, setShowAppModal] = useState(false);
+
+  const handleEnquire = () => {
+    const phoneNumber = '+919876543210'; // Default number as per plan
+    const message = `Hi, I would like to know more about ${product.name} (Price: ${product.price}) that I saw on your website.`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -157,9 +165,13 @@ const ProductDetailsPage = () => {
             )}
           </div>
           
-          <div className="pd-actions">
-            <button className="btn-add-cart-large" onClick={() => addToCart(product)}>Add to Cart</button>
-            <button className="btn-buy-now-large">Buy Now</button>
+          <div className="pd-actions" style={{ display: 'flex', gap: '10px', width: '100%' }}>
+            <button className="btn-buy-now-large" onClick={handleEnquire} style={{ flex: 1, backgroundColor: '#25D366', color: 'white', borderColor: '#25D366' }}>
+              Enquire on WhatsApp
+            </button>
+            <button className="btn-buy-now-large" onClick={() => setShowAppModal(true)} style={{ flex: 1 }}>
+              Buy Now / Get App
+            </button>
           </div>
           
           <div className="pd-additional-info">
@@ -182,6 +194,58 @@ const ProductDetailsPage = () => {
             tagline="You may also like these exquisite pieces from our collection."
             products={similarProducts} 
           />
+        </div>
+      )}
+      
+      {showAppModal && (
+        <div className="product-modal-overlay" onClick={() => setShowAppModal(false)} style={{ zIndex: 9999 }}>
+          <div className="product-modal app-modal-container" onClick={(e) => e.stopPropagation()} style={{ position: 'relative' }}>
+            <button className="app-modal-close-btn" onClick={() => setShowAppModal(false)} aria-label="Close modal">
+              <X size={22} />
+            </button>
+            
+            <div className="app-modal-content-wrapper">
+              <div className="app-modal-left">
+                <h2>Ready to make this yours?</h2>
+                <p>Get exclusive offers, faster checkout, and track your orders easily on the Moneyratna App.</p>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '25px', width: '100%', maxWidth: '280px' }}>
+                  <button style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '12px 25px', backgroundColor: '#000', color: '#fff', border: '1px solid #333', borderRadius: '10px', cursor: 'pointer', width: '100%', justifyContent: 'center' }}>
+                    <svg width="22" height="26" viewBox="0 0 384 512" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                    <div style={{ textAlign: 'left' }}>
+                      <div style={{ fontSize: '0.7rem', lineHeight: '1', color: '#ccc', marginBottom: '2px' }}>Download on the</div>
+                      <div style={{ fontSize: '1.1rem', fontWeight: '600', lineHeight: '1' }}>App Store</div>
+                    </div>
+                  </button>
+                  
+                  <button style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '12px 25px', backgroundColor: '#000', color: '#fff', border: '1px solid #333', borderRadius: '10px', cursor: 'pointer', width: '100%', justifyContent: 'center' }}>
+                    <svg width="26" height="26" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                      <path fill="#2196F3" d="M35.1 48c0-3.3 2.1-6.2 5.2-7.5L257.6 256 40.3 471.5C37.2 470.2 35.1 467.3 35.1 464V48z"/>
+                      <path fill="#00E676" d="M40.3 40.5L347.1 204.3 257.6 256 40.3 40.5z"/>
+                      <path fill="#FF3D00" d="M40.3 471.5L257.6 256l89.5 51.7L40.3 471.5z"/>
+                      <path fill="#FFC107" d="M347.1 204.3L464 266.7c7.1 4 7.1 14.5 0 18.5L347.1 307.7l-89.5-51.7 89.5-51.7z"/>
+                    </svg>
+                    <div style={{ textAlign: 'left' }}>
+                      <div style={{ fontSize: '0.7rem', lineHeight: '1', color: '#ccc', marginBottom: '2px' }}>GET IT ON</div>
+                      <div style={{ fontSize: '1.1rem', fontWeight: '600', lineHeight: '1' }}>Google Play</div>
+                    </div>
+                  </button>
+                </div>
+                
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#B89146', fontSize: '0.9rem', fontWeight: '500' }}>
+                  <div style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#B89146', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold', fontStyle: 'italic', flexShrink: 0 }}>i</div>
+                  <span>For iOS, use Organization Code: <strong style={{ letterSpacing: '1px' }}>JQTLL</strong></span>
+                </div>
+              </div>
+              
+              <div className="app-modal-right">
+                <div style={{ width: '160px', height: '160px', backgroundColor: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', borderRadius: '12px', border: '1px dashed #cbd5e1' }}>
+                  <span style={{ fontWeight: '700', color: '#94a3b8', fontSize: '2rem', letterSpacing: '2px' }}>QR</span>
+                </div>
+                <p style={{ margin: 0, fontSize: '1rem', color: '#475569', textAlign: 'center', fontWeight: '500', maxWidth: '200px', lineHeight: '1.4' }}>Scan with your phone to download the app</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

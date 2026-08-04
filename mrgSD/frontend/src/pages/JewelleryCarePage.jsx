@@ -8,39 +8,33 @@ const JewelleryCarePage = () => {
   return (
     <>
       {/* Header Banner */}
-      <div className="text-center mb-5 d-flex align-items-center justify-content-center flex-column animate-fade-up" style={{ 
-        backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.7)), url("/jcarebg.png")', 
-        backgroundSize: '100% 100%',
-        backgroundRepeat: 'no-repeat', 
-        backgroundPosition: 'center',
-        borderBottom: '1px solid #eaeaea',
-        minHeight: '450px',
-        padding: '0 20px'
-      }}>
-        <Container>
-          <h1 className="page-title" style={{ fontWeight: 'bold', color: '#2C3E50', fontSize: '3rem', marginTop: '20px' }}>Jewellery Care Guide</h1>
-          <div className="gold-divider"></div>
-          <p className="lead" style={{ maxWidth: '700px', margin: '0 auto', color: '#333', marginTop: '1.5rem' }}>
+      <div className="about-hero" style={{ height: '45vh', minHeight: '350px', marginBottom: '3rem' }}>
+        <div className="about-hero-image">
+          <img src="/carebg.png" alt="Jewellery Care Guide" style={{ filter: 'brightness(0.4)' }} />
+        </div>
+        <div className="about-hero-overlay" style={{ padding: '0 20px' }}>
+          <h1 className="about-title" style={{ color: '#fff', fontSize: '3.5rem', marginBottom: '15px' }}>Jewellery Care Guide</h1>
+          {/* <p className="about-subtitle" style={{ maxWidth: '680px', margin: '0 auto', color: '#f8f9fa', lineHeight: '1.6', fontFamily: '"Satisfy"', fontSize: '1.6rem', letterSpacing: '0.5px', fontWeight: '250' }}>
             At Moneyratna, every piece is crafted with utmost care. Follow these simple guidelines to ensure your Gold, Silver, and Diamond jewellery remains as breathtaking as the day you bought it.
-          </p>
-        </Container>
+          </p> */}
+        </div>
       </div>
 
       <div className="page-container pb-5">
         <Container>
-          
+
           {/* Quote Section */}
           <div className="text-center my-5 py-5 animate-fade-up delay-100">
-             <p className="care-quote">
-               "Proper care preserves not just the beauty of jewellery, but the memories it carries."
-             </p>
+            <p className="care-quote">
+              "Proper care preserves not just the beauty of jewellery, but the memories it carries."
+            </p>
           </div>
 
           {/* General Care */}
           <div className="mb-5 py-4 animate-fade-up delay-200">
             <h3 className="text-center" style={{ color: '#2C3E50', fontWeight: '600' }}>Golden Rules of Care</h3>
             <div className="gold-divider mb-5"></div>
-            
+
             <Row>
               <Col md={3} sm={6} className="text-center mb-4">
                 <div className="rule-card p-4 h-100 bg-white shadow-sm border border-light">
@@ -85,7 +79,7 @@ const JewelleryCarePage = () => {
           <div className="mt-5 pt-5 animate-fade-up delay-300">
             <h3 className="text-center" style={{ color: '#2C3E50', fontWeight: '600' }}>Material Specific Guidelines</h3>
             <div className="gold-divider mb-5"></div>
-            
+
             <Row className="mt-4">
               <Col lg={4} className="mb-4">
                 <div className="care-card p-5 h-100 border bg-white shadow-sm" style={{ borderTop: '4px solid #FFD700 !important' }}>
@@ -101,7 +95,7 @@ const JewelleryCarePage = () => {
                   </ul>
                 </div>
               </Col>
-              
+
               <Col lg={4} className="mb-4">
                 <div className="care-card p-5 h-100 border bg-white shadow-sm" style={{ borderTop: '4px solid #C0C0C0 !important' }}>
                   <div className="d-flex align-items-center mb-4 pb-3 border-bottom">
@@ -116,7 +110,7 @@ const JewelleryCarePage = () => {
                   </ul>
                 </div>
               </Col>
-              
+
               <Col lg={4} className="mb-4">
                 <div className="care-card p-5 h-100 border bg-white shadow-sm" style={{ borderTop: '4px solid #b9f2ff !important' }}>
                   <div className="d-flex align-items-center mb-4 pb-3 border-bottom">

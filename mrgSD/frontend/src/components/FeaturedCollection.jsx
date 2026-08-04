@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useShop } from '../context/ShopContext';
+import { useNavigate } from 'react-router-dom';
 import './ProductsGallery.css'; // Reusing the exact same styling as requested
 import braceletImg from '../assets/silver_charm_bracelet.png';
 
 const FeaturedCollection = () => {
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const { addToCart, toggleWishlist, isInWishlist } = useShop();
+  const navigate = useNavigate();
+  const { toggleWishlist, isInWishlist } = useShop();
 
   // Mock data for the first populated product
   const sampleProduct = {
@@ -38,15 +38,8 @@ const FeaturedCollection = () => {
     return null;
   };
 
-  const openModal = (product) => {
-    setSelectedProduct(product);
-    setActiveImageIndex(0);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeModal = () => {
-    setSelectedProduct(null);
-    document.body.style.overflow = 'unset';
+  const handleProductClick = (product) => {
+    navigate(`/product/${product.id}`);
   };
 
   return (
@@ -61,7 +54,7 @@ const FeaturedCollection = () => {
       <div className="pg-grid">
         {/* Sample Fully Populated Product Card */}
         <div className="pg-card">
-          <div className="pg-image-container" onClick={() => openModal(sampleProduct)} style={{cursor: 'pointer'}}>
+          <div className="pg-image-container" onClick={() => handleProductClick(sampleProduct)} style={{cursor: 'pointer'}}>
             {sampleProduct.originalPrice && calculateDiscount(sampleProduct.originalPrice, sampleProduct.price) && (
               <span className="pg-discount-badge">
                 {calculateDiscount(sampleProduct.originalPrice, sampleProduct.price)}% OFF
@@ -82,7 +75,7 @@ const FeaturedCollection = () => {
                 <p className="pg-item-original-price">{sampleProduct.originalPrice}</p>
               )}
             </div>
-            <button className="pg-add-to-cart" onClick={(e) => { e.stopPropagation(); addToCart(sampleProduct); }}>Add to Cart</button>
+
           </div>
         </div>
 
@@ -99,61 +92,6 @@ const FeaturedCollection = () => {
         ))}
       </div>
 
-      {/* Product Quick View Modal */}
-      {selectedProduct && (
-        <div className="product-modal-overlay" onClick={closeModal}>
-          <div className="product-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={closeModal} aria-label="Close modal">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-            
-            <div className="modal-left">
-              <div className="modal-image-gallery">
-                <div className="modal-thumbnails">
-                  {selectedProduct.images.map((img, idx) => (
-                    <div 
-                      key={idx} 
-                      className={`thumbnail-container ${activeImageIndex === idx ? 'active' : ''}`}
-                      onClick={() => setActiveImageIndex(idx)}
-                    >
-                      <img src={img} alt={`View ${idx + 1}`} className="thumbnail-img" />
-                    </div>
-                  ))}
-                </div>
-                <div className="modal-main-image-container">
-                  <img 
-                    src={selectedProduct.images[activeImageIndex]} 
-                    alt={selectedProduct.name} 
-                    className="modal-main-image" 
-                  />
-                </div>
-              </div>
-              <div className="modal-category left-aligned-category">
-                <span className="category-label">Category:</span> {selectedProduct.category}
-              </div>
-            </div>
-
-            <div className="modal-right">
-              <h2 className="modal-product-name">{selectedProduct.name}</h2>
-              <div className="modal-price-container">
-                <p className="modal-product-price">{selectedProduct.price}</p>
-                {selectedProduct.originalPrice && (
-                  <p className="modal-product-original-price">{selectedProduct.originalPrice}</p>
-                )}
-              </div>
-              <p className="modal-product-desc">{selectedProduct.desc}</p>
-              
-              <div className="modal-actions">
-                <button className="btn-add-cart" onClick={() => addToCart(selectedProduct)}>Add to Cart</button>
-                <button className="btn-buy-now">Buy Now</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

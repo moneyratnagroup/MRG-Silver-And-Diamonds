@@ -7,7 +7,7 @@ import braceletImg from '../assets/silver_charm_bracelet.png';
 
 const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null }) => {
   const navigate = useNavigate();
-  const { addToCart, toggleWishlist, isInWishlist } = useShop();
+  const { toggleWishlist, isInWishlist } = useShop();
 
 
 
@@ -76,7 +76,7 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                     <p className="pg-item-original-price">{product.originalPrice}</p>
                   )}
                 </div>
-                <button className="pg-add-to-cart" onClick={(e) => { e.stopPropagation(); addToCart(product); }}>Add to Cart</button>
+
               </div>
             </div>
           ))

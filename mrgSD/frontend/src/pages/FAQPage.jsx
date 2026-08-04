@@ -34,10 +34,19 @@ const FAQPage = () => {
   };
 
   return (
-    <div className="faq-page">
-      <Container className="py-5">
-        <h1 className="text-center mb-5 faq-title">Frequently Asked Questions</h1>
-        <div className="faq-list">
+    <div className="faq-page-wrapper">
+      {/* Hero Banner Section */}
+      <div className="about-hero" style={{ height: '40vh', minHeight: '300px' }}>
+        <div className="about-hero-image">
+          <img src="/faqbg.png" alt="FAQ Support" style={{ filter: 'brightness(0.4)' }} />
+        </div>
+        <div className="about-hero-overlay">
+          <h1 className="about-title" style={{ color: '#fff', fontSize: '3.5rem', marginBottom: 0 }}>Help & FAQ</h1>
+        </div>
+      </div>
+
+      <Container className="py-5" style={{ maxWidth: '800px' }}>
+        <div className="faq-list mt-4">
           {faqs.map((faq, index) => (
             <div 
               key={index} 
