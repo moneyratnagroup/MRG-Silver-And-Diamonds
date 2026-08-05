@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode } from 'swiper/modules';
+import { FreeMode, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
 import './ShopByCategory.css';
 
 const categories = [
@@ -74,11 +75,12 @@ const ShopByCategory = () => {
       <div className="category-grid-container">
         {isMobile ? (
           <Swiper
-            modules={[FreeMode]}
+            modules={[FreeMode, Pagination]}
             freeMode={true}
             grabCursor={true}
             slidesPerView={'auto'}
             spaceBetween={20}
+            pagination={{ clickable: true }}
             className="mobile-category-swiper"
           >
             {categories.map((cat, index) => (
@@ -86,7 +88,7 @@ const ShopByCategory = () => {
                 <Link to={`/silver/all?type=${cat.name}`} className="cat-item" style={{ textDecoration: 'none' }}>
                   <div className="cat-image-outer">
                     <div className="cat-image-wrapper">
-                      <img src={cat.img} alt={cat.name} className="cat-image" />
+                      <img src={cat.img} alt={cat.name} className="cat-image" loading="lazy" />
                     </div>
                   </div>
                   <h3 className="cat-name">{cat.name}</h3>
@@ -117,7 +119,7 @@ const ShopByCategory = () => {
                 <Link to={`/silver/all?type=${cat.name}`} className="cat-item" style={{ textDecoration: 'none' }}>
                   <div className="cat-image-outer">
                     <div className="cat-image-wrapper">
-                      <img src={cat.img} alt={cat.name} className="cat-image" />
+                      <img src={cat.img} alt={cat.name} className="cat-image" loading="lazy" />
                     </div>
                   </div>
                   <h3 className="cat-name">{cat.name}</h3>
