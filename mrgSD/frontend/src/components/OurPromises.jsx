@@ -73,7 +73,6 @@ const OurPromises = () => {
   return (
     <section className="promises-section">
       <div className="promises-container">
-        <h2 className="promises-heading">OUR PROMISES</h2>
         <div className="promises-grid">
           {promises.map((promise, index) => (
             <div key={index} className="promise-card">
