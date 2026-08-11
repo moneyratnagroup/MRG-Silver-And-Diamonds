@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Filter, ChevronDown } from 'lucide-react';
-import ProductsGallery from '../components/ProductsGallery';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { Filter } from 'lucide-react';
+import DiamondGallery from '../components/DiamondGallery';
 import FilterDrawer from '../components/FilterDrawer';
 import { useShop } from '../context/ShopContext';
-import './Pages.css';
+import './DiamondsPage.css';
+
+// Import images
+import customHero1 from '../assets/hero_diamonds.png';
+import customHero2 from '../assets/hero_diamonds_gold.png';
+import earringsBg from '../assets/earrings_bg.png';
+import presenceBg from '../assets/presence_bg.png';
+import visionBg from '../assets/vision_bg.png';
+import catRings from '../assets/cat_rings_layout.png';
 
 const DiamondsPage = () => {
-  const [searchParams] = useSearchParams();
+  const { collectionId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { products: allProductsContext } = useShop();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortOption, setSortOption] = useState('default');
@@ -16,11 +25,16 @@ const DiamondsPage = () => {
   const occasionFilter = searchParams.get('occasion');
   
   // Filter specifically for diamonds
-  let products = allProductsContext.filter(p => 
+  let diamondProducts = allProductsContext.filter(p => 
     (p.collection && p.collection.toLowerCase() === 'diamonds') || 
     (p.category && p.category.toLowerCase() === 'diamonds') || 
-    (p.material && p.material.toLowerCase() === 'diamond')
+    (p.material && p.material.toLowerCase() === 'diamond') ||
+    (p.metal && p.metal.toLowerCase().includes('diamond'))
   );
+  
+  let products = (collectionId && collectionId !== 'all')
+    ? diamondProducts.filter(p => p.collection && p.collection.toLowerCase() === collectionId.toLowerCase())
+    : diamondProducts;
   
   if (typeFilter) {
     products = products.filter(p => p.category && p.category.toUpperCase() === typeFilter.toUpperCase());
@@ -53,59 +67,104 @@ const DiamondsPage = () => {
   const activeFiltersCount = (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
 
   return (
-    <div className="collection-page-container">
-      <div className="collection-layout">
-        <div className="collection-main">
-          <ProductsGallery 
-            title="Diamonds Collection"
-            tagline="Discover our exclusive range of certified diamond jewelry, crafted to perfection."
-            products={displayProducts}
-            filterComponent={
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '1.5rem' }}>
-                <button className="pill-filter-btn" onClick={() => setIsFilterOpen(true)} style={{ margin: 0 }}>
-                  <Filter size={16} />
-                  <span>Filter By</span>
-                  {activeFiltersCount > 0 && <span className="filter-count-badge">{activeFiltersCount}</span>}
-                  <ChevronDown size={16} />
-                </button>
-                
-                <div className="sort-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '1rem', color: '#555', fontWeight: '500' }} className="d-none d-sm-inline">Sort by:</span>
-                  <select 
-                    className="custom-sort-select" 
-                    value={sortOption} 
-                    onChange={(e) => setSortOption(e.target.value)}
-                    style={{
-                      padding: '0.5rem 2.2rem 0.5rem 1rem',
-                      borderRadius: '50px',
-                      border: '1px solid #e0e0e0',
-                      backgroundColor: '#fff',
-                      fontSize: '1rem',
-                      fontFamily: '"Inter", sans-serif',
-                      color: '#333',
-                      outline: 'none',
-                      cursor: 'pointer',
-                      appearance: 'none',
-                      WebkitAppearance: 'none',
-                      backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23333%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'right 0.75rem center',
-                      backgroundSize: '14px',
-                      minWidth: '160px'
-                    }}
-                  >
-                    <option value="default">Featured</option>
-                    <option value="a-z">Alphabetically, A-Z</option>
-                    <option value="z-a">Alphabetically, Z-A</option>
-                    <option value="price-low-high">Price, low to high</option>
-                    <option value="price-high-low">Price, high to low</option>
-                  </select>
-                </div>
-              </div>
-            }
-          />
+    <div className="gorings-diamonds-page">
+      
+      {/* Hero Section */}
+      <section className="gorings-hero">
+        <div className="gorings-hero-left">
+          <img src="https://i.pinimg.com/736x/c5/54/77/c55477911eaf29d483f3f299e523d7ec.jpg" alt="Diamonds" />
+        </div>
+        <div className="gorings-hero-center">
+          <div className="gorings-sparkle-icons">
+            <span className="sparkle">✦</span>
+            <span className="sparkle small">✦</span>
+          </div>
+          <p className="gorings-subtitle">LONG-LASTING, HYPOALLERGENIC +<br/>FUNDS NEW CAUSES EVERY MONTH</p>
+          <h1 className="gorings-title">Jewelry that stays<br/>gold & does good</h1>
+          <button className="gorings-btn-solid">SHOP THE COLLECTION</button>
+        </div>
+        <div className="gorings-hero-right">
+          <img src="https://amalfa.in/cdn/shop/files/image_22_1dc86f45-bd5e-4aef-adf6-1d80d4064245.png?v=1778141255&width=800" alt="Smiling model wearing rings" />
+        </div>
+      </section>
+
+      {/* Marquee Banner */}
+      <div className="gorings-marquee">
+        <div className="gorings-marquee-content">
+          <span>✦ 30% donated to new causes every month</span>
+          <span>✦ 30% donated to new causes every month</span>
+          <span>✦ 30% donated to new causes every month</span>
+          <span>✦ 30% donated to new causes every month</span>
         </div>
       </div>
+
+      {/* Ring In The New Year Section */}
+      <section className="gorings-split-section">
+        <div className="gorings-split-text">
+          <h2 className="gorings-split-title">Ring in the New Year</h2>
+          <p className="gorings-split-desc">
+            Let's leave jewelry that tarnishes in 2023, is it time to elevate<br/>
+            your everyday ring lineup? We love a fresh start.
+          </p>
+          <button className="gorings-btn-solid">SHOP BEST-SELLING RINGS</button>
+        </div>
+        <div className="gorings-split-image">
+          <img src={catRings} alt="Rings on soft background" />
+        </div>
+      </section>
+
+      <section className="gorings-sparkles-decor">
+        <span className="sparkle large">✦</span>
+        <span className="sparkle medium">✦</span>
+      </section>
+
+      {/* Collection Grid */}
+      <section id="gorings-collection-start">
+        <div className="gorings-filter-bar">
+          <button className="gorings-filter-btn" onClick={() => setIsFilterOpen(true)}>
+            <Filter size={14} />
+            <span>Filter</span>
+            {activeFiltersCount > 0 && <strong>({activeFiltersCount})</strong>}
+          </button>
+          
+          <select 
+            className="gorings-sort-select"
+            value={sortOption} 
+            onChange={(e) => setSortOption(e.target.value)}
+          >
+            <option value="default">Featured</option>
+            <option value="price-low-high">Price, low to high</option>
+            <option value="price-high-low">Price, high to low</option>
+          </select>
+        </div>
+
+        <DiamondGallery products={displayProducts} title="Bestsellers" />
+      </section>
+
+      {/* Wavy Banner */}
+      <section className="gorings-wavy-banner">
+        <div className="gorings-wavy-text">
+          MAKING FUNDRAISING SIMPLE, EFFECTIVE, AND JOYFUL
+        </div>
+      </section>
+
+      {/* Stay Gold & Do Good Section */}
+      <section className="gorings-bottom-split">
+        <div className="gorings-bottom-text">
+          <p className="gorings-bottom-subtitle">JEWELRY THAT PROMISES TO</p>
+          <h2 className="gorings-bottom-title">Stay gold & do good</h2>
+          <p className="gorings-bottom-desc">
+            Our collection of long-lasting, never-take-it-off jewelry is ready to<br/>
+            shine through literally anything on your agenda. The best part?<br/>
+            30% of your order funds new causes monthly.
+          </p>
+          <button className="gorings-btn-solid">OUR STORY</button>
+        </div>
+        <div className="gorings-bottom-images">
+          <img src={visionBg} alt="Model smiling" className="gorings-bottom-img1" />
+          <img src={presenceBg} alt="Hands wearing rings" className="gorings-bottom-img2" />
+        </div>
+      </section>
 
       <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} />
     </div>
