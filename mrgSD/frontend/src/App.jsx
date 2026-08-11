@@ -6,6 +6,7 @@ import { ShopProvider } from './context/ShopContext'
 import UserLayout from './layouts/UserLayout'
 import AdminLayout from './layouts/AdminLayout'
 import ScrollToTop from './components/ScrollToTop'
+import ScrollToTopButton from './components/ScrollToTopButton'
 
 // User Pages
 import Home from './pages/Home'
@@ -41,6 +42,7 @@ function App() {
     <ShopProvider>
       <Router>
         <ScrollToTop />
+        <ScrollToTopButton />
         <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <ToastContainer position="top-right" autoClose={3000} />
           <Routes>
@@ -68,6 +70,7 @@ function App() {
               <Route index element={<Home />} />
               <Route path="cart" element={<CartPage />} />
               <Route path="wishlist" element={<WishlistPage />} />
+              <Route path="products" element={<CollectionPage />} />
               <Route path="silver/:collectionId" element={<CollectionPage />} />
               <Route path="product/:productId" element={<ProductDetailsPage />} />
               <Route path="about" element={<AboutPage />} />

@@ -5,6 +5,7 @@ import ProductsGallery from '../components/ProductsGallery';
 import OurPromises from '../components/OurPromises';
 import SmallBanner from '../components/SmallBanner';
 import FeaturedCollection from '../components/FeaturedCollection';
+import SplitGateway from '../components/SplitGateway';
 import MetalRatesBar from '../components/MetalRatesBar';
 import { useShop } from '../context/ShopContext';
 import './Home.css';
@@ -62,6 +63,7 @@ const Home = () => {
       <OurPromises />
       <SmallBanner />
       <FeaturedCollection />
+      <SplitGateway />
     </>
   );
 };

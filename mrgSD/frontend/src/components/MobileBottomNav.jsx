@@ -14,7 +14,7 @@ const MobileBottomNav = () => {
         <span>Home</span>
       </Link>
       
-      <Link to="/silver/all" className={`bottom-nav-item ${location.pathname.includes('/silver') ? 'active' : ''}`}>
+      <Link to="/products" className={`bottom-nav-item ${location.pathname.includes('/products') || location.pathname.includes('/silver') ? 'active' : ''}`}>
         <LayoutGrid size={22} className="bottom-nav-icon" strokeWidth={1.5} />
         <span>Collection</span>
       </Link>
