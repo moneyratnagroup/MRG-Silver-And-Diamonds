@@ -1,0 +1,143 @@
+.split-gateway-section {
+  display: flex;
+  width: 100%;
+  height: 80vh;
+  min-height: 500px;
+  overflow: hidden;
+  background-color: #f8f6f0;
+}
+
+.split-col {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: flex 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  text-decoration: none;
+}
+
+/* Expansion logic on hover */
+@media (min-width: 769px) {
+  .split-gateway-section:hover .split-col {
+    flex: 0.8;
+  }
+  
+  .split-gateway-section .split-col:hover {
+    flex: 1.2;
+  }
+}
+
+.split-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
+}
+
+.split-col:hover .split-image {
+  transform: scale(1.05);
+}
+
+.split-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.3) 100%);
+  z-index: 2;
+  transition: background 0.4s ease;
+}
+
+.split-col:hover .split-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* Specific overlay adjustments for the bright silver side to ensure contrast but keep it airy */
+.split-col.silver-col .split-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(0, 0, 0, 0.1) 100%);
+}
+.split-col.silver-col:hover .split-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(255, 255, 255, 0.0) 50%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.split-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: #fff;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.split-title {
+  font-family: 'Playfair Display', serif; /* Or whatever elegant serif MRG uses */
+  font-size: 42px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.split-col.silver-col .split-title {
+  /* Silver side text can be dark or light depending on image. The image is bright, so maybe dark text or strong shadow */
+  text-shadow: 0 2px 15px rgba(0,0,0,0.6);
+}
+
+.split-btn {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 12px 30px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.split-col:hover .split-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.split-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .split-gateway-section {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .split-col {
+    height: 50vh;
+    min-height: 400px;
+    width: 100%;
+  }
+
+  .split-title {
+    font-size: 32px;
+  }
+
+  .split-btn {
+    opacity: 1; /* Always show button on mobile since there is no hover */
+    transform: translateY(0);
+  }
+}

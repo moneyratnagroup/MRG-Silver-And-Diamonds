@@ -1,172 +1,103 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { Sparkles, ShieldCheck, Droplet, Sun, CheckCircle2, Shield, Gem, Package, RotateCcw } from 'lucide-react';
-import './Pages.css';
-import './JewelleryCarePage.css';
+import React, { useEffect } from 'react';
+import CareHero from '../components/CareGuide/CareHero';
+import CareCategoryNav from '../components/CareGuide/CareCategoryNav';
+import GoldenRules from '../components/CareGuide/GoldenRules';
+import JewelleryCareSection from '../components/CareGuide/JewelleryCareSection';
+import GemstoneCareGrid from '../components/CareGuide/GemstoneCareGrid';
+import DosDonts from '../components/CareGuide/DosDonts';
+import StorageGuide from '../components/CareGuide/StorageGuide';
+import CleaningRitual from '../components/CareGuide/CleaningRitual';
+import ProfessionalCare from '../components/CareGuide/ProfessionalCare';
+import CareReference from '../components/CareGuide/CareReference';
+import CareFAQ from '../components/CareGuide/CareFAQ';
+import CareCTA from '../components/CareGuide/CareCTA';
 
 const JewelleryCarePage = () => {
+  // Ensure the page starts at the top when loaded
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <>
-      {/* Header Banner */}
-      <div className="about-hero" style={{ height: '45vh', minHeight: '350px', marginBottom: '3rem' }}>
-        <div className="about-hero-image">
-          <img src="/carebg.png" alt="Jewellery Care Guide" style={{ filter: 'brightness(0.4)' }} />
-        </div>
-        <div className="about-hero-overlay" style={{ padding: '0 20px' }}>
-          <h1 className="about-title" style={{ color: '#fff', fontSize: '3.5rem', marginBottom: '15px' }}>Jewellery Care Guide</h1>
-          {/* <p className="about-subtitle" style={{ maxWidth: '680px', margin: '0 auto', color: '#f8f9fa', lineHeight: '1.6', fontFamily: '"Satisfy"', fontSize: '1.6rem', letterSpacing: '0.5px', fontWeight: '250' }}>
-            At Moneyratna, every piece is crafted with utmost care. Follow these simple guidelines to ensure your Gold, Silver, and Diamond jewellery remains as breathtaking as the day you bought it.
-          </p> */}
-        </div>
-      </div>
+    <div className="care-page-wrapper">
+      <CareHero />
+      <CareCategoryNav />
+      <GoldenRules />
+      
+      {/* Silver Care */}
+      <JewelleryCareSection 
+        id="silver-care"
+        heading="Silver Jewellery"
+        subheading="Keep Your Silver Shining"
+        desc="Silver can naturally tarnish when exposed to air, moisture and certain chemicals. Proper storage and gentle cleaning can help preserve its beauty."
+        img="/SJcare.png"
+        bgWhite={true}
+        dos={[
+          "Store in a dry, dark place",
+          "Use a soft silver jewellery cloth",
+          "Keep pieces individually stored",
+          "Keep silver away from excessive moisture"
+        ]}
+        donts={[
+          "Chlorinated water",
+          "Perfume and cosmetics",
+          "Harsh cleaning chemicals",
+          "Rubber bands (contains sulfur)"
+        ]}
+        careTip="Store silver jewellery in an airtight zip-lock bag with an anti-tarnish strip when not in use."
+      />
 
-      <div className="page-container pb-5">
-        <Container>
+      {/* Diamond Care */}
+      <JewelleryCareSection 
+        id="diamond-care"
+        heading="Diamond Jewellery"
+        subheading="Keep Your Diamonds Brilliant"
+        desc="Diamonds are exceptionally durable, but their settings and surrounding metals still require proper care to ensure the stones remain secure and sparkling."
+        img="/DJCare.png"
+        reverse={true}
+        dos={[
+          "Clean gently with warm soapy water",
+          "Check settings periodically for loose stones",
+          "Store separately so diamonds don't scratch other metals",
+          "Have jewellery professionally inspected annually"
+        ]}
+        donts={[
+          "Strong chemicals and bleaches",
+          "Hard impacts at specific angles",
+          "Wearing delicate pieces during strenuous activities"
+        ]}
+      />
 
-          {/* Quote Section */}
-          <div className="text-center my-5 py-5 animate-fade-up delay-100">
-            <p className="care-quote">
-              "Proper care preserves not just the beauty of jewellery, but the memories it carries."
-            </p>
-          </div>
+      {/* Gold Care */}
+      <JewelleryCareSection 
+        id="gold-care"
+        heading="Gold Jewellery"
+        subheading="Protect the Golden Glow"
+        desc="While pure gold doesn't tarnish, most gold jewellery is alloyed with other metals to increase strength. Different gold compositions and finishes may require slightly different care."
+        img="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800&auto=format&fit=crop"
+        bgWhite={true}
+        dos={[
+          "Clean periodically with warm water and mild soap",
+          "Store pieces individually in soft cloth bags",
+          "Dry thoroughly with a lint-free cloth after cleaning",
+          "Inspect clasps and hinges regularly"
+        ]}
+        donts={[
+          "Chlorine and harsh cleaning solvents",
+          "Abrasive cleaning materials",
+          "Wearing during heavy physical labor"
+        ]}
+      />
 
-          {/* General Care */}
-          <div className="mb-5 py-4 animate-fade-up delay-200">
-            <h3 className="text-center" style={{ color: '#2C3E50', fontWeight: '600' }}>Golden Rules of Care</h3>
-            <div className="gold-divider mb-5"></div>
-
-            <Row>
-              <Col md={3} sm={6} className="text-center mb-4">
-                <div className="rule-card p-4 h-100 bg-white shadow-sm border border-light">
-                  <div className="icon-wrapper mb-4 mx-auto" style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(184, 145, 70, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Droplet size={30} style={{ color: '#B89146' }} />
-                  </div>
-                  <h5 className="fw-bold mb-3" style={{ color: '#2C3E50' }}>Keep it Dry</h5>
-                  <p className="text-muted small">Remove your jewellery before swimming, bathing, or engaging in strenuous physical activities.</p>
-                </div>
-              </Col>
-              <Col md={3} sm={6} className="text-center mb-4">
-                <div className="rule-card p-4 h-100 bg-white shadow-sm border border-light">
-                  <div className="icon-wrapper mb-4 mx-auto" style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(184, 145, 70, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <ShieldCheck size={30} style={{ color: '#B89146' }} />
-                  </div>
-                  <h5 className="fw-bold mb-3" style={{ color: '#2C3E50' }}>Last On, First Off</h5>
-                  <p className="text-muted small">Apply perfumes, lotions, and cosmetics before putting on your jewellery.</p>
-                </div>
-              </Col>
-              <Col md={3} sm={6} className="text-center mb-4">
-                <div className="rule-card p-4 h-100 bg-white shadow-sm border border-light">
-                  <div className="icon-wrapper mb-4 mx-auto" style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(184, 145, 70, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Sun size={30} style={{ color: '#B89146' }} />
-                  </div>
-                  <h5 className="fw-bold mb-3" style={{ color: '#2C3E50' }}>Proper Storage</h5>
-                  <p className="text-muted small">Store pieces individually in their original boxes or soft pouches to avoid scratches.</p>
-                </div>
-              </Col>
-              <Col md={3} sm={6} className="text-center mb-4">
-                <div className="rule-card p-4 h-100 bg-white shadow-sm border border-light">
-                  <div className="icon-wrapper mb-4 mx-auto" style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(184, 145, 70, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Sparkles size={30} style={{ color: '#B89146' }} />
-                  </div>
-                  <h5 className="fw-bold mb-3" style={{ color: '#2C3E50' }}>Gentle Cleaning</h5>
-                  <p className="text-muted small">Wipe with a soft, lint-free cloth after every use to remove naturally occurring oils and sweat.</p>
-                </div>
-              </Col>
-            </Row>
-          </div>
-
-          {/* Specific Material Care */}
-          <div className="mt-5 pt-5 animate-fade-up delay-300">
-            <h3 className="text-center" style={{ color: '#2C3E50', fontWeight: '600' }}>Material Specific Guidelines</h3>
-            <div className="gold-divider mb-5"></div>
-
-            <Row className="mt-4">
-              <Col lg={4} className="mb-4">
-                <div className="care-card p-5 h-100 border bg-white shadow-sm" style={{ borderTop: '4px solid #FFD700 !important' }}>
-                  <div className="d-flex align-items-center mb-4 pb-3 border-bottom">
-                    <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#FFD700', marginRight: '15px' }}></div>
-                    <h4 className="mb-0 fw-bold" style={{ color: '#2C3E50' }}>Gold Jewellery</h4>
-                  </div>
-                  <ul className="material-list">
-                    <li><CheckCircle2 size={18} /> Gold is a naturally soft metal; handle with care to prevent dents and scratches.</li>
-                    <li><CheckCircle2 size={18} /> Clean periodically with a solution of warm water and mild dish soap.</li>
-                    <li><CheckCircle2 size={18} /> Use a baby-soft toothbrush to gently scrub intricate patterns.</li>
-                    <li><CheckCircle2 size={18} /> Strictly avoid exposure to chlorine, which can permanently weaken gold's structure.</li>
-                  </ul>
-                </div>
-              </Col>
-
-              <Col lg={4} className="mb-4">
-                <div className="care-card p-5 h-100 border bg-white shadow-sm" style={{ borderTop: '4px solid #C0C0C0 !important' }}>
-                  <div className="d-flex align-items-center mb-4 pb-3 border-bottom">
-                    <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#C0C0C0', marginRight: '15px' }}></div>
-                    <h4 className="mb-0 fw-bold" style={{ color: '#2C3E50' }}>Silver Jewellery</h4>
-                  </div>
-                  <ul className="material-list">
-                    <li><CheckCircle2 size={18} /> Silver naturally tarnishes when exposed to air. Wearing it often keeps tarnishing at bay!</li>
-                    <li><CheckCircle2 size={18} /> When not in use, store in an airtight zip-lock bag with an anti-tarnish strip.</li>
-                    <li><CheckCircle2 size={18} /> Polish exclusively with a specialized silver polishing cloth.</li>
-                    <li><CheckCircle2 size={18} /> Keep away from harsh chemicals, bleach, and rubber bands to avoid discoloration.</li>
-                  </ul>
-                </div>
-              </Col>
-
-              <Col lg={4} className="mb-4">
-                <div className="care-card p-5 h-100 border bg-white shadow-sm" style={{ borderTop: '4px solid #b9f2ff !important' }}>
-                  <div className="d-flex align-items-center mb-4 pb-3 border-bottom">
-                    <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#b9f2ff', marginRight: '15px' }}></div>
-                    <h4 className="mb-0 fw-bold" style={{ color: '#2C3E50' }}>Diamond Jewellery</h4>
-                  </div>
-                  <ul className="material-list">
-                    <li><CheckCircle2 size={18} /> Even though diamonds are hard, they can still chip if struck at a specific angle.</li>
-                    <li><CheckCircle2 size={18} /> Clean with a mix of warm water and a few drops of ammonia-based cleaner.</li>
-                    <li><CheckCircle2 size={18} /> Ensure the settings and prongs are checked annually by a professional.</li>
-                    <li><CheckCircle2 size={18} /> Never let diamonds touch each other in storage to prevent scratching.</li>
-                  </ul>
-                </div>
-              </Col>
-            </Row>
-          </div>
-
-        </Container>
-
-        {/* Trust Section */}
-        <div className="trust-section mt-5 animate-fade-up delay-300">
-          <Container>
-            <Row className="justify-content-center">
-              <Col md={3} sm={6} className="mb-4">
-                <div className="trust-item">
-                  <Shield size={40} className="mb-3" strokeWidth={1} style={{ color: '#B89146' }} />
-                  <h6 className="fw-bold mb-1" style={{ color: '#2C3E50' }}>BIS Hallmarked</h6>
-                  <span className="small text-muted">100% Certified Jewellery</span>
-                </div>
-              </Col>
-              <Col md={3} sm={6} className="mb-4">
-                <div className="trust-item">
-                  <Gem size={40} className="mb-3" strokeWidth={1} style={{ color: '#B89146' }} />
-                  <h6 className="fw-bold mb-1" style={{ color: '#2C3E50' }}>Certified Diamonds</h6>
-                  <span className="small text-muted">IGI & SGL Certification</span>
-                </div>
-              </Col>
-              <Col md={3} sm={6} className="mb-4">
-                <div className="trust-item">
-                  <Package size={40} className="mb-3" strokeWidth={1} style={{ color: '#B89146' }} />
-                  <h6 className="fw-bold mb-1" style={{ color: '#2C3E50' }}>Secure Packaging</h6>
-                  <span className="small text-muted">Insured & Safe Transit</span>
-                </div>
-              </Col>
-              <Col md={3} sm={6} className="mb-4">
-                <div className="trust-item">
-                  <RotateCcw size={40} className="mb-3" strokeWidth={1} style={{ color: '#B89146' }} />
-                  <h6 className="fw-bold mb-1" style={{ color: '#2C3E50' }}>Easy Returns</h6>
-                  <span className="small text-muted">14-Day Return Policy</span>
-                </div>
-              </Col>
-            </Row>
-          </Container>
-        </div>
-      </div>
-    </>
+      <GemstoneCareGrid />
+      <DosDonts />
+      <StorageGuide />
+      <CleaningRitual />
+      <ProfessionalCare />
+      <CareReference />
+      <CareFAQ />
+      <CareCTA />
+    </div>
   );
 };
 

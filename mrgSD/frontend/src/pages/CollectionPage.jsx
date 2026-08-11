@@ -25,7 +25,7 @@ const CollectionPage = () => {
   const occasionFilter = searchParams.get('occasion');
   
   // Filter by collection
-  let products = collectionId === 'all' 
+  let products = (collectionId === 'all' || !collectionId)
     ? allProductsContext 
     : allProductsContext.filter(p => p.collection === collectionId);
   
@@ -38,7 +38,7 @@ const CollectionPage = () => {
   }
   
   // Format title
-  const isAll = collectionId === 'all';
+  const isAll = collectionId === 'all' || !collectionId;
   const baseTitle = isAll ? "All" : collectionId ? collectionId.charAt(0).toUpperCase() + collectionId.slice(1) : "Collection";
   
   let displayTitle = isAll ? "All Products" : `${baseTitle} Collection`;
@@ -66,7 +66,7 @@ const CollectionPage = () => {
     });
   }
 
-  const activeFiltersCount = (collectionId !== 'all' ? 1 : 0) + (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
+  const activeFiltersCount = (collectionId && collectionId !== 'all' ? 1 : 0) + (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
 
   return (
     <div className="collection-page-container">

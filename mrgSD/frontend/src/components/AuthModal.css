@@ -1,0 +1,187 @@
+.auth-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  padding: 20px;
+}
+
+.auth-modal-container {
+  background: white;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 12px;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.auth-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.auth-close-btn:hover {
+  background-color: #f3f4f6;
+  color: #111;
+}
+
+.auth-brand-logo {
+  width: 48px;
+  height: auto;
+  margin: 0 auto 15px;
+  display: block;
+}
+
+.auth-brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 2px;
+  letter-spacing: 2px;
+}
+
+.auth-brand-tagline {
+  font-size: 0.75rem;
+  color: #666;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+}
+
+.auth-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+.auth-subtitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.auth-input-group {
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.auth-input-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.auth-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.auth-input-wrapper:focus-within {
+  border-color: #b89146; /* care-accent */
+  box-shadow: 0 0 0 1px #b89146;
+}
+
+.auth-country-code {
+  display: flex;
+  align-items: center;
+  padding: 14px 15px;
+  background-color: #f9fafb;
+  border-right: 1px solid #ddd;
+  font-weight: 500;
+  color: #333;
+  gap: 8px;
+  font-size: 1rem;
+}
+
+.auth-country-flag {
+  font-size: 1.1rem;
+}
+
+.auth-input {
+  flex: 1;
+  border: none;
+  padding: 14px 15px;
+  font-size: 1rem;
+  color: #111;
+  outline: none;
+}
+
+.auth-input::placeholder {
+  color: #aaa;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  background-color: #111;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 25px;
+}
+
+.auth-submit-btn:hover {
+  background-color: #b89146; /* care-accent */
+}
+
+.auth-submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.auth-legal-text {
+  font-size: 0.75rem;
+  color: #888;
+  line-height: 1.5;
+}
+
+.auth-legal-text a {
+  color: #111;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.auth-legal-text a:hover {
+  color: #b89146;
+}
+
+@media (max-width: 576px) {
+  .auth-modal-container {
+    padding: 30px 20px;
+  }
+}

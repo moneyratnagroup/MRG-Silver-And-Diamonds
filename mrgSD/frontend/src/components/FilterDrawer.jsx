@@ -58,7 +58,7 @@ const FilterDrawer = ({ isOpen, setIsOpen }) => {
   const occasionsList = ["Daily", "Office", "Modern", "Traditional"];
 
   const handleClearAll = () => {
-    navigate('/silver/all');
+    navigate('/products');
   };
 
   const handleFilterSelect = (type, value) => {

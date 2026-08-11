@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Pagination } from 'swiper/modules';
+import { FreeMode, Autoplay, Mousewheel } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/free-mode';
-import 'swiper/css/pagination';
 import './ShopByCategory.css';
 
 const categories = [
@@ -22,31 +21,9 @@ const categories = [
   { name: 'CUSTOMIZED', desc: 'Made Just For You', img: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=600&auto=format&fit=crop' }
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
-};
+const displayCategories = [...categories, ...categories, ...categories, ...categories];
 
 const ShopByCategory = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return (
     <section className="shop-category-section">
       <motion.div
@@ -72,64 +49,69 @@ const ShopByCategory = () => {
         </div> */}
       </motion.div>
 
-      <div className="category-grid-container">
-        {isMobile ? (
-          <Swiper
-            modules={[FreeMode, Pagination]}
-            freeMode={true}
-            grabCursor={true}
-            slidesPerView={'auto'}
-            spaceBetween={20}
-            pagination={{ clickable: true }}
-            className="mobile-category-swiper"
-          >
-            {categories.map((cat, index) => (
-              <SwiperSlide key={index} className="cat-item-wrapper swiper-slide-auto">
-                <Link to={`/silver/all?type=${cat.name}`} className="cat-item" style={{ textDecoration: 'none' }}>
-                  <div className="cat-image-outer">
-                    <div className="cat-image-wrapper">
-                      <img src={cat.img} alt={cat.name} className="cat-image" loading="lazy" />
-                    </div>
-                  </div>
-                  <h3 className="cat-name">{cat.name}</h3>
-                  <p className="cat-desc">{cat.desc}</p>
-                </Link>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        ) : (
-          <motion.div
-            className="category-grid"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            {categories.map((cat, index) => (
+      <motion.div 
+        className="category-grid-container"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-50px" }}
+      >
+        <Swiper
+          modules={[FreeMode, Autoplay, Mousewheel]}
+          freeMode={true}
+          grabCursor={true}
+          mousewheel={{ forceToAxis: true }}
+          loop={true}
+          speed={4000}
+          observer={true}
+          observeParents={true}
+          autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          breakpoints={{
+            0: {
+              slidesPerView: 'auto',
+              spaceBetween: 20,
+              freeMode: true
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 30
+            },
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 40
+            }
+          }}
+          className="category-swiper"
+        >
+          {displayCategories.map((cat, index) => (
+            <SwiperSlide key={index} className="swiper-slide-auto">
               <motion.div
-                key={index}
-                variants={itemVariants}
                 className="cat-item-wrapper"
                 whileHover={{
-                  scale: 1.15,
-                  y: -10,
+                  scale: 1.05,
+                  y: -5,
                   transition: { type: "spring", stiffness: 300, damping: 15 }
                 }}
               >
-                <Link to={`/silver/all?type=${cat.name}`} className="cat-item" style={{ textDecoration: 'none' }}>
+                <Link to={`/products?type=${cat.name}`} className="cat-item" style={{ textDecoration: 'none' }}>
                   <div className="cat-image-outer">
                     <div className="cat-image-wrapper">
-                      <img src={cat.img} alt={cat.name} className="cat-image" loading="lazy" />
+                      <img 
+                        src={cat.img} 
+                        alt={cat.name} 
+                        className="cat-image" 
+                        loading={index < 15 ? "eager" : "lazy"}
+                      />
                     </div>
                   </div>
                   <h3 className="cat-name">{cat.name}</h3>
                   <p className="cat-desc">{cat.desc}</p>
                 </Link>
               </motion.div>
-            ))}
-          </motion.div>
-        )}
-      </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </motion.div>
 
       <motion.div
         className="cat-explore-all"
@@ -138,7 +120,7 @@ const ShopByCategory = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
-        <Link to="/silver/all" className="cat-explore-btn">
+        <Link to="/products" className="cat-explore-btn">
           EXPLORE ALL CATEGORIES <ArrowRight size={16} />
         </Link>
       </motion.div>

@@ -5,6 +5,15 @@
   padding: 0;
   font-family: 'Inter', sans-serif;
   z-index: 1050;
+  transition: all 0.3s ease;
+}
+
+.custom-navbar.scrolled {
+  background-color: rgba(250, 248, 245, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .brand-logo-container {
