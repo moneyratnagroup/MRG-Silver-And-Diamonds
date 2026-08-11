@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import AnnouncementBar from '../components/AnnouncementBar';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import CartDrawer from '../components/CartDrawer';
+
 import WishlistDrawer from '../components/WishlistDrawer';
 import MobileBottomNav from '../components/MobileBottomNav';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -18,7 +18,7 @@ const UserLayout = () => {
         <Outlet />
       </main>
       <Footer />
-      <CartDrawer />
+
       <WishlistDrawer />
       <MobileBottomNav />
     </>

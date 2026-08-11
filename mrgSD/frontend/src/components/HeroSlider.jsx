@@ -1,8 +1,21 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import './HeroSlider.css';
+
+const CustomDiamond = ({ size = 20, className = "" }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="currentColor" 
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12 2C12 2 12 10 22 12C22 12 12 14 12 22C12 22 12 14 2 12C2 12 12 10 12 2Z" />
+  </svg>
+);
 
 const HeroSlider = () => {
   const { heroBanners } = useShop();
@@ -25,13 +38,16 @@ const HeroSlider = () => {
               
               <div className="slide-text-layer">
                 <div className="glass-card">
-                  <h2 className="modern-slide-title" dangerouslySetInnerHTML={{ __html: banner.title }}></h2>
+                  {banner.preTitle && <span className="modern-slide-pretitle">{banner.preTitle}</span>}
                   <div className="modern-divider">
-                    <Sparkles size={14} className="modern-divider-icon" />
+                    <CustomDiamond size={20} className="modern-divider-icon" />
                   </div>
-                  <p className="modern-slide-text">
-                    {banner.subtitle}
-                  </p>
+                  <h2 className="modern-slide-title" dangerouslySetInnerHTML={{ __html: banner.title }}></h2>
+                  {banner.subtitle && (
+                    <p className="modern-slide-text">
+                      {banner.subtitle}
+                    </p>
+                  )}
                   <button className="modern-hero-btn">
                     {banner.buttonText} <ArrowRight size={18} className="btn-icon" />
                   </button>

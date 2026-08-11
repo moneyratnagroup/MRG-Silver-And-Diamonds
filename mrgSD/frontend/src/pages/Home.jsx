@@ -1,7 +1,6 @@
 import React from 'react';
 import HeroSlider from '../components/HeroSlider';
-import CategoriesMarquee from '../components/CategoriesMarquee';
-import ShopByCollection from '../components/ShopByCollection';
+import ShopByCategory from '../components/ShopByCategory';
 import ProductsGallery from '../components/ProductsGallery';
 import OurPromises from '../components/OurPromises';
 import SmallBanner from '../components/SmallBanner';
@@ -17,11 +16,10 @@ const Home = () => {
     <>
       <MetalRatesBar />
       <HeroSlider />
-      <CategoriesMarquee />
-      <ShopByCollection />
+      <ShopByCategory />
       <ProductsGallery 
-        title="Our First Collection" 
-        tagline="Introducing the inaugural Moneyratna Silver Collection—thoughtfully crafted with purity, elegance, and timeless design."
+        title="The Signature Debut" 
+        tagline="Discover our inaugural curation of masterpieces—thoughtfully crafted with absolute purity and designed to mark the beginning of a beautiful legacy."
         products={featuredProducts} 
       />
       <OurPromises />

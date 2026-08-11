@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { ShopProvider } from './context/ShopContext'
 import UserLayout from './layouts/UserLayout'
 import AdminLayout from './layouts/AdminLayout'
+import ScrollToTop from './components/ScrollToTop'
 
 // User Pages
 import Home from './pages/Home'
@@ -13,7 +14,11 @@ import WishlistPage from './pages/WishlistPage'
 import CollectionPage from './pages/CollectionPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
-
+import ProductDetailsPage from './pages/ProductDetailsPage'
+import FAQPage from './pages/FAQPage'
+import CareersPage from './pages/CareersPage'
+import JewelleryCarePage from './pages/JewelleryCarePage'
+import DiamondsPage from './pages/DiamondsPage'
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminMetalRates from './pages/admin/AdminMetalRates'
@@ -35,6 +40,7 @@ function App() {
   return (
     <ShopProvider>
       <Router>
+        <ScrollToTop />
         <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <ToastContainer position="top-right" autoClose={3000} />
           <Routes>
@@ -62,9 +68,15 @@ function App() {
               <Route index element={<Home />} />
               <Route path="cart" element={<CartPage />} />
               <Route path="wishlist" element={<WishlistPage />} />
-              <Route path="collections/:collectionId" element={<CollectionPage />} />
+              <Route path="silver/:collectionId" element={<CollectionPage />} />
+              <Route path="product/:productId" element={<ProductDetailsPage />} />
               <Route path="about" element={<AboutPage />} />
               <Route path="contact" element={<ContactPage />} />
+              <Route path="faq" element={<FAQPage />} />
+              <Route path="careers" element={<CareersPage />} />
+              <Route path="care-guide" element={<JewelleryCarePage />} />
+              <Route path="diamonds/:collectionId" element={<DiamondsPage />} />
+              <Route path="diamonds" element={<DiamondsPage />} />
             </Route>
           </Routes>
         </div>

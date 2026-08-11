@@ -1,7 +1,7 @@
 .metal-rates-bar {
-  background-color: rgba(94, 25, 36, 0.9); /* Velvet red-wine with slight transparency */
-  backdrop-filter: blur(8px); /* Optional: Adds a premium frosted glass effect */
-  color: white;
+  background-color: #6B2737;
+  backdrop-filter: blur(8px);
+  color: #F7E7CE;
   padding: 0.6rem 0;
   font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
@@ -28,19 +28,20 @@
 }
 
 .rate-label {
-  color: #ebd391; /* Soft metallic gold to contrast with red wine */
+  color: #D4B06A;
   font-weight: 600;
   text-transform: uppercase;
 }
 
 .rate-value {
+  color: #F7E7CE;
   font-weight: 500;
 }
 
 .rate-divider {
   width: 1px;
   height: 12px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.18);
 }
 
 .rate-info {
