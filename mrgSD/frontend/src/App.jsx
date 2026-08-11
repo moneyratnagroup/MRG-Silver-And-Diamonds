@@ -78,6 +78,7 @@ function App() {
               <Route path="faq" element={<FAQPage />} />
               <Route path="careers" element={<CareersPage />} />
               <Route path="care-guide" element={<JewelleryCarePage />} />
+              <Route path="diamonds/:collectionId" element={<DiamondsPage />} />
               <Route path="diamonds" element={<DiamondsPage />} />
             </Route>
           </Routes>

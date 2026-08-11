@@ -154,7 +154,49 @@ const MRGNavbar = () => {
               </div>
             </div>
             
-            <Nav.Link as={Link} to="/diamonds" className={`nav-link-custom ${currentPath === '/diamonds' ? 'active' : ''}`} onClick={closeMenu}>DIAMONDS</Nav.Link>
+            <div className="nav-item-dropdown">
+              <div className={`nav-link-custom ${currentPath.startsWith('/diamonds') ? 'active-dropdown' : ''}`}>
+                DIAMONDS <ChevronDown size={14} className="ms-1" />
+              </div>
+              <div className={`dropdown-mega-menu ${forceClose ? 'd-none' : ''}`}>
+                <Link to="/diamonds/all" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <LayoutGrid size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">ALL COLLECTIONS</span>
+                    <span className="mega-subtitle">View Everything</span>
+                  </div>
+                </Link>
+                <Link to="/diamonds/women" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Sparkles size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">WOMEN</span>
+                    <span className="mega-subtitle">Rings, Earrings, Necklaces</span>
+                  </div>
+                </Link>
+                <Link to="/diamonds/men" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Watch size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">MEN</span>
+                    <span className="mega-subtitle">Chains, Bracelets, Rings</span>
+                  </div>
+                </Link>
+                <Link to="/diamonds/kids" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Baby size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">KIDS</span>
+                    <span className="mega-subtitle">Anklets, Tiny Studs</span>
+                  </div>
+                </Link>
+              </div>
+            </div>
             
             <Nav.Link as={Link} to="/about" className={`nav-link-custom ${currentPath === '/about' ? 'active' : ''}`} onClick={closeMenu}>ABOUT US</Nav.Link>
             <Nav.Link as={Link} to="/contact" className={`nav-link-custom ${currentPath === '/contact' ? 'active' : ''}`} onClick={closeMenu}>CONTACT US</Nav.Link>
