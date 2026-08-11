@@ -1,17 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Search, User, Heart, ChevronDown, Sparkles, Watch, Baby, Sun, Coins, Crown, LayoutGrid } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
+import AuthModal from './AuthModal';
 import './Navbar.css';
 
 const MRGNavbar = () => {
   const [expanded, setExpanded] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const { getWishlistCount, setIsWishlistOpen } = useShop();
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
   const wishlistCount = getWishlistCount();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const handleWishlistClick = () => {
     if (window.innerWidth < 992) {
@@ -30,7 +48,7 @@ const MRGNavbar = () => {
   };
 
   return (
-    <Navbar expanded={expanded} onToggle={setExpanded} sticky="top" expand="lg" className="custom-navbar">
+    <Navbar expanded={expanded} onToggle={setExpanded} sticky="top" expand="lg" className={`custom-navbar ${scrolled ? 'scrolled' : ''}`}>
       <Container fluid className="px-4 px-lg-5 position-relative d-flex align-items-center justify-content-between">
         
         {/* Mobile Left: Hamburger */}
@@ -39,13 +57,7 @@ const MRGNavbar = () => {
         </div>
 
         <Navbar.Brand as={Link} to="/" className="brand-logo-container mx-auto mx-lg-0 m-0">
-          <svg className="brand-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 22c4-4 4-10 0-14-4 4-4 10 0 14z" />
-            <path d="M12 22c-4-4-4-10 0-14 4 4 4 10 0 14z" />
-            <path d="M12 8l-4-6 4 2 4-2-4 6z" />
-            <path d="M8 2l-6 6c3 3 8 4 10 0" />
-            <path d="M16 2l6 6c-3 3-8 4-10 0" />
-          </svg>
+          <img src="/mrgicon.png" alt="Moneyratna Logo" className="brand-icon-img" style={{ width: '48px', height: 'auto', marginRight: '10px' }} />
           <div className="brand-text">
             <span className="brand-name">MONEYRATNA</span>
             <span className="brand-tagline">SILVER AND DIAMONDS</span>
@@ -54,7 +66,7 @@ const MRGNavbar = () => {
         
         <div className="d-flex align-items-center justify-content-end order-lg-last" style={{ flex: '1 1 0%' }}>
           <div className="utilities">
-            <button className="utility-btn d-none d-lg-flex" aria-label="User Account">
+            <button className="utility-btn d-none d-lg-flex" aria-label="User Account" onClick={() => setIsAuthModalOpen(true)}>
               <User size={20} strokeWidth={1.5} />
             </button>
             <button className="utility-btn" aria-label="Wishlist" onClick={handleWishlistClick}>
@@ -76,7 +88,7 @@ const MRGNavbar = () => {
                 SILVER <ChevronDown size={14} className="ms-1" />
               </div>
               <div className={`dropdown-mega-menu ${forceClose ? 'd-none' : ''}`}>
-                <Link to="/silver/all" className="dropdown-item-mega" onClick={closeMenu}>
+                <Link to="/products" className="dropdown-item-mega" onClick={closeMenu}>
                   <div className="mega-icon-wrapper">
                     <LayoutGrid size={20} />
                   </div>
@@ -149,6 +161,9 @@ const MRGNavbar = () => {
           </Nav>
         </Navbar.Collapse>
       </Container>
+      
+      {/* Authentication Modal */}
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </Navbar>
   );
 };

@@ -18,7 +18,7 @@ const Footer = () => {
           {/* Brand & Contact */}
           <div className="footer-col-brand">
             <div className="footer-logo-area">
-              <Gem size={48} strokeWidth={1.2} className="footer-diamond-logo" />
+              <img src="/mrgicon.png" alt="Moneyratna Logo" className="footer-diamond-logo" style={{ width: '56px', height: 'auto', marginBottom: '15px' }} />
               <div className="footer-brand-title">Moneyratna</div>
               <div className="footer-brand-subtitle">Silver & Diamonds</div>
             </div>
@@ -54,7 +54,7 @@ const Footer = () => {
               <li><Link to="/silver/men"><ChevronRight size={14} className="chevron-icon" /> Men's Collection</Link></li>
               <li><Link to="/silver/kids"><ChevronRight size={14} className="chevron-icon" /> Kids Collection</Link></li>
               <li><Link to="/silver/couple"><ChevronRight size={14} className="chevron-icon" /> Couple Collection</Link></li>
-              <li><Link to="/silver/all"><ChevronRight size={14} className="chevron-icon" /> Silver Jewellery</Link></li>
+              <li><Link to="/products"><ChevronRight size={14} className="chevron-icon" /> All Products</Link></li>
               <li><Link to="/diamonds"><ChevronRight size={14} className="chevron-icon" /> Diamond Jewellery</Link></li>
               <li><Link to="/silver/investment"><ChevronRight size={14} className="chevron-icon" /> Silver Coins</Link></li>
               <li><Link to="/silver/religious"><ChevronRight size={14} className="chevron-icon" /> Pooja & Idols</Link></li>

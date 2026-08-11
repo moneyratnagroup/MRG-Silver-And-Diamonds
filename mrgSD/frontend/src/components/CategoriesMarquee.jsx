@@ -31,7 +31,7 @@ const CategoriesMarquee = () => {
       <div className="marquee-container">
         <div className="marquee-track">
           {categories.map((cat, index) => (
-            <Link to={`/silver/all?type=${cat.name}`} className="category-item" key={index} style={{textDecoration: 'none'}}>
+            <Link to={`/products?type=${cat.name}`} className="category-item" key={index} style={{textDecoration: 'none'}}>
               <div className="category-image-wrapper">
                 <img src={cat.img} alt={cat.name} className="category-image" />
               </div>

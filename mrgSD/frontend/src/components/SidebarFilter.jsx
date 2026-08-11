@@ -9,7 +9,7 @@ const SidebarFilter = ({ onNavigate }) => {
   const [searchParams] = useSearchParams();
 
   const categories = [
-    { title: "All Collections", path: "/silver/all", icon: <LayoutGrid size={20}/> },
+    { title: "All Collections", path: "/products", icon: <LayoutGrid size={20}/> },
     { title: "Women's Collection", path: "/silver/women", icon: <Sparkles size={20}/> },
     { title: "Men's Collection", path: "/silver/men", icon: <Watch size={20}/> },
     { title: "Kids Collection", path: "/silver/kids", icon: <Baby size={20}/> },
