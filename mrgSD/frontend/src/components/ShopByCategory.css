@@ -54,16 +54,16 @@
 }
 
 .cat-bottom-line-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    opacity: 0.6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.6;
 }
 
 .cat-bottom-line {
-    width: 25px;
-    height: 1px;
-    background: #C7A66A;
+  width: 25px;
+  height: 1px;
+  background: #C7A66A;
 }
 
 .category-grid-container {
@@ -78,15 +78,22 @@
   align-items: center;
   text-align: center;
   cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-origin: center bottom;
+}
+
+.cat-item:hover {
+  transform: scale(1.2);
+  z-index: 10;
 }
 
 .cat-image-outer {
-    margin-bottom: 18px;
+  margin-bottom: 18px;
 }
 
 .cat-item:hover .cat-image-wrapper {
-    border-color: rgba(199, 166, 106, 0.4);
-    box-shadow: 0 4px 15px rgba(199, 166, 106, 0.2);
+  border-color: rgba(199, 166, 106, 0.4);
+  box-shadow: 0 4px 15px rgba(199, 166, 106, 0.2);
 }
 
 .cat-image-wrapper {
@@ -95,7 +102,7 @@
   border-radius: 50%;
   overflow: hidden;
   border: 1px solid #EAEAEA;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
@@ -154,11 +161,11 @@
     padding-bottom: 40px;
     margin-top: -30px;
   }
-  
+
   .category-swiper .cat-item-wrapper {
     width: 160px;
   }
-  
+
   .cat-main-title {
     font-size: 32px;
   }
@@ -168,10 +175,12 @@
   .category-swiper .cat-item-wrapper {
     width: 140px;
   }
+
   .cat-image-wrapper {
     width: 110px;
     height: 110px;
   }
+
   .cat-main-title {
     font-size: 28px;
   }
@@ -180,25 +189,29 @@
 /* Swiper Pagination & Navigation Customization */
 .category-swiper .swiper-pagination-bullet {
   background-color: #C7A66A;
-  opacity: 0.5;
+  opacity: 0.3;
+  width: 15px;
+  height: 6px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 .category-swiper .swiper-pagination-bullet-active {
   background-color: #C7A66A;
   opacity: 1;
+  width: 25px;
 }
 
 .category-swiper {
-  padding: 20px 10px 40px 10px;
+  padding: 40px 10px 60px 10px;
 }
 
-.swiper-slide-auto {
-  width: auto !important;
+.category-swiper .swiper-pagination {
+  bottom: 10px;
 }
 
-/* Linear transition for continuous marquee */
-.category-swiper .swiper-wrapper {
-  transition-timing-function: linear !important;
+@media (max-width: 767px) {
+  .swiper-slide-auto {
+    width: auto !important;
+  }
 }
-
-

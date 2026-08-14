@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Autoplay, Mousewheel } from 'swiper/modules';
+import { Mousewheel, Pagination } from 'swiper/modules';
 import 'swiper/css';
-import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
 import './ShopByCategory.css';
 
 const categories = [
@@ -21,18 +20,10 @@ const categories = [
   { name: 'CUSTOMIZED', desc: 'Made Just For You', img: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=600&auto=format&fit=crop' }
 ];
 
-const displayCategories = [...categories, ...categories, ...categories, ...categories];
-
 const ShopByCategory = () => {
   return (
     <section className="shop-category-section">
-      <motion.div
-        className="shop-category-header"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.6 }}
-      >
+      <div className="shop-category-header">
         <div className="category-title-with-lines">
           <div className="cat-line"></div>
           <Sparkles size={12} color="#C7A66A" className="cat-sparkle" />
@@ -40,37 +31,21 @@ const ShopByCategory = () => {
           <Sparkles size={12} color="#C7A66A" className="cat-sparkle" />
           <div className="cat-line"></div>
         </div>
-        {/* <h2 className="cat-main-title">Find Your Perfect Style</h2>
-        <p className="cat-description">Explore jewellery crafted for every occasion.</p> */}
-        {/* <div className="cat-bottom-line-wrapper">
-          <div className="cat-bottom-line"></div>
-          <Sparkles size={10} color="#C7A66A" className="cat-sparkle-small" />
-          <div className="cat-bottom-line"></div>
-        </div> */}
-      </motion.div>
+      </div>
 
-      <motion.div 
-        className="category-grid-container"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true, margin: "-50px" }}
-      >
+      <div className="category-grid-container">
         <Swiper
-          modules={[FreeMode, Autoplay, Mousewheel]}
-          freeMode={true}
+          modules={[Mousewheel, Pagination]}
+          pagination={{ clickable: true }}
           grabCursor={true}
           mousewheel={{ forceToAxis: true }}
-          loop={true}
-          speed={4000}
+          speed={800}
           observer={true}
           observeParents={true}
-          autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
           breakpoints={{
             0: {
               slidesPerView: 'auto',
-              spaceBetween: 20,
-              freeMode: true
+              spaceBetween: 20
             },
             768: {
               slidesPerView: 4,
@@ -83,23 +58,16 @@ const ShopByCategory = () => {
           }}
           className="category-swiper"
         >
-          {displayCategories.map((cat, index) => (
+          {categories.map((cat, index) => (
             <SwiperSlide key={index} className="swiper-slide-auto">
-              <motion.div
-                className="cat-item-wrapper"
-                whileHover={{
-                  scale: 1.05,
-                  y: -5,
-                  transition: { type: "spring", stiffness: 300, damping: 15 }
-                }}
-              >
+              <div className="cat-item-wrapper">
                 <Link to={`/products?type=${cat.name}`} className="cat-item" style={{ textDecoration: 'none' }}>
                   <div className="cat-image-outer">
                     <div className="cat-image-wrapper">
-                      <img 
-                        src={cat.img} 
-                        alt={cat.name} 
-                        className="cat-image" 
+                      <img
+                        src={cat.img}
+                        alt={cat.name}
+                        className="cat-image"
                         loading={index < 15 ? "eager" : "lazy"}
                       />
                     </div>
@@ -107,23 +75,17 @@ const ShopByCategory = () => {
                   <h3 className="cat-name">{cat.name}</h3>
                   <p className="cat-desc">{cat.desc}</p>
                 </Link>
-              </motion.div>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
-      </motion.div>
+      </div>
 
-      <motion.div
-        className="cat-explore-all"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-      >
+      <div className="cat-explore-all">
         <Link to="/products" className="cat-explore-btn">
           EXPLORE ALL CATEGORIES <ArrowRight size={16} />
         </Link>
-      </motion.div>
+      </div>
     </section>
   );
 };

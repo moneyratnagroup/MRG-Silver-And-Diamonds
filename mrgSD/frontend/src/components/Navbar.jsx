@@ -49,23 +49,33 @@ const MRGNavbar = () => {
 
   return (
     <Navbar expanded={expanded} onToggle={setExpanded} sticky="top" expand="lg" className={`custom-navbar ${scrolled ? 'scrolled' : ''}`}>
-      <Container fluid className="px-4 px-lg-5 position-relative d-flex align-items-center justify-content-between">
+      <Container fluid className={`px-4 px-lg-5 flex-column custom-navbar-container ${scrolled ? 'desktop-scrolled-layout' : ''}`}>
         
-        {/* Mobile Left: Hamburger */}
-        <div className="d-flex d-lg-none align-items-center" style={{ flex: '1 1 0%' }}>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" className="custom-toggler border-0 p-0 me-3" />
+        {/* Top Row */}
+        <div className="navbar-top-row d-flex w-100 justify-content-between align-items-center pb-2 pb-lg-3">
+        
+        {/* Left: Hamburger Spacer */}
+        <div className="d-flex align-items-center justify-content-start" style={{ flex: '1 1 0%' }}>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className="custom-toggler border-0 p-0 me-3 d-lg-none" />
         </div>
 
-        <Navbar.Brand as={Link} to="/" className="brand-logo-container mx-auto mx-lg-0 m-0">
-          <img src="/mrgicon.png" alt="Moneyratna Logo" className="brand-icon-img" style={{ width: '48px', height: 'auto', marginRight: '10px' }} />
-          <div className="brand-text">
-            <span className="brand-name">MONEYRATNA</span>
-            <span className="brand-tagline">SILVER AND DIAMONDS</span>
-          </div>
-        </Navbar.Brand>
+        {/* Center: Brand Logo */}
+        <div className="d-flex align-items-center justify-content-center" style={{ flex: '1 1 0%' }}>
+          <Navbar.Brand as={Link} to="/" className="brand-logo-container m-0">
+            <img src="/mrgicon.png" alt="Moneyratna Logo" className="brand-icon-img" style={{ width: '48px', height: 'auto', marginRight: '10px' }} />
+            <div className="brand-text">
+              <span className="brand-name">MONEYRATNA</span>
+              <span className="brand-tagline">GOLD AND JEWELLERY</span>
+            </div>
+          </Navbar.Brand>
+        </div>
         
-        <div className="d-flex align-items-center justify-content-end order-lg-last" style={{ flex: '1 1 0%' }}>
+        {/* Right: Utilities */}
+        <div className="d-flex align-items-center justify-content-end" style={{ flex: '1 1 0%' }}>
           <div className="utilities">
+            <button className="utility-btn" aria-label="Search">
+              <Search size={20} strokeWidth={1.5} />
+            </button>
             <button className="utility-btn d-none d-lg-flex" aria-label="User Account" onClick={() => setIsAuthModalOpen(true)}>
               <User size={20} strokeWidth={1.5} />
             </button>
@@ -73,14 +83,14 @@ const MRGNavbar = () => {
               <Heart size={20} strokeWidth={1.5} />
               {wishlistCount > 0 && <span className="cart-badge" style={{backgroundColor: '#1a1a1a'}}>{wishlistCount}</span>}
             </button>
-
           </div>
-          {/* Desktop toggler (hidden on lg, but needed for bootstrap collapse logic sometimes? No, Bootstrap handles it with d-lg-none) */}
+        </div>
+          {/* Desktop toggler (hidden on lg) */}
           <Navbar.Toggle aria-controls="basic-navbar-nav" className="d-none" />
         </div>
 
-        <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse">
-          <Nav className="mx-auto nav-links-container">
+      <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse w-100 justify-content-center pb-2">
+        <Nav className="nav-links-container">
             <Nav.Link as={Link} to="/" className={`nav-link-custom ${currentPath === '/' ? 'active' : ''}`} onClick={closeMenu}>HOME</Nav.Link>
             
             <div className="nav-item-dropdown">
@@ -88,7 +98,7 @@ const MRGNavbar = () => {
                 SILVER <ChevronDown size={14} className="ms-1" />
               </div>
               <div className={`dropdown-mega-menu ${forceClose ? 'd-none' : ''}`}>
-                <Link to="/products" className="dropdown-item-mega" onClick={closeMenu}>
+                <Link to="/silver/all" className="dropdown-item-mega" onClick={closeMenu}>
                   <div className="mega-icon-wrapper">
                     <LayoutGrid size={20} />
                   </div>
@@ -198,8 +208,54 @@ const MRGNavbar = () => {
               </div>
             </div>
             
+            <Nav.Link as={Link} to="/gold" className={`nav-link-custom ${currentPath.startsWith('/gold') ? 'active' : ''}`} onClick={closeMenu}>GOLD</Nav.Link>
+            <div className="nav-item-dropdown">
+              <div className={`nav-link-custom ${currentPath.startsWith('/coins-and-bars') || currentPath.startsWith('/investment') ? 'active-dropdown' : ''}`}>
+                COINS & BARS <ChevronDown size={14} className="ms-1" />
+              </div>
+              <div className={`dropdown-mega-menu ${forceClose ? 'd-none' : ''}`}>
+                <Link to="/investment/999-gold" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Coins size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">999 GOLD</span>
+                    <span className="mega-subtitle">Pure Gold</span>
+                  </div>
+                </Link>
+                <Link to="/investment/995-gold" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Coins size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">995 GOLD</span>
+                    <span className="mega-subtitle">Standard Gold</span>
+                  </div>
+                </Link>
+                <Link to="/investment/999-silver" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Coins size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">999 SILVER</span>
+                    <span className="mega-subtitle">Pure Silver</span>
+                  </div>
+                </Link>
+                <Link to="/investment/999-copper" className="dropdown-item-mega" onClick={closeMenu}>
+                  <div className="mega-icon-wrapper">
+                    <Coins size={20} />
+                  </div>
+                  <div className="mega-text-content">
+                    <span className="mega-title">999 COPPER</span>
+                    <span className="mega-subtitle">Pure Copper</span>
+                  </div>
+                </Link>
+              </div>
+            </div>
+            
             <Nav.Link as={Link} to="/about" className={`nav-link-custom ${currentPath === '/about' ? 'active' : ''}`} onClick={closeMenu}>ABOUT US</Nav.Link>
             <Nav.Link as={Link} to="/contact" className={`nav-link-custom ${currentPath === '/contact' ? 'active' : ''}`} onClick={closeMenu}>CONTACT US</Nav.Link>
+            <Nav.Link as={Link} to="/careers" className={`nav-link-custom ${currentPath === '/careers' ? 'active' : ''}`} onClick={closeMenu}>CAREERS</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
