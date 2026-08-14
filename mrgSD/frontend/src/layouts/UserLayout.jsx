@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import AnnouncementBar from '../components/AnnouncementBar';
+import MetalRatesBar from '../components/MetalRatesBar';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -11,7 +11,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 const UserLayout = () => {
   return (
     <>
-      <AnnouncementBar />
+      <MetalRatesBar />
       <Navbar />
       <Breadcrumbs />
       <main className="main-content" style={{ flexGrow: 1 }}>

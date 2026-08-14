@@ -20,6 +20,7 @@ import FAQPage from './pages/FAQPage'
 import CareersPage from './pages/CareersPage'
 import JewelleryCarePage from './pages/JewelleryCarePage'
 import DiamondsPage from './pages/DiamondsPage'
+import SilverPage from './pages/SilverPage'
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminMetalRates from './pages/admin/AdminMetalRates'
@@ -71,7 +72,8 @@ function App() {
               <Route path="cart" element={<CartPage />} />
               <Route path="wishlist" element={<WishlistPage />} />
               <Route path="products" element={<CollectionPage />} />
-              <Route path="silver/:collectionId" element={<CollectionPage />} />
+              <Route path="silver/:collectionId" element={<SilverPage />} />
+              <Route path="silver" element={<SilverPage />} />
               <Route path="product/:productId" element={<ProductDetailsPage />} />
               <Route path="about" element={<AboutPage />} />
               <Route path="contact" element={<ContactPage />} />

@@ -23,28 +23,31 @@ const DiamondGallery = ({ products = [], title }) => {
       <div className="minimal-gallery-grid">
         {products.length > 0 ? (
           products.map((product, index) => (
-            <div className="minimal-product-card" key={product.id}>
+            <div className="pg-card" key={product.id}>
               
-              <div className="minimal-image-container" onClick={() => handleProductClick(product)}>
-                <span className="minimal-badge">
-                  {index % 3 === 0 ? 'NEW IN' : index % 2 === 0 ? 'BACK IN STOCK' : ''}
-                </span>
+              <div className="pg-image-container" onClick={() => handleProductClick(product)} style={{cursor: 'pointer'}}>
+                {(index % 3 === 0 || index % 2 === 0) && (
+                  <span className="pg-discount-badge" style={{ backgroundColor: index % 3 === 0 ? '#1a1a1a' : '#a84c19' }}>
+                    {index % 3 === 0 ? 'NEW IN' : 'BACK IN STOCK'}
+                  </span>
+                )}
                 
-                <button className="minimal-favorite-btn">
-                  <Heart size={16} strokeWidth={1.5} />
+                <button className="pg-wishlist-btn" aria-label="Add to Wishlist">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
                 </button>
                 
-                <img src={product.img} alt={product.name} className="minimal-product-image" />
+                <img src={product.img} alt={product.name} className="pg-image" />
               </div>
               
-              <div className="minimal-product-info">
-                <h3 className="minimal-product-name">{product.name}</h3>
-                <p className="minimal-product-desc">
-                  {product.material || '14k Yellow Gold'} & {product.metal || 'Lab Grown Diamonds'}
-                </p>
-                <span className="minimal-price">
-                  {product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `€${product.price}`}
-                </span>
+              <div className="pg-details">
+                <h3 className="pg-item-name">{product.name}</h3>
+                <div className="pg-price-container">
+                  <p className="pg-item-price">
+                    {product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `€${product.price}`}
+                  </p>
+                </div>
               </div>
 
             </div>
