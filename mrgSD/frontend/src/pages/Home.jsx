@@ -6,7 +6,7 @@ import OurPromises from '../components/OurPromises';
 import SmallBanner from '../components/SmallBanner';
 import FeaturedCollection from '../components/FeaturedCollection';
 import SplitGateway from '../components/SplitGateway';
-import MetalRatesBar from '../components/MetalRatesBar';
+import AnnouncementBar from '../components/AnnouncementBar';
 import { useShop } from '../context/ShopContext';
 import './Home.css';
 
@@ -16,13 +16,13 @@ const Home = () => {
 
   return (
     <>
-      <MetalRatesBar />
       <HeroSlider />
+      <AnnouncementBar />
       <ShopByCategory />
-      <ProductsGallery 
-        title="The Signature Debut" 
+      <ProductsGallery
+        title="The Signature Debut"
         tagline="Discover our inaugural curation of masterpieces—thoughtfully crafted with absolute purity and designed to mark the beginning of a beautiful legacy."
-        products={featuredProducts} 
+        products={featuredProducts}
       />
       <section className="home-editorial-section">
         <h2 className="home-editorial-heading">Jewellery for Every Chapter of Your Life</h2>

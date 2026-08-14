@@ -55,7 +55,7 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
         {products.length > 0 ? (
           products.map((product) => (
             <div className="pg-card" key={product.id}>
-              <div className="pg-image-container" onClick={() => handleProductClick(product)} style={{cursor: 'pointer'}}>
+              <div className="pg-image-container" onClick={() => handleProductClick(product)} style={{ cursor: 'pointer' }}>
                 {product.originalPrice && calculateDiscount(product.originalPrice, product.price) && (
                   <span className="pg-discount-badge">
                     {calculateDiscount(product.originalPrice, product.price)}% OFF
@@ -76,7 +76,6 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                     <p className="pg-item-original-price">{product.originalPrice}</p>
                   )}
                 </div>
-
               </div>
             </div>
           ))

@@ -20,7 +20,7 @@ const Footer = () => {
             <div className="footer-logo-area">
               <img src="/mrgicon.png" alt="Moneyratna Logo" className="footer-diamond-logo" style={{ width: '56px', height: 'auto', marginBottom: '15px' }} />
               <div className="footer-brand-title">Moneyratna</div>
-              <div className="footer-brand-subtitle">Silver & Diamonds</div>
+              <div className="footer-brand-subtitle">Gold & Jewellery</div>
             </div>
             <p className="footer-description">
               Crafting timeless silver jewellery and elegant diamond collections with trusted quality, purity and exceptional craftsmanship.
@@ -216,7 +216,7 @@ const Footer = () => {
 
           <div className="footer-legal-section">
             <div className="footer-copyright">
-              © 2026 Moneyratna Silver & Diamonds. All Rights Reserved.
+              © 2026 Moneyratna Gold & Jewellery. All Rights Reserved.
             </div>
             <div className="footer-legal-links">
               <Link to="/privacy">Privacy Policy</Link>
