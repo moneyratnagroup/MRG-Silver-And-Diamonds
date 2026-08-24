@@ -38,6 +38,45 @@ const AboutPage = () => {
           </div>
         </section>
 
+      {/* Leadership Section */}
+      <section className="leadership-section">
+        <div className="leadership-header">
+          <h2 className="serif-text">The Visionaries</h2>
+          <p>Our Journey & Legacy</p>
+        </div>
+        <div className="leadership-grid">
+          {/* CMD */}
+          <div className="leader-card">
+            <img src={presenceBg} alt="CMD" className="leader-image" />
+            <div className="leader-info">
+              <h3 className="serif-text">Moneykantan Surya Venkata</h3>
+              <span className="leader-role">Chairman & Managing Director</span>
+              <p className="leader-message">
+                "Our vision has always been to craft not just jewelry, but timeless legacies that speak to the soul of our patrons."
+              </p>
+              <p className="leader-journey">
+                Starting with a clear vision, our CMD built MRG on the foundation of uncompromising quality and deep-rooted trust. His journey is a testament to the belief that true luxury lies in the details. Under his guidance, the brand has evolved into a symbol of smart craftsmanship and timeless elegance.
+              </p>
+            </div>
+          </div>
+
+          {/* Director */}
+          <div className="leader-card">
+            <img src={visionBg} alt="Director" className="leader-image" />
+            <div className="leader-info">
+              <h3 className="serif-text">Sajeesh</h3>
+              <span className="leader-role">Director</span>
+              <p className="leader-message">
+                "We design for those who understand that true elegance is silent, yet profoundly impactful."
+              </p>
+              <p className="leader-journey">
+                With an eye for aesthetics and a deep respect for traditional artistry, our Director has continuously pushed the boundaries of design. His journey involves bringing a fresh, modern perspective to classic jewelry, ensuring every piece resonates with the modern wearer.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features 3-Column Section */}
       <section className="features-3col">
         <div className="feature-block dark video-bg-block">

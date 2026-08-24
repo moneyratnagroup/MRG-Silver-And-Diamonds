@@ -39,7 +39,7 @@ export const ShopProvider = ({ children }) => {
         setLastUpdated(lastUpdatedTime ? new Date(lastUpdatedTime).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : "");
       }
 
-      const historyRes = await fetch("http://localhost:8000/api/v1/metal-rates");
+      const historyRes = await fetch("http://localhost:8000/api/v1/metal-rates/");
       if (historyRes.ok) {
         const historyData = await historyRes.json();
         const groupedByDate = {};
@@ -65,7 +65,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchTestimonials = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/testimonials");
+      const res = await fetch("http://localhost:8000/api/v1/testimonials/");
       if (res.ok) {
         const data = await res.json();
         const mappedData = data.map(t => ({
@@ -204,16 +204,19 @@ export const ShopProvider = ({ children }) => {
         admin_notes: newTestimonial.adminNotes
       };
       
-      const res = await fetch("http://localhost:8000/api/v1/testimonials", {
+      const res = await fetch("http://localhost:8000/api/v1/testimonials/", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
       if (res.ok) {
         await fetchTestimonials();
+        return true;
       }
+      return false;
     } catch (error) {
       console.error("Failed to add testimonial", error);
+      return false;
     }
   };
 
@@ -237,9 +240,12 @@ export const ShopProvider = ({ children }) => {
       });
       if (res.ok) {
         await fetchTestimonials();
+        return true;
       }
+      return false;
     } catch (error) {
       console.error("Failed to update testimonial", error);
+      return false;
     }
   };
 
