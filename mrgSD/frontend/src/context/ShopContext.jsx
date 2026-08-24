@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { allProducts } from '../data/mockProducts';
+import { useAuth } from './AuthContext';
 
 // Create Context
 const ShopContext = createContext();
@@ -10,6 +11,7 @@ export const useShop = () => {
 };
 
 export const ShopProvider = ({ children }) => {
+  const { isAuthenticated, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [products, setProducts] = useState(allProducts);
@@ -65,7 +67,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchTestimonials = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/testimonials");
+      const res = await fetch("http://localhost:8000/api/v1/testimonials/");
       if (res.ok) {
         const data = await res.json();
         const mappedData = data.map(t => ({
@@ -204,7 +206,7 @@ export const ShopProvider = ({ children }) => {
         admin_notes: newTestimonial.adminNotes
       };
       
-      const res = await fetch("http://localhost:8000/api/v1/testimonials", {
+      const res = await fetch("http://localhost:8000/api/v1/testimonials/", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -550,6 +552,11 @@ export const ShopProvider = ({ children }) => {
 
   // Toggle wishlist
   const toggleWishlist = (product) => {
+    if (!isAuthenticated) {
+      openAuthModal("Please login to save to your wishlist");
+      return;
+    }
+
     setWishlistItems((prevItems) => {
       const exists = prevItems.find((item) => item.id === product.id);
       if (exists) {

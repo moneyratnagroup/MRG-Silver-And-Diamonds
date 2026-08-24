@@ -4,7 +4,7 @@
 .gorings-diamonds-page {
   background-color: #fbfbfc;
   min-height: 100vh;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   color: #1a2245; 
 }
 
@@ -65,7 +65,7 @@
 }
 
 .gorings-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 4rem;
   color: #1a2c5b;
   line-height: 1.1;
@@ -132,7 +132,7 @@
 }
 
 .gorings-split-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 3.5rem;
   color: #1a2c5b;
   margin-bottom: 1.5rem;
@@ -249,7 +249,7 @@
 }
 
 .gorings-bottom-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 3.5rem;
   color: #1a2c5b;
   margin-bottom: 1.5rem;

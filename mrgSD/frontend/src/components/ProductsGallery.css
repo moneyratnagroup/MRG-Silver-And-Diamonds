@@ -31,7 +31,7 @@
 }
 
 .pg-title {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 3px;
@@ -142,10 +142,10 @@
 }
 
 .pg-item-name {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 1rem;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #000000;
   margin: 0 0 0.5rem;
   line-height: 1.4;
   display: -webkit-box;
@@ -163,15 +163,15 @@
 }
 
 .pg-item-price {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 1rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #000000;
   margin: 0;
 }
 
 .pg-item-original-price {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.85rem;
   color: #888;
   text-decoration: line-through;
@@ -179,12 +179,12 @@
 }
 
 .pg-add-to-cart {
-  background-color: #1a1a1a;
+  background-color: #000000;
   color: white;
-  border: 1px solid #1a1a1a;
+  border: 1px solid #000000;
   padding: 0.8rem;
   border-radius: 4px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-weight: 500;
   cursor: pointer;
   margin-top: auto;
@@ -196,7 +196,7 @@
 
 .pg-add-to-cart:hover {
   background-color: #ffffff;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 /* Skeleton Placeholder Styles */
@@ -372,7 +372,7 @@
 }
 
 .thumbnail-container.active {
-  border-color: #1a1a1a;
+  border-color: #000000;
 }
 
 .thumbnail-img {
@@ -389,9 +389,9 @@
 }
 
 .modal-product-name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
   margin: 0 0 0.5rem;
   font-weight: 600;
 }
@@ -404,7 +404,7 @@
 }
 
 .modal-product-price {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 1.35rem;
   color: #a84c19;
   /* Copper/Brand color for price */
@@ -413,7 +413,7 @@
 }
 
 .modal-product-original-price {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 1.1rem;
   color: #888;
   text-decoration: line-through;
@@ -421,7 +421,7 @@
 }
 
 .modal-product-desc {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.95rem;
   color: #555;
   line-height: 1.5;
@@ -440,7 +440,7 @@
   flex: 1;
   padding: 0.75rem 1.5rem;
   border-radius: 50px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -451,8 +451,8 @@
 
 .btn-add-cart {
   background-color: transparent;
-  color: #1a1a1a;
-  border: 1px solid #1a1a1a;
+  color: #000000;
+  border: 1px solid #000000;
 }
 
 .btn-add-cart:hover {
@@ -460,9 +460,9 @@
 }
 
 .btn-buy-now {
-  background-color: #1a1a1a;
+  background-color: #000000;
   color: #ffffff;
-  border: 1px solid #1a1a1a;
+  border: 1px solid #000000;
 }
 
 .btn-buy-now:hover {
@@ -470,7 +470,7 @@
 }
 
 .modal-category {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.9rem;
   color: #333;
 }
@@ -583,17 +583,17 @@
   border: 1px solid #e0e0e0;
   border-radius: 50px;
   padding: 0.5rem 1rem 0.5rem 1.25rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #000000;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .pill-filter-btn:hover {
-  border-color: #1a1a1a;
+  border-color: #000000;
   background-color: #fcfcfc;
 }
 

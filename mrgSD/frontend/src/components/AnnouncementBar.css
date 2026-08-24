@@ -8,8 +8,8 @@
   overflow: hidden;
   white-space: nowrap;
   position: relative;
-  z-index: 1051;
-  font-family: 'Inter', sans-serif;
+  z-index: 10;
+  font-family: 'Cormorant Upright', serif;
   border-bottom: 1px solid rgba(255,255,255,0.18);
 }
 

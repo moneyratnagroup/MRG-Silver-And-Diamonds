@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import './Pages.css';
 
 const ContactPage = () => {
+  const [mobile, setMobile] = useState('');
+  const [mobileError, setMobileError] = useState('');
+
+  const handleMobileChange = (e) => {
+    const value = e.target.value;
+    
+    // Check if the user typed a non-digit character
+    if (/[^0-9]/.test(value)) {
+      setMobileError('Please enter numbers only.');
+      return;
+    }
+
+    // Check if the user tries to type more than 10 digits
+    if (value.length > 10) {
+      setMobileError('Mobile number cannot exceed 10 digits.');
+      return;
+    }
+
+    // Clear error and update state
+    setMobileError('');
+    setMobile(value);
+  };
+
   return (
     <div className="page-container">
       <h1 className="page-title">Contact Us</h1>
@@ -68,7 +91,15 @@ const ContactPage = () => {
 
               <div className="form-group">
                 <label htmlFor="mobile">Mobile Number</label>
-                <input type="tel" id="mobile" placeholder="Enter your mobile number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" required />
+                <input 
+                  type="tel" 
+                  id="mobile" 
+                  value={mobile}
+                  onChange={handleMobileChange}
+                  placeholder="Enter your mobile number" 
+                  required 
+                />
+                {mobileError && <span style={{ color: '#e53e3e', fontSize: '0.85rem', marginTop: '5px', display: 'block' }}>{mobileError}</span>}
               </div>
 
               <div className="form-group">

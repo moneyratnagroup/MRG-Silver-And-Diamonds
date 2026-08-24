@@ -17,20 +17,20 @@ const SilverPage = () => {
   const { products: allProductsContext } = useShop();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortOption, setSortOption] = useState('default');
-  
+
   const typeFilter = searchParams.get('type');
   const occasionFilter = searchParams.get('occasion');
-  
+
   // Filter specifically for silver
-  let silverProducts = allProductsContext.filter(p => 
-    (p.collection && p.collection.toLowerCase() !== 'diamonds') && 
+  let silverProducts = allProductsContext.filter(p =>
+    (p.collection && p.collection.toLowerCase() !== 'diamonds') &&
     (p.category && p.category.toLowerCase() !== 'diamonds')
   );
-  
+
   let products = (collectionId && collectionId !== 'all')
     ? silverProducts.filter(p => p.collection && p.collection.toLowerCase() === collectionId.toLowerCase())
     : silverProducts;
-  
+
   if (typeFilter) {
     products = products.filter(p => p.category && p.category.toUpperCase() === typeFilter.toUpperCase());
   }
@@ -38,7 +38,7 @@ const SilverPage = () => {
   if (occasionFilter) {
     products = products.filter(p => p.occasion && p.occasion.toLowerCase() === occasionFilter.toLowerCase());
   }
-  
+
   // Sort products
   let displayProducts = [...products];
   if (sortOption === 'a-z') {
@@ -60,7 +60,7 @@ const SilverPage = () => {
   }
 
   const activeFiltersCount = (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
-  
+
   const isAll = collectionId === 'all' || !collectionId;
   const baseTitle = isAll ? "All Silver" : collectionId ? collectionId.charAt(0).toUpperCase() + collectionId.slice(1) : "Collection";
   let displayTitle = isAll ? "All Silver Products" : `${baseTitle} Collection`;
@@ -70,7 +70,7 @@ const SilverPage = () => {
 
   return (
     <div className="silver-page-wrapper">
-      
+
       {/* Hero Section */}
       <section className="silver-hero">
         <div className="silver-hero-left">
@@ -81,8 +81,8 @@ const SilverPage = () => {
             <span className="sparkle">✦</span>
             <span className="sparkle small">✦</span>
           </div>
-          <p className="silver-subtitle">PURE ELEGANCE +<br/>TIMELESS CRAFTSMANSHIP</p>
-          <h1 className="silver-title">Silver that shines<br/>with every moment</h1>
+          <p className="silver-subtitle">PURE ELEGANCE +<br />TIMELESS CRAFTSMANSHIP</p>
+          <h1 className="silver-title">Silver that shines<br />with every moment</h1>
           <button className="silver-btn-solid">SHOP THE COLLECTION</button>
         </div>
         <div className="silver-hero-right">
@@ -101,29 +101,10 @@ const SilverPage = () => {
         </div>
       </div>
 
-      {/* Split Section */}
-      <section className="silver-split-section">
-        <div className="silver-split-text">
-          <h2 className="silver-split-title">Everyday Elegance</h2>
-          <p className="silver-split-desc">
-            Discover our collection of beautifully crafted silver pieces,<br/>
-            designed to complement your style day in and day out.
-          </p>
-          <button className="silver-btn-solid">SHOP BEST-SELLERS</button>
-        </div>
-        <div className="silver-split-image">
-          <img src={catRings} alt="Silver Rings" />
-        </div>
-      </section>
-
-      <section className="silver-sparkles-decor">
-        <span className="sparkle large">✦</span>
-        <span className="sparkle medium">✦</span>
-      </section>
 
       {/* Collection Grid */}
       <section id="silver-collection-start">
-        <ProductsGallery 
+        <ProductsGallery
           title={displayTitle}
           tagline={typeFilter ? `Explore our stunning collection of silver ${displayTitle.toLowerCase()}.` : isAll ? "Browse our entire catalog of premium silver jewelry." : `Explore our exclusive silver ${baseTitle} jewelry, curated for elegance and style.`}
           products={displayProducts}
@@ -134,11 +115,11 @@ const SilverPage = () => {
                 <span>Filter By</span>
                 {activeFiltersCount > 0 && <span className="filter-count-badge">({activeFiltersCount})</span>}
               </button>
-              
+
               <div className="sort-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <select 
-                  className="silver-sort-select" 
-                  value={sortOption} 
+                <select
+                  className="silver-sort-select"
+                  value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}
                 >
                   <option value="default">Featured</option>
@@ -153,12 +134,12 @@ const SilverPage = () => {
         />
       </section>
 
-      {/* Wavy Banner */}
+      {/* Wavy Banner
       <section className="silver-wavy-banner">
         <div className="silver-wavy-text">
           CRAFTING MEMORIES WITH EVERY PIECE
         </div>
-      </section>
+      </section> */}
 
       {/* Bottom Split Section */}
       <section className="silver-bottom-split">
@@ -166,8 +147,8 @@ const SilverPage = () => {
           <p className="silver-bottom-subtitle">JEWELRY THAT PROMISES TO</p>
           <h2 className="silver-bottom-title">Last a lifetime</h2>
           <p className="silver-bottom-desc">
-            Our premium silver collection is designed to be cherished<br/>
-            and passed down. With quality craftsmanship and<br/>
+            Our premium silver collection is designed to be cherished<br />
+            and passed down. With quality craftsmanship and<br />
             timeless designs, these pieces will stay with you forever.
           </p>
           <button className="silver-btn-solid">OUR STORY</button>

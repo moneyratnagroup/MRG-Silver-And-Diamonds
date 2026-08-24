@@ -4,7 +4,7 @@
 .silver-page-wrapper {
   background-color: #fbfbfc;
   min-height: 100vh;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   color: #1a2245; 
 }
 
@@ -54,7 +54,7 @@
 }
 
 .silver-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 4rem;
   color: #333;
   line-height: 1.1;
@@ -121,7 +121,7 @@
 }
 
 .silver-split-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 3.5rem;
   color: #333;
   margin-bottom: 1.5rem;
@@ -229,7 +229,7 @@
 }
 
 .silver-bottom-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 3.5rem;
   color: #333;
   margin-bottom: 1.5rem;
