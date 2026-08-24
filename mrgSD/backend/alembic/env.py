@@ -22,6 +22,8 @@ from app.database.database import Base
 from app.core.config import settings
 import app.models.metal_rate
 import app.models.testimonial
+import app.models.user
+import app.models.otp
 
 # Set the SQLAlchemy URL dynamically from our project config
 config.set_main_option("sqlalchemy.url", str(settings.DATABASE_URL).replace("%", "%%"))
