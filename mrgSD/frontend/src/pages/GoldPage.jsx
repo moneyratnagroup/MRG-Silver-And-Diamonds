@@ -4,20 +4,12 @@ import { Filter } from 'lucide-react';
 import DiamondGallery from '../components/DiamondGallery';
 import FilterDrawer from '../components/FilterDrawer';
 import { useShop } from '../context/ShopContext';
-import './DiamondsPage.css';
+import './GoldPage.css';
 
 // Import images
-import customHero1 from '../assets/hero_diamonds.png';
-import customHero2 from '../assets/hero_diamonds_gold.png';
-import earringsBg from '../assets/earrings_bg.png';
-import presenceBg from '../assets/presence_bg.png';
-import visionBg from '../assets/vision_bg.png';
 import catRings from '../assets/cat_rings_layout.png';
-import bentoRing1 from '../assets/bento_ring_1_1787566345955.jpg';
-import bentoRing2 from '../assets/bento_ring_2_1787566366440.jpg';
-import bentoRing3 from '../assets/bento_ring_3_1787566387700.jpg';
 
-const DiamondsPage = () => {
+const GoldPage = () => {
   const { collectionId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const { products: allProductsContext } = useShop();
@@ -27,17 +19,17 @@ const DiamondsPage = () => {
   const typeFilter = searchParams.get('type');
   const occasionFilter = searchParams.get('occasion');
   
-  // Filter specifically for diamonds
-  let diamondProducts = allProductsContext.filter(p => 
-    (p.collection && p.collection.toLowerCase() === 'diamonds') || 
-    (p.category && p.category.toLowerCase() === 'diamonds') || 
-    (p.material && p.material.toLowerCase() === 'diamond') ||
-    (p.metal && p.metal.toLowerCase().includes('diamond'))
+  // Filter specifically for gold
+  let goldProducts = allProductsContext.filter(p => 
+    (p.collection && p.collection.toLowerCase() === 'gold') || 
+    (p.category && p.category.toLowerCase() === 'gold') || 
+    (p.material && p.material.toLowerCase() === 'gold') ||
+    (p.metal && p.metal.toLowerCase().includes('gold'))
   );
   
   let products = (collectionId && collectionId !== 'all')
-    ? diamondProducts.filter(p => p.collection && p.collection.toLowerCase() === collectionId.toLowerCase())
-    : diamondProducts;
+    ? goldProducts.filter(p => p.collection && p.collection.toLowerCase() === collectionId.toLowerCase())
+    : goldProducts;
   
   if (typeFilter) {
     products = products.filter(p => p.category && p.category.toUpperCase() === typeFilter.toUpperCase());
@@ -70,12 +62,12 @@ const DiamondsPage = () => {
   const activeFiltersCount = (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
 
   return (
-    <div className="gorings-diamonds-page">
+    <div className="gorings-gold-page">
       
       {/* Hero Section */}
       <section className="gorings-hero">
         <div className="gorings-hero-left">
-          <img src="https://i.pinimg.com/736x/c5/54/77/c55477911eaf29d483f3f299e523d7ec.jpg" alt="Diamonds" />
+          <img src="https://i.pinimg.com/736x/df/0e/4f/df0e4f588b607d67577495d4960fc4aa.jpg" alt="Gold Set" />
         </div>
         <div className="gorings-hero-center">
           <div className="gorings-sparkle-icons">
@@ -87,7 +79,7 @@ const DiamondsPage = () => {
           <button className="gorings-btn-solid">SHOP THE COLLECTION</button>
         </div>
         <div className="gorings-hero-right">
-          <img src="https://amalfa.in/cdn/shop/files/image_22_1dc86f45-bd5e-4aef-adf6-1d80d4064245.png?v=1778141255&width=800" alt="Smiling model wearing rings" />
+          <img src="https://i.pinimg.com/736x/c4/14/9d/c4149d75d67374eab1b7b246ebc1eb4d.jpg" alt="Smiling model wearing rings" />
         </div>
       </section>
 
@@ -101,28 +93,18 @@ const DiamondsPage = () => {
         </div>
       </div>
 
-      {/* Bento Grid Section */}
-      <section className="bento-grid">
-        <div className="bento-cell bento-logo">
-          <div className="bento-logo-icon">
-            <span>GG</span>
-          </div>
-          <h3>GEMS GLOBAL</h3>
-          <p>— JEWELS —</p>
+      {/* Ring In The New Year Section */}
+      <section className="gorings-split-section">
+        <div className="gorings-split-text">
+          <h2 className="gorings-split-title">Ring in the New Year</h2>
+          <p className="gorings-split-desc">
+            Let's leave jewelry that tarnishes in 2023, is it time to elevate<br/>
+            your everyday ring lineup? We love a fresh start.
+          </p>
+          <button className="gorings-btn-solid">SHOP BEST-SELLING RINGS</button>
         </div>
-        <div className="bento-cell bento-img1">
-          <img src={bentoRing1} alt="Nested rings" />
-        </div>
-        <div className="bento-cell bento-img2">
-          <img src={bentoRing2} alt="Three stone ring" />
-        </div>
-        <div className="bento-cell bento-text-box">
-          <h2>JEWELRY<br />COLLECTION</h2>
-          <p>Elevate your shine with stunning pieces on sale.<br />Hurry — your glow awaits!</p>
-        </div>
-        <div className="bento-cell bento-blank"></div>
-        <div className="bento-cell bento-img3">
-          <img src={bentoRing3} alt="Marquise ring" />
+        <div className="gorings-split-image">
+          <img src={catRings} alt="Rings on soft background" />
         </div>
       </section>
 
@@ -173,9 +155,8 @@ const DiamondsPage = () => {
           </p>
           <button className="gorings-btn-solid">OUR STORY</button>
         </div>
-        <div className="gorings-bottom-images">
-          <img src={visionBg} alt="Model smiling" className="gorings-bottom-img1" />
-          <img src={presenceBg} alt="Hands wearing rings" className="gorings-bottom-img2" />
+        <div className="gorings-bottom-images" style={{ display: 'block', paddingRight: '10%' }}>
+          <img src="https://storage.googleapis.com/antigravity-storage/67b819fdd94ef712cb0c3db7/19beccf1-e123-4dfc-acfa-6644eb9c0864.png" alt="Model wearing layered necklaces" style={{width: '100%', maxHeight: '600px', objectFit: 'cover', borderRadius: '4px'}} />
         </div>
       </section>
 
@@ -184,4 +165,4 @@ const DiamondsPage = () => {
   );
 };
 
-export default DiamondsPage;
+export default GoldPage;

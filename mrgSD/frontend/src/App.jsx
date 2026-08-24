@@ -22,7 +22,7 @@ import CareersPage from './pages/CareersPage'
 import JewelleryCarePage from './pages/JewelleryCarePage'
 import DiamondsPage from './pages/DiamondsPage'
 import SilverPage from './pages/SilverPage'
-import InvestmentPage from './pages/InvestmentPage'
+import GoldPage from './pages/GoldPage'
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminMetalRates from './pages/admin/AdminMetalRates'

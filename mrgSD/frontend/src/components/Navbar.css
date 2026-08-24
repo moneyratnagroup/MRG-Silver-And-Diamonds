@@ -1,5 +1,5 @@
 .custom-navbar {
-  background-color: #FAF8F5;
+  background-color: #faf8f5;
   height: auto;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   padding: 0.5rem 0 0 0;
@@ -9,7 +9,7 @@
 }
 
 .custom-navbar.scrolled {
-  background-color: #FAF8F5;
+  background-color: #faf8f5;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
@@ -60,7 +60,7 @@
 
 .nav-link-custom {
   color: #000000 !important;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.85rem;
   letter-spacing: 1.5px;
   transition: color 0.3s ease;
@@ -469,14 +469,17 @@
     padding-bottom: 0 !important;
     margin-top: 0 !important;
     position: static !important;
+    min-width: 0; /* Prevents grid blowout */
   }
 
   .custom-navbar.scrolled .nav-links-container {
-    gap: 15px;
+    gap: 12px;
   }
 
   .custom-navbar.scrolled .nav-link-custom {
     white-space: nowrap;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
   }
 
   .custom-navbar.scrolled .brand-icon-img {
@@ -491,7 +494,7 @@
     font-size: 0.55rem;
   }
 
-  .custom-navbar.scrolled .nav-links-container> :first-child {
+  .custom-navbar.scrolled .hide-on-scroll {
     display: none !important;
   }
 }

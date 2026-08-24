@@ -92,13 +92,22 @@ const AdminTestimonialForm = () => {
     const payloadToSave = { ...formData, imageKey: finalImageKey };
 
     if (id) {
-      await updateTestimonial(payloadToSave);
-      alert("Testimonial updated successfully!");
+      const success = await updateTestimonial(payloadToSave);
+      if (success) {
+        alert("Testimonial updated successfully!");
+        navigate('/admin/testimonials');
+      } else {
+        alert("Failed to update testimonial.");
+      }
     } else {
-      await addTestimonial(payloadToSave);
-      alert("Testimonial added successfully!");
+      const success = await addTestimonial(payloadToSave);
+      if (success) {
+        alert("Testimonial added successfully!");
+        navigate('/admin/testimonials');
+      } else {
+        alert("Failed to add testimonial.");
+      }
     }
-    navigate('/admin/testimonials');
   };
 
   return (

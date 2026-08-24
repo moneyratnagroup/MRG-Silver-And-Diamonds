@@ -187,10 +187,10 @@ const MRGNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" className="d-none" />
         </div>
 
-        <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse w-100 justify-content-center pb-2">
-          <Nav className="nav-links-container">
-            <Nav.Link as={Link} to="/" className={`nav-link-custom ${currentPath === '/' ? 'active' : ''}`} onClick={closeMenu}>HOME</Nav.Link>
-
+      <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse w-100 justify-content-center pb-2">
+        <Nav className="nav-links-container">
+            <Nav.Link as={Link} to="/" className={`nav-link-custom hide-on-scroll ${currentPath === '/' ? 'active' : ''}`} onClick={closeMenu}>HOME</Nav.Link>
+            
             <div className="nav-item-dropdown">
               <div className={`nav-link-custom ${currentPath.startsWith('/silver') ? 'active-dropdown' : ''}`}>
                 SILVER <ChevronDown size={14} className="ms-1" />

@@ -41,7 +41,7 @@ export const ShopProvider = ({ children }) => {
         setLastUpdated(lastUpdatedTime ? new Date(lastUpdatedTime).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : "");
       }
 
-      const historyRes = await fetch("http://localhost:8000/api/v1/metal-rates");
+      const historyRes = await fetch("http://localhost:8000/api/v1/metal-rates/");
       if (historyRes.ok) {
         const historyData = await historyRes.json();
         const groupedByDate = {};
@@ -213,9 +213,12 @@ export const ShopProvider = ({ children }) => {
       });
       if (res.ok) {
         await fetchTestimonials();
+        return true;
       }
+      return false;
     } catch (error) {
       console.error("Failed to add testimonial", error);
+      return false;
     }
   };
 
@@ -239,9 +242,12 @@ export const ShopProvider = ({ children }) => {
       });
       if (res.ok) {
         await fetchTestimonials();
+        return true;
       }
+      return false;
     } catch (error) {
       console.error("Failed to update testimonial", error);
+      return false;
     }
   };
 

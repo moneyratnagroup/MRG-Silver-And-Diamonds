@@ -3,27 +3,53 @@ import { MapPin, Phone, Mail } from 'lucide-react';
 import './Pages.css';
 
 const ContactPage = () => {
+  const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [mobileError, setMobileError] = useState('');
 
-  const handleMobileChange = (e) => {
-    const value = e.target.value;
+  const validateEmail = (value) => {
+    // Restrict email input to max 50 characters
+    if (value.length > 50) return;
     
-    // Check if the user typed a non-digit character
-    if (/[^0-9]/.test(value)) {
-      setMobileError('Please enter numbers only.');
-      return;
+    setEmail(value);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (value && !emailRegex.test(value)) {
+      setEmailError('enter valid email');
+    } else {
+      setEmailError('');
     }
+  };
 
-    // Check if the user tries to type more than 10 digits
-    if (value.length > 10) {
-      setMobileError('Mobile number cannot exceed 10 digits.');
-      return;
+  const validateMobile = (value) => {
+    // Only allow digits to be typed, up to 10 max
+    const numericValue = value.replace(/\D/g, '').slice(0, 10);
+    setMobile(numericValue);
+    
+    if (numericValue && numericValue.length !== 10) {
+      setMobileError('enter 10 digit mobile number');
+    } else {
+      setMobileError('');
     }
+  };
 
-    // Clear error and update state
-    setMobileError('');
-    setMobile(value);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let valid = true;
+    
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError('enter valid email');
+      valid = false;
+    }
+    if (mobile.length !== 10) {
+      setMobileError('enter 10 digit mobile number');
+      valid = false;
+    }
+    
+    if (valid) {
+      // Proceed with submit
+      console.log('Form is valid');
+    }
   };
 
   return (
@@ -78,7 +104,7 @@ const ContactPage = () => {
         <div className="contact-right">
           <div className="contact-form-container">
             <h3>Send an Enquiry</h3>
-            <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
+            <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="name">Full Name</label>
                 <input type="text" id="name" placeholder="Enter your full name" required />
@@ -86,7 +112,16 @@ const ContactPage = () => {
 
               <div className="form-group">
                 <label htmlFor="email">Email Address</label>
-                <input type="email" id="email" placeholder="Enter your email" required />
+                <input 
+                  type="email" 
+                  id="email" 
+                  placeholder="Enter your email" 
+                  value={email}
+                  onChange={(e) => validateEmail(e.target.value)}
+                  maxLength={50}
+                  required 
+                />
+                {emailError && <span style={{ color: 'red', fontSize: '12px', marginTop: '4px', display: 'block' }}>{emailError}</span>}
               </div>
 
               <div className="form-group">
@@ -94,12 +129,12 @@ const ContactPage = () => {
                 <input 
                   type="tel" 
                   id="mobile" 
-                  value={mobile}
-                  onChange={handleMobileChange}
                   placeholder="Enter your mobile number" 
+                  value={mobile}
+                  onChange={(e) => validateMobile(e.target.value)}
                   required 
                 />
-                {mobileError && <span style={{ color: '#e53e3e', fontSize: '0.85rem', marginTop: '5px', display: 'block' }}>{mobileError}</span>}
+                {mobileError && <span style={{ color: 'red', fontSize: '12px', marginTop: '4px', display: 'block' }}>{mobileError}</span>}
               </div>
 
               <div className="form-group">
