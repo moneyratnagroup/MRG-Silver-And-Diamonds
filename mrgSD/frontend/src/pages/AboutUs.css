@@ -332,6 +332,110 @@
   color: var(--about-gold);
 }
 
+/* --- Leadership Section --- */
+.leadership-section {
+  padding: 5rem 2rem;
+  background-color: var(--about-cream);
+}
+
+@media (min-width: 992px) {
+  .leadership-section {
+    padding: 8rem 10%;
+  }
+}
+
+.leadership-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.leadership-header h2 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.leadership-header p {
+  color: var(--about-gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+}
+
+.leadership-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+}
+
+@media (min-width: 992px) {
+  .leadership-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+  }
+}
+
+.leader-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.leader-image {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  margin-bottom: 2rem;
+  filter: grayscale(20%);
+  transition: filter 0.5s ease;
+}
+
+.leader-card:hover .leader-image {
+  filter: grayscale(0%);
+}
+
+.leader-info h3 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.leader-role {
+  color: var(--about-gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.leader-message {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  opacity: 0.8;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.leader-message::before {
+  content: '“';
+  font-family: var(--about-serif);
+  font-size: 3rem;
+  color: var(--about-gold);
+  position: absolute;
+  left: -0.5rem;
+  top: -1rem;
+  opacity: 0.5;
+}
+
+.leader-journey {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  opacity: 0.7;
+  
+}
+
 /* --- Bottom Banner --- */
 .bottom-banner {
   background-color: transparent;

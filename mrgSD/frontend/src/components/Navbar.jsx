@@ -91,7 +91,7 @@ const MRGNavbar = () => {
 
       <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse w-100 justify-content-center pb-2">
         <Nav className="nav-links-container">
-            <Nav.Link as={Link} to="/" className={`nav-link-custom ${currentPath === '/' ? 'active' : ''}`} onClick={closeMenu}>HOME</Nav.Link>
+            <Nav.Link as={Link} to="/" className={`nav-link-custom hide-on-scroll ${currentPath === '/' ? 'active' : ''}`} onClick={closeMenu}>HOME</Nav.Link>
             
             <div className="nav-item-dropdown">
               <div className={`nav-link-custom ${currentPath.startsWith('/silver') ? 'active-dropdown' : ''}`}>

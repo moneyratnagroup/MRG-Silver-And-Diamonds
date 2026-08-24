@@ -20,38 +20,55 @@ const DiamondGallery = ({ products = [], title }) => {
         </div>
       </div>
 
-      <div className="minimal-gallery-grid">
+      <div className="aesthetic-gallery-grid">
         {products.length > 0 ? (
-          products.map((product, index) => (
-            <div className="pg-card" key={product.id}>
-              
-              <div className="pg-image-container" onClick={() => handleProductClick(product)} style={{cursor: 'pointer'}}>
-                {(index % 3 === 0 || index % 2 === 0) && (
-                  <span className="pg-discount-badge" style={{ backgroundColor: index % 3 === 0 ? '#1a1a1a' : '#a84c19' }}>
-                    {index % 3 === 0 ? 'NEW IN' : 'BACK IN STOCK'}
-                  </span>
-                )}
-                
-                <button className="pg-wishlist-btn" aria-label="Add to Wishlist">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                  </svg>
-                </button>
-                
-                <img src={product.img} alt={product.name} className="pg-image" />
-              </div>
-              
-              <div className="pg-details">
-                <h3 className="pg-item-name">{product.name}</h3>
-                <div className="pg-price-container">
-                  <p className="pg-item-price">
-                    {product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `€${product.price}`}
-                  </p>
-                </div>
-              </div>
+          products.map((product, index) => {
+            const styleClass = `style-${index % 6}`;
+            
+            // Subtitles based on index for variety
+            const subtitles = [
+              "Trending Now",
+              "New Arrival",
+              "Minimalist",
+              "Aesthetic",
+              "Bestseller",
+              "Elevate Your Everyday"
+            ];
+            
+            // Button texts based on index
+            const buttonTexts = [
+              "Discover",
+              "Collect Now",
+              "Shop Less Is More",
+              "Discover More",
+              "Shop The Look",
+              "Shop The Collection"
+            ];
 
-            </div>
-          ))
+            return (
+              <div 
+                className={`aesthetic-card ${styleClass}`} 
+                key={product.id}
+                onClick={() => handleProductClick(product)}
+              >
+                <div className="aesthetic-top-text">
+                  <span className="aesthetic-subtitle">{subtitles[index % 6]}</span>
+                  <h3 className="aesthetic-title">{product.name}</h3>
+                  <span className="aesthetic-price">
+                    {product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `€${product.price}`}
+                  </span>
+                </div>
+                
+                <div className="aesthetic-image-wrapper">
+                  <img src={product.img} alt={product.name} />
+                </div>
+                
+                <button className="aesthetic-btn">
+                  {buttonTexts[index % 6]}
+                </button>
+              </div>
+            );
+          })
         ) : (
           <div className="minimal-empty-state">
             <p>No products found in this collection.</p>
