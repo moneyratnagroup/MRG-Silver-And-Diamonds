@@ -22,12 +22,12 @@
 }
 
 .main-title {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 5px;
   text-transform: uppercase;
-  color: #1F314A;
+  color: #000000;
   text-align: center;
   margin: 0;
 }
@@ -101,7 +101,7 @@
 }
 
 .category-name {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 2px;

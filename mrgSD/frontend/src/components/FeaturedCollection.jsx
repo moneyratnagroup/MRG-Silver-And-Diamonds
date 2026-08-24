@@ -6,7 +6,7 @@ import braceletImg from '../assets/silver_charm_bracelet.png';
 
 const FeaturedCollection = () => {
   const navigate = useNavigate();
-  const { toggleWishlist, isInWishlist } = useShop();
+  const { toggleWishlist, isInWishlist, addToCart } = useShop();
 
   // Mock data for the first populated product
   const sampleProduct = {
@@ -75,7 +75,15 @@ const FeaturedCollection = () => {
                 <p className="pg-item-original-price">{sampleProduct.originalPrice}</p>
               )}
             </div>
-
+            <button 
+              className="pg-add-to-cart" 
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                addToCart(sampleProduct); 
+              }}
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
 

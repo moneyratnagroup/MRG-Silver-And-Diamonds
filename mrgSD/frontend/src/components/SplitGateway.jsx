@@ -3,35 +3,65 @@ import { Link } from 'react-router-dom';
 import './SplitGateway.css';
 
 const SplitGateway = () => {
-  return (
-    <section className="split-gateway-section">
-      <Link to="/products?collection=silver" className="split-col silver-col">
+  const renderCards = () => (
+    <>
+      <Link to="/products?collection=gold" className="editorial-card gold-card">
         <img 
-          src="/silver_collection_mood.png" 
-          alt="The Silver Collection" 
-          className="split-image" 
+          src="/Gold_Collection.png" 
+          alt="The Gold Collection" 
+          className="editorial-image" 
           loading="lazy"
         />
-        <div className="split-overlay"></div>
-        <div className="split-content">
-          <h2 className="split-title">The Silver Collection</h2>
-          <button className="split-btn">Explore Silver</button>
+        <div className="editorial-overlay"></div>
+        <div className="editorial-content">
+          <h3 className="editorial-title">Gold</h3>
         </div>
       </Link>
 
-      <Link to="/products?collection=diamond" className="split-col diamond-col">
+      <Link to="/products?collection=silver" className="editorial-card silver-card">
+        <img 
+          src="/silver_collection_mood.png" 
+          alt="The Silver Collection" 
+          className="editorial-image" 
+          loading="lazy"
+        />
+        <div className="editorial-overlay"></div>
+        <div className="editorial-content">
+          <h3 className="editorial-title">Silver</h3>
+        </div>
+      </Link>
+
+      <Link to="/products?collection=diamond" className="editorial-card diamond-card">
         <img 
           src="/diamond_collection_mood.png" 
           alt="The Diamond Collection" 
-          className="split-image" 
+          className="editorial-image" 
           loading="lazy"
         />
-        <div className="split-overlay"></div>
-        <div className="split-content">
-          <h2 className="split-title">The Diamond Collection</h2>
-          <button className="split-btn">Explore Diamonds</button>
+        <div className="editorial-overlay"></div>
+        <div className="editorial-content">
+          <h3 className="editorial-title">Diamond</h3>
         </div>
       </Link>
+    </>
+  );
+
+  return (
+    <section className="editorial-gateway-section">
+      <div className="editorial-gateway-header">
+        <h2 className="editorial-gateway-heading">Discover Our Collections</h2>
+      </div>
+      
+      <div className="editorial-gateway-grid">
+        <div className="editorial-gateway-track">
+          <div className="editorial-gateway-card-group">
+            {renderCards()}
+          </div>
+          <div className="editorial-gateway-card-group duplicate-group">
+            {renderCards()}
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

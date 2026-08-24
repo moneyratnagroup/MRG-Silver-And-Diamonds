@@ -140,7 +140,7 @@
 
 .modern-slide-pretitle {
   display: block;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 15px;
   /*16*/
   font-weight: 600;
@@ -150,7 +150,7 @@
 }
 
 .modern-slide-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 68px;
   /*60*/
   font-weight: 700;
@@ -162,7 +162,7 @@
 }
 
 .modern-slide-text {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 18px;
   /*20*/
   font-weight: 400;
@@ -177,7 +177,7 @@
   align-items: center;
   gap: 12px;
   background: #DCC6A8;
-  color: #1F314A;
+  color: #000000;
   border: none;
   padding: 18px 40px;
   border-radius: 6px;
@@ -192,7 +192,7 @@
 
 .modern-hero-btn:hover {
   background-color: #C7A66A;
-  color: #1F314A;
+  color: #000000;
   transform: translateY(-3px);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }

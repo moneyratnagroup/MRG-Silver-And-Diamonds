@@ -31,7 +31,7 @@
 }
 
 .scroll-btn:hover {
-  background-color: #1F314A; /* Brand dark blue */
+  background-color: #000000; /* Brand dark blue */
   box-shadow: 0 6px 16px rgba(31, 49, 74, 0.4);
   transform: scale(1.1) translateY(-2px);
 }

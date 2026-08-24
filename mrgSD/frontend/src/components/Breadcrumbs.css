@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   list-style: none;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.85rem;
   letter-spacing: 0.5px;
 }
@@ -26,7 +26,7 @@
 }
 
 .breadcrumb-link:hover {
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .breadcrumb-separator {
@@ -34,7 +34,7 @@
 }
 
 .breadcrumb-text {
-  color: #1a1a1a;
+  color: #000000;
   font-weight: 600;
   text-transform: uppercase;
 }

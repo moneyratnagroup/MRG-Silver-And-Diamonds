@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 import WishlistDrawer from '../components/WishlistDrawer';
+import CartDrawer from '../components/CartDrawer';
 import MobileBottomNav from '../components/MobileBottomNav';
 import Breadcrumbs from '../components/Breadcrumbs';
 
@@ -20,6 +21,7 @@ const UserLayout = () => {
       <Footer />
 
       <WishlistDrawer />
+      <CartDrawer />
       <MobileBottomNav />
     </>
   );

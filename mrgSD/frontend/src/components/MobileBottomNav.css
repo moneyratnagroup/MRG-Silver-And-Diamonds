@@ -32,19 +32,19 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .bottom-nav-item:hover,
 .bottom-nav-item.active {
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .bottom-nav-icon {
   margin-bottom: 0.25rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .bottom-cart-wrapper {
@@ -55,7 +55,7 @@
   position: absolute;
   top: -6px;
   right: -8px;
-  background-color: #1a1a1a;
+  background-color: #000000;
   color: #fff;
   font-size: 0.55rem;
   width: 16px;

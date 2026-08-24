@@ -1,7 +1,7 @@
 .custom-drawer {
   width: 100% !important;
   max-width: 400px !important;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   z-index: 1060 !important; /* Ensure it is above the announcement bar */
 }
 
@@ -10,7 +10,7 @@
 }
 
 .drawer-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 1.25rem;
   font-weight: 600;
   display: flex;
@@ -56,7 +56,7 @@
 
 .btn-continue {
   margin-top: 1.5rem;
-  background-color: #1a1a1a;
+  background-color: #000000;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -105,7 +105,7 @@
 .cart-item-name {
   font-size: 0.95rem;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #000000;
   margin: 0 0 0.25rem 0;
 }
 
@@ -172,7 +172,7 @@
 }
 
 .btn-move-to-cart {
-  background-color: #1a1a1a;
+  background-color: #000000;
   color: white;
   border: none;
   padding: 0.4rem 0.8rem;
@@ -216,7 +216,7 @@
   justify-content: space-between;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #000000;
   margin-bottom: 0.5rem;
 }
 
@@ -229,7 +229,7 @@
 .btn-checkout {
   display: block;
   width: 100%;
-  background-color: #1a1a1a;
+  background-color: #000000;
   color: white;
   border: none;
   padding: 1rem;
@@ -251,8 +251,8 @@
   display: block;
   width: 100%;
   background-color: transparent;
-  color: #1a1a1a;
-  border: 1px solid #1a1a1a;
+  color: #000000;
+  border: 1px solid #000000;
   padding: 1rem;
   border-radius: 50px;
   text-transform: uppercase;
@@ -264,7 +264,7 @@
 
 .btn-view-cart:hover {
   background-color: #f5f5f5;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 /* Filter Drawer Styles */
@@ -299,10 +299,10 @@
 }
 
 .filter-category-title {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #000000;
   text-transform: capitalize;
   letter-spacing: 0.5px;
 }
@@ -328,7 +328,7 @@
 }
 
 .drawer-title-custom {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 1.5rem;
   font-weight: 600;
   color: #4a2810;
@@ -383,10 +383,10 @@
 }
 
 .filter-accordion-title {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #000000;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -394,7 +394,7 @@
 
 .active-badge-small {
   background-color: #f5f5f5;
-  color: #1a1a1a;
+  color: #000000;
   font-size: 0.75rem;
   padding: 2px 6px;
   border-radius: 12px;
@@ -435,7 +435,7 @@
 }
 
 .checkbox-text {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.9rem;
   color: #444;
 }
@@ -456,7 +456,7 @@
   align-items: center;
   padding: 0.8rem 1.25rem;
   border-radius: 50px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -465,7 +465,7 @@
 
 .btn-clear-filters {
   background-color: #f9f2f2;
-  color: #1a1a1a;
+  color: #000000;
   border: 1px solid #e5dada;
 }
 

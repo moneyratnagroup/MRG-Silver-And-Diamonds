@@ -10,7 +10,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #000000;
   margin-bottom: 3rem;
   text-align: center;
 }
@@ -30,7 +30,7 @@
 
 .btn-primary {
   display: inline-block;
-  background-color: #1a1a1a;
+  background-color: #000000;
   color: white;
   padding: 0.8rem 2rem;
   border-radius: 50px;
@@ -230,7 +230,7 @@
 .btn-filter {
   display: flex;
   align-items: center;
-  background-color: #1a1a1a;
+  background-color: #000000;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -269,7 +269,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #1a1a1a;
+  color: #000000;
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 0.75rem;
 }
@@ -374,7 +374,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .contact-detail {
@@ -396,7 +396,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .form-group {
@@ -434,7 +434,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #1a1a1a;
+  color: #000000;
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 0.75rem;
 }
@@ -581,7 +581,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .form-group {
@@ -609,7 +609,7 @@
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #1a1a1a;
+  border-color: #000000;
 }
 
 @media (max-width: 768px) {
@@ -622,7 +622,7 @@
 /* --- New About Page Styles --- */
 .about-page {
   font-family: 'Inter', sans-serif;
-  color: #1a1a1a;
+  color: #000000;
   padding-bottom: 4rem;
   animation: fadeIn 0.5s ease;
 }
@@ -706,7 +706,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
   position: relative;
   display: inline-block;
 }
@@ -810,7 +810,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.75rem;
   margin-bottom: 1.25rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .mv-card p {
@@ -827,7 +827,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 2.75rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .divider {
@@ -869,7 +869,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.35rem;
   margin-bottom: 1rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .value-item p {

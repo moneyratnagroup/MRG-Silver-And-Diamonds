@@ -53,7 +53,7 @@
 }
 
 .auth-brand-name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: #111;
@@ -70,7 +70,7 @@
 }
 
 .auth-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 1.75rem;
   font-weight: 600;
   color: #111;
@@ -184,4 +184,75 @@
   .auth-modal-container {
     padding: 30px 20px;
   }
+}
+
+.auth-error-msg {
+  background-color: #fef2f2;
+  color: #dc2626;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+  text-align: left;
+  border: 1px solid #f87171;
+}
+
+.auth-back-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 0;
+  margin: -10px auto 20px;
+  transition: color 0.2s;
+}
+
+.auth-back-btn:hover {
+  color: #111;
+}
+
+.auth-otp-input {
+  text-align: center;
+  letter-spacing: 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.auth-otp-input::placeholder {
+  letter-spacing: 4px;
+}
+
+.auth-resend-container {
+  margin-top: 15px;
+  font-size: 0.85rem;
+}
+
+.auth-resend-wait {
+  color: #888;
+}
+
+.auth-resend-btn {
+  background: none;
+  border: none;
+  color: #111;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.auth-resend-btn:hover {
+  color: #b89146;
+}
+
+.auth-resend-btn:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  text-decoration: none;
 }

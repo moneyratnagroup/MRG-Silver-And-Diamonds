@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { ShopProvider } from './context/ShopContext'
+import { AuthProvider } from './context/AuthContext'
 import UserLayout from './layouts/UserLayout'
 import AdminLayout from './layouts/AdminLayout'
 import ScrollToTop from './components/ScrollToTop'
@@ -41,55 +42,57 @@ import './App.css'
 
 function App() {
   return (
-    <ShopProvider>
-      <Router>
-        <ScrollToTop />
-        <ScrollToTopButton />
-        <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <ToastContainer position="top-right" autoClose={3000} />
-          <Routes>
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<AdminDashboard />} />
-              <Route path="rates" element={<AdminMetalRates />} />
-              <Route path="rates/new" element={<AdminAddMetal />} />
-              <Route path="products" element={<AdminProducts />} />
-              <Route path="products/new" element={<AdminProductForm />} />
-              <Route path="products/edit/:id" element={<AdminProductForm />} />
-              <Route path="homepage" element={<AdminHomepage />} />
-              <Route path="testimonials" element={<AdminTestimonials />} />
-              <Route path="testimonials/new" element={<AdminTestimonialForm />} />
-              <Route path="testimonials/edit/:id" element={<AdminTestimonialForm />} />
-              <Route path="categories" element={<AdminCategories />} />
-              <Route path="coupons" element={<AdminCoupons />} />
-              <Route path="orders" element={<AdminOrders />} />
-              <Route path="orders/:id" element={<AdminOrderDetails />} />
-              <Route path="inventory" element={<AdminInventory />} />
-            </Route>
+    <AuthProvider>
+      <ShopProvider>
+        <Router>
+          <ScrollToTop />
+          <ScrollToTopButton />
+          <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <ToastContainer position="top-right" autoClose={3000} />
+            <Routes>
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="rates" element={<AdminMetalRates />} />
+                <Route path="rates/new" element={<AdminAddMetal />} />
+                <Route path="products" element={<AdminProducts />} />
+                <Route path="products/new" element={<AdminProductForm />} />
+                <Route path="products/edit/:id" element={<AdminProductForm />} />
+                <Route path="homepage" element={<AdminHomepage />} />
+                <Route path="testimonials" element={<AdminTestimonials />} />
+                <Route path="testimonials/new" element={<AdminTestimonialForm />} />
+                <Route path="testimonials/edit/:id" element={<AdminTestimonialForm />} />
+                <Route path="categories" element={<AdminCategories />} />
+                <Route path="coupons" element={<AdminCoupons />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="orders/:id" element={<AdminOrderDetails />} />
+                <Route path="inventory" element={<AdminInventory />} />
+              </Route>
 
-            {/* User Routes */}
-            <Route path="/" element={<UserLayout />}>
-              <Route index element={<Home />} />
-              <Route path="cart" element={<CartPage />} />
-              <Route path="wishlist" element={<WishlistPage />} />
-              <Route path="products" element={<CollectionPage />} />
-              <Route path="silver/:collectionId" element={<SilverPage />} />
-              <Route path="silver" element={<SilverPage />} />
-              <Route path="product/:productId" element={<ProductDetailsPage />} />
-              <Route path="about" element={<AboutPage />} />
-              <Route path="contact" element={<ContactPage />} />
-              <Route path="faq" element={<FAQPage />} />
-              <Route path="careers" element={<CareersPage />} />
-              <Route path="care-guide" element={<JewelleryCarePage />} />
-              <Route path="diamonds/:collectionId" element={<DiamondsPage />} />
-              <Route path="diamonds" element={<DiamondsPage />} />
-              <Route path="gold/:collectionId" element={<GoldPage />} />
-              <Route path="gold" element={<GoldPage />} />
-            </Route>
-          </Routes>
-        </div>
-      </Router>
-    </ShopProvider>
+              {/* User Routes */}
+              <Route path="/" element={<UserLayout />}>
+                <Route index element={<Home />} />
+                <Route path="cart" element={<CartPage />} />
+                <Route path="wishlist" element={<WishlistPage />} />
+                <Route path="products" element={<CollectionPage />} />
+                <Route path="silver/:collectionId" element={<SilverPage />} />
+                <Route path="silver" element={<SilverPage />} />
+                <Route path="product/:productId" element={<ProductDetailsPage />} />
+                <Route path="about" element={<AboutPage />} />
+                <Route path="contact" element={<ContactPage />} />
+                <Route path="faq" element={<FAQPage />} />
+                <Route path="careers" element={<CareersPage />} />
+                <Route path="care-guide" element={<JewelleryCarePage />} />
+                <Route path="diamonds/:collectionId" element={<DiamondsPage />} />
+                <Route path="diamonds" element={<DiamondsPage />} />
+                <Route path="investment" element={<InvestmentPage />} />
+                <Route path="investment/:type" element={<InvestmentPage />} />
+              </Route>
+            </Routes>
+          </div>
+        </Router>
+      </ShopProvider>
+    </AuthProvider>
   )
 }
 

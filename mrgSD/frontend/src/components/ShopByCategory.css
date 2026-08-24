@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   box-sizing: border-box;
 }
 
@@ -40,10 +40,10 @@
 }
 
 .cat-main-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 42px;
   font-weight: 500;
-  color: #1F314A;
+  color: #000000;
   margin: 0 0 10px 0;
 }
 
@@ -114,7 +114,7 @@
 }
 
 .cat-name {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 1px;
