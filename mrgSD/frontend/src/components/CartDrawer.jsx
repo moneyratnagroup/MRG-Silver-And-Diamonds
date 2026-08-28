@@ -71,7 +71,7 @@ const CartDrawer = () => {
                 <span>₹{calculateSubtotal().toLocaleString('en-IN')}</span>
               </div>
               <p className="shipping-note">Taxes and shipping calculated at checkout</p>
-              <button className="btn-checkout">Checkout</button>
+              <Link to="/checkout" className="btn-checkout" style={{textDecoration: 'none', display: 'block', textAlign: 'center'}} onClick={handleClose}>Checkout</Link>
               <Link to="/cart" className="btn-view-cart" onClick={handleClose}>View Full Cart</Link>
             </div>
           </>

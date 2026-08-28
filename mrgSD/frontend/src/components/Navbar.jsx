@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Search, User, Heart, ShoppingCart, ChevronDown, Sparkles, Watch, Baby, Sun, Coins, Crown, LayoutGrid } from 'lucide-react';
+import { Search, User, Heart, ShoppingCart, ChevronDown, Sparkles, Watch, Baby, Sun, Coins, Crown, LayoutGrid, X } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
@@ -188,6 +188,12 @@ const MRGNavbar = () => {
         </div>
 
       <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse w-100 justify-content-center pb-2">
+        <div className="d-flex justify-content-between align-items-center p-3 d-lg-none border-bottom mb-2 w-100">
+          <span className="brand-name" style={{ fontSize: '1.2rem', color: '#B89146' }}>MENU</span>
+          <button onClick={() => setExpanded(false)} className="utility-btn" aria-label="Close menu">
+            <X size={24} />
+          </button>
+        </div>
         <Nav className="nav-links-container">
             <Nav.Link as={Link} to="/" className={`nav-link-custom hide-on-scroll ${currentPath === '/' ? 'active' : ''}`} onClick={closeMenu}>HOME</Nav.Link>
             
