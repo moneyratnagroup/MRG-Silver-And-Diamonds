@@ -24,6 +24,7 @@ import DiamondsPage from './pages/DiamondsPage'
 import SilverPage from './pages/SilverPage'
 import GoldPage from './pages/GoldPage'
 import InvestmentPage from './pages/InvestmentPage'
+import CheckoutPage from './pages/CheckoutPage'
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminMetalRates from './pages/admin/AdminMetalRates'
@@ -90,6 +91,7 @@ function App() {
                 <Route path="diamonds" element={<DiamondsPage />} />
                 <Route path="investment" element={<InvestmentPage />} />
                 <Route path="investment/:type" element={<InvestmentPage />} />
+                <Route path="checkout" element={<CheckoutPage />} />
               </Route>
             </Routes>
           </div>

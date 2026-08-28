@@ -179,9 +179,9 @@
 }
 
 .pg-add-to-cart {
-  background-color: #000000;
+  background-color: var(--primary);
   color: white;
-  border: 1px solid #000000;
+  border: 1px solid var(--primary);
   padding: 0.8rem;
   border-radius: 4px;
   font-family: 'Cormorant Upright', serif;
@@ -196,7 +196,7 @@
 
 .pg-add-to-cart:hover {
   background-color: #ffffff;
-  color: #000000;
+  color: var(--primary);
 }
 
 /* Skeleton Placeholder Styles */
@@ -451,22 +451,23 @@
 
 .btn-add-cart {
   background-color: transparent;
-  color: #000000;
-  border: 1px solid #000000;
+  color: var(--primary);
+  border: 1px solid var(--primary);
 }
 
 .btn-add-cart:hover {
-  background-color: #f5f5f5;
+  background-color: var(--primary);
+  color: #ffffff;
 }
 
 .btn-buy-now {
-  background-color: #000000;
+  background-color: var(--gold);
   color: #ffffff;
-  border: 1px solid #000000;
+  border: 1px solid var(--gold);
 }
 
 .btn-buy-now:hover {
-  background-color: #333;
+  opacity: 0.9;
 }
 
 .modal-category {
