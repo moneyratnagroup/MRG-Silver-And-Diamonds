@@ -23,6 +23,7 @@ import JewelleryCarePage from './pages/JewelleryCarePage'
 import DiamondsPage from './pages/DiamondsPage'
 import SilverPage from './pages/SilverPage'
 import GoldPage from './pages/GoldPage'
+import InvestmentPage from './pages/InvestmentPage'
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminMetalRates from './pages/admin/AdminMetalRates'
@@ -77,6 +78,8 @@ function App() {
                 <Route path="products" element={<CollectionPage />} />
                 <Route path="silver/:collectionId" element={<SilverPage />} />
                 <Route path="silver" element={<SilverPage />} />
+                <Route path="gold/:collectionId" element={<GoldPage />} />
+                <Route path="gold" element={<GoldPage />} />
                 <Route path="product/:productId" element={<ProductDetailsPage />} />
                 <Route path="about" element={<AboutPage />} />
                 <Route path="contact" element={<ContactPage />} />
