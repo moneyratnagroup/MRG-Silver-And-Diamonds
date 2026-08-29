@@ -36,9 +36,9 @@ const MRGNavbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY > 120) {
         setScrolled(true);
-      } else {
+      } else if (window.scrollY < 20) {
         setScrolled(false);
       }
     };

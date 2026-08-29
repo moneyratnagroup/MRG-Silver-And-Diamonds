@@ -530,6 +530,11 @@ export const ShopProvider = ({ children }) => {
 
   // Add to cart
   const addToCart = (product) => {
+    if (!isAuthenticated) {
+      openAuthModal("Please login to add items to your cart");
+      return;
+    }
+
     setCartItems((prevItems) => {
       // Check if item already exists in cart
       const existingItem = prevItems.find((item) => item.id === product.id);
