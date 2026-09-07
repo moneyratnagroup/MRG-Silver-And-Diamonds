@@ -57,6 +57,11 @@
   gap: 2rem;
 }
 
+.with-sidebar .pg-grid {
+  /* Smaller min-width when sidebar is open to prevent cards from becoming too large */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
 .pg-card {
   background-color: transparent;
   border-radius: 8px;
@@ -135,7 +140,7 @@
 }
 
 .pg-details {
-  padding: 16px 0 0 0;
+  padding: 12px 0 0 0;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -146,7 +151,7 @@
   font-size: 1rem;
   font-weight: 500;
   color: #000000;
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.25rem;
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -158,30 +163,30 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 0 0 1.5rem;
+  margin: 0 0 0.75rem;
   flex-wrap: wrap;
 }
 
 .pg-item-price {
-  font-family: 'Cormorant Upright', serif;
-  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #000000;
   margin: 0;
 }
 
 .pg-item-original-price {
-  font-family: 'Cormorant Upright', serif;
-  font-size: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
   color: #888;
   text-decoration: line-through;
   font-weight: 400;
 }
 
 .pg-add-to-cart {
-  background-color: var(--primary);
+  background-color: #1F2A44;
   color: white;
-  border: 1px solid var(--primary);
+  border: 1px solid #1F2A44;
   padding: 0.8rem;
   border-radius: 4px;
   font-family: 'Cormorant Upright', serif;
@@ -196,7 +201,8 @@
 
 .pg-add-to-cart:hover {
   background-color: #ffffff;
-  color: var(--primary);
+  color: #1F2A44;
+  border-color: #1F2A44;
 }
 
 /* Skeleton Placeholder Styles */
@@ -404,8 +410,8 @@
 }
 
 .modal-product-price {
-  font-family: 'Cormorant Upright', serif;
-  font-size: 1.35rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
   color: #a84c19;
   /* Copper/Brand color for price */
   font-weight: 700;
@@ -413,8 +419,8 @@
 }
 
 .modal-product-original-price {
-  font-family: 'Cormorant Upright', serif;
-  font-size: 1.1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
   color: #888;
   text-decoration: line-through;
   margin: 0;
@@ -451,12 +457,12 @@
 
 .btn-add-cart {
   background-color: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary);
+  color: #1F2A44;
+  border: 1px solid #1F2A44;
 }
 
 .btn-add-cart:hover {
-  background-color: var(--primary);
+  background-color: #1F2A44;
   color: #ffffff;
 }
 
@@ -546,15 +552,15 @@
   }
 
   .pg-price-container {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
   }
 
   .pg-item-price {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .pg-item-original-price {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 
   .pg-add-to-cart {

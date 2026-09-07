@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './AdminMetalRates.css';
 
 const AdminMetalRates = () => {
@@ -17,7 +16,6 @@ const AdminMetalRates = () => {
   // History Tab Filters
   const [metalFilter, setMetalFilter] = useState('all'); 
   const [timeframeFilter, setTimeframeFilter] = useState('weekly'); 
-  const [showGraph, setShowGraph] = useState(false);
 
   useEffect(() => {
     // Initialize inputs from activeMetals only on first load
@@ -53,9 +51,6 @@ const AdminMetalRates = () => {
     setTimeout(() => setIsSaved(false), 3000);
   };
 
-  // Color mapping for chart
-  const colors = ["#FFD700", "#C0C0C0", "#CD7F32", "#4caf50", "#2196f3", "#9c27b0", "#ff9800"];
-  const getColor = (index) => colors[index % colors.length];
 
   // Distinct metal types for filtering
   const distinctTypes = activeMetals && activeMetals.length > 0 
@@ -163,45 +158,8 @@ const AdminMetalRates = () => {
                 </div>
               </div>
 
-              <button type="button" className="toggle-graph-btn" onClick={() => setShowGraph(!showGraph)}>
-                {showGraph ? 'Hide Graph' : 'Show Graph'}
-              </button>
             </div>
             
-            {showGraph && (
-              <div className="chart-container">
-                <ResponsiveContainer width="100%" height={400}>
-                  <LineChart data={filteredData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis 
-                      dataKey="date" 
-                      tickFormatter={(tick) => {
-                        if (!tick) return '';
-                        const parts = tick.split('-');
-                        if (parts.length === 3) {
-                          return `${parts[2]}-${parts[1]}`;
-                        }
-                        return tick;
-                      }}
-                    />
-                    <YAxis domain={['auto', 'auto']} />
-                    <Tooltip 
-                       formatter={(value) => [`₹${value}`, ""]}
-                       labelFormatter={(label) => `Date: ${label}`}
-                    />
-                    <Legend />
-                    {activeMetals && activeMetals.map((metal, index) => {
-                       if (metalFilter === 'all' || metalFilter === metal.metal_type.toLowerCase()) {
-                          const name = metal.purity === 'Bullion' ? `${metal.metal_type} Bullion` : `${metal.purity} ${metal.metal_type}`;
-                          return <Line key={metal.metal_name} type="monotone" dataKey={metal.metal_name} name={name} stroke={getColor(index)} dot={timeframeFilter === 'yearly' ? false : true} />;
-                       }
-                       return null;
-                    })}
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            )}
-
             <div className="history-table-container">
               <table className="history-table">
                 <thead>

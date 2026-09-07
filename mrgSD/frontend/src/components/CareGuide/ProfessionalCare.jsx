@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { AlertTriangle, Wrench, ShieldAlert, Zap, HelpCircle, AlertCircle } from 'lucide-react';
 import './CareGuide.css';
+import imgpcare from '../../assets/pcare.webp';
 
 const issues = [
   { text: 'Loose stones or rattling settings', icon: AlertTriangle },
@@ -16,8 +17,8 @@ const issues = [
 const ProfessionalCare = () => {
   return (
     <section className="care-section-padding prof-care-section" style={{ position: 'relative', overflow: 'hidden' }}>
-      <img 
-        src="/pcare.png" 
+      <img loading="lazy" 
+        src={imgpcare} 
         alt="Professional Care Background" 
         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3, zIndex: 0 }} 
       />

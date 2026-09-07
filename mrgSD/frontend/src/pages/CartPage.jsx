@@ -35,7 +35,7 @@ const CartPage = () => {
             {cartItems.map(item => (
               <div key={item.id} className="cart-table-row">
                 <div className="td-product">
-                  <img src={item.img} alt={item.name} className="cart-table-img" />
+                  <img loading="lazy" src={item.img} alt={item.name} className="cart-table-img" />
                   <div>
                     <h3 className="cart-table-name">{item.name}</h3>
                     <p className="cart-table-price">{item.price}</p>

@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Filter } from 'lucide-react';
+import { Filter, X } from 'lucide-react';
 import DiamondGallery from '../components/DiamondGallery';
 import FilterDrawer from '../components/FilterDrawer';
+import FilterSidebarContent from '../components/FilterSidebarContent';
 import { useShop } from '../context/ShopContext';
 import './DiamondsPage.css';
 
 // Import images
-import customHero1 from '../assets/hero_diamonds.png';
+import customHero1 from '../assets/hero_diamonds.webp';
 import customHero2 from '../assets/hero_diamonds_gold.png';
-import earringsBg from '../assets/earrings_bg.png';
-import presenceBg from '../assets/presence_bg.png';
-import visionBg from '../assets/vision_bg.png';
-import catRings from '../assets/cat_rings_layout.png';
-import bentoRing1 from '../assets/bento_ring_1_1787566345955.jpg';
-import bentoRing2 from '../assets/bento_ring_2_1787566366440.jpg';
-import bentoRing3 from '../assets/bento_ring_3_1787566387700.jpg';
+import earringsBg from '../assets/earrings_bg.webp';
+import presenceBg from '../assets/presence_bg.webp';
+import visionBg from '../assets/vision_bg.webp';
+import catRings from '../assets/cat_rings_layout.webp';
+import bentoRing1 from '../assets/bento_ring_1_1787566345955.webp';
+import bentoRing2 from '../assets/bento_ring_2_1787566366440.webp';
+import bentoRing3 from '../assets/bento_ring_3_1787566387700.webp';
 
 const DiamondsPage = () => {
   const { collectionId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const { products: allProductsContext } = useShop();
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
   
   const typeFilter = searchParams.get('type');
@@ -46,6 +47,18 @@ const DiamondsPage = () => {
   if (occasionFilter) {
     products = products.filter(p => p.occasion && p.occasion.toLowerCase() === occasionFilter.toLowerCase());
   }
+
+  const priceFilter = searchParams.get('price');
+  if (priceFilter) {
+    products = products.filter(p => {
+      const val = parseFloat((p.price || "0").replace(/[^\d.]/g, '')) || 0;
+      if (priceFilter === 'under-2000') return val < 2000;
+      if (priceFilter === '2000-5000') return val >= 2000 && val <= 5000;
+      if (priceFilter === '5000-10000') return val > 5000 && val <= 10000;
+      if (priceFilter === 'over-10000') return val > 10000;
+      return true;
+    });
+  }
   
   // Sort products
   let displayProducts = [...products];
@@ -69,13 +82,20 @@ const DiamondsPage = () => {
 
   const activeFiltersCount = (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
 
+  const isAll = collectionId === 'all' || !collectionId;
+  const baseTitle = isAll ? "All Diamonds" : collectionId ? collectionId.charAt(0).toUpperCase() + collectionId.slice(1) : "Collection";
+  let displayTitle = isAll ? "All Diamond Jewelry" : `${baseTitle} Collection`;
+  if (typeFilter) {
+    displayTitle = typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase();
+  }
+
   return (
-    <div className="gorings-diamonds-page">
+    <div className="diamonds-page-wrapper">
       
       {/* Hero Section */}
       <section className="gorings-hero">
         <div className="gorings-hero-left">
-          <img src="https://i.pinimg.com/736x/c5/54/77/c55477911eaf29d483f3f299e523d7ec.jpg" alt="Diamonds" />
+          <img loading="lazy" src="https://i.pinimg.com/736x/c5/54/77/c55477911eaf29d483f3f299e523d7ec.jpg" alt="Diamonds" />
         </div>
         <div className="gorings-hero-center">
           <div className="gorings-sparkle-icons">
@@ -87,7 +107,7 @@ const DiamondsPage = () => {
           <button className="gorings-btn-solid">SHOP THE COLLECTION</button>
         </div>
         <div className="gorings-hero-right">
-          <img src="https://amalfa.in/cdn/shop/files/image_22_1dc86f45-bd5e-4aef-adf6-1d80d4064245.png?v=1778141255&width=800" alt="Smiling model wearing rings" />
+          <img loading="lazy" src="https://amalfa.in/cdn/shop/files/image_22_1dc86f45-bd5e-4aef-adf6-1d80d4064245.png?v=1778141255&width=800" alt="Smiling model wearing rings" />
         </div>
       </section>
 
@@ -111,10 +131,10 @@ const DiamondsPage = () => {
           <p>— JEWELS —</p>
         </div>
         <div className="bento-cell bento-img1">
-          <img src={bentoRing1} alt="Nested rings" />
+          <img loading="lazy" src={bentoRing1} alt="Nested rings" />
         </div>
         <div className="bento-cell bento-img2">
-          <img src={bentoRing2} alt="Three stone ring" />
+          <img loading="lazy" src={bentoRing2} alt="Three stone ring" />
         </div>
         <div className="bento-cell bento-text-box">
           <h2>JEWELRY<br />COLLECTION</h2>
@@ -122,7 +142,7 @@ const DiamondsPage = () => {
         </div>
         <div className="bento-cell bento-blank"></div>
         <div className="bento-cell bento-img3">
-          <img src={bentoRing3} alt="Marquise ring" />
+          <img loading="lazy" src={bentoRing3} alt="Marquise ring" />
         </div>
       </section>
 
@@ -132,26 +152,44 @@ const DiamondsPage = () => {
       </section>
 
       {/* Collection Grid */}
-      <section id="gorings-collection-start">
-        <div className="gorings-filter-bar">
-          <button className="gorings-filter-btn" onClick={() => setIsFilterOpen(true)}>
-            <Filter size={14} />
-            <span>Filter</span>
-            {activeFiltersCount > 0 && <strong>({activeFiltersCount})</strong>}
-          </button>
-          
-          <select 
-            className="gorings-sort-select"
-            value={sortOption} 
-            onChange={(e) => setSortOption(e.target.value)}
-          >
-            <option value="default">Featured</option>
-            <option value="price-low-high">Price, low to high</option>
-            <option value="price-high-low">Price, high to low</option>
-          </select>
-        </div>
-
-        <DiamondGallery products={displayProducts} title="Bestsellers" />
+      <section id="gorings-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
+        <DiamondGallery 
+          products={displayProducts} 
+          title={displayTitle} 
+          tagline={`Explore our exclusive ${baseTitle} jewelry.`}
+          sidebarComponent={
+            isFilterOpen ? (
+              <div className="desktop-only collection-sidebar-content">
+                <div className="sidebar-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem'}}>
+                  <h3 className="sidebar-title" style={{margin: 0, borderBottom: 'none'}}>Filter By</h3>
+                  <button onClick={() => setIsFilterOpen(false)} style={{background: 'none', border: 'none', cursor: 'pointer', color: '#666'}}>
+                    <X size={20} />
+                  </button>
+                </div>
+                <FilterSidebarContent />
+              </div>
+            ) : null
+          }
+          filterComponent={
+            <div className="gorings-filter-bar" style={{ display: isFilterOpen ? 'none' : 'flex' }}>
+              <button className="gorings-filter-btn" onClick={() => setIsFilterOpen(true)}>
+                <Filter size={14} />
+                <span>Filter</span>
+                {activeFiltersCount > 0 && <strong>({activeFiltersCount})</strong>}
+              </button>
+              
+              <select 
+                className="gorings-sort-select"
+                value={sortOption} 
+                onChange={(e) => setSortOption(e.target.value)}
+              >
+                <option value="default">Featured</option>
+                <option value="price-low-high">Price, low to high</option>
+                <option value="price-high-low">Price, high to low</option>
+              </select>
+            </div>
+          }
+        />
       </section>
 
       {/* Wavy Banner */}
@@ -174,8 +212,8 @@ const DiamondsPage = () => {
           <button className="gorings-btn-solid">OUR STORY</button>
         </div>
         <div className="gorings-bottom-images">
-          <img src={visionBg} alt="Model smiling" className="gorings-bottom-img1" />
-          <img src={presenceBg} alt="Hands wearing rings" className="gorings-bottom-img2" />
+          <img loading="lazy" src={visionBg} alt="Model smiling" className="gorings-bottom-img1" />
+          <img loading="lazy" src={presenceBg} alt="Hands wearing rings" className="gorings-bottom-img2" />
         </div>
       </section>
 

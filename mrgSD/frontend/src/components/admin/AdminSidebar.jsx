@@ -112,7 +112,7 @@ const AdminSidebar = ({ onMobileClose }) => {
           )}
         </div>
 
-        <NavLink to="/admin/customers" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
+        <NavLink to="/admin/users" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
           <Users size={20} />
           <span>Users</span>
         </NavLink>

@@ -65,7 +65,7 @@ const ContactPage = () => {
               <MapPin size={22} color="#dc3545" strokeWidth={2.5} />
               <div className="contact-text-new">
                 <h4>Our Outlet</h4>
-                <p>MoneyRatna Gold & Diamonds<br />Anakkara,<br />Idukki, Kerala</p>
+                <p>Moneyratna Jewellery<br />Anakkara,<br />Idukki, Kerala</p>
               </div>
             </div>
 

@@ -33,7 +33,7 @@ const WishlistPage = () => {
           {wishlistItems.map(item => (
             <div key={item.id} className="wishlist-card">
               <div className="wishlist-card-img" onClick={() => handleProductClick(item)} style={{ cursor: 'pointer' }}>
-                <img src={item.img} alt={item.name} />
+                <img loading="lazy" src={item.img} alt={item.name} />
                 <button className="btn-remove-absolute" onClick={(e) => { e.stopPropagation(); toggleWishlist(item); }}>
                   <Trash2 size={18} />
                 </button>

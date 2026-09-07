@@ -1,5 +1,5 @@
 .checkout-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 40px 20px;
   font-family: 'Cormorant Upright', serif;
@@ -281,6 +281,7 @@
 }
 
 .checkout-item-price {
+  font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
   color: #111;

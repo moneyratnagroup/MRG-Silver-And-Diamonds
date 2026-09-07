@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import './FAQPage.css';
+import imgfaqbg from '../assets/faqbg.webp';
 
 const faqs = [
   {
@@ -38,7 +39,7 @@ const FAQPage = () => {
       {/* Hero Banner Section */}
       <div className="about-hero" style={{ height: '40vh', minHeight: '300px' }}>
         <div className="about-hero-image">
-          <img src="/faqbg.png" alt="FAQ Support" style={{ filter: 'brightness(0.4)' }} />
+          <img loading="lazy" src={imgfaqbg} alt="FAQ Support" style={{ filter: 'brightness(0.4)' }} />
         </div>
         <div className="about-hero-overlay">
           <h1 className="about-title" style={{ color: '#fff', fontSize: '3.5rem', marginBottom: 0 }}>Help & FAQ</h1>

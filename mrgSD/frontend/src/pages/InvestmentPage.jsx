@@ -232,7 +232,7 @@ const InvestmentPage = () => {
                   <button className="inv-wishlist-btn" onClick={(e) => { e.preventDefault(); toggleWishlist(product); }}>
                     <Heart size={18} fill={isInWishlist(product.id) ? "#d3a863" : "none"} color={isInWishlist(product.id) ? "#d3a863" : "#888"} />
                   </button>
-                  <img src={product.img} alt={product.name} />
+                  <img loading="lazy" src={product.img} alt={product.name} />
                 </div>
                 <div className="inv-card-details">
                   <h3 className="inv-card-title">{product.name}</h3>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import './CareGuide.css';
+import imgjewelleryBox from '../../assets/jewelleryBox.webp';
 
 const StorageGuide = () => {
   return (
@@ -47,8 +48,8 @@ const StorageGuide = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <img 
-              src="/jewelleryBox.png" 
+            <img loading="lazy" 
+              src={imgjewelleryBox} 
               alt="Premium Jewellery Box" 
               className="storage-image" 
             />

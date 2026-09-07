@@ -1,4 +1,4 @@
-import braceletImg from '../assets/silver_charm_bracelet.png';
+import braceletImg from '../assets/silver_charm_bracelet.webp';
 
 const baseImages = [
   braceletImg,

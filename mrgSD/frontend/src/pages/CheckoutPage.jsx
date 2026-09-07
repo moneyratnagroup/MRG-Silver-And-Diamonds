@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
+import { fetchWithAuth } from '../utils/api';
 import './CheckoutPage.css';
+import imgmrgicon from '../assets/mrgicon.png';
 
 const INDIAN_STATES = [
   "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", 
@@ -16,7 +18,22 @@ const INDIAN_STATES = [
 
 const CheckoutPage = () => {
   const { cartItems, clearCart } = useShop(); // clearCart might not exist yet, we'll gracefully handle it
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user, refreshUser } = useAuth();
+
+  React.useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        firstName: prev.firstName || user.full_name?.split(' ')[0] || '',
+        lastName: prev.lastName || user.full_name?.split(' ').slice(1).join(' ') || '',
+        email: prev.email || user.email || '',
+        phone: prev.phone || user.phone_number || '',
+        panNumber: prev.panNumber || user.pan_number || '',
+        aadharNumber: prev.aadharNumber || user.aadhar_number || '',
+        kycType: prev.kycType || (user.pan_number ? 'pan' : (user.aadhar_number ? 'aadhar' : 'pan'))
+      }));
+    }
+  }, [user]);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -24,7 +41,10 @@ const CheckoutPage = () => {
     addressLine1: '', addressLine2: '', landmark: '', city: '', state: '', zip: '', country: 'India',
     billingSameAsShipping: true,
     billingAddressLine1: '', billingAddressLine2: '', billingLandmark: '', billingCity: '', billingState: '', billingZip: '',
-    saveAddress: false
+    saveAddress: false,
+    kycType: 'pan',
+    panNumber: '',
+    aadharNumber: ''
   });
   const [errors, setErrors] = useState({});
   const [warnings, setWarnings] = useState({});
@@ -133,6 +153,13 @@ const CheckoutPage = () => {
       }
     }
 
+    if (name === 'panNumber' && value && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i.test(value)) {
+      setErrors(prev => ({ ...prev, panNumber: "Invalid PAN format" }));
+    }
+    if (name === 'aadharNumber' && value && !/^\d{12}$/.test(value)) {
+      setErrors(prev => ({ ...prev, aadharNumber: "Aadhar must be a 12-digit number" }));
+    }
+
     if (name === 'billingZip' && !formData.billingSameAsShipping) {
       if (!value) {
         setErrors(prev => ({ ...prev, billingZip: "Pincode is required" }));
@@ -191,6 +218,30 @@ const CheckoutPage = () => {
       }
     }
 
+
+    const isHighValue = total > 200000;
+    if (isHighValue) {
+      if (!formData.panNumber.trim()) {
+        newErrors.panNumber = "PAN is mandatory for purchases above ₹2 Lakhs";
+      } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i.test(formData.panNumber)) {
+        newErrors.panNumber = "Invalid PAN format";
+      }
+    } else {
+      if (formData.kycType === 'pan') {
+        if (!formData.panNumber.trim()) {
+          newErrors.panNumber = "PAN is mandatory";
+        } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i.test(formData.panNumber)) {
+          newErrors.panNumber = "Invalid PAN format";
+        }
+      } else if (formData.kycType === 'aadhar') {
+        if (!formData.aadharNumber.trim()) {
+          newErrors.aadharNumber = "Aadhar is mandatory";
+        } else if (!/^\d{12}$/.test(formData.aadharNumber)) {
+          newErrors.aadharNumber = "Aadhar must be exactly 12 digits";
+        }
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -209,6 +260,24 @@ const CheckoutPage = () => {
       return;
     }
 
+
+    // Save KYC if logged in and data provided
+    if (isAuthenticated && (formData.panNumber || formData.aadharNumber)) {
+      try {
+        await fetchWithAuth('/api/v1/auth/me/kyc', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            pan_number: formData.panNumber || null,
+            aadhar_number: formData.aadharNumber || null
+          })
+        });
+        if (refreshUser) refreshUser();
+      } catch (err) {
+        console.error("Failed to save KYC info:", err);
+      }
+    }
+
     // Dummy Razorpay Options (Frontend Only for UI Demonstration)
     const options = {
       key: 'rzp_test_dummy_key_do_not_use_in_prod', // Standard test key string (even invalid ones will open the modal in test mode, or throw a gentle warning in modal)
@@ -216,7 +285,7 @@ const CheckoutPage = () => {
       currency: 'INR',
       name: 'MRG Silver & Diamonds',
       description: 'Test Purchase Payment',
-      image: '/mrgicon.png',
+      image: imgmrgicon,
       handler: function (response) {
         alert('Payment Successful! Payment ID: ' + response.razorpay_payment_id);
         if(clearCart) clearCart();
@@ -235,7 +304,9 @@ const CheckoutPage = () => {
         state: formData.state,
         zip: formData.zip,
         billingSameAsShipping: formData.billingSameAsShipping ? 'Yes' : 'No',
-        saveAddress: formData.saveAddress ? 'Yes' : 'No'
+        saveAddress: formData.saveAddress ? 'Yes' : 'No',
+        panNumber: formData.panNumber,
+        aadharNumber: formData.aadharNumber
       },
       theme: {
         color: '#02275a'
@@ -344,6 +415,44 @@ const CheckoutPage = () => {
               </div>
             </div>
 
+
+            <h3 className="section-subtitle mt-4">KYC DETAILS</h3>
+            {total > 200000 ? (
+              <div className="kyc-notice warning-notice mb-3" style={{fontSize: '0.9rem', color: '#856404', backgroundColor: '#fff3cd', padding: '10px', borderRadius: '4px'}}>
+                As per Govt. regulations, a valid PAN card is mandatory for purchases exceeding ₹2 Lakhs.
+              </div>
+            ) : (
+              <div className="form-group mb-3">
+                <label>Select ID Proof (Mandatory)</label>
+                <div className="d-flex" style={{gap: '15px'}}>
+                  <label style={{fontWeight: 'normal', display: 'flex', alignItems: 'center', gap: '5px', whiteSpace: 'nowrap'}}>
+                    <input type="radio" name="kycType" value="pan" checked={formData.kycType === 'pan'} onChange={handleInputChange} />
+                    PAN Card
+                  </label>
+                  <label style={{fontWeight: 'normal', display: 'flex', alignItems: 'center', gap: '5px', whiteSpace: 'nowrap'}}>
+                    <input type="radio" name="kycType" value="aadhar" checked={formData.kycType === 'aadhar'} onChange={handleInputChange} />
+                    Aadhar Card
+                  </label>
+                </div>
+              </div>
+            )}
+            
+            {(total > 200000 || formData.kycType === 'pan') && (
+              <div className="form-group">
+                <label>PAN Number {total > 200000 ? '*' : ''}</label>
+                <input type="text" name="panNumber" placeholder="ABCDE1234F" value={formData.panNumber} onChange={(e) => { e.target.value = e.target.value.toUpperCase(); handleInputChange(e); }} onBlur={handleBlur} className={errors.panNumber ? 'error-input' : ''} maxLength={10} />
+                {errors.panNumber && <span className="error-text">{errors.panNumber}</span>}
+              </div>
+            )}
+            
+            {total <= 200000 && formData.kycType === 'aadhar' && (
+              <div className="form-group">
+                <label>Aadhar Number</label>
+                <input type="text" name="aadharNumber" placeholder="123456789012" value={formData.aadharNumber} onChange={(e) => { e.target.value = e.target.value.replace(/\D/g, ''); handleInputChange(e); }} onBlur={handleBlur} className={errors.aadharNumber ? 'error-input' : ''} maxLength={12} />
+                {errors.aadharNumber && <span className="error-text">{errors.aadharNumber}</span>}
+              </div>
+            )}
+
             <div className="checkbox-group mt-3">
               <label className="checkbox-label">
                 <input type="checkbox" name="billingSameAsShipping" checked={formData.billingSameAsShipping} onChange={handleInputChange} />
@@ -425,7 +534,7 @@ const CheckoutPage = () => {
           <div className="checkout-items">
             {cartItems.map((item, idx) => (
               <div key={item.id || idx} className="checkout-item">
-                <img src={item.img} alt={item.name} />
+                <img loading="lazy" src={item.img} alt={item.name} />
                 <div className="checkout-item-details">
                   <h4>{item.name}</h4>
                   <p>Qty: {item.quantity}</p>

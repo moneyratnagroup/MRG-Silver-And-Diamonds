@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Droplet, ShieldAlert, Archive } from 'lucide-react';
 import './CareGuide.css';
+import imgEJcare from '../../assets/EJcare.webp';
 
 const gemstones = [
   {
@@ -20,7 +21,7 @@ const gemstones = [
     water: 'Avoid submerging in water for long periods.',
     chemical: 'Avoid all chemicals, solvents, and heat.',
     storage: 'Wrap in soft tissue or cloth.',
-    img: '/EJcare.png'
+    img: imgEJcare
   },
   {
     name: 'Sapphire',
@@ -67,7 +68,7 @@ const GemstoneCareGrid = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <img src={gem.img} alt={gem.name} className="gem-img" />
+              <img loading="lazy" src={gem.img} alt={gem.name} className="gem-img" />
               <div className="gem-content">
                 <h3 className="gem-name care-heading-serif">{gem.name}</h3>
                 <p className="gem-desc">{gem.desc}</p>

@@ -2,9 +2,9 @@ import React from 'react';
 import { ArrowRight, Sparkles, Gem, Sun } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroDiamondsGold from '../assets/hero_diamonds_gold.png';
-import earringsBg from '../assets/earrings_bg.png';
-import presenceBg from '../assets/presence_bg.png';
-import visionBg from '../assets/vision_bg.png';
+import earringsBg from '../assets/earrings_bg.webp';
+import presenceBg from '../assets/presence_bg.webp';
+import visionBg from '../assets/vision_bg.webp';
 import './AboutUs.css';
 
 const AboutPage = () => {
@@ -28,7 +28,7 @@ const AboutPage = () => {
             </Link>
           </div>
           <div className="hero-image-side">
-            <img 
+            <img loading="lazy" 
               src={heroDiamondsGold} 
               alt="Golden diamond with swirls" 
             />
@@ -47,7 +47,7 @@ const AboutPage = () => {
         <div className="leadership-grid">
           {/* CMD */}
           <div className="leader-card">
-            <img src={presenceBg} alt="CMD" className="leader-image" />
+            <img loading="lazy" src={presenceBg} alt="CMD" className="leader-image" />
             <div className="leader-info">
               <h3 className="serif-text">Moneykantan Surya Venkata</h3>
               <span className="leader-role">Chairman & Managing Director</span>
@@ -62,7 +62,7 @@ const AboutPage = () => {
 
           {/* Director */}
           <div className="leader-card">
-            <img src={visionBg} alt="Director" className="leader-image" />
+            <img loading="lazy" src={visionBg} alt="Director" className="leader-image" />
             <div className="leader-info">
               <h3 className="serif-text">Sajeesh</h3>
               <span className="leader-role">Director</span>
@@ -80,7 +80,7 @@ const AboutPage = () => {
       {/* Features 3-Column Section */}
       <section className="features-3col">
         <div className="feature-block dark video-bg-block">
-          <img src={earringsBg} className="block-bg-video" alt="Diamond earrings" />
+          <img loading="lazy" src={earringsBg} className="block-bg-video" alt="Diamond earrings" />
           <div className="block-content">
             <Sparkles size={32} className="feature-icon" strokeWidth={1} />
             <div className="feature-number">01</div>
@@ -101,7 +101,7 @@ const AboutPage = () => {
         </div>
         
         <div className="feature-block dark video-bg-block">
-          <img src={presenceBg} className="block-bg-video" alt="Diamond ring on velvet" />
+          <img loading="lazy" src={presenceBg} className="block-bg-video" alt="Diamond ring on velvet" />
           <div className="block-content">
             <Sun size={32} className="feature-icon" strokeWidth={1} />
             <div className="feature-number">03</div>
@@ -116,7 +116,7 @@ const AboutPage = () => {
       {/* Showcase Section */}
       <section className="showcase-section">
         <div className="showcase-image">
-          <img 
+          <img loading="lazy" 
             src={visionBg} 
             alt="Hand with diamond ring" 
           />

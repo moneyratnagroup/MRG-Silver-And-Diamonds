@@ -110,6 +110,7 @@
 }
 
 .cart-item-price {
+  font-family: 'Inter', sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: #a84c19;

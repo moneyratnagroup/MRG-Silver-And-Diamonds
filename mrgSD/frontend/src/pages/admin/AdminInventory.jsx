@@ -195,7 +195,7 @@ const AdminInventory = () => {
                     <tr key={p.id}>
                       <td>
                         <div className="inv-prod-cell">
-                          <img src={p.img} alt={p.name} className="inv-prod-img" />
+                          <img loading="lazy" src={p.img} alt={p.name} className="inv-prod-img" />
                           <div className="inv-prod-info">
                             <h4>{p.name}</h4>
                             <p>{p.sku}</p>

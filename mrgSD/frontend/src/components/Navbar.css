@@ -441,7 +441,7 @@
 
 /* Desktop Sticky Header Single-Row Layout */
 @media (min-width: 992px) {
-  .custom-navbar.scrolled .desktop-scrolled-layout {
+  .custom-navbar .desktop-layout {
     display: grid !important;
     grid-template-columns: auto 1fr auto;
     grid-template-areas: "logo nav icons";
@@ -450,25 +450,25 @@
     padding-bottom: 0.5rem;
   }
 
-  .custom-navbar.scrolled .navbar-top-row {
+  .custom-navbar .navbar-top-row {
     display: contents !important;
   }
 
-  .custom-navbar.scrolled .navbar-top-row>div:nth-child(1) {
+  .custom-navbar .navbar-top-row>div:nth-child(1) {
     display: none !important;
   }
 
-  .custom-navbar.scrolled .navbar-top-row>div:nth-child(2) {
+  .custom-navbar .navbar-top-row>div:nth-child(2) {
     grid-area: logo;
     justify-content: flex-start !important;
   }
 
-  .custom-navbar.scrolled .navbar-top-row>div:nth-child(3) {
+  .custom-navbar .navbar-top-row>div:nth-child(3) {
     grid-area: icons;
     justify-content: flex-end !important;
   }
 
-  .custom-navbar.scrolled .custom-collapse {
+  .custom-navbar .custom-collapse {
     grid-area: nav;
     display: flex !important;
     justify-content: center !important;
@@ -478,29 +478,27 @@
     min-width: 0; /* Prevents grid blowout */
   }
 
-  .custom-navbar.scrolled .nav-links-container {
+  .custom-navbar .nav-links-container {
     gap: 12px;
   }
 
-  .custom-navbar.scrolled .nav-link-custom {
+  .custom-navbar .nav-link-custom {
     white-space: nowrap;
     font-size: 0.8rem;
     letter-spacing: 1px;
   }
 
-  .custom-navbar.scrolled .brand-icon-img {
+  .custom-navbar .brand-icon-img {
     width: 36px !important;
   }
 
-  .custom-navbar.scrolled .brand-name {
+  .custom-navbar .brand-name {
     font-size: 1.1rem;
   }
 
-  .custom-navbar.scrolled .brand-tagline {
+  .custom-navbar .brand-tagline {
     font-size: 0.55rem;
   }
 
-  .custom-navbar.scrolled .hide-on-scroll {
-    display: none !important;
-  }
+  
 }
