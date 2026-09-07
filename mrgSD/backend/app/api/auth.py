@@ -3,7 +3,9 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from app.database.database import get_db
-from app.schemas.auth import SendOTPRequest, SendOTPResponse, VerifyOTPRequest, VerifyOTPResponse, CompleteProfileRequest, TokenResponse, UserResponse
+from app.schemas.auth import SendOTPRequest, SendOTPResponse, VerifyOTPRequest, VerifyOTPResponse, CompleteProfileRequest, TokenResponse, UserResponse, UpdateKYCRequest, UpdateProfileRequest, AddressCreate, AddressResponse
+from app.models.address import UserAddress
+from typing import List
 from app.services.otp_service import create_otp, OTPCooldownException, verify_otp, OTPStatus
 from app.services.sms_service import send_sms_otp
 from app.models.user import User
@@ -189,3 +191,128 @@ def get_me(current_user: User = Depends(get_current_user)):
     Requires a valid access token.
     """
     return current_user
+
+@router.put("/me/kyc", response_model=UserResponse)
+def update_kyc(request: UpdateKYCRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """
+    Updates the currently authenticated user's KYC details (PAN/Aadhar).
+    """
+    if request.pan_number is not None:
+        current_user.pan_number = request.pan_number
+    if request.aadhar_number is not None:
+        current_user.aadhar_number = request.aadhar_number
+        
+    try:
+        db.commit()
+        db.refresh(current_user)
+    except SQLAlchemyError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to update KYC details."
+        )
+        
+    return current_user
+
+@router.put("/me/profile", response_model=UserResponse)
+def update_profile(request: UpdateProfileRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """
+    Updates the currently authenticated user's profile details.
+    """
+    if request.email and request.email != current_user.email:
+        email_check = db.query(User).filter(User.email == request.email).first()
+        if email_check:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, 
+                detail="This email address is already in use by another account."
+            )
+            
+    current_user.full_name = request.full_name
+    current_user.email = request.email
+    current_user.dob = request.dob
+    current_user.gender = request.gender
+    current_user.marital_status = request.marital_status
+    current_user.anniversary_date = request.anniversary_date
+        
+    try:
+        db.commit()
+        db.refresh(current_user)
+    except SQLAlchemyError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to update profile details."
+        )
+        
+    return current_user
+
+@router.get("/me/addresses", response_model=List[AddressResponse])
+def get_addresses(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """
+    Get all saved addresses for the current user.
+    """
+    addresses = db.query(UserAddress).filter(UserAddress.user_id == current_user.id).order_by(UserAddress.is_default.desc(), UserAddress.created_at.desc()).all()
+    return addresses
+
+@router.post("/me/addresses", response_model=AddressResponse)
+def create_address(request: AddressCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """
+    Add a new address for the current user.
+    """
+    if request.is_default:
+        db.query(UserAddress).filter(UserAddress.user_id == current_user.id).update({"is_default": False})
+        
+    new_address = UserAddress(
+        user_id=current_user.id,
+        title=request.title,
+        address_line_1=request.address_line_1,
+        address_line_2=request.address_line_2,
+        landmark=request.landmark,
+        city=request.city,
+        state=request.state,
+        zip_code=request.zip_code,
+        country=request.country,
+        is_default=request.is_default
+    )
+    db.add(new_address)
+    
+    try:
+        db.commit()
+        db.refresh(new_address)
+    except SQLAlchemyError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to add address."
+        )
+        
+    return new_address
+
+@router.delete("/me/addresses/{address_id}")
+def delete_address(address_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """
+    Delete an address.
+    """
+    address = db.query(UserAddress).filter(UserAddress.id == address_id, UserAddress.user_id == current_user.id).first()
+    if not address:
+        raise HTTPException(status_code=404, detail="Address not found")
+        
+    db.delete(address)
+    try:
+        db.commit()
+    except SQLAlchemyError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to delete address."
+        )
+        
+    return {"message": "Address deleted successfully"}
+
+@router.get("/admin/users", response_model=List[UserResponse])
+def get_all_users(db: Session = Depends(get_db)):
+    """
+    Get all registered users for the admin dashboard.
+    """
+    users = db.query(User).order_by(User.created_at.desc()).all()
+    return users

@@ -154,7 +154,7 @@ const AdminTestimonialForm = () => {
               />
               {formData.imagePreview && (
                 <div className="img-preview-box" style={{ marginTop: '10px', width: '120px', height: '120px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #ddd' }}>
-                  <img src={formData.imagePreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img loading="lazy" src={formData.imagePreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
               )}
             </div>

@@ -14,7 +14,7 @@ const SidebarFilter = ({ onNavigate }) => {
     { title: "Men's Collection", path: "/silver/men", icon: <Watch size={20}/> },
     { title: "Kids Collection", path: "/silver/kids", icon: <Baby size={20}/> },
     { title: "Religious & Idols", path: "/silver/religious", icon: <Sun size={20}/> },
-    { title: "Investment & Coins", path: "/silver/investment", icon: <Coins size={20}/> },
+    // { title: "Investment & Coins", path: "/silver/investment", icon: <Coins size={20}/> },
     { title: "Special & Bridal", path: "/silver/special", icon: <Crown size={20}/> },
   ];
 

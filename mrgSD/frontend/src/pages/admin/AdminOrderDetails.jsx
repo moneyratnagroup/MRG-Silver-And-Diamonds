@@ -177,7 +177,7 @@ const AdminOrderDetails = () => {
                 return (
                   <div key={item.id} className="order-item">
                     <div className="item-img-container">
-                      <img src={item.img} alt={item.name} />
+                      <img loading="lazy" src={item.img} alt={item.name} />
                     </div>
                     <div className="item-details">
                       <p className="item-name">{item.name}</p>
@@ -424,7 +424,7 @@ const AdminOrderDetails = () => {
             <p>Email: {order.customer.email}</p>
           </div>
           <div className="invoice-qr">
-             <img src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=MRG-${order.id}`} alt="Order QR" />
+             <img loading="lazy" src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=MRG-${order.id}`} alt="Order QR" />
           </div>
         </div>
 

@@ -54,7 +54,7 @@ const AdminProducts = () => {
               <tr key={product.id}>
                 <td>
                   <div className="table-img-container">
-                    <img src={product.img} alt={product.name} />
+                    <img loading="lazy" src={product.img} alt={product.name} />
                   </div>
                 </td>
                 <td className="font-medium">{product.name}</td>

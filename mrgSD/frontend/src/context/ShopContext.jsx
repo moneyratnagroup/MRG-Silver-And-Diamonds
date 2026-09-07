@@ -1,6 +1,9 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { allProducts } from '../data/mockProducts';
 import { useAuth } from './AuthContext';
+import imgBanner11 from '../assets/Banner11.webp';
+import imgbanner12 from '../assets/banner12.webp';
+import imgbanner3 from '../assets/banner3.webp';
 
 // Create Context
 const ShopContext = createContext();
@@ -156,7 +159,7 @@ export const ShopProvider = ({ children }) => {
   const [heroBanners, setHeroBanners] = useState([
     {
       id: 1,
-      image: "/Banner11.jpg",
+      image: imgBanner11,
       preTitle: "925 STERLING SILVER",
       title: "Pure Silver.<br/>Timeless Beauty.",
       subtitle: "Discover handcrafted sterling silver jewellery designed with elegance, purity, and modern luxury.",
@@ -165,7 +168,7 @@ export const ShopProvider = ({ children }) => {
     },
     {
       id: 2,
-      image: "/banner12.png",
+      image: imgbanner12,
       preTitle: "NATURAL DIAMOND COLLECTION",
       title: "Where Every<br/>Diamond Tells<br/>A Story",
       subtitle: "Handcrafted diamond jewellery designed to celebrate life's most precious moments.",
@@ -174,7 +177,7 @@ export const ShopProvider = ({ children }) => {
     },
     {
       id: 3,
-      image: "/banner3.png",
+      image: imgbanner3,
       title: "Silver & Diamonds.<br/>Perfect Harmony.",
       subtitle: "Find the perfect balance of classic silver elegance and the brilliant shine of hand-set diamonds.",
       buttonText: "SHOP NOW",

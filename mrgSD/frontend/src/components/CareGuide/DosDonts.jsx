@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Check, X } from 'lucide-react';
 import './CareGuide.css';
+import imgdodonot from '../../assets/do&donot.webp';
 
 const dosList = [
   "Store jewellery individually",
@@ -22,8 +23,8 @@ const dontsList = [
 const DosDonts = () => {
   return (
     <section className="care-section-padding dos-donts-section" style={{ position: 'relative', overflow: 'hidden' }}>
-      <img 
-        src="/do&donot.png" 
+      <img loading="lazy" 
+        src={imgdodonot} 
         alt="Do's and Don'ts Background" 
         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3, zIndex: 0 }} 
       />

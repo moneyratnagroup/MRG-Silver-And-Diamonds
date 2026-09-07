@@ -84,6 +84,13 @@
 
 .btn-gold-primary.full-width {
   width: 100%;
+  background-color: #1F2A44;
+  color: white;
+}
+
+.btn-gold-primary.full-width:hover {
+  background-color: #151d30;
+  color: white;
 }
 
 .arrow {
@@ -468,6 +475,7 @@
 }
 
 .inv-price {
+  font-family: 'Inter', sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--inv-text-light);

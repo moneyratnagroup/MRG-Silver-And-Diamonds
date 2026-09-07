@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './CareGuide.css';
+import imgfinalCTABanner from '../../assets/finalCTABanner.webp';
 
 const CareCTA = () => {
   return (
     <section className="care-cta-section">
-      <img 
-        src="/finalCTABanner.png" 
+      <img loading="lazy" 
+        src={imgfinalCTABanner} 
         alt="Luxury Jewellery Background" 
         className="care-cta-bg" 
       />

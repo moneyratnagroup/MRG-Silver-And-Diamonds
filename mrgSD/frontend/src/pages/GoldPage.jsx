@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Filter } from 'lucide-react';
+import { Filter, X } from 'lucide-react';
 import DiamondGallery from '../components/DiamondGallery';
 import FilterDrawer from '../components/FilterDrawer';
+import FilterSidebarContent from '../components/FilterSidebarContent';
 import { useShop } from '../context/ShopContext';
 import './GoldPage.css';
 
 // Import images
-import catRings from '../assets/cat_rings_layout.png';
+import catRings from '../assets/cat_rings_layout.webp';
 
 const GoldPage = () => {
   const { collectionId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const { products: allProductsContext } = useShop();
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
   
   const typeFilter = searchParams.get('type');
@@ -38,6 +39,18 @@ const GoldPage = () => {
   if (occasionFilter) {
     products = products.filter(p => p.occasion && p.occasion.toLowerCase() === occasionFilter.toLowerCase());
   }
+
+  const priceFilter = searchParams.get('price');
+  if (priceFilter) {
+    products = products.filter(p => {
+      const val = parseFloat((p.price || "0").replace(/[^\d.]/g, '')) || 0;
+      if (priceFilter === 'under-2000') return val < 2000;
+      if (priceFilter === '2000-5000') return val >= 2000 && val <= 5000;
+      if (priceFilter === '5000-10000') return val > 5000 && val <= 10000;
+      if (priceFilter === 'over-10000') return val > 10000;
+      return true;
+    });
+  }
   
   // Sort products
   let displayProducts = [...products];
@@ -58,28 +71,35 @@ const GoldPage = () => {
       return priceB - priceA;
     });
   }
-
+  
   const activeFiltersCount = (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
 
+  const isAll = collectionId === 'all' || !collectionId;
+  const baseTitle = isAll ? "All Gold" : collectionId ? collectionId.charAt(0).toUpperCase() + collectionId.slice(1) : "Collection";
+  let displayTitle = isAll ? "All Gold Jewelry" : `${baseTitle} Collection`;
+  if (typeFilter) {
+    displayTitle = typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase();
+  }
+
   return (
-    <div className="gorings-gold-page">
+    <div className="gold-page-wrapper">
       
       {/* Hero Section */}
-      <section className="gorings-hero">
-        <div className="gorings-hero-left">
-          <img src="https://i.pinimg.com/736x/df/0e/4f/df0e4f588b607d67577495d4960fc4aa.jpg" alt="Gold Set" />
+      <section className="gold-hero">
+        <div className="gold-hero-left">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1622398925373-3f91b1e275f5?q=80&w=800&auto=format&fit=crop" alt="Gold Jewelry" />
         </div>
-        <div className="gorings-hero-center">
-          <div className="gorings-sparkle-icons">
+        <div className="gold-hero-center">
+          <div className="gold-sparkle-icons">
             <span className="sparkle">✦</span>
             <span className="sparkle small">✦</span>
           </div>
-          <p className="gorings-subtitle">LONG-LASTING, HYPOALLERGENIC +<br/>FUNDS NEW CAUSES EVERY MONTH</p>
-          <h1 className="gorings-title">Jewelry that stays<br/>gold & does good</h1>
-          <button className="gorings-btn-solid">SHOP THE COLLECTION</button>
+          <p className="gold-subtitle">EXQUISITE CRAFTSMANSHIP</p>
+          <h1 className="gold-title">Golden moments<br />crafted for you</h1>
+          <button className="gold-btn-solid">EXPLORE THE COLLECTION</button>
         </div>
-        <div className="gorings-hero-right">
-          <img src="https://i.pinimg.com/736x/c4/14/9d/c4149d75d67374eab1b7b246ebc1eb4d.jpg" alt="Smiling model wearing rings" />
+        <div className="gold-hero-right">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800&auto=format&fit=crop" alt="Model wearing gold" />
         </div>
       </section>
 
@@ -104,7 +124,7 @@ const GoldPage = () => {
           <button className="gorings-btn-solid">SHOP BEST-SELLING RINGS</button>
         </div>
         <div className="gorings-split-image">
-          <img src={catRings} alt="Rings on soft background" />
+          <img loading="lazy" src={catRings} alt="Rings on soft background" />
         </div>
       </section>
 
@@ -114,26 +134,44 @@ const GoldPage = () => {
       </section>
 
       {/* Collection Grid */}
-      <section id="gorings-collection-start">
-        <div className="gorings-filter-bar">
-          <button className="gorings-filter-btn" onClick={() => setIsFilterOpen(true)}>
-            <Filter size={14} />
-            <span>Filter</span>
-            {activeFiltersCount > 0 && <strong>({activeFiltersCount})</strong>}
-          </button>
-          
-          <select 
-            className="gorings-sort-select"
-            value={sortOption} 
-            onChange={(e) => setSortOption(e.target.value)}
-          >
-            <option value="default">Featured</option>
-            <option value="price-low-high">Price, low to high</option>
-            <option value="price-high-low">Price, high to low</option>
-          </select>
-        </div>
-
-        <DiamondGallery products={displayProducts} title="Bestsellers" />
+      <section id="gorings-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
+        <DiamondGallery 
+          products={displayProducts} 
+          title={displayTitle} 
+          tagline={`Explore our exclusive ${baseTitle} jewelry.`}
+          sidebarComponent={
+            isFilterOpen ? (
+              <div className="desktop-only collection-sidebar-content">
+                <div className="sidebar-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem'}}>
+                  <h3 className="sidebar-title" style={{margin: 0, borderBottom: 'none'}}>Filter By</h3>
+                  <button onClick={() => setIsFilterOpen(false)} style={{background: 'none', border: 'none', cursor: 'pointer', color: '#666'}}>
+                    <X size={20} />
+                  </button>
+                </div>
+                <FilterSidebarContent />
+              </div>
+            ) : null
+          }
+          filterComponent={
+            <div className="gorings-filter-bar" style={{ display: isFilterOpen ? 'none' : 'flex' }}>
+              <button className="gorings-filter-btn" onClick={() => setIsFilterOpen(true)}>
+                <Filter size={14} />
+                <span>Filter</span>
+                {activeFiltersCount > 0 && <strong>({activeFiltersCount})</strong>}
+              </button>
+              
+              <select 
+                className="gorings-sort-select"
+                value={sortOption} 
+                onChange={(e) => setSortOption(e.target.value)}
+              >
+                <option value="default">Featured</option>
+                <option value="price-low-high">Price, low to high</option>
+                <option value="price-high-low">Price, high to low</option>
+              </select>
+            </div>
+          }
+        />
       </section>
 
       {/* Wavy Banner */}
@@ -156,7 +194,7 @@ const GoldPage = () => {
           <button className="gorings-btn-solid">OUR STORY</button>
         </div>
         <div className="gorings-bottom-images" style={{ display: 'block', paddingRight: '10%' }}>
-          <img src="https://storage.googleapis.com/antigravity-storage/67b819fdd94ef712cb0c3db7/19beccf1-e123-4dfc-acfa-6644eb9c0864.png" alt="Model wearing layered necklaces" style={{width: '100%', maxHeight: '600px', objectFit: 'cover', borderRadius: '4px'}} />
+          <img loading="lazy" src="https://storage.googleapis.com/antigravity-storage/67b819fdd94ef712cb0c3db7/19beccf1-e123-4dfc-acfa-6644eb9c0864.png" alt="Model wearing layered necklaces" style={{width: '100%', maxHeight: '600px', objectFit: 'cover', borderRadius: '4px'}} />
         </div>
       </section>
 

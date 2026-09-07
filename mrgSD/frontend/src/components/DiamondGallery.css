@@ -143,6 +143,7 @@
 }
 
 .minimal-price {
+  font-family: 'Inter', sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   color: #333;
@@ -290,7 +291,8 @@
 }
 .style-5 .aesthetic-title { color: #F4F1EA; }
 .style-5 .aesthetic-subtitle { color: #BDB5AD; }
-.style-5 .aesthetic-price { color: #EAE6DF; }
+.style-5 .aesthetic-price {
+  font-family: 'Inter', sans-serif; color: #EAE6DF; }
 .style-5 .aesthetic-btn { 
   border-color: rgba(244, 241, 234, 0.3); 
   color: #F4F1EA; 

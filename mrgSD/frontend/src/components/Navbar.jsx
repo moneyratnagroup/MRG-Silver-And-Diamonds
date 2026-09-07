@@ -6,6 +6,7 @@ import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
 import './Navbar.css';
+import imgmrgicon from '../assets/mrgicon.png';
 
 const MRGNavbar = () => {
   const [expanded, setExpanded] = useState(false);
@@ -67,7 +68,7 @@ const MRGNavbar = () => {
 
   return (
     <Navbar expanded={expanded} onToggle={setExpanded} sticky="top" expand="lg" className={`custom-navbar ${scrolled ? 'scrolled' : ''}`}>
-      <Container fluid className={`px-4 px-lg-5 flex-column custom-navbar-container ${scrolled ? 'desktop-scrolled-layout' : ''}`}>
+      <Container fluid className="px-4 px-lg-5 flex-column custom-navbar-container desktop-layout">
 
         {/* Top Row */}
         <div className="navbar-top-row d-flex w-100 justify-content-between align-items-center pb-2 pb-lg-3">
@@ -80,10 +81,10 @@ const MRGNavbar = () => {
           {/* Center: Brand Logo */}
           <div className="d-flex align-items-center justify-content-center" style={{ flex: '1 1 0%' }}>
             <Navbar.Brand as={Link} to="/" className="brand-logo-container m-0">
-              <img src="/mrgicon.png" alt="Moneyratna Logo" className="brand-icon-img" style={{ width: '48px', height: 'auto', marginRight: '10px' }} />
+              <img loading="lazy" src={imgmrgicon} alt="Moneyratna Logo" className="brand-icon-img" style={{ width: '48px', height: 'auto', marginRight: '10px' }} />
               <div className="brand-text">
                 <span className="brand-name">MONEYRATNA</span>
-                <span className="brand-tagline">GOLD AND JEWELLERY</span>
+                <span className="brand-tagline">JEWELLERY</span>
               </div>
             </Navbar.Brand>
           </div>
@@ -168,10 +169,19 @@ const MRGNavbar = () => {
                       </div>
                     </div>
                     <div style={{ padding: '0.5rem 0' }}>
-                      <div className="dropdown-item-simple" style={{ color: '#999', cursor: 'default', textAlign: 'left' }}>My Account</div>
+                      <Link to="/account" className="dropdown-item-simple" style={{ textAlign: 'left' }} onClick={() => { closeMenu(); setIsProfileMenuOpen(false); }}>My Account</Link>
                       <Link to="/wishlist" className="dropdown-item-simple" style={{ textAlign: 'left' }} onClick={() => { closeMenu(); setIsProfileMenuOpen(false); }}>My Wishlist</Link>
                       <div className="dropdown-item-simple" style={{ cursor: 'pointer', borderTop: '1px solid #eee', marginTop: '0.25rem', paddingTop: '0.75rem', textAlign: 'left' }} onClick={() => { logout(); closeMenu(); setIsProfileMenuOpen(false); }}>
                         Logout
+                      </div>
+                      <div className="dropdown-item-simple" style={{ cursor: 'pointer', borderTop: '1px solid #eee', marginTop: '0.25rem', paddingTop: '0.75rem', textAlign: 'left', color: '#dc3545' }} onClick={() => { 
+                        if(window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) { 
+                          logout(); 
+                          closeMenu(); 
+                          setIsProfileMenuOpen(false); 
+                        } 
+                      }}>
+                        Delete Account
                       </div>
                     </div>
                   </div>
@@ -187,16 +197,16 @@ const MRGNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" className="d-none" />
         </div>
 
-      <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse w-100 justify-content-center pb-2">
-        <div className="d-flex justify-content-between align-items-center p-3 d-lg-none border-bottom mb-2 w-100">
-          <span className="brand-name" style={{ fontSize: '1.2rem', color: '#B89146' }}>MENU</span>
-          <button onClick={() => setExpanded(false)} className="utility-btn" aria-label="Close menu">
-            <X size={24} />
-          </button>
-        </div>
-        <Nav className="nav-links-container">
-            <Nav.Link as={Link} to="/" className={`nav-link-custom hide-on-scroll ${currentPath === '/' ? 'active' : ''}`} onClick={closeMenu}>HOME</Nav.Link>
-            
+        <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse w-100 justify-content-center pb-2">
+          <div className="d-flex justify-content-between align-items-center p-3 d-lg-none border-bottom mb-2 w-100">
+            <span className="brand-name" style={{ fontSize: '1.2rem', color: '#B89146' }}>MENU</span>
+            <button onClick={() => setExpanded(false)} className="utility-btn" aria-label="Close menu">
+              <X size={24} />
+            </button>
+          </div>
+          <Nav className="nav-links-container">
+            <Nav.Link as={Link} to="/" className={`nav-link-custom ${currentPath === '/' ? 'active' : ''}`} onClick={closeMenu}>HOME</Nav.Link>
+
             <div className="nav-item-dropdown">
               <div className={`nav-link-custom ${currentPath.startsWith('/silver') ? 'active-dropdown' : ''}`}>
                 SILVER <ChevronDown size={14} className="ms-1" />
@@ -304,6 +314,7 @@ const MRGNavbar = () => {
             </div>
 
             <Nav.Link as={Link} to="/gold" className={`nav-link-custom ${currentPath.startsWith('/gold') ? 'active' : ''}`} onClick={closeMenu}>GOLD</Nav.Link>
+            {/* 
             <div className="nav-item-dropdown">
               <div className={`nav-link-custom ${currentPath.startsWith('/coins-and-bars') || currentPath.startsWith('/investment') ? 'active-dropdown' : ''}`}>
                 COINS & BARS <ChevronDown size={14} className="ms-1" />
@@ -356,6 +367,7 @@ const MRGNavbar = () => {
                 </Link>
               </div>
             </div>
+            */}
 
             <Nav.Link as={Link} to="/about" className={`nav-link-custom ${currentPath === '/about' ? 'active' : ''}`} onClick={closeMenu}>ABOUT US</Nav.Link>
             <Nav.Link as={Link} to="/contact" className={`nav-link-custom ${currentPath === '/contact' ? 'active' : ''}`} onClick={closeMenu}>CONTACT US</Nav.Link>

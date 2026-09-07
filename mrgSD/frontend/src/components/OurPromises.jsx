@@ -1,5 +1,6 @@
 import React from 'react';
 import './OurPromises.css';
+import imgbislogo from '../assets/bis_logo.png';
 
 const promises = [
   {
@@ -45,14 +46,10 @@ const promises = [
     )
   },
   {
-    title: "Fine 925 Silver",
-    desc: "Certified purity guarantee",
+    title: "100% BIS Hallmarked",
+    desc: "Authenticity & purity guaranteed",
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <path d="M8 12h8"></path>
-        <path d="M12 8v8"></path>
-      </svg>
+      <img loading="lazy" src={imgbislogo} alt="BIS Hallmark" style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
     )
   },
   {

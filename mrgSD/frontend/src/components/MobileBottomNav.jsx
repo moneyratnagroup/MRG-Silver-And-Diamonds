@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { Home, LayoutGrid, User, Heart, ShoppingCart } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
-import AuthModal from './AuthModal';
 import './MobileBottomNav.css';
 
 const MobileBottomNav = () => {
@@ -89,14 +88,12 @@ const MobileBottomNav = () => {
               border: '1px solid #eee', marginBottom: '15px', zIndex: 1050,
               textAlign: 'left'
             }}>
-              <div style={{ padding: '8px 16px', color: '#999', fontSize: '0.85rem', fontWeight: 500 }}>My Account</div>
+              <Link to="/account" style={{ display: 'block', padding: '8px 16px', color: '#111', fontSize: '0.9rem', fontWeight: 500, textDecoration: 'none' }} onClick={() => setShowMenu(false)}>My Account</Link>
               <div style={{ padding: '12px 16px', color: '#111', fontSize: '0.9rem', fontWeight: 500, cursor: 'pointer' }} onClick={() => { logout(); setShowMenu(false); }}>Logout</div>
             </div>
           )}
         </div>
       </div>
-
-      <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
     </>
   );
 };

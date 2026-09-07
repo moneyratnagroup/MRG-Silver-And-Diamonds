@@ -43,7 +43,7 @@ const CartDrawer = () => {
               {cartItems.map((item) => (
                 <div key={item.id} className="cart-item">
                   <div className="cart-item-image">
-                    <img src={item.img} alt={item.name} />
+                    <img loading="lazy" src={item.img} alt={item.name} />
                   </div>
                   <div className="cart-item-details">
                     <h4 className="cart-item-name">{item.name}</h4>

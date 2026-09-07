@@ -8,8 +8,11 @@ import WishlistDrawer from '../components/WishlistDrawer';
 import CartDrawer from '../components/CartDrawer';
 import MobileBottomNav from '../components/MobileBottomNav';
 import Breadcrumbs from '../components/Breadcrumbs';
+import AuthModal from '../components/AuthModal';
+import { useAuth } from '../context/AuthContext';
 
 const UserLayout = () => {
+  const { isAuthModalOpen, closeAuthModal } = useAuth();
   return (
     <>
       <MetalRatesBar />
@@ -23,6 +26,7 @@ const UserLayout = () => {
       <WishlistDrawer />
       <CartDrawer />
       <MobileBottomNav />
+      <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
     </>
   );
 };

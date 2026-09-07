@@ -16,7 +16,7 @@ const JewelleryCareSection = ({ id, reverse, heading, subheading, desc, dos, don
           transition={{ duration: 0.8 }}
         >
           <div className="editorial-image-wrapper">
-            <img src={img} alt={heading} />
+            <img loading="lazy" src={img} alt={heading} />
           </div>
         </motion.div>
 

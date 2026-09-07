@@ -157,6 +157,7 @@
 }
 
 .pd-product-price {
+  font-family: 'Inter', sans-serif;
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--primary);
@@ -164,6 +165,7 @@
 }
 
 .pd-product-original-price {
+  font-family: 'Inter', sans-serif;
   font-size: 1.2rem;
   color: var(--text-light);
   text-decoration: line-through;
@@ -253,7 +255,7 @@
 
 .btn-add-cart-large {
   flex: 1;
-  background-color: var(--primary);
+  background-color: #1F2A44;
   color: white;
   border: none;
   padding: 15px 30px;
@@ -264,7 +266,7 @@
 }
 
 .btn-add-cart-large:hover {
-  background-color: var(--surface-dark);
+  background-color: #151d30;
 }
 
 .btn-buy-now-large {

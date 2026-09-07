@@ -30,7 +30,7 @@ const JewelleryCarePage = () => {
         heading="Silver Jewellery"
         subheading="Keep Your Silver Shining"
         desc="Silver can naturally tarnish when exposed to air, moisture and certain chemicals. Proper storage and gentle cleaning can help preserve its beauty."
-        img="/SJcare.png"
+        img="/SJcare.webp"
         bgWhite={true}
         dos={[
           "Store in a dry, dark place",
@@ -53,7 +53,7 @@ const JewelleryCarePage = () => {
         heading="Diamond Jewellery"
         subheading="Keep Your Diamonds Brilliant"
         desc="Diamonds are exceptionally durable, but their settings and surrounding metals still require proper care to ensure the stones remain secure and sparkling."
-        img="/DJCare.png"
+        img="/DJCare.webp"
         reverse={true}
         dos={[
           "Clean gently with warm soapy water",

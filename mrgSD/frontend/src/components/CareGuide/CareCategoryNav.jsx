@@ -2,6 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Gem, Sun, Sparkles, Droplet } from 'lucide-react';
 import './CareGuide.css';
+import imgDJCare from '../../assets/DJCare.webp';
+import imgEJcare from '../../assets/EJcare.webp';
+import imgSJcare from '../../assets/SJcare.webp';
 
 const navItems = [
   {
@@ -9,14 +12,14 @@ const navItems = [
     title: 'Diamond Care',
     desc: 'Keep your diamonds brilliant and secure.',
     icon: Gem,
-    img: '/DJCare.png'
+    img: imgDJCare
   },
   {
     id: 'silver-care',
     title: 'Silver Care',
     desc: 'Prevent tarnish and keep silver shining.',
     icon: Sparkles,
-    img: '/SJcare.png'
+    img: imgSJcare
   },
   {
     id: 'gold-care',
@@ -30,7 +33,7 @@ const navItems = [
     title: 'Gemstone Care',
     desc: 'Specific care for sensitive stones.',
     icon: Droplet,
-    img: '/EJcare.png'
+    img: imgEJcare
   }
 ];
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import './CareGuide.css';
+import imgjcarehero from '../../assets/jcarehero.webp';
 
 const CareHero = () => {
   const scrollToNav = () => {
@@ -15,7 +16,7 @@ const CareHero = () => {
     <section className="care-hero">
       <div className="care-hero-bg">
         {/* Using uploaded premium dark jewellery photography */}
-        <img src="/jcarehero.png" alt="Luxury Jewellery Background" />
+        <img loading="lazy" src={imgjcarehero} alt="Luxury Jewellery Background" />
       </div>
       <div className="care-hero-gradient"></div>
       

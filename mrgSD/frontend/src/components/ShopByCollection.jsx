@@ -1,27 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './ShopByCollection.css';
+import imgmenscollection from '../assets/menscollection.webp';
+import imgmy from '../assets/my.png';
 
 const collections = [
   {
     title: "Women's Collection",
     linkId: "women",
     desc: "Elegant designs in silver and diamonds, crafted to celebrate every woman.",
-    img: "/womencollection.png",
+    img: "/womencollection.webp",
     bgColor: "#f4f0e6"
   },
   {
     title: "Men's Collection",
     linkId: "men",
     desc: "Bold, timeless and stylish silver pieces made for the modern man.",
-    img: "/menscollection.png",
+    img: imgmenscollection,
     bgColor: "#e8e9e6"
   },
   {
     title: "Kids Collection",
     linkId: "kids",
     desc: "Adorable and safe silver jewelry perfect for your little ones.",
-    img: "/kidscoleection.png",
+    img: "/kidscoleection.webp",
     bgColor: "#f2e4e4"
   },
   {
@@ -35,21 +37,21 @@ const collections = [
     title: "pooja & idols Collection",
     linkId: "religious",
     desc: "Pure silver idols and pooja articles to bring home blessings and purity.",
-    img: "/poojaidolcollection.png",
+    img: "/poojaidolcollection.webp",
     bgColor: "#f3ead3"
   },
-  {
+  /* {
     title: "Silver Coins & Gifts",
     linkId: "investment",
     desc: "A symbol of wealth and prosperity. Perfect for gifting and investment.",
-    img: "/investment.png",
+    img: "/investment.webp",
     bgColor: "#e2e4e6"
-  },
+  }, */
   {
     title: "Customized Jewellery",
     linkId: "special",
     desc: "Your vision, our craftsmanship. Create pieces as unique as you.",
-    img: "/my.png",
+    img: imgmy,
     bgColor: "#e5e4e0"
   }
 ];
@@ -68,7 +70,7 @@ const ShopByCollection = () => {
             key={index}
           >
             <div className="collection-image-container">
-              <img src={item.img} alt={item.title} />
+              <img loading="lazy" src={item.img} alt={item.title} />
               <div className="collection-overlay"></div>
             </div>
             <div className="collection-content">

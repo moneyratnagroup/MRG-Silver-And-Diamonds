@@ -57,7 +57,7 @@ const AdminTestimonials = () => {
                     <td>
                       <div className="table-img-container">
                         {testimonial.image ? (
-                          <img src={testimonial.image} alt={testimonial.customerName} />
+                          <img loading="lazy" src={testimonial.image} alt={testimonial.customerName} />
                         ) : (
                           <div style={{ width: '100%', height: '100%', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Star size={20} color="#ccc" />

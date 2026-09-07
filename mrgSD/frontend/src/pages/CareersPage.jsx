@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import './Pages.css';
+import imgcarebg from '../assets/carebg.webp';
 
 const CareersPage = () => {
   return (
@@ -8,11 +9,11 @@ const CareersPage = () => {
       {/* Hero Banner Section */}
       <div className="about-hero">
         <div className="about-hero-image">
-          <img src="/carrerbg.jpg" alt="Careers at Moneyratna" style={{ filter: 'brightness(0.4)' }} />
+          <img loading="lazy" src={imgcarebg} alt="Careers at Moneyratna" style={{ filter: 'brightness(0.4)' }} />
         </div>
         <div className="about-hero-overlay">
           <h1 className="about-title" style={{ color: '#fff' }}>Join Our Team</h1>
-          <p className="about-subtitle" style={{ color: '#f0f0f0' }}>Build a brilliant career with Moneyratna Silver & Diamonds</p>
+          <p className="about-subtitle" style={{ color: '#f0f0f0' }}>Build a brilliant career with Moneyratna Jewellery</p>
         </div>
       </div>
 
