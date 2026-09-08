@@ -212,3 +212,55 @@
   font-size: 0.95rem;
   line-height: 1.5;
 }
+
+/* Button Styles */
+.btn-primary {
+  display: inline-block;
+  background-color: #02275a;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #01183b;
+  color: white;
+}
+
+.btn-primary:disabled {
+  background-color: #88a3c8;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-block;
+  background-color: transparent;
+  color: #02275a;
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  border: 1px solid #02275a;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #02275a;
+  color: white;
+}
+
+/* Error message styles */
+.error-text {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+}
+
+.error-input {
+  border-color: #dc3545 !important;
+}

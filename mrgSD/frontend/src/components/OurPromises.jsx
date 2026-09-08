@@ -1,6 +1,6 @@
 import React from 'react';
 import './OurPromises.css';
-import imgbislogo from '../assets/bis_logo.png';
+import imgbislogo from '../assets/bis_logo.webp';
 
 const promises = [
   {

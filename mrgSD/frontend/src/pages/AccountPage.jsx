@@ -181,11 +181,15 @@ if (isLoading || !user) {
 
   const validateKyc = () => {
     const errors = {};
-    if (kycData.panNumber && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i.test(kycData.panNumber)) {
-      errors.panNumber = "Invalid PAN format (e.g. ABCDE1234F)";
-    }
-    if (kycData.aadharNumber && !/^\d{12}$/.test(kycData.aadharNumber)) {
-      errors.aadharNumber = "Aadhar must be exactly 12 digits";
+    if (!kycData.panNumber && !kycData.aadharNumber) {
+      errors.panNumber = "Please provide at least one document (PAN or Aadhar)";
+    } else {
+      if (kycData.panNumber && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i.test(kycData.panNumber)) {
+        errors.panNumber = "Invalid PAN format (e.g. ABCDE1234F)";
+      }
+      if (kycData.aadharNumber && !/^\d{12}$/.test(kycData.aadharNumber)) {
+        errors.aadharNumber = "Aadhar must be exactly 12 digits";
+      }
     }
     setKycErrors(errors);
     return Object.keys(errors).length === 0;
