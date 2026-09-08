@@ -36,15 +36,23 @@ const MRGNavbar = () => {
   };
 
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      if (window.scrollY > 120) {
-        setScrolled(true);
-      } else if (window.scrollY < 20) {
-        setScrolled(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > 120) {
+            setScrolled(true);
+          } else if (window.scrollY < 20) {
+            setScrolled(false);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };

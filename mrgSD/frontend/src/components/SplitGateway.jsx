@@ -8,7 +8,7 @@ import imgsilvercollectionmood from '../assets/silver_collection_mood.webp';
 const SplitGateway = () => {
   const renderCards = () => (
     <>
-      <Link to="/products?collection=gold" className="editorial-card gold-card">
+      <Link to="/gold/all" className="editorial-card gold-card">
         <img 
           src={imgGoldCollection} 
           alt="The Gold Collection" 
@@ -21,7 +21,7 @@ const SplitGateway = () => {
         </div>
       </Link>
 
-      <Link to="/products?collection=silver" className="editorial-card silver-card">
+      <Link to="/silver/all" className="editorial-card silver-card">
         <img 
           src={imgsilvercollectionmood} 
           alt="The Silver Collection" 
@@ -34,7 +34,7 @@ const SplitGateway = () => {
         </div>
       </Link>
 
-      <Link to="/products?collection=diamond" className="editorial-card diamond-card">
+      <Link to="/diamonds/all" className="editorial-card diamond-card">
         <img 
           src={imgdiamondcollectionmood} 
           alt="The Diamond Collection" 

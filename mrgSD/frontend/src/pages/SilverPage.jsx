@@ -86,35 +86,39 @@ const SilverPage = () => {
   return (
     <div className="silver-page-wrapper">
 
-      {/* Hero Section */}
-      <section className="silver-hero">
-        <div className="silver-hero-left">
-          <img loading="lazy" src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800&auto=format&fit=crop" alt="Silver Jewelry" />
-        </div>
-        <div className="silver-hero-center">
-          <div className="silver-sparkle-icons">
-            <span className="sparkle">✦</span>
-            <span className="sparkle small">✦</span>
-          </div>
-          <p className="silver-subtitle">PURE ELEGANCE +<br />TIMELESS CRAFTSMANSHIP</p>
-          <h1 className="silver-title">Silver that shines<br />with every moment</h1>
-          <button className="silver-btn-solid">SHOP THE COLLECTION</button>
-        </div>
-        <div className="silver-hero-right">
-          <img loading="lazy" src={imgsilvermodel} alt="Model wearing silver" />
-        </div>
-      </section>
+      {isAll && (
+        <>
+          {/* Hero Section */}
+          <section className="silver-hero">
+            <div className="silver-hero-left">
+              <img loading="lazy" src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800&auto=format&fit=crop" alt="Silver Jewelry" />
+            </div>
+            <div className="silver-hero-center">
+              <div className="silver-sparkle-icons">
+                <span className="sparkle">✦</span>
+                <span className="sparkle small">✦</span>
+              </div>
+              <p className="silver-subtitle">PURE ELEGANCE +<br />TIMELESS CRAFTSMANSHIP</p>
+              <h1 className="silver-title">Silver that shines<br />with every moment</h1>
+              <button className="silver-btn-solid">SHOP THE COLLECTION</button>
+            </div>
+            <div className="silver-hero-right">
+              <img loading="lazy" src={imgsilvermodel} alt="Model wearing silver" />
+            </div>
+          </section>
 
-      {/* Marquee Banner */}
-      <div className="silver-marquee">
-        <div className="silver-marquee-content">
-          <span>✦ Pure 925 Sterling Silver</span>
-          <span>✦ Pure 925 Sterling Silver</span>
-          <span>✦ Pure 925 Sterling Silver</span>
-          <span>✦ Pure 925 Sterling Silver</span>
-          <span>✦ Pure 925 Sterling Silver</span>
-        </div>
-      </div>
+          {/* Marquee Banner */}
+          <div className="silver-marquee">
+            <div className="silver-marquee-content">
+              <span>✦ Pure 925 Sterling Silver</span>
+              <span>✦ Pure 925 Sterling Silver</span>
+              <span>✦ Pure 925 Sterling Silver</span>
+              <span>✦ Pure 925 Sterling Silver</span>
+              <span>✦ Pure 925 Sterling Silver</span>
+            </div>
+          </div>
+        </>
+      )}
 
 
       {/* Collection Grid */}
