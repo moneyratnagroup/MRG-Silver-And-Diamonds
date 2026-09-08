@@ -6,8 +6,8 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
-import imgbislogo from '../assets/bis_logo.png';
-import imgmrgicon from '../assets/mrgicon.png';
+import imgbislogo from '../assets/bis_logo.webp';
+import imgmrgicon from '../assets/mrgicon.webp';
 
 const Footer = () => {
   return (
@@ -20,7 +20,7 @@ const Footer = () => {
           {/* Brand & Contact */}
           <div className="footer-col-brand">
             <div className="footer-logo-area">
-              <img loading="lazy" src={imgmrgicon} alt="Moneyratna Logo" className="footer-diamond-logo" style={{ width: '56px', height: 'auto', marginBottom: '15px' }} />
+              <img loading="lazy" src={imgmrgicon} alt="Moneyratna Logo" className="footer-diamond-logo" width="56" height="56" style={{ width: '56px', height: 'auto', marginBottom: '15px' }} />
               <div className="footer-brand-title">Moneyratna</div>
               <div className="footer-brand-subtitle">Jewellery</div>
             </div>

@@ -33,7 +33,7 @@ const Home = () => {
         <div className="home-bento-grid">
           <div className="bento-right-col">
             <div className="home-editorial-image-wrapper">
-              <img src={imgeditorialimg} alt="Jewellery for Every Chapter of Life" className="home-editorial-image" loading="lazy" />
+              <img src={imgeditorialimg} alt="Jewellery for Every Chapter of Life" className="home-editorial-image" loading="lazy" width="1775" height="888" />
               <div className="home-editorial-overlay">
                 <p>From first love to forever, from one generation to the next we craft memories that lasts a lifetime</p>
               </div>

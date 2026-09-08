@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import './AuthModal.css';
-import imgmrgicon from '../assets/mrgicon.png';
+import imgmrgicon from '../assets/mrgicon.webp';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
