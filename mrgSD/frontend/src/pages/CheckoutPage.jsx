@@ -365,7 +365,7 @@ const CheckoutPage = () => {
               </div>
             </div>
 
-            <h3 className="section-subtitle mt-4">DELIVERY ADDRESS</h3>
+                <h3 className="global-subheading mt-4">DELIVERY ADDRESS</h3>
             <div className="form-group">
               <label>Address Line 1 *</label>
               <input type="text" name="addressLine1" placeholder="House / Flat No., Building Name, Street" value={formData.addressLine1} onChange={handleInputChange} onBlur={handleBlur} className={errors.addressLine1 ? 'error-input' : ''} maxLength={150} />
@@ -416,7 +416,7 @@ const CheckoutPage = () => {
             </div>
 
 
-            <h3 className="section-subtitle mt-4">KYC DETAILS</h3>
+            <h3 className="global-subheading mt-4">KYC DETAILS</h3>
             {total > 200000 ? (
               <div className="kyc-notice warning-notice mb-3" style={{fontSize: '0.9rem', color: '#856404', backgroundColor: '#fff3cd', padding: '10px', borderRadius: '4px'}}>
                 As per Govt. regulations, a valid PAN card is mandatory for purchases exceeding ₹2 Lakhs.
@@ -463,7 +463,7 @@ const CheckoutPage = () => {
 
             {!formData.billingSameAsShipping && (
               <div className="billing-address-section mt-4">
-                <h3 className="section-subtitle">BILLING ADDRESS</h3>
+                <h3 className="global-subheading">BILLING ADDRESS</h3>
                 <div className="form-group">
                   <label>Address Line 1 *</label>
                   <input type="text" name="billingAddressLine1" placeholder="House / Flat No., Building Name, Street" value={formData.billingAddressLine1} onChange={handleInputChange} onBlur={handleBlur} className={errors.billingAddressLine1 ? 'error-input' : ''} maxLength={150} />

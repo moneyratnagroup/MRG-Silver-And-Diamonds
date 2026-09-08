@@ -367,6 +367,13 @@ h2 {
 
   @media (max-width: 1024px) {
     font-size: 20px;
-  }
 }
-*/
+
+/* Global Subheadings */
+.global-subheading {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #890206;
+}

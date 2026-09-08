@@ -13,7 +13,7 @@ const CareersPage = () => {
         </div>
         <div className="about-hero-overlay">
           <h1 className="about-title" style={{ color: '#fff' }}>Join Our Team</h1>
-          <p className="about-subtitle" style={{ color: '#f0f0f0' }}>Build a brilliant career with Moneyratna Jewellery</p>
+          <p className="global-subheading" style={{ color: '#f0f0f0' }}>Build a brilliant career with Moneyratna Jewellery</p>
         </div>
       </div>
 

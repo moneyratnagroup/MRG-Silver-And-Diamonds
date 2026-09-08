@@ -27,18 +27,10 @@
 .pg-line {
   width: 40px;
   height: 1px;
-  background: #C7A66A;
+  background: #890206;
 }
 
-.pg-title {
-  font-family: 'Cormorant Upright', serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #C7A66A;
-  margin: 0;
-}
+
 
 .pg-tagline {
   font-family: 'Cormorant Upright', serif;

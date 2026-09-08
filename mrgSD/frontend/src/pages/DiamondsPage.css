@@ -54,14 +54,6 @@
   margin-left: 0.2rem;
 }
 
-.gorings-subtitle {
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #555;
-  margin-bottom: 1.5rem;
-  font-weight: 500;
-}
 
 .gorings-title {
   font-family: 'Cormorant Upright', serif;
@@ -239,13 +231,6 @@
   padding: 5rem 10%;
 }
 
-.gorings-bottom-subtitle {
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #555;
-  margin-bottom: 1rem;
-}
 
 .gorings-bottom-title {
   font-family: 'Cormorant Upright', serif;

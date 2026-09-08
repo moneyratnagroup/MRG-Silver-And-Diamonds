@@ -35,9 +35,9 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
           {title && (
             <div className="pg-title-with-lines">
               <div className="pg-line"></div>
-              <Sparkles size={12} color="#C7A66A" className="pg-sparkle" />
-              <h2 className="pg-title">{title}</h2>
-              <Sparkles size={12} color="#C7A66A" className="pg-sparkle" />
+              <Sparkles size={12} color="#890206" className="pg-sparkle" />
+              <h2 className="global-subheading">{title}</h2>
+              <Sparkles size={12} color="#890206" className="pg-sparkle" />
               <div className="pg-line"></div>
             </div>
           )}

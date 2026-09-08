@@ -20,7 +20,7 @@ const CategoriesMarquee = () => {
       <div className="categories-header">
         <div className="title-with-lines">
           <div className="decorative-line left-line"></div>
-          <h2 className="main-title">SHOP BY CATEGORY</h2>
+          <h2 className="global-subheading">SHOP BY CATEGORY</h2>
           <div className="decorative-line right-line"></div>
         </div>
         <div className="header-icon-wrapper">

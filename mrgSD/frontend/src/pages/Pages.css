@@ -675,11 +675,7 @@
   letter-spacing: 2px;
 }
 
-.about-subtitle {
-  font-size: 1.25rem;
-  font-weight: 300;
-  letter-spacing: 1px;
-}
+
 
 .about-section {
   padding: 6rem 2rem;
@@ -917,9 +913,7 @@
   .about-title {
     font-size: 2.5rem;
   }
-  .about-subtitle {
-    font-size: 1.1rem;
-  }
+
   .about-section {
     padding: 4rem 1.5rem;
   }

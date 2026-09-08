@@ -19,7 +19,7 @@ const AboutPage = () => {
               <span className="text-gold">Impact.</span>
             </h1>
             <div className="hero-subtitle-line"></div>
-            <p className="hero-subtitle">
+            <p className="global-subheading">
               SMART CRAFTSMANSHIP.<br />
               TIMELESS ELEGANCE.
             </p>

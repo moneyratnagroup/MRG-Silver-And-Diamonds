@@ -98,7 +98,7 @@ const SilverPage = () => {
                 <span className="sparkle">✦</span>
                 <span className="sparkle small">✦</span>
               </div>
-              <p className="silver-subtitle">PURE ELEGANCE +<br />TIMELESS CRAFTSMANSHIP</p>
+              <p className="global-subheading">PURE ELEGANCE +<br />TIMELESS CRAFTSMANSHIP</p>
               <h1 className="silver-title">Silver that shines<br />with every moment</h1>
               <button className="silver-btn-solid">SHOP THE COLLECTION</button>
             </div>
@@ -170,7 +170,7 @@ const SilverPage = () => {
       {/* Bottom Split Section */}
       <section className="silver-bottom-split">
         <div className="silver-bottom-text">
-          <p className="silver-bottom-subtitle">JEWELRY THAT PROMISES TO</p>
+          <p className="global-subheading">JEWELRY THAT PROMISES TO</p>
           <h2 className="silver-bottom-title">Last a lifetime</h2>
           <p className="silver-bottom-desc">
             Our premium silver collection is designed to be cherished<br />

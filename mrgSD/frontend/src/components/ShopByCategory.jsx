@@ -26,9 +26,9 @@ const ShopByCategory = () => {
       <div className="shop-category-header">
         <div className="category-title-with-lines">
           <div className="cat-line"></div>
-          <Sparkles size={12} color="#C7A66A" className="cat-sparkle" />
-          <span className="cat-subtitle">SHOP BY CATEGORY</span>
-          <Sparkles size={12} color="#C7A66A" className="cat-sparkle" />
+          <Sparkles size={12} color="#890206" className="cat-sparkle" />
+          <span className="global-subheading">SHOP BY CATEGORY</span>
+          <Sparkles size={12} color="#890206" className="cat-sparkle" />
           <div className="cat-line"></div>
         </div>
       </div>

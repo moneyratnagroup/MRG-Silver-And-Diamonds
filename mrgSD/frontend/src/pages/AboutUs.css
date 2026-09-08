@@ -73,14 +73,7 @@
   margin-bottom: 1.5rem;
 }
 
-.hero-subtitle {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  margin-bottom: 3rem;
-  font-weight: 500;
-  color: #333;
-}
+
 
 .btn-lumina {
   display: inline-flex;
