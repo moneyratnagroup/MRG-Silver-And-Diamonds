@@ -4,7 +4,7 @@ import { useShop } from '../context/ShopContext';
 import { ChevronLeft, X } from 'lucide-react';
 import ProductsGallery from '../components/ProductsGallery';
 import './ProductDetails.css';
-import imgbislogo from '../assets/bis_logo.png';
+import imgbislogo from '../assets/bis_logo.webp';
 
 const ProductDetailsPage = () => {
   const { productId } = useParams();
@@ -150,7 +150,7 @@ const ProductDetailsPage = () => {
 
               {showFullDetails && (
                 <div className="pd-expanded-details">
-                  <div className="pd-specs-grid">
+                  <div className="pd-specs-list">
                     <div className="pd-spec-item"><span className="pd-spec-label">Material:</span> <span className="pd-spec-value">Premium 92.5 Sterling Silver</span></div>
                     <div className="pd-spec-item"><span className="pd-spec-label">Finish:</span> <span className="pd-spec-value">High Polish Anti-Tarnish Rhodium</span></div>
                     <div className="pd-spec-item"><span className="pd-spec-label">Weight:</span> <span className="pd-spec-value">{product.weight || 'Approx 15g'}</span></div>
@@ -208,7 +208,7 @@ const ProductDetailsPage = () => {
         </div>
       </div>
       {similarProducts.length > 0 && (
-        <div style={{ marginTop: '60px' }}>
+        <div className="pd-similar-wrapper">
           <ProductsGallery
             title="Similar Products"
             tagline="You may also like these exquisite pieces from our collection."

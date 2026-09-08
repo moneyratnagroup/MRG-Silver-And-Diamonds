@@ -6,7 +6,7 @@ import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
 import './Navbar.css';
-import imgmrgicon from '../assets/mrgicon.png';
+import imgmrgicon from '../assets/mrgicon.webp';
 
 const MRGNavbar = () => {
   const [expanded, setExpanded] = useState(false);
@@ -89,7 +89,7 @@ const MRGNavbar = () => {
           {/* Center: Brand Logo */}
           <div className="d-flex align-items-center justify-content-center" style={{ flex: '1 1 0%' }}>
             <Navbar.Brand as={Link} to="/" className="brand-logo-container m-0">
-              <img loading="lazy" src={imgmrgicon} alt="Moneyratna Logo" className="brand-icon-img" style={{ width: '48px', height: 'auto', marginRight: '10px' }} />
+              <img loading="lazy" src={imgmrgicon} alt="Moneyratna Logo" className="brand-icon-img" width="48" height="48" style={{ width: '48px', height: 'auto', marginRight: '10px' }} />
               <div className="brand-text">
                 <span className="brand-name">MONEYRATNA</span>
                 <span className="brand-tagline">JEWELLERY</span>

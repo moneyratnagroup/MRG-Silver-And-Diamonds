@@ -4,7 +4,7 @@ import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
 import { fetchWithAuth } from '../utils/api';
 import './CheckoutPage.css';
-import imgmrgicon from '../assets/mrgicon.png';
+import imgmrgicon from '../assets/mrgicon.webp';
 
 const INDIAN_STATES = [
   "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", 
