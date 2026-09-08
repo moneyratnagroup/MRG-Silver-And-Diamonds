@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     OTP_MAX_ATTEMPTS: int = 5
     OTP_RESEND_COOLDOWN_SECONDS: int = 30
     
+    
+    
     # Environment
     ENVIRONMENT: str = "development"
 
