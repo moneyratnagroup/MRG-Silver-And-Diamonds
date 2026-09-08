@@ -130,15 +130,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.section-subtitle {
-  font-size: 1.1rem;
-  color: var(--primary);
-  margin-bottom: 20px;
-  border-bottom: 1px solid #e8e3dc;
-  padding-bottom: 10px;
-  font-family: 'Outfit', sans-serif;
-  letter-spacing: 0.5px;
-}
+
 
 .custom-select {
   width: 100%;

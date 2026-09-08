@@ -28,16 +28,10 @@
 .cat-line {
   width: 40px;
   height: 1px;
-  background: #C7A66A;
+  background: #890206;
 }
 
-.cat-subtitle {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #C7A66A;
-}
+
 
 .cat-main-title {
   font-family: 'Cormorant Upright', serif;
@@ -138,9 +132,9 @@
   align-items: center;
   gap: 10px;
   padding: 14px 35px;
-  border: 1px solid #C7A66A;
+  border: 1px solid #890206;
   background: transparent;
-  color: #C7A66A;
+  color: #890206;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 2px;
@@ -149,7 +143,7 @@
 }
 
 .cat-explore-btn:hover {
-  background: #C7A66A;
+  background: #890206;
   color: #FFF;
 }
 

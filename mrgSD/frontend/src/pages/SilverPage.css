@@ -43,14 +43,6 @@
   margin-bottom: 1rem;
 }
 
-.silver-subtitle {
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #555;
-  margin-bottom: 1.5rem;
-  font-weight: 500;
-}
 
 .silver-title {
   font-family: 'Cormorant Upright', serif;
@@ -219,13 +211,6 @@
   padding: 5rem 10%;
 }
 
-.silver-bottom-subtitle {
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #555;
-  margin-bottom: 1rem;
-}
 
 .silver-bottom-title {
   font-family: 'Cormorant Upright', serif;

@@ -94,7 +94,7 @@ const GoldPage = () => {
             <span className="sparkle">✦</span>
             <span className="sparkle small">✦</span>
           </div>
-          <p className="gold-subtitle">EXQUISITE CRAFTSMANSHIP</p>
+          <p className="global-subheading">EXQUISITE CRAFTSMANSHIP</p>
           <h1 className="gold-title">Golden moments<br />crafted for you</h1>
           <button className="gold-btn-solid">EXPLORE THE COLLECTION</button>
         </div>
@@ -184,7 +184,7 @@ const GoldPage = () => {
       {/* Stay Gold & Do Good Section */}
       <section className="gorings-bottom-split">
         <div className="gorings-bottom-text">
-          <p className="gorings-bottom-subtitle">JEWELRY THAT PROMISES TO</p>
+          <p className="global-subheading">JEWELRY THAT PROMISES TO</p>
           <h2 className="gorings-bottom-title">Stay gold & do good</h2>
           <p className="gorings-bottom-desc">
             Our collection of long-lasting, never-take-it-off jewelry is ready to<br/>
