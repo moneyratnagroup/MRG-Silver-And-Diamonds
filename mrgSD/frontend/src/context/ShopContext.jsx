@@ -19,6 +19,8 @@ export const ShopProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [metals, setMetals] = useState([]);
+  const [collections, setCollections] = useState([]);
+  const [occasions, setOccasions] = useState([]);
   
   // Drawer UI state
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -100,6 +102,12 @@ export const ShopProvider = ({ children }) => {
       
       const metalRes = await fetch("http://localhost:8000/api/v1/products/metals");
       if (metalRes.ok) setMetals(await metalRes.json());
+
+      const colRes = await fetch("http://localhost:8000/api/v1/products/collections");
+      if (colRes.ok) setCollections(await colRes.json());
+
+      const occRes = await fetch("http://localhost:8000/api/v1/products/occasions");
+      if (occRes.ok) setOccasions(await occRes.json());
     } catch (err) {
       console.error("Failed to fetch taxonomies", err);
     }
@@ -110,12 +118,6 @@ export const ShopProvider = ({ children }) => {
       const res = await fetch("http://localhost:8000/api/v1/products/");
       if (res.ok) {
         const data = await res.json();
-        const collectionMap = {
-          'WOMENS': 'women',
-          'MENS': 'men',
-          'KIDS': 'kids',
-          'RELIGIOUS': 'religious'
-        };
         const mappedProducts = data.map(p => ({
           id: p.id,
           sku: p.sku,
@@ -123,8 +125,8 @@ export const ShopProvider = ({ children }) => {
           originalPrice: p.mrp_price ? `₹${p.mrp_price}` : null,
           price: `₹${p.selling_price}`,
           category: p.category?.name || '',
-          collection: collectionMap[p.target_audience] || 'women',
-          target_audience: p.target_audience,
+          collections: p.collections || [],
+          occasions: p.occasions || [],
           desc: p.description,
           metal: p.metal?.name || 'Silver',
           purity: p.purity?.name || '925',
@@ -320,16 +322,7 @@ export const ShopProvider = ({ children }) => {
     }
   };
 
-  // Collections (Frontend grouped)
-
-  const [collections, setCollections] = useState([
-    { id: 1, name: 'women', displayName: "Women's Collection", categoryIds: [1, 2, 3] },
-    { id: 2, name: 'men', displayName: "Men's Collection", categoryIds: [1, 3, 4] },
-    { id: 3, name: 'kids', displayName: "Kids Collection", categoryIds: [2, 4, 6] },
-    { id: 4, name: 'religious', displayName: "Religious", categoryIds: [5, 7] },
-    { id: 5, name: 'investment', displayName: "Investment", categoryIds: [8] },
-    { id: 6, name: 'special', displayName: "Special/Bridal", categoryIds: [9, 1, 2] }
-  ]);
+  // Collections are now fetched dynamically from backend
 
   const addCategory = (name) => {
     const newId = categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1;
@@ -713,6 +706,7 @@ export const ShopProvider = ({ children }) => {
     deleteTestimonial,
     categories,
     metals,
+    occasions,
     addCategory,
     deleteCategory,
     collections,

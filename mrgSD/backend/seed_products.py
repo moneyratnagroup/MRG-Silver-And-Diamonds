@@ -22,6 +22,18 @@ def seed_data():
                 db.refresh(cat)
             categories_map[c] = cat
 
+        # Seed Collections
+        collections_data = ["Women's Collection", "Men's Collection", "Kids Collection", "Religious"]
+        collections_map = {}
+        for c in collections_data:
+            col = db.query(models.Collection).filter(models.Collection.name == c).first()
+            if not col:
+                col = models.Collection(name=c)
+                db.add(col)
+                db.commit()
+                db.refresh(col)
+            collections_map[c] = col
+
         # Seed Metals
         metals_data = ['Silver', 'Gold', 'Platinum', 'Copper', 'Silver/Diamond']
         metals_map = {}
@@ -64,16 +76,17 @@ def seed_data():
             if exists:
                 continue
                 
-            # Map target audience
-            ta_map = {
-                'women': models.TargetAudienceEnum.WOMENS,
-                'men': models.TargetAudienceEnum.MENS,
-                'kids': models.TargetAudienceEnum.KIDS,
-                'religious': models.TargetAudienceEnum.RELIGIOUS,
-                'investment': models.TargetAudienceEnum.WOMENS, # Defaulting investment
-                'special': models.TargetAudienceEnum.WOMENS     # Defaulting special
+            # Map to collections
+            col_map = {
+                'women': "Women's Collection",
+                'men': "Men's Collection",
+                'kids': "Kids Collection",
+                'religious': "Religious",
+                'investment': "Women's Collection",
+                'special': "Women's Collection"
             }
-            ta = ta_map.get(p_data.get('collection'), models.TargetAudienceEnum.WOMENS)
+            col_name = col_map.get(p_data.get('collection'), "Women's Collection")
+            col = collections_map.get(col_name)
 
             # Get relations
             cat = categories_map.get(p_data.get('category'))
@@ -85,7 +98,6 @@ def seed_data():
                 sku=p_data['sku'],
                 name=p_data['name'],
                 description=p_data['desc'],
-                target_audience=ta,
                 category_id=cat.id if cat else None,
                 metal_id=metal.id if metal else None,
                 purity_id=purity.id if purity else None,
@@ -93,6 +105,9 @@ def seed_data():
                 mrp_price=clean_price(p_data.get('originalPrice', '')),
                 is_active=True
             )
+            if col:
+                product.collections.append(col)
+                
             db.add(product)
             db.commit()
             db.refresh(product)

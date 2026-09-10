@@ -24,14 +24,27 @@ const SilverPage = () => {
   const typeFilter = searchParams.get('type');
   const occasionFilter = searchParams.get('occasion');
 
+  const matchCollection = (c, searchParam) => {
+      if (!searchParam) return false;
+      const sp = searchParam.toLowerCase();
+      if (c.id.toString() === sp) return true;
+      if (sp === 'women' && c.name.toLowerCase().includes("women")) return true;
+      if (sp === 'men' && c.name.toLowerCase() === "men's collection") return true;
+      if (sp === 'kids' && c.name.toLowerCase().includes("kids")) return true;
+      if (sp === 'religious' && c.name.toLowerCase().includes("religious")) return true;
+      if (sp === 'special' && c.name.toLowerCase().includes("special")) return true;
+      if (c.name.toLowerCase() === sp) return true;
+      return false;
+  };
+
   // Filter specifically for silver
   let silverProducts = allProductsContext.filter(p =>
-    (p.collection && p.collection.toLowerCase() !== 'diamonds') &&
-    (p.category && p.category.toLowerCase() !== 'diamonds')
+    !(p.collections && p.collections.some(c => c.name.toLowerCase() === 'diamonds')) &&
+    !(p.category && p.category.toLowerCase() === 'diamonds')
   );
 
   let products = (collectionId && collectionId !== 'all')
-    ? silverProducts.filter(p => p.collection && p.collection.toLowerCase() === collectionId.toLowerCase())
+    ? silverProducts.filter(p => p.collections && p.collections.some(c => matchCollection(c, collectionId)))
     : silverProducts;
 
   if (typeFilter) {
@@ -39,7 +52,7 @@ const SilverPage = () => {
   }
 
   if (occasionFilter) {
-    products = products.filter(p => p.occasion && p.occasion.toLowerCase() === occasionFilter.toLowerCase());
+    products = products.filter(p => p.occasions && p.occasions.some(o => o.id.toString() === occasionFilter));
   }
 
   const priceFilter = searchParams.get('price');
@@ -77,6 +90,7 @@ const SilverPage = () => {
   const activeFiltersCount = (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
 
   const isAll = collectionId === 'all' || !collectionId;
+  const showLanding = isAll && !typeFilter && !occasionFilter && !priceFilter;
   const baseTitle = isAll ? "All Silver" : collectionId ? collectionId.charAt(0).toUpperCase() + collectionId.slice(1) : "Collection";
   let displayTitle = isAll ? "All Silver Products" : `${baseTitle} Collection`;
   if (typeFilter) {
@@ -86,7 +100,7 @@ const SilverPage = () => {
   return (
     <div className="silver-page-wrapper">
 
-      {isAll && (
+      {showLanding && (
         <>
           {/* Hero Section */}
           <section className="silver-hero">
@@ -168,22 +182,24 @@ const SilverPage = () => {
       </section>
 
       {/* Bottom Split Section */}
-      <section className="silver-bottom-split">
-        <div className="silver-bottom-text">
-          <p className="global-subheading">JEWELRY THAT PROMISES TO</p>
-          <h2 className="silver-bottom-title">Last a lifetime</h2>
-          <p className="silver-bottom-desc">
-            Our premium silver collection is designed to be cherished<br />
-            and passed down. With quality craftsmanship and<br />
-            timeless designs, these pieces will stay with you forever.
-          </p>
-          <button className="silver-btn-solid">OUR STORY</button>
-        </div>
-        <div className="silver-bottom-images">
-          <img loading="lazy" src={visionBg} alt="Model styling silver" className="silver-bottom-img1" />
-          <img loading="lazy" src={presenceBg} alt="Hands wearing silver jewelry" className="silver-bottom-img2" />
-        </div>
-      </section>
+      {showLanding && (
+        <section className="silver-bottom-split">
+          <div className="silver-bottom-text">
+            <p className="global-subheading">JEWELRY THAT PROMISES TO</p>
+            <h2 className="silver-bottom-title">Last a lifetime</h2>
+            <p className="silver-bottom-desc">
+              Our premium silver collection is designed to be cherished<br />
+              and passed down. With quality craftsmanship and<br />
+              timeless designs, these pieces will stay with you forever.
+            </p>
+            <button className="silver-btn-solid">OUR STORY</button>
+          </div>
+          <div className="silver-bottom-images">
+            <img loading="lazy" src={visionBg} alt="Model styling silver" className="silver-bottom-img1" />
+            <img loading="lazy" src={presenceBg} alt="Hands wearing silver jewelry" className="silver-bottom-img2" />
+          </div>
+        </section>
+      )}
 
       <div className="mobile-only">
         <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} />

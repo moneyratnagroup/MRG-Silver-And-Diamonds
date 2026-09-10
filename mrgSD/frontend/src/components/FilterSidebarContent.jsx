@@ -27,24 +27,41 @@ export const AccordionItem = ({ title, children, defaultOpen = false, activeCoun
 const FilterSidebarContent = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { collectionId } = useParams();
-  const { categories } = useShop();
+  const { collectionId: pathCollectionId } = useParams();
+  const collectionId = pathCollectionId || searchParams.get('collection');
+  const { categories, collections, occasions } = useShop();
   
   const typeFilter = searchParams.get('type');
   const occasionFilter = searchParams.get('occasion');
   const priceFilter = searchParams.get('price');
 
-  const collectionCategories = [
-    { title: "Women", id: "women" },
-    { title: "Men", id: "men" },
-    { title: "Kids", id: "kids" },
-    { title: "Investment", id: "investment" },
-    { title: "Gift", id: "special" },
-    { title: "Couple", id: "couple" },
-    { title: "Religious", id: "religious" }
-  ];
+  const matchCollection = (c, searchParam) => {
+      if (!searchParam) return false;
+      const sp = searchParam.toLowerCase();
+      if (c.id.toString() === sp) return true;
+      if (sp === 'women' && c.name.toLowerCase().includes("women")) return true;
+      if (sp === 'men' && c.name.toLowerCase() === "men's collection") return true;
+      if (sp === 'kids' && c.name.toLowerCase().includes("kids")) return true;
+      if (sp === 'religious' && c.name.toLowerCase().includes("religious")) return true;
+      if (sp === 'special' && c.name.toLowerCase().includes("special")) return true;
+      if (c.name.toLowerCase() === sp) return true;
+      return false;
+  };
 
-  const occasionsList = ["Daily", "Office", "Modern", "Traditional"];
+  let activeCategories = categories;
+  if (collectionId && collectionId !== 'all') {
+    const collectionIds = collectionId.split(','); 
+    const activeCollections = collections?.filter(c => collectionIds.some(id => matchCollection(c, id))) || [];
+    
+    if (activeCollections.length > 0) {
+      const allowedCategoryIds = new Set(activeCollections.flatMap(c => c.category_ids || c.categoryIds || []));
+      if (allowedCategoryIds.size > 0) {
+        activeCategories = categories.filter(cat => allowedCategoryIds.has(cat.id));
+      }
+    }
+  }
+
+
   
   const priceRanges = [
     { id: "under-2000", label: "Under ₹2,000" },
@@ -54,8 +71,25 @@ const FilterSidebarContent = () => {
   ];
 
   const handleFilterSelect = (type, value) => {
+    const currentPath = window.location.pathname;
+    
     if (type === 'collection') {
-      navigate(`/silver/${value}?${searchParams.toString()}`);
+      if (currentPath.startsWith('/products')) {
+        const newParams = new URLSearchParams(searchParams);
+        if (value === 'all') {
+          newParams.delete('collection');
+        } else {
+          newParams.set('collection', value);
+        }
+        navigate(`${currentPath}?${newParams.toString()}`);
+      } else {
+        const basePath = currentPath.split('/')[1] || 'silver';
+        if (value === 'all') {
+          navigate(`/${basePath}?${searchParams.toString()}`);
+        } else {
+          navigate(`/${basePath}/${value}?${searchParams.toString()}`);
+        }
+      }
     } else {
       const newParams = new URLSearchParams(searchParams);
       if (newParams.get(type) === value) {
@@ -63,7 +97,7 @@ const FilterSidebarContent = () => {
       } else {
         newParams.set(type, value);
       }
-      navigate(`?${newParams.toString()}`);
+      navigate(`${currentPath}?${newParams.toString()}`);
     }
   };
 
@@ -104,15 +138,15 @@ const FilterSidebarContent = () => {
             />
             <span className="checkbox-text">All Categories</span>
           </label>
-          {collectionCategories.map(cat => (
-            <label key={cat.id} className="custom-checkbox-label">
+          {collections?.map(col => (
+            <label key={col.id} className="custom-checkbox-label">
               <input 
                 type="radio" 
                 name="category"
-                checked={collectionId === cat.id} 
-                onChange={() => handleFilterSelect('collection', cat.id)} 
+                checked={collectionId === col.id.toString()} 
+                onChange={() => handleFilterSelect('collection', col.id.toString())} 
               />
-              <span className="checkbox-text">{cat.title}</span>
+              <span className="checkbox-text">{col.name}</span>
             </label>
           ))}
         </div>
@@ -120,7 +154,7 @@ const FilterSidebarContent = () => {
 
       <AccordionItem title="Product Type" defaultOpen={true} activeCount={typeFilter ? 1 : 0}>
         <div className="filter-checkbox-list">
-          {categories.map(cat => (
+          {activeCategories.map(cat => (
             <label key={cat.id} className="custom-checkbox-label">
               <input 
                 type="radio" 
@@ -152,15 +186,15 @@ const FilterSidebarContent = () => {
 
       <AccordionItem title="Occasion" defaultOpen={true} activeCount={occasionFilter ? 1 : 0}>
         <div className="filter-checkbox-list">
-          {occasionsList.map(occ => (
-            <label key={occ} className="custom-checkbox-label">
+          {occasions?.map(occ => (
+            <label key={occ.id} className="custom-checkbox-label">
               <input 
                 type="radio" 
                 name="occasion"
-                checked={occasionFilter && occasionFilter.toLowerCase() === occ.toLowerCase()} 
-                onChange={() => handleFilterSelect('occasion', occ.toLowerCase())} 
+                checked={occasionFilter && occasionFilter.toString() === occ.id.toString()} 
+                onChange={() => handleFilterSelect('occasion', occ.id.toString())} 
               />
-              <span className="checkbox-text">{occ}</span>
+              <span className="checkbox-text">{occ.name}</span>
             </label>
           ))}
         </div>

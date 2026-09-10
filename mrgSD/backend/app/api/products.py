@@ -80,7 +80,10 @@ def get_collections(db: Session = Depends(get_db)):
 
 @router.post("/collections", response_model=schemas.Collection)
 def create_collection(collection: schemas.CollectionCreate, db: Session = Depends(get_db)):
-    db_obj = models.Collection(**collection.dict())
+    db_obj = models.Collection(name=collection.name)
+    if collection.category_ids:
+        categories = db.query(models.Category).filter(models.Category.id.in_(collection.category_ids)).all()
+        db_obj.categories = categories
     db.add(db_obj)
     db.commit()
     db.refresh(db_obj)
@@ -92,7 +95,8 @@ def create_collection(collection: schemas.CollectionCreate, db: Session = Depend
 
 @router.get("/", response_model=List[schemas.Product])
 def get_products(
-    target_audience: Optional[models.TargetAudienceEnum] = None,
+    collection_id: Optional[int] = None,
+    occasion_id: Optional[int] = None,
     category_id: Optional[int] = None,
     metal_id: Optional[int] = None,
     is_new_arrival: Optional[bool] = None,
@@ -101,8 +105,10 @@ def get_products(
 ):
     query = db.query(models.Product).filter(models.Product.is_active == True)
     
-    if target_audience:
-        query = query.filter(models.Product.target_audience == target_audience)
+    if collection_id:
+        query = query.filter(models.Product.collections.any(models.Collection.id == collection_id))
+    if occasion_id:
+        query = query.filter(models.Product.occasions.any(models.Occasion.id == occasion_id))
     if category_id:
         query = query.filter(models.Product.category_id == category_id)
     if metal_id:
@@ -130,7 +136,6 @@ def create_product(product_in: schemas.ProductCreate, db: Session = Depends(get_
         sku=product_in.sku,
         name=product_in.name,
         description=product_in.description,
-        target_audience=product_in.target_audience,
         category_id=product_in.category_id,
         metal_id=product_in.metal_id,
         purity_id=product_in.purity_id,

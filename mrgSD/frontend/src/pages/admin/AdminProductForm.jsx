@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Upload } from 'lucide-react';
+import MultiSelectDropdown from '../../components/admin/MultiSelectDropdown';
 import './AdminProductForm.css';
 
 const AdminProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { products, addProduct, updateProduct, categories, metals, collections, occasions } = useShop();
   const { products, addProduct, updateProduct, categories, metals, coupons } = useShop();
   
   const isEditing = Boolean(id);
   const [errors, setErrors] = useState({});
+  const [isUploading, setIsUploading] = useState(false);
   
   const [formData, setFormData] = useState({
     name: '',
     originalPrice: '',
     price: '',
     category: 'Rings',
-    collection: 'women',
+    collectionIds: [],
+    occasionIds: [],
     desc: '',
     shortDesc: '',
     careInstructions: '',
@@ -49,7 +53,8 @@ const AdminProductForm = () => {
           originalPrice: productToEdit.originalPrice ? productToEdit.originalPrice.replace('₹', '').replace(',', '') : '',
           price: productToEdit.price.replace('₹', '').replace(',', ''),
           category: productToEdit.category,
-          collection: productToEdit.collection,
+          collectionIds: productToEdit.collections?.map(c => c.id) || [],
+          occasionIds: productToEdit.occasions?.map(o => o.id) || [],
           desc: productToEdit.desc,
           shortDesc: productToEdit.shortDesc || '',
           careInstructions: productToEdit.careInstructions || '',
@@ -80,6 +85,56 @@ const AdminProductForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleCheckboxChange = (e, field) => {
+    const { value, checked } = e.target;
+    const id = parseInt(value);
+    setFormData(prev => {
+      const list = prev[field];
+      if (checked) {
+        return { ...prev, [field]: [...list, id] };
+      } else {
+        return { ...prev, [field]: list.filter(item => item !== id) };
+      }
+    });
+  };
+
+  const handleFileUpload = async (e, field) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const formDataObj = new FormData();
+    formDataObj.append('file', file);
+
+    try {
+      const response = await fetch('http://localhost:8000/api/v1/upload/', {
+        method: 'POST',
+        body: formDataObj,
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const data = await response.json();
+      const imageUrl = `http://localhost:8000${data.url}`;
+
+      if (field === 'galleryImages') {
+        setFormData(prev => ({ 
+          ...prev, 
+          [field]: prev[field] ? `${prev[field]}\n${imageUrl}` : imageUrl 
+        }));
+      } else {
+        setFormData(prev => ({ ...prev, [field]: imageUrl }));
+      }
+    } catch (error) {
+      alert("Error uploading image: " + error.message);
+    } finally {
+      setIsUploading(false);
+      e.target.value = null;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -108,24 +163,13 @@ const AdminProductForm = () => {
     }
     finalImages.push(...galleryArray);
 
-    // Map frontend data to backend schema
-    const targetAudienceMap = {
-      'women': 'WOMENS',
-      'men': 'MENS',
-      'kids': 'KIDS',
-      'religious': 'RELIGIOUS',
-      'investment': 'WOMENS',
-      'special': 'WOMENS'
-    };
-
     const productPayload = {
       sku: formData.sku,
       name: formData.name,
       description: formData.desc,
-      target_audience: targetAudienceMap[formData.collection] || 'WOMENS',
       category_id: categories.find(c => c.name === formData.category)?.id || null,
       metal_id: metals.find(m => m.name === formData.metal)?.id || null,
-      purity_id: null, // Hard to map statically without purity data in context, skipping for now
+      purity_id: null,
       selling_price: parseFloat(formData.price),
       mrp_price: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
       is_new_arrival: false,
@@ -134,9 +178,9 @@ const AdminProductForm = () => {
       is_offer_available: formData.isOfferAvailable === 'Yes',
       offer_coupon_code: formData.isOfferAvailable === 'Yes' && formData.offerCouponCode ? formData.offerCouponCode : null,
       images: finalImages.map((url, idx) => ({ image_url: url, is_primary: idx === 0 })),
-      occasion_ids: [],
+      occasion_ids: formData.occasionIds,
       stone_ids: [],
-      collection_ids: []
+      collection_ids: formData.collectionIds
     };
 
     let result;
@@ -167,7 +211,7 @@ const AdminProductForm = () => {
       <div className="admin-form-card">
         <form onSubmit={handleSubmit} className="product-form" noValidate>
           <div className="form-group">
-            <label>Product Name</label>
+            <label>Product Name <span style={{color: '#dc3545'}}>*</span></label>
             <input 
               type="text" 
               name="name" 
@@ -192,7 +236,7 @@ const AdminProductForm = () => {
             </div>
 
             <div className="form-group half">
-              <label>Selling Price (₹)</label>
+              <label>Selling Price (₹) <span style={{color: '#dc3545'}}>*</span></label>
               <input 
                 type="number" 
                 name="price" 
@@ -216,13 +260,27 @@ const AdminProductForm = () => {
             </div>
             
             <div className="form-group half">
-              <label>Collection</label>
-              <select name="collection" value={formData.collection} onChange={handleChange}>
-                <option value="women">Women's Collection</option>
-                <option value="men">Men's Collection</option>
-                <option value="kids">Kids Collection</option>
-                <option value="religious">Religious</option>
-              </select>
+              <label>Collections</label>
+              <MultiSelectDropdown 
+                options={collections} 
+                selectedIds={formData.collectionIds} 
+                onChange={handleCheckboxChange} 
+                placeholder="Select Collections..." 
+                field="collectionIds" 
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group full">
+              <label>Occasions</label>
+              <MultiSelectDropdown 
+                options={occasions || []} 
+                selectedIds={formData.occasionIds} 
+                onChange={handleCheckboxChange} 
+                placeholder="Select Occasions..." 
+                field="occasionIds" 
+              />
             </div>
           </div>
           
@@ -230,32 +288,55 @@ const AdminProductForm = () => {
           
           <div className="form-row">
             <div className="form-group half">
-              <label>Main Image URL (Required)</label>
-              <input 
-                type="url" 
-                name="img" 
-                value={formData.img} 
-                onChange={handleChange} 
-                className={errors.img ? 'input-error' : ''}
-                placeholder="https://..."
-              />
+              <label>Main Image URL or Upload <span style={{color: '#dc3545'}}>*</span></label>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <input 
+                  type="text" 
+                  name="img" 
+                  value={formData.img} 
+                  onChange={handleChange} 
+                  className={errors.img ? 'input-error' : ''}
+                  placeholder="https://..."
+                  style={{ flex: 1 }}
+                />
+                <label className="btn-upload" style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '0 15px', background: '#e0e0e0', cursor: 'pointer', borderRadius: '4px', border: '1px solid #ccc' }}>
+                  <Upload size={16} />
+                  <span>{isUploading ? '...' : 'Upload'}</span>
+                  <input type="file" accept="image/*,image/webp" style={{ display: 'none' }} onChange={(e) => handleFileUpload(e, 'img')} disabled={isUploading} />
+                </label>
+              </div>
               {errors.img && <span className="error-text">required</span>}
             </div>
             <div className="form-group half">
-              <label>Hover Image URL (Optional)</label>
-              <input 
-                type="url" 
-                name="hoverImage" 
-                value={formData.hoverImage} 
-                onChange={handleChange} 
-                placeholder="Image shown on mouse hover..."
-              />
+              <label>Hover Image URL (Optional) or Upload</label>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <input 
+                  type="text" 
+                  name="hoverImage" 
+                  value={formData.hoverImage} 
+                  onChange={handleChange} 
+                  placeholder="Image shown on mouse hover..."
+                  style={{ flex: 1 }}
+                />
+                <label className="btn-upload" style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '0 15px', background: '#e0e0e0', cursor: 'pointer', borderRadius: '4px', border: '1px solid #ccc' }}>
+                  <Upload size={16} />
+                  <span>{isUploading ? '...' : 'Upload'}</span>
+                  <input type="file" accept="image/*,image/webp" style={{ display: 'none' }} onChange={(e) => handleFileUpload(e, 'hoverImage')} disabled={isUploading} />
+                </label>
+              </div>
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group half">
-              <label>Gallery Images (Optional, one URL per line)</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label style={{ margin: 0 }}>Gallery Images (One URL per line)</label>
+                <label className="btn-upload" style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '4px 10px', background: '#e0e0e0', cursor: 'pointer', borderRadius: '4px', border: '1px solid #ccc', fontSize: '0.85rem' }}>
+                  <Upload size={14} />
+                  <span>{isUploading ? 'Uploading...' : 'Upload Image'}</span>
+                  <input type="file" accept="image/*,image/webp" style={{ display: 'none' }} onChange={(e) => handleFileUpload(e, 'galleryImages')} disabled={isUploading} />
+                </label>
+              </div>
               <textarea 
                 name="galleryImages" 
                 value={formData.galleryImages} 
@@ -290,7 +371,7 @@ const AdminProductForm = () => {
           </div>
 
           <div className="form-group">
-            <label>Detailed Description</label>
+            <label>Detailed Description <span style={{color: '#dc3545'}}>*</span></label>
             <textarea 
               name="desc" 
               value={formData.desc} 
@@ -317,7 +398,7 @@ const AdminProductForm = () => {
           
           <div className="form-row">
             <div className="form-group half">
-              <label>SKU</label>
+              <label>SKU <span style={{color: '#dc3545'}}>*</span></label>
               <input 
                 type="text" 
                 name="sku" 
