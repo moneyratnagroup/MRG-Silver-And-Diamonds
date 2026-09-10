@@ -20,16 +20,29 @@ const GoldPage = () => {
   const typeFilter = searchParams.get('type');
   const occasionFilter = searchParams.get('occasion');
   
+  const matchCollection = (c, searchParam) => {
+      if (!searchParam) return false;
+      const sp = searchParam.toLowerCase();
+      if (c.id.toString() === sp) return true;
+      if (sp === 'women' && c.name.toLowerCase().includes("women")) return true;
+      if (sp === 'men' && c.name.toLowerCase() === "men's collection") return true;
+      if (sp === 'kids' && c.name.toLowerCase().includes("kids")) return true;
+      if (sp === 'religious' && c.name.toLowerCase().includes("religious")) return true;
+      if (sp === 'special' && c.name.toLowerCase().includes("special")) return true;
+      if (c.name.toLowerCase() === sp) return true;
+      return false;
+  };
+
   // Filter specifically for gold
   let goldProducts = allProductsContext.filter(p => 
-    (p.collection && p.collection.toLowerCase() === 'gold') || 
+    (p.collections && p.collections.some(c => c.name.toLowerCase() === 'gold')) || 
     (p.category && p.category.toLowerCase() === 'gold') || 
     (p.material && p.material.toLowerCase() === 'gold') ||
     (p.metal && p.metal.toLowerCase().includes('gold'))
   );
   
   let products = (collectionId && collectionId !== 'all')
-    ? goldProducts.filter(p => p.collection && p.collection.toLowerCase() === collectionId.toLowerCase())
+    ? goldProducts.filter(p => p.collections && p.collections.some(c => matchCollection(c, collectionId)))
     : goldProducts;
   
   if (typeFilter) {
@@ -37,7 +50,7 @@ const GoldPage = () => {
   }
 
   if (occasionFilter) {
-    products = products.filter(p => p.occasion && p.occasion.toLowerCase() === occasionFilter.toLowerCase());
+    products = products.filter(p => p.occasions && p.occasions.some(o => o.id.toString() === occasionFilter));
   }
 
   const priceFilter = searchParams.get('price');
@@ -75,6 +88,7 @@ const GoldPage = () => {
   const activeFiltersCount = (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
 
   const isAll = collectionId === 'all' || !collectionId;
+  const showLanding = isAll && !typeFilter && !occasionFilter && !priceFilter;
   const baseTitle = isAll ? "All Gold" : collectionId ? collectionId.charAt(0).toUpperCase() + collectionId.slice(1) : "Collection";
   let displayTitle = isAll ? "All Gold Jewelry" : `${baseTitle} Collection`;
   if (typeFilter) {
@@ -84,6 +98,8 @@ const GoldPage = () => {
   return (
     <div className="gold-page-wrapper">
       
+      {showLanding && (
+        <>
       {/* Hero Section */}
       <section className="gold-hero">
         <div className="gold-hero-left">
@@ -132,6 +148,8 @@ const GoldPage = () => {
         <span className="sparkle large">✦</span>
         <span className="sparkle medium">✦</span>
       </section>
+        </>
+      )}
 
       {/* Collection Grid */}
       <section id="gorings-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
@@ -175,28 +193,32 @@ const GoldPage = () => {
       </section>
 
       {/* Wavy Banner */}
-      <section className="gorings-wavy-banner">
-        <div className="gorings-wavy-text">
-          MAKING FUNDRAISING SIMPLE, EFFECTIVE, AND JOYFUL
-        </div>
-      </section>
+      {showLanding && (
+        <>
+          <section className="gorings-wavy-banner">
+            <div className="gorings-wavy-text">
+              MAKING FUNDRAISING SIMPLE, EFFECTIVE, AND JOYFUL
+            </div>
+          </section>
 
-      {/* Stay Gold & Do Good Section */}
-      <section className="gorings-bottom-split">
-        <div className="gorings-bottom-text">
-          <p className="global-subheading">JEWELRY THAT PROMISES TO</p>
-          <h2 className="gorings-bottom-title">Stay gold & do good</h2>
-          <p className="gorings-bottom-desc">
-            Our collection of long-lasting, never-take-it-off jewelry is ready to<br/>
-            shine through literally anything on your agenda. The best part?<br/>
-            30% of your order funds new causes monthly.
-          </p>
-          <button className="gorings-btn-solid">OUR STORY</button>
-        </div>
-        <div className="gorings-bottom-images" style={{ display: 'block', paddingRight: '10%' }}>
-          <img loading="lazy" src="https://storage.googleapis.com/antigravity-storage/67b819fdd94ef712cb0c3db7/19beccf1-e123-4dfc-acfa-6644eb9c0864.png" alt="Model wearing layered necklaces" style={{width: '100%', maxHeight: '600px', objectFit: 'cover', borderRadius: '4px'}} />
-        </div>
-      </section>
+          {/* Stay Gold & Do Good Section */}
+          <section className="gorings-bottom-split">
+            <div className="gorings-bottom-text">
+              <p className="global-subheading">JEWELRY THAT PROMISES TO</p>
+              <h2 className="gorings-bottom-title">Stay gold & do good</h2>
+              <p className="gorings-bottom-desc">
+                Our collection of long-lasting, never-take-it-off jewelry is ready to<br/>
+                shine through literally anything on your agenda. The best part?<br/>
+                30% of your order funds new causes monthly.
+              </p>
+              <button className="gorings-btn-solid">OUR STORY</button>
+            </div>
+            <div className="gorings-bottom-images" style={{ display: 'block', paddingRight: '10%' }}>
+              <img loading="lazy" src="https://storage.googleapis.com/antigravity-storage/67b819fdd94ef712cb0c3db7/19beccf1-e123-4dfc-acfa-6644eb9c0864.png" alt="Model wearing layered necklaces" style={{width: '100%', maxHeight: '600px', objectFit: 'cover', borderRadius: '4px'}} />
+            </div>
+          </section>
+        </>
+      )}
 
       <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} />
     </div>

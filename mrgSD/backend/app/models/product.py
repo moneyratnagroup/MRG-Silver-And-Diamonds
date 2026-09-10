@@ -4,11 +4,7 @@ from sqlalchemy.sql import func
 import enum
 from app.database.database import Base
 
-class TargetAudienceEnum(str, enum.Enum):
-    WOMENS = "WOMENS"
-    MENS = "MENS"
-    KIDS = "KIDS"
-    RELIGIOUS = "RELIGIOUS"
+
 
 # Association Tables for Many-to-Many relationships
 product_occasions = Table(
@@ -32,6 +28,13 @@ product_collections = Table(
     Column('collection_id', Integer, ForeignKey('collections.id', ondelete="CASCADE"), primary_key=True)
 )
 
+collection_categories = Table(
+    'collection_categories',
+    Base.metadata,
+    Column('collection_id', Integer, ForeignKey('collections.id', ondelete="CASCADE"), primary_key=True),
+    Column('category_id', Integer, ForeignKey('categories.id', ondelete="CASCADE"), primary_key=True)
+)
+
 class Category(Base):
     __tablename__ = "categories"
 
@@ -41,6 +44,7 @@ class Category(Base):
     image_url = Column(String(255), nullable=True)
     
     products = relationship("Product", back_populates="category")
+    collections = relationship("Collection", secondary=collection_categories, back_populates="categories")
 
 class Metal(Base):
     __tablename__ = "metals"
@@ -79,6 +83,12 @@ class Collection(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), unique=True, index=True, nullable=False) # Bridal, Daily Wear
 
+    categories = relationship("Category", secondary=collection_categories, back_populates="collections")
+
+    @property
+    def category_ids(self):
+        return [c.id for c in self.categories]
+
 class ProductImage(Base):
     __tablename__ = "product_images"
 
@@ -97,9 +107,7 @@ class Product(Base):
     name = Column(String(255), index=True, nullable=False)
     description = Column(Text, nullable=True)
     
-    # Enum for target audience replacing Gender
-    target_audience = Column(SQLEnum(TargetAudienceEnum), nullable=False)
-    
+    # target_audience removed, now using collections
     category_id = Column(Integer, ForeignKey('categories.id', ondelete="SET NULL"), nullable=True)
     metal_id = Column(Integer, ForeignKey('metals.id', ondelete="SET NULL"), nullable=True)
     purity_id = Column(Integer, ForeignKey('purities.id', ondelete="SET NULL"), nullable=True)

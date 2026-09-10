@@ -9,9 +9,10 @@ import { useShop } from '../context/ShopContext';
 import './Pages.css';
 
 const CollectionPage = () => {
-  const { collectionId } = useParams();
+  const { collectionId: pathCollectionId } = useParams();
   const [searchParams] = useSearchParams();
-  const { products: allProductsContext, categories } = useShop();
+  const collectionId = pathCollectionId || searchParams.get('collection');
+  const { products: allProductsContext, categories, collections } = useShop();
   const navigate = useNavigate();
   const scrollContainerRef = useRef(null);
   
@@ -25,17 +26,30 @@ const CollectionPage = () => {
   const typeFilter = searchParams.get('type');
   const occasionFilter = searchParams.get('occasion');
   
+  const matchCollection = (c, searchParam) => {
+      if (!searchParam) return false;
+      const sp = searchParam.toLowerCase();
+      if (c.id.toString() === sp) return true;
+      if (sp === 'women' && c.name.toLowerCase().includes("women")) return true;
+      if (sp === 'men' && c.name.toLowerCase() === "men's collection") return true;
+      if (sp === 'kids' && c.name.toLowerCase().includes("kids")) return true;
+      if (sp === 'religious' && c.name.toLowerCase().includes("religious")) return true;
+      if (sp === 'special' && c.name.toLowerCase().includes("special")) return true;
+      if (c.name.toLowerCase() === sp) return true;
+      return false;
+  };
+
   // Filter by collection
   let products = (collectionId === 'all' || !collectionId)
     ? allProductsContext 
-    : allProductsContext.filter(p => p.collection === collectionId);
+    : allProductsContext.filter(p => p.collections && p.collections.some(c => matchCollection(c, collectionId)));
   
   if (typeFilter) {
     products = products.filter(p => p.category && p.category.toUpperCase() === typeFilter.toUpperCase());
   }
 
   if (occasionFilter) {
-    products = products.filter(p => p.occasion && p.occasion.toLowerCase() === occasionFilter.toLowerCase());
+    products = products.filter(p => p.occasions && p.occasions.some(o => o.id.toString() === occasionFilter));
   }
 
   const priceFilter = searchParams.get('price');
@@ -52,7 +66,8 @@ const CollectionPage = () => {
   
   // Format title
   const isAll = collectionId === 'all' || !collectionId;
-  const baseTitle = isAll ? "All" : collectionId ? collectionId.charAt(0).toUpperCase() + collectionId.slice(1) : "Collection";
+  const currentCollectionObj = collections?.find(c => matchCollection(c, collectionId));
+  const baseTitle = isAll ? "All" : currentCollectionObj ? currentCollectionObj.name : "Collection";
   
   let displayTitle = isAll ? "All Products" : `${baseTitle} Collection`;
   if (typeFilter) {

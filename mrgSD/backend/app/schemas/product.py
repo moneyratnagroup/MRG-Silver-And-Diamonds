@@ -1,7 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime
-from app.models.product import TargetAudienceEnum
 
 # -------------------------
 # Taxonomy Schemas
@@ -70,10 +69,11 @@ class CollectionBase(BaseModel):
     name: str
 
 class CollectionCreate(CollectionBase):
-    pass
+    category_ids: List[int] = []
 
 class Collection(CollectionBase):
     id: int
+    category_ids: List[int] = []
     class Config:
         from_attributes = True
 
@@ -101,7 +101,6 @@ class ProductBase(BaseModel):
     sku: str
     name: str
     description: Optional[str] = None
-    target_audience: TargetAudienceEnum
     category_id: Optional[int] = None
     metal_id: Optional[int] = None
     purity_id: Optional[int] = None
@@ -120,7 +119,6 @@ class ProductCreate(ProductBase):
 class ProductUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
-    target_audience: Optional[TargetAudienceEnum] = None
     category_id: Optional[int] = None
     metal_id: Optional[int] = None
     purity_id: Optional[int] = None

@@ -79,7 +79,17 @@ const AdminProducts = () => {
                   </div>
                 </td>
                 <td><span className="badge-pill">{product.category}</span></td>
-                <td><span className="badge-pill collection">{product.collection}</span></td>
+                <td>
+                  {product.collections && product.collections.length > 0 ? (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                      {product.collections.map(c => (
+                        <span key={c.id} className="badge-pill collection">{c.name}</span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span style={{color: '#aaa', fontSize: '0.85rem'}}>None</span>
+                  )}
+                </td>
                 <td>
                   <div className="table-actions">
                     <button className="btn-icon edit" onClick={() => handleEditProduct(product)} title="Edit">
