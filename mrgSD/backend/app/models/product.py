@@ -112,6 +112,9 @@ class Product(Base):
     is_featured = Column(Boolean, default=False)
     is_active = Column(Boolean, default=True)
     
+    is_offer_available = Column(Boolean, default=False)
+    offer_coupon_code = Column(String(50), nullable=True)
+    
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
