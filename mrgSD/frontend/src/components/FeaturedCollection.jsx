@@ -45,7 +45,7 @@ const FeaturedCollection = () => {
   return (
     <section className="products-gallery-section" style={{ backgroundColor: '#ffffff' }}>
       <div className="pg-header">
-        <h2 className="pg-title">Featured Collection</h2>
+        <h2 className="global-subheading">Featured Collection</h2>
         <p className="pg-tagline">
           Handpicked silver jewellery crafted to celebrate elegance, tradition, and everyday beauty.
         </p>

@@ -18,7 +18,7 @@
 
   --text: #242424;
   --text-light: #6E6E6E;
-  --heading-color: #111111;
+  --heading-color: #890206;
 
   --border: #E8E3DC;
 
@@ -109,9 +109,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-
-
-
 }
 
 @media (max-width: 1024px) {
@@ -167,7 +164,7 @@ h6 {
 
   font-family: var(--heading-font);
 
-  font-weight: 600;
+  font-weight: 400;
 
   color: var(--heading-color);
 
@@ -209,6 +206,12 @@ h5 {
 
 }
 
+.global-subheading {
+  color: #890206;
+  font-family: 'Cormorant Upright', serif;
+  font-weight: 400;
+  font-size: 1rem;
+}
 
 p {
   margin: 0;
@@ -282,4 +285,112 @@ code {
   background: #F3F3F3;
   padding: 4px 8px;
   border-radius: 6px;
+}
+
+/* --- GLOBAL ADMIN MODAL & FORM STYLES --- */
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  max-width: 600px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.modal-header {
+  align-items: center;
+  background-color: #fcfcfc;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+}
+
+.modal-header h2 {
+  color: #1a1a1a;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.btn-close-modal {
+  align-items: center;
+  background: none;
+  border: none;
+  color: #777;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.modal-footer {
+  background-color: #fcfcfc;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding: 1.5rem;
+}
+
+.form-group label {
+  color: #333;
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background-color: #fcfcfc;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  color: #1a1a1a;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  padding: 0.75rem;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.btn-cancel {
+  background: none;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  color: #555;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-submit {
+  background-color: #a84c19;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  transition: background-color 0.2s ease;
+}
+
+/* --- GLOBAL UTILITY CLASSES --- */
+.global-img-cover {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.global-flex-center-gap {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
 }
