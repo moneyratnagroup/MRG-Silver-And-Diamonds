@@ -1,0 +1,71 @@
+
+/* Standardized Metal Pages Styles */
+.metal-hero {
+  align-items: stretch;
+  background-color: #fff;
+  display: flex;
+  height: 80vh;
+}
+
+.metal-hero-center {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1.2;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.metal-split-text {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  padding: 5rem 10%;
+}
+
+.metal-split-desc {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+.metal-filter-bar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: 2rem 5% 0;
+}
+
+.metal-wavy-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.metal-bottom-split {
+  align-items: center;
+  background-color: #fbfbfc;
+  display: flex;
+  padding: 5rem 0;
+}
+
+.metal-bottom-desc {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  max-width: 400px;
+}
+
+.metal-bottom-images {
+  display: flex;
+  flex: 1;
+  gap: 1rem;
+  padding-right: 5%;
+}

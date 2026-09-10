@@ -404,14 +404,6 @@
   margin-bottom: 1.5rem;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #333;
-}
-
 .form-group input,
 .form-group textarea {
   width: 100%;
@@ -589,14 +581,6 @@
   margin-bottom: 1.5rem;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #333;
-}
-
 .form-group input,
 .form-group textarea {
   width: 100%;
@@ -674,8 +658,6 @@
   margin-bottom: 1rem;
   letter-spacing: 2px;
 }
-
-
 
 .about-section {
   padding: 6rem 2rem;
