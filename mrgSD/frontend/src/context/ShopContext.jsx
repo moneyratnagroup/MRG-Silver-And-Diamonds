@@ -134,7 +134,9 @@ export const ShopProvider = ({ children }) => {
           hoverImage: p.images.length > 1 ? p.images[1].image_url : null,
           images: p.images.map(img => img.image_url),
           stockQuantity: 10, // Mocking inventory for now
-          lowStockThreshold: 5
+          lowStockThreshold: 5,
+          isOfferAvailable: p.is_offer_available,
+          offerCouponCode: p.offer_coupon_code
         }));
         setProducts(mappedProducts);
       }
@@ -525,8 +527,23 @@ export const ShopProvider = ({ children }) => {
   };
 
   const updateProduct = async (updatedProduct) => {
-    // Implement PUT /api/v1/products/:id if needed, for now just refetch
-    setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+    try {
+      const { id, ...payload } = updatedProduct;
+      const res = await fetch(`http://localhost:8000/api/v1/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        await fetchProducts();
+        return { success: true };
+      }
+      const data = await res.json();
+      return { success: false, error: data.detail || "Failed to update product" };
+    } catch (error) {
+      console.error("Failed to update product", error);
+      return { success: false, error: "Network error. Please try again." };
+    }
   };
 
   const deleteProduct = async (id) => {

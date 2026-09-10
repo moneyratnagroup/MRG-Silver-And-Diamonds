@@ -109,6 +109,8 @@ class ProductBase(BaseModel):
     is_new_arrival: bool = False
     is_featured: bool = False
     is_active: bool = True
+    is_offer_available: Optional[bool] = False
+    offer_coupon_code: Optional[str] = None
 
 class ProductCreate(ProductBase):
     occasion_ids: List[int] = []
@@ -127,9 +129,12 @@ class ProductUpdate(BaseModel):
     is_new_arrival: Optional[bool] = None
     is_featured: Optional[bool] = None
     is_active: Optional[bool] = None
+    is_offer_available: Optional[bool] = None
+    offer_coupon_code: Optional[str] = None
     occasion_ids: Optional[List[int]] = None
     stone_ids: Optional[List[int]] = None
     collection_ids: Optional[List[int]] = None
+    images: Optional[List[ProductImageBase]] = None
 
 class Product(ProductBase):
     id: int
