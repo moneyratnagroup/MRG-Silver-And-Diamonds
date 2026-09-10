@@ -96,6 +96,21 @@ const ProductDetailsPage = () => {
               <span className="pd-category-label">Category:</span> {product.category || 'Jewelry'}
             </div>
             <h1 className="pd-product-name">{product.name}</h1>
+            {product.isOfferAvailable && product.offerCouponCode && (
+              <div className="pd-item-coupon" style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: "0.85rem",
+                color: "#a84c19",
+                backgroundColor: "rgba(168, 76, 25, 0.1)",
+                padding: "4px 10px",
+                borderRadius: "4px",
+                display: "inline-block",
+                marginBottom: "1rem",
+                fontWeight: "600"
+              }}>
+                Use Code: <strong>{product.offerCouponCode}</strong>
+              </div>
+            )}
             <div className="pd-price-wrapper">
               <div className="pd-price-container">
                 <p className="pd-product-price">{product.price}</p>

@@ -138,7 +138,9 @@ def create_product(product_in: schemas.ProductCreate, db: Session = Depends(get_
         mrp_price=product_in.mrp_price,
         is_new_arrival=product_in.is_new_arrival,
         is_featured=product_in.is_featured,
-        is_active=product_in.is_active
+        is_active=product_in.is_active,
+        is_offer_available=product_in.is_offer_available,
+        offer_coupon_code=product_in.offer_coupon_code
     )
     
     # Handle M2M relationships
@@ -171,6 +173,52 @@ def create_product(product_in: schemas.ProductCreate, db: Session = Depends(get_
             db.add(db_img)
         db.commit()
         db.refresh(db_product)
+
+    return db_product
+
+@router.put("/{product_id}", response_model=schemas.Product)
+def update_product(product_id: int, product_in: schemas.ProductUpdate, db: Session = Depends(get_db)):
+    db_product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if not db_product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    update_data = product_in.dict(exclude_unset=True)
+    
+    # Extract M2M relationship data and images
+    occasion_ids = update_data.pop("occasion_ids", None)
+    stone_ids = update_data.pop("stone_ids", None)
+    collection_ids = update_data.pop("collection_ids", None)
+    images = update_data.pop("images", None)
+    
+    # Update simple scalar fields
+    for field, value in update_data.items():
+        setattr(db_product, field, value)
+        
+    # Handle M2M relationships
+    if occasion_ids is not None:
+        db_product.occasions = db.query(models.Occasion).filter(models.Occasion.id.in_(occasion_ids)).all()
+    if stone_ids is not None:
+        db_product.stones = db.query(models.Stone).filter(models.Stone.id.in_(stone_ids)).all()
+    if collection_ids is not None:
+        db_product.collections = db.query(models.Collection).filter(models.Collection.id.in_(collection_ids)).all()
+        
+    # Handle Images: clear existing and insert new ones
+    if images is not None:
+        db.query(models.ProductImage).filter(models.ProductImage.product_id == db_product.id).delete()
+        for img in images:
+            db_img = models.ProductImage(
+                product_id=db_product.id,
+                image_url=img['image_url'] if isinstance(img, dict) else img.image_url,
+                is_primary=img['is_primary'] if isinstance(img, dict) else img.is_primary
+            )
+            db.add(db_img)
+        
+    try:
+        db.commit()
+        db.refresh(db_product)
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Error updating product. SKU might already exist.")
 
     return db_product
 

@@ -7,7 +7,7 @@ import './AdminProductForm.css';
 const AdminProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, addProduct, updateProduct, categories, metals } = useShop();
+  const { products, addProduct, updateProduct, categories, metals, coupons } = useShop();
   
   const isEditing = Boolean(id);
   const [errors, setErrors] = useState({});
@@ -35,7 +35,9 @@ const AdminProductForm = () => {
     hallmarked: 'Yes',
     certificate: 'No',
     stockQuantity: '',
-    lowStockThreshold: '5'
+    lowStockThreshold: '5',
+    isOfferAvailable: 'No',
+    offerCouponCode: ''
   });
 
   useEffect(() => {
@@ -65,7 +67,9 @@ const AdminProductForm = () => {
           hallmarked: productToEdit.hallmarked !== false ? 'Yes' : 'No',
           certificate: productToEdit.certificate === true ? 'Yes' : 'No',
           stockQuantity: productToEdit.stockQuantity || 0,
-          lowStockThreshold: productToEdit.lowStockThreshold || 5
+          lowStockThreshold: productToEdit.lowStockThreshold || 5,
+          isOfferAvailable: productToEdit.isOfferAvailable ? 'Yes' : 'No',
+          offerCouponCode: productToEdit.offerCouponCode || ''
         });
       }
     }
@@ -127,6 +131,8 @@ const AdminProductForm = () => {
       is_new_arrival: false,
       is_featured: false,
       is_active: true,
+      is_offer_available: formData.isOfferAvailable === 'Yes',
+      offer_coupon_code: formData.isOfferAvailable === 'Yes' && formData.offerCouponCode ? formData.offerCouponCode : null,
       images: finalImages.map((url, idx) => ({ image_url: url, is_primary: idx === 0 })),
       occasion_ids: [],
       stone_ids: [],
@@ -405,6 +411,29 @@ const AdminProductForm = () => {
                 <option value="No">No</option>
               </select>
             </div>
+          </div>
+
+          <h3 className="form-section-title">Offers & Promotions</h3>
+          
+          <div className="form-row">
+            <div className="form-group half">
+              <label>Is Offer Available?</label>
+              <select name="isOfferAvailable" value={formData.isOfferAvailable} onChange={handleChange}>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+            </div>
+            {formData.isOfferAvailable === 'Yes' && (
+              <div className="form-group half">
+                <label>Select Coupon</label>
+                <select name="offerCouponCode" value={formData.offerCouponCode} onChange={handleChange}>
+                  <option value="">-- Select a Coupon --</option>
+                  {coupons && coupons.filter(c => c.isActive).map(c => (
+                    <option key={c.id} value={c.code}>{c.code} ({c.type === 'percent' ? `${c.value}% OFF` : `₹${c.value} OFF`})</option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
 
           <h3 className="form-section-title">Initial Inventory</h3>
