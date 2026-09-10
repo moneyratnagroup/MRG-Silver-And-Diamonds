@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
 
-from app.api import metal_rates, testimonials, upload, auth
+from app.api import metal_rates, testimonials, upload, auth, products
 
 app = FastAPI()
 
@@ -17,9 +17,9 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For development, allow all origins
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000", "http://127.0.0.1:3000"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods including OPTIONS
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -27,6 +27,7 @@ app.include_router(metal_rates.router, prefix="/api/v1/metal-rates", tags=["meta
 app.include_router(testimonials.router, prefix="/api/v1/testimonials", tags=["testimonials"])
 app.include_router(upload.router, prefix="/api/v1/upload", tags=["upload"])
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
+app.include_router(products.router, prefix="/api/v1/products", tags=["products"])
 
 @app.get("/")
 def root():

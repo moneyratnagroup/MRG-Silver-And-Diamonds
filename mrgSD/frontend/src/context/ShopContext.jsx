@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { allProducts } from '../data/mockProducts';
 import { useAuth } from './AuthContext';
 import imgBanner11 from '../assets/Banner11.webp';
 import imgbanner12 from '../assets/banner12.webp';
@@ -17,7 +16,9 @@ export const ShopProvider = ({ children }) => {
   const { isAuthenticated, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  const [products, setProducts] = useState(allProducts);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [metals, setMetals] = useState([]);
   
   // Drawer UI state
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -92,10 +93,60 @@ export const ShopProvider = ({ children }) => {
     }
   }, []);
 
+  const fetchTaxonomies = useCallback(async () => {
+    try {
+      const catRes = await fetch("http://localhost:8000/api/v1/products/categories");
+      if (catRes.ok) setCategories(await catRes.json());
+      
+      const metalRes = await fetch("http://localhost:8000/api/v1/products/metals");
+      if (metalRes.ok) setMetals(await metalRes.json());
+    } catch (err) {
+      console.error("Failed to fetch taxonomies", err);
+    }
+  }, []);
+
+  const fetchProducts = useCallback(async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/products/");
+      if (res.ok) {
+        const data = await res.json();
+        const collectionMap = {
+          'WOMENS': 'women',
+          'MENS': 'men',
+          'KIDS': 'kids',
+          'RELIGIOUS': 'religious'
+        };
+        const mappedProducts = data.map(p => ({
+          id: p.id,
+          sku: p.sku,
+          name: p.name,
+          originalPrice: p.mrp_price ? `₹${p.mrp_price}` : null,
+          price: `₹${p.selling_price}`,
+          category: p.category?.name || '',
+          collection: collectionMap[p.target_audience] || 'women',
+          target_audience: p.target_audience,
+          desc: p.description,
+          metal: p.metal?.name || 'Silver',
+          purity: p.purity?.name || '925',
+          img: p.images.length > 0 ? p.images[0].image_url : '',
+          hoverImage: p.images.length > 1 ? p.images[1].image_url : null,
+          images: p.images.map(img => img.image_url),
+          stockQuantity: 10, // Mocking inventory for now
+          lowStockThreshold: 5
+        }));
+        setProducts(mappedProducts);
+      }
+    } catch (err) {
+      console.error("Failed to fetch products", err);
+    }
+  }, []);
+
   useEffect(() => {
     fetchRates();
     fetchTestimonials();
-  }, [fetchRates, fetchTestimonials]);
+    fetchTaxonomies();
+    fetchProducts();
+  }, [fetchRates, fetchTestimonials, fetchTaxonomies, fetchProducts]);
 
   const updateMetalRates = async (newRates) => {
     const cleanRates = {};
@@ -267,18 +318,7 @@ export const ShopProvider = ({ children }) => {
     }
   };
 
-  // Categories & Collections
-  const [categories, setCategories] = useState([
-    { id: 1, name: 'Rings' },
-    { id: 2, name: 'Earrings' },
-    { id: 3, name: 'Chains' },
-    { id: 4, name: 'Bracelets' },
-    { id: 5, name: 'Pendants' },
-    { id: 6, name: 'Anklets' },
-    { id: 7, name: 'Idols' },
-    { id: 8, name: 'Bullions' },
-    { id: 9, name: 'Bridal' }
-  ]);
+  // Collections (Frontend grouped)
 
   const [collections, setCollections] = useState([
     { id: 1, name: 'women', displayName: "Women's Collection", categoryIds: [1, 2, 3] },
@@ -472,17 +512,44 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Product Management (Admin)
-  const addProduct = (newProduct) => {
-    const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-    setProducts([...products, { ...newProduct, id: newId }]);
+  const addProduct = async (newProduct) => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/products/", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newProduct)
+      });
+      if (res.ok) {
+        await fetchProducts();
+        return { success: true };
+      }
+      const data = await res.json();
+      return { success: false, error: data.detail || "Failed to add product" };
+    } catch (error) {
+      console.error("Failed to add product", error);
+      return { success: false, error: "Network error. Please try again." };
+    }
   };
 
-  const updateProduct = (updatedProduct) => {
+  const updateProduct = async (updatedProduct) => {
+    // Implement PUT /api/v1/products/:id if needed, for now just refetch
     setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
   };
 
-  const deleteProduct = (id) => {
-    setProducts(products.filter(p => p.id !== id));
+  const deleteProduct = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/products/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        setProducts(products.filter(p => p.id !== id));
+        return { success: true };
+      }
+      return { success: false, error: "Failed to delete product" };
+    } catch (error) {
+      console.error("Failed to delete product", error);
+      return { success: false, error: "Network error" };
+    }
   };
 
   // Inventory Movements
@@ -628,6 +695,7 @@ export const ShopProvider = ({ children }) => {
     updateTestimonial,
     deleteTestimonial,
     categories,
+    metals,
     addCategory,
     deleteCategory,
     collections,
