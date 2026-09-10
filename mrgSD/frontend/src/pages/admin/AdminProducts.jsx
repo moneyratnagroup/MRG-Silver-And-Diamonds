@@ -42,6 +42,7 @@ const AdminProducts = () => {
           <thead>
             <tr>
               <th>Image</th>
+              <th>Hover Image</th>
               <th>Product Name</th>
               <th>Price</th>
               <th>Category</th>
@@ -55,6 +56,15 @@ const AdminProducts = () => {
                 <td>
                   <div className="table-img-container">
                     <img loading="lazy" src={product.img} alt={product.name} />
+                  </div>
+                </td>
+                <td>
+                  <div className="table-img-container">
+                    {product.hoverImage ? (
+                      <img loading="lazy" src={product.hoverImage} alt="Hover" />
+                    ) : (
+                      <span style={{color: '#aaa', fontSize: '0.85rem'}}>None</span>
+                    )}
                   </div>
                 </td>
                 <td className="font-medium">{product.name}</td>

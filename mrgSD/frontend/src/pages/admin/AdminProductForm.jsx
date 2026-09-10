@@ -7,9 +7,10 @@ import './AdminProductForm.css';
 const AdminProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, addProduct, updateProduct, categories, collections } = useShop();
+  const { products, addProduct, updateProduct, categories, metals } = useShop();
   
   const isEditing = Boolean(id);
+  const [errors, setErrors] = useState({});
   
   const [formData, setFormData] = useState({
     name: '',
@@ -75,49 +76,76 @@ const AdminProductForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validation
+    const newErrors = {};
+    if (!formData.name) newErrors.name = true;
+    if (!formData.price) newErrors.price = true;
+    if (!formData.img) newErrors.img = true;
+    if (!formData.desc) newErrors.desc = true;
+    if (!formData.sku) newErrors.sku = true;
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // Stop submission
+    }
+    setErrors({});
     
     // Format price
     const formattedPrice = `₹${Number(formData.price).toLocaleString('en-IN')}`;
     const formattedOriginalPrice = formData.originalPrice ? `₹${Number(formData.originalPrice).toLocaleString('en-IN')}` : null;
     
     const galleryArray = formData.galleryImages.split('\n').map(url => url.trim()).filter(url => url !== '');
-    const finalImages = [formData.img || 'https://images.unsplash.com/photo-1599643478514-4a1101858ff6?auto=format&fit=crop&q=80&w=600', ...galleryArray];
+    const finalImages = [formData.img || 'https://images.unsplash.com/photo-1599643478514-4a1101858ff6?auto=format&fit=crop&q=80&w=600'];
+    if (formData.hoverImage) {
+      finalImages.push(formData.hoverImage.trim());
+    }
+    finalImages.push(...galleryArray);
 
-    const productPayload = {
-      name: formData.name,
-      originalPrice: formattedOriginalPrice,
-      price: formattedPrice,
-      category: formData.category,
-      collection: formData.collection,
-      desc: formData.desc,
-      shortDesc: formData.shortDesc,
-      careInstructions: formData.careInstructions,
-      img: formData.img || 'https://images.unsplash.com/photo-1599643478514-4a1101858ff6?auto=format&fit=crop&q=80&w=600',
-      images: finalImages,
-      hoverImage: formData.hoverImage,
-      videoUrl: formData.videoUrl,
-      sku: formData.sku,
-      metal: formData.metal,
-      purity: formData.purity,
-      weight: formData.weight ? `${formData.weight}g` : '',
-      finish: formData.finish,
-      stoneType: formData.stoneType,
-      stoneWeight: formData.stoneWeight,
-      hallmarked: formData.hallmarked === 'Yes',
-      certificate: formData.certificate === 'Yes',
-      stockQuantity: parseInt(formData.stockQuantity, 10) || 0,
-      lowStockThreshold: parseInt(formData.lowStockThreshold, 10) || 5
+    // Map frontend data to backend schema
+    const targetAudienceMap = {
+      'women': 'WOMENS',
+      'men': 'MENS',
+      'kids': 'KIDS',
+      'religious': 'RELIGIOUS',
+      'investment': 'WOMENS',
+      'special': 'WOMENS'
     };
 
+    const productPayload = {
+      sku: formData.sku,
+      name: formData.name,
+      description: formData.desc,
+      target_audience: targetAudienceMap[formData.collection] || 'WOMENS',
+      category_id: categories.find(c => c.name === formData.category)?.id || null,
+      metal_id: metals.find(m => m.name === formData.metal)?.id || null,
+      purity_id: null, // Hard to map statically without purity data in context, skipping for now
+      selling_price: parseFloat(formData.price),
+      mrp_price: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
+      is_new_arrival: false,
+      is_featured: false,
+      is_active: true,
+      images: finalImages.map((url, idx) => ({ image_url: url, is_primary: idx === 0 })),
+      occasion_ids: [],
+      stone_ids: [],
+      collection_ids: []
+    };
+
+    let result;
     if (isEditing) {
-      updateProduct({ ...productPayload, id: parseInt(id) });
+      // Assuming updateProduct also returns { success: ..., error: ... } or just update it to
+      result = await updateProduct({ ...productPayload, id: parseInt(id) });
     } else {
-      addProduct(productPayload);
+      result = await addProduct(productPayload);
     }
     
-    navigate('/admin/products');
+    if (result && result.success) {
+      navigate('/admin/products');
+    } else {
+      alert(result?.error || "Failed to save product. Please try again.");
+    }
   };
 
   return (
@@ -131,7 +159,7 @@ const AdminProductForm = () => {
       </div>
 
       <div className="admin-form-card">
-        <form onSubmit={handleSubmit} className="product-form">
+        <form onSubmit={handleSubmit} className="product-form" noValidate>
           <div className="form-group">
             <label>Product Name</label>
             <input 
@@ -139,9 +167,10 @@ const AdminProductForm = () => {
               name="name" 
               value={formData.name} 
               onChange={handleChange} 
-              required 
+              className={errors.name ? 'input-error' : ''}
               placeholder="e.g. Diamond Stud Earrings"
             />
+            {errors.name && <span className="error-text">required</span>}
           </div>
           
           <div className="form-row">
@@ -163,9 +192,10 @@ const AdminProductForm = () => {
                 name="price" 
                 value={formData.price} 
                 onChange={handleChange} 
-                required 
+                className={errors.price ? 'input-error' : ''}
                 placeholder="2999"
               />
+              {errors.price && <span className="error-text">required</span>}
             </div>
           </div>
           
@@ -182,9 +212,10 @@ const AdminProductForm = () => {
             <div className="form-group half">
               <label>Collection</label>
               <select name="collection" value={formData.collection} onChange={handleChange}>
-                {collections.map(c => (
-                  <option key={c.id} value={c.name}>{c.displayName}</option>
-                ))}
+                <option value="women">Women's Collection</option>
+                <option value="men">Men's Collection</option>
+                <option value="kids">Kids Collection</option>
+                <option value="religious">Religious</option>
               </select>
             </div>
           </div>
@@ -199,9 +230,10 @@ const AdminProductForm = () => {
                 name="img" 
                 value={formData.img} 
                 onChange={handleChange} 
+                className={errors.img ? 'input-error' : ''}
                 placeholder="https://..."
-                required
               />
+              {errors.img && <span className="error-text">required</span>}
             </div>
             <div className="form-group half">
               <label>Hover Image URL (Optional)</label>
@@ -257,10 +289,11 @@ const AdminProductForm = () => {
               name="desc" 
               value={formData.desc} 
               onChange={handleChange} 
+              className={errors.desc ? 'input-error' : ''}
               rows="4"
-              required
               placeholder="Fully describe the jewelry piece..."
             ></textarea>
+            {errors.desc && <span className="error-text">required</span>}
           </div>
 
           <div className="form-group">
@@ -284,16 +317,17 @@ const AdminProductForm = () => {
                 name="sku" 
                 value={formData.sku} 
                 onChange={handleChange} 
+                className={errors.sku ? 'input-error' : ''}
                 placeholder="e.g. MRG-RNG-001"
-                required
               />
+              {errors.sku && <span className="error-text">required</span>}
             </div>
             <div className="form-group half">
               <label>Metal</label>
               <select name="metal" value={formData.metal} onChange={handleChange}>
-                <option value="Silver">Silver</option>
-                <option value="Gold">Gold</option>
-                <option value="Platinum">Platinum</option>
+                {metals && metals.map(m => (
+                   <option key={m.id} value={m.name}>{m.name}</option>
+                ))}
               </select>
             </div>
           </div>
