@@ -8,8 +8,7 @@ import './AdminProductForm.css';
 const AdminProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, addProduct, updateProduct, categories, metals, collections, occasions } = useShop();
-  const { products, addProduct, updateProduct, categories, metals, coupons } = useShop();
+  const { adminProducts: products, addProduct, updateProduct, categories, metals, coupons, collections, occasions } = useShop();
   
   const isEditing = Boolean(id);
   const [errors, setErrors] = useState({});

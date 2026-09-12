@@ -4,7 +4,7 @@ import { useShop } from '../../context/ShopContext';
 import './AdminInventory.css';
 
 const AdminInventory = () => {
-  const { products, updateInventory, inventoryMovements } = useShop();
+  const { adminProducts: products, updateInventory, inventoryMovements } = useShop();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') || 'overview'; // overview, management, history, reports
 

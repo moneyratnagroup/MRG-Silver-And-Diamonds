@@ -101,9 +101,13 @@ def get_products(
     metal_id: Optional[int] = None,
     is_new_arrival: Optional[bool] = None,
     is_featured: Optional[bool] = None,
+    include_inactive: bool = False,
     db: Session = Depends(get_db)
 ):
-    query = db.query(models.Product).filter(models.Product.is_active == True)
+    query = db.query(models.Product)
+    
+    if not include_inactive:
+        query = query.filter(models.Product.is_active == True)
     
     if collection_id:
         query = query.filter(models.Product.collections.any(models.Collection.id == collection_id))

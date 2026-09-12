@@ -17,6 +17,7 @@ export const ShopProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [products, setProducts] = useState([]);
+  const [adminProducts, setAdminProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [metals, setMetals] = useState([]);
   const [collections, setCollections] = useState([]);
@@ -115,7 +116,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchProducts = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/products/");
+      const res = await fetch("http://localhost:8000/api/v1/products/?include_inactive=true");
       if (res.ok) {
         const data = await res.json();
         const mappedProducts = data.map(p => ({
@@ -136,9 +137,11 @@ export const ShopProvider = ({ children }) => {
           stockQuantity: 10, // Mocking inventory for now
           lowStockThreshold: 5,
           isOfferAvailable: p.is_offer_available,
-          offerCouponCode: p.offer_coupon_code
+          offerCouponCode: p.offer_coupon_code,
+          isActive: p.is_active
         }));
-        setProducts(mappedProducts);
+        setAdminProducts(mappedProducts);
+        setProducts(mappedProducts.filter(p => p.isActive !== false));
       }
     } catch (err) {
       console.error("Failed to fetch products", err);
@@ -552,7 +555,8 @@ export const ShopProvider = ({ children }) => {
         method: 'DELETE'
       });
       if (res.ok) {
-        setProducts(products.filter(p => p.id !== id));
+        setAdminProducts(prev => prev.filter(p => p.id !== id));
+        setProducts(prev => prev.filter(p => p.id !== id));
         return { success: true };
       }
       return { success: false, error: "Failed to delete product" };
@@ -582,7 +586,7 @@ export const ShopProvider = ({ children }) => {
     const qty = parseInt(adjustment.quantity, 10);
     if (isNaN(qty) || qty <= 0) return;
 
-    setProducts(prevProducts => prevProducts.map(p => {
+    const updater = p => {
       if (p.id === productId) {
         let newStock = p.stockQuantity;
         if (adjustment.type === 'add') newStock += qty;
@@ -605,7 +609,10 @@ export const ShopProvider = ({ children }) => {
         return { ...p, stockQuantity: newStock };
       }
       return p;
-    }));
+    };
+
+    setAdminProducts(prevProducts => prevProducts.map(updater));
+    setProducts(prevProducts => prevProducts.map(updater));
   };
 
   // Add to cart
@@ -691,6 +698,7 @@ export const ShopProvider = ({ children }) => {
     metalRateHistory,
     deleteMetalRatesHistory,
     products,
+    adminProducts,
     addProduct,
     updateProduct,
     deleteProduct,

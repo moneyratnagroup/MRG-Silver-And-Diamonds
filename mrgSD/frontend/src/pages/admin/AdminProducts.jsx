@@ -5,7 +5,7 @@ import { Plus, Edit2, Trash2 } from 'lucide-react';
 import './AdminProducts.css';
 
 const AdminProducts = () => {
-  const { products, deleteProduct } = useShop();
+  const { adminProducts: products, deleteProduct } = useShop();
   const navigate = useNavigate();
 
   const handleAddProduct = () => {
