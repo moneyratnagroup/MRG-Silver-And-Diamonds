@@ -8,8 +8,7 @@ import './AdminProductForm.css';
 const AdminProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, addProduct, updateProduct, categories, metals, collections, occasions } = useShop();
-  const { products, addProduct, updateProduct, categories, metals, coupons } = useShop();
+  const { adminProducts, addProduct, updateProduct, categories, metals, collections, occasions, coupons } = useShop();
   
   const isEditing = Boolean(id);
   const [errors, setErrors] = useState({});
@@ -41,12 +40,13 @@ const AdminProductForm = () => {
     stockQuantity: '',
     lowStockThreshold: '5',
     isOfferAvailable: 'No',
-    offerCouponCode: ''
+    offerCouponCode: '',
+    status: 'DRAFT'
   });
 
   useEffect(() => {
     if (isEditing) {
-      const productToEdit = products.find(p => p.id === parseInt(id));
+      const productToEdit = adminProducts.find(p => p.id === parseInt(id));
       if (productToEdit) {
         setFormData({
           name: productToEdit.name,
@@ -74,11 +74,12 @@ const AdminProductForm = () => {
           stockQuantity: productToEdit.stockQuantity || 0,
           lowStockThreshold: productToEdit.lowStockThreshold || 5,
           isOfferAvailable: productToEdit.isOfferAvailable ? 'Yes' : 'No',
-          offerCouponCode: productToEdit.offerCouponCode || ''
+          offerCouponCode: productToEdit.offerCouponCode || '',
+          status: productToEdit.status || 'DRAFT'
         });
       }
     }
-  }, [id, products, isEditing]);
+  }, [id, adminProducts, isEditing]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -174,7 +175,7 @@ const AdminProductForm = () => {
       mrp_price: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
       is_new_arrival: false,
       is_featured: false,
-      is_active: true,
+      status: formData.status,
       is_offer_available: formData.isOfferAvailable === 'Yes',
       offer_coupon_code: formData.isOfferAvailable === 'Yes' && formData.offerCouponCode ? formData.offerCouponCode : null,
       images: finalImages.map((url, idx) => ({ image_url: url, is_primary: idx === 0 })),
@@ -272,7 +273,16 @@ const AdminProductForm = () => {
           </div>
 
           <div className="form-row">
-            <div className="form-group full">
+            <div className="form-group half">
+              <label>Status <span style={{color: '#dc3545'}}>*</span></label>
+              <select name="status" value={formData.status} onChange={handleChange}>
+                <option value="DRAFT">Draft (Hidden from customers)</option>
+                <option value="PUBLISHED">Published (Visible to customers)</option>
+                <option value="ARCHIVED">Archived (Discontinued)</option>
+              </select>
+            </div>
+            
+            <div className="form-group half">
               <label>Occasions</label>
               <MultiSelectDropdown 
                 options={occasions || []} 
@@ -306,6 +316,11 @@ const AdminProductForm = () => {
                 </label>
               </div>
               {errors.img && <span className="error-text">required</span>}
+              {formData.img && (
+                <div style={{ marginTop: '10px' }}>
+                  <img src={formData.img} alt="Main Preview" style={{ height: '80px', width: '80px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ddd' }} />
+                </div>
+              )}
             </div>
             <div className="form-group half">
               <label>Hover Image URL (Optional) or Upload</label>
@@ -324,6 +339,11 @@ const AdminProductForm = () => {
                   <input type="file" accept="image/*,image/webp" style={{ display: 'none' }} onChange={(e) => handleFileUpload(e, 'hoverImage')} disabled={isUploading} />
                 </label>
               </div>
+              {formData.hoverImage && (
+                <div style={{ marginTop: '10px' }}>
+                  <img src={formData.hoverImage} alt="Hover Preview" style={{ height: '80px', width: '80px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ddd' }} />
+                </div>
+              )}
             </div>
           </div>
 
@@ -344,6 +364,13 @@ const AdminProductForm = () => {
                 rows="4"
                 placeholder="https://image1...&#10;https://image2..."
               ></textarea>
+              {formData.galleryImages && formData.galleryImages.trim() !== '' && (
+                <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap' }}>
+                  {formData.galleryImages.split('\n').map(url => url.trim()).filter(url => url !== '').map((url, idx) => (
+                    <img key={idx} src={url} alt={`Gallery ${idx + 1}`} style={{ height: '60px', width: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ddd' }} />
+                  ))}
+                </div>
+              )}
             </div>
             <div className="form-group half">
               <label>Product Video URL (Optional 360° view)</label>

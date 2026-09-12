@@ -17,6 +17,7 @@ export const ShopProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [products, setProducts] = useState([]);
+  const [adminProducts, setAdminProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [metals, setMetals] = useState([]);
   const [collections, setCollections] = useState([]);
@@ -135,6 +136,7 @@ export const ShopProvider = ({ children }) => {
           images: p.images.map(img => img.image_url),
           stockQuantity: 10, // Mocking inventory for now
           lowStockThreshold: 5,
+          status: p.status,
           isOfferAvailable: p.is_offer_available,
           offerCouponCode: p.offer_coupon_code
         }));
@@ -145,12 +147,46 @@ export const ShopProvider = ({ children }) => {
     }
   }, []);
 
+  const fetchAdminProducts = useCallback(async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/products/?status=ALL");
+      if (res.ok) {
+        const data = await res.json();
+        const mappedProducts = data.map(p => ({
+          id: p.id,
+          sku: p.sku,
+          name: p.name,
+          originalPrice: p.mrp_price ? `₹${p.mrp_price}` : null,
+          price: `₹${p.selling_price}`,
+          category: p.category?.name || '',
+          collections: p.collections || [],
+          occasions: p.occasions || [],
+          desc: p.description,
+          metal: p.metal?.name || 'Silver',
+          purity: p.purity?.name || '925',
+          img: p.images.length > 0 ? p.images[0].image_url : '',
+          hoverImage: p.images.length > 1 ? p.images[1].image_url : null,
+          images: p.images.map(img => img.image_url),
+          stockQuantity: 10, // Mocking inventory for now
+          lowStockThreshold: 5,
+          status: p.status,
+          isOfferAvailable: p.is_offer_available,
+          offerCouponCode: p.offer_coupon_code
+        }));
+        setAdminProducts(mappedProducts);
+      }
+    } catch (err) {
+      console.error("Failed to fetch admin products", err);
+    }
+  }, []);
+
   useEffect(() => {
     fetchRates();
     fetchTestimonials();
     fetchTaxonomies();
     fetchProducts();
-  }, [fetchRates, fetchTestimonials, fetchTaxonomies, fetchProducts]);
+    fetchAdminProducts();
+  }, [fetchRates, fetchTestimonials, fetchTaxonomies, fetchProducts, fetchAdminProducts]);
 
   const updateMetalRates = async (newRates) => {
     const cleanRates = {};
@@ -324,28 +360,74 @@ export const ShopProvider = ({ children }) => {
 
   // Collections are now fetched dynamically from backend
 
-  const addCategory = (name) => {
-    const newId = categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1;
-    setCategories([...categories, { id: newId, name }]);
+  const addCategory = async (name) => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/products/categories", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+      if (res.ok) {
+        const newCategory = await res.json();
+        setCategories(prev => [...prev, newCategory]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const deleteCategory = (id) => {
-    setCategories(categories.filter(c => c.id !== id));
+  const deleteCategory = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/products/categories/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) setCategories(prev => prev.filter(c => c.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const addCollection = (name, displayName, categoryIds = []) => {
-    const newId = collections.length > 0 ? Math.max(...collections.map(c => c.id)) + 1 : 1;
-    setCollections([...collections, { id: newId, name, displayName, categoryIds }]);
+  const addCollection = async (name, displayName, categoryIds = []) => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/products/collections", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: displayName || name, category_ids: categoryIds })
+      });
+      if (res.ok) {
+        const newCollection = await res.json();
+        setCollections(prev => [...prev, newCollection]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const deleteCollection = (id) => {
-    setCollections(collections.filter(c => c.id !== id));
+  const deleteCollection = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/products/collections/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) setCollections(prev => prev.filter(c => c.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const updateCollection = (id, name, displayName, categoryIds = []) => {
-    setCollections(collections.map(c => 
-      c.id === id ? { ...c, name, displayName, categoryIds } : c
-    ));
+  const updateCollection = async (id, name, displayName, categoryIds = []) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/products/collections/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: displayName || name, category_ids: categoryIds })
+      });
+      if (res.ok) {
+        const updatedCollection = await res.json();
+        setCollections(prev => prev.map(c => c.id === id ? updatedCollection : c));
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // Coupons (Admin & Frontend)
@@ -516,6 +598,7 @@ export const ShopProvider = ({ children }) => {
       });
       if (res.ok) {
         await fetchProducts();
+        await fetchAdminProducts();
         return { success: true };
       }
       const data = await res.json();
@@ -536,6 +619,7 @@ export const ShopProvider = ({ children }) => {
       });
       if (res.ok) {
         await fetchProducts();
+        await fetchAdminProducts();
         return { success: true };
       }
       const data = await res.json();
@@ -553,6 +637,7 @@ export const ShopProvider = ({ children }) => {
       });
       if (res.ok) {
         setProducts(products.filter(p => p.id !== id));
+        setAdminProducts(adminProducts.filter(p => p.id !== id));
         return { success: true };
       }
       return { success: false, error: "Failed to delete product" };
@@ -691,6 +776,7 @@ export const ShopProvider = ({ children }) => {
     metalRateHistory,
     deleteMetalRatesHistory,
     products,
+    adminProducts,
     addProduct,
     updateProduct,
     deleteProduct,
