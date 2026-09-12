@@ -5,7 +5,11 @@ import { Plus, Edit2, Trash2 } from 'lucide-react';
 import './AdminProducts.css';
 
 const AdminProducts = () => {
+<<<<<<< HEAD
+  const { adminProducts: products, deleteProduct } = useShop();
+=======
   const { adminProducts, deleteProduct, updateProduct } = useShop();
+>>>>>>> develop
   const navigate = useNavigate();
 
   const handleAddProduct = () => {
