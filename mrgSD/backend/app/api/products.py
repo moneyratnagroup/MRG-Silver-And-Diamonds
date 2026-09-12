@@ -26,6 +26,26 @@ def create_category(category: schemas.CategoryCreate, db: Session = Depends(get_
     db.refresh(db_obj)
     return db_obj
 
+@router.put("/categories/{category_id}", response_model=schemas.Category)
+def update_category(category_id: int, category: schemas.CategoryCreate, db: Session = Depends(get_db)):
+    db_obj = db.query(models.Category).filter(models.Category.id == category_id).first()
+    if not db_obj:
+        raise HTTPException(status_code=404, detail="Category not found")
+    for key, value in category.dict().items():
+        setattr(db_obj, key, value)
+    db.commit()
+    db.refresh(db_obj)
+    return db_obj
+
+@router.delete("/categories/{category_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_category(category_id: int, db: Session = Depends(get_db)):
+    db_obj = db.query(models.Category).filter(models.Category.id == category_id).first()
+    if not db_obj:
+        raise HTTPException(status_code=404, detail="Category not found")
+    db.delete(db_obj)
+    db.commit()
+    return None
+
 @router.get("/metals", response_model=List[schemas.Metal])
 def get_metals(db: Session = Depends(get_db)):
     return db.query(models.Metal).all()
@@ -89,6 +109,28 @@ def create_collection(collection: schemas.CollectionCreate, db: Session = Depend
     db.refresh(db_obj)
     return db_obj
 
+@router.put("/collections/{collection_id}", response_model=schemas.Collection)
+def update_collection(collection_id: int, collection: schemas.CollectionCreate, db: Session = Depends(get_db)):
+    db_obj = db.query(models.Collection).filter(models.Collection.id == collection_id).first()
+    if not db_obj:
+        raise HTTPException(status_code=404, detail="Collection not found")
+    db_obj.name = collection.name
+    if collection.category_ids is not None:
+        categories = db.query(models.Category).filter(models.Category.id.in_(collection.category_ids)).all()
+        db_obj.categories = categories
+    db.commit()
+    db.refresh(db_obj)
+    return db_obj
+
+@router.delete("/collections/{collection_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_collection(collection_id: int, db: Session = Depends(get_db)):
+    db_obj = db.query(models.Collection).filter(models.Collection.id == collection_id).first()
+    if not db_obj:
+        raise HTTPException(status_code=404, detail="Collection not found")
+    db.delete(db_obj)
+    db.commit()
+    return None
+
 # -----------------------------------------
 # Product Endpoints
 # -----------------------------------------
@@ -101,13 +143,22 @@ def get_products(
     metal_id: Optional[int] = None,
     is_new_arrival: Optional[bool] = None,
     is_featured: Optional[bool] = None,
+<<<<<<< HEAD
     include_inactive: bool = False,
+=======
+    status: Optional[str] = "PUBLISHED",
+>>>>>>> develop
     db: Session = Depends(get_db)
 ):
     query = db.query(models.Product)
     
+<<<<<<< HEAD
     if not include_inactive:
         query = query.filter(models.Product.is_active == True)
+=======
+    if status and status.upper() != "ALL":
+        query = query.filter(models.Product.status == status.upper())
+>>>>>>> develop
     
     if collection_id:
         query = query.filter(models.Product.collections.any(models.Collection.id == collection_id))
@@ -147,7 +198,7 @@ def create_product(product_in: schemas.ProductCreate, db: Session = Depends(get_
         mrp_price=product_in.mrp_price,
         is_new_arrival=product_in.is_new_arrival,
         is_featured=product_in.is_featured,
-        is_active=product_in.is_active,
+        status=product_in.status,
         is_offer_available=product_in.is_offer_available,
         offer_coupon_code=product_in.offer_coupon_code
     )

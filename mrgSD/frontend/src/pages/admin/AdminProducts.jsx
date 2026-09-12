@@ -5,7 +5,11 @@ import { Plus, Edit2, Trash2 } from 'lucide-react';
 import './AdminProducts.css';
 
 const AdminProducts = () => {
+<<<<<<< HEAD
   const { adminProducts: products, deleteProduct } = useShop();
+=======
+  const { adminProducts, deleteProduct, updateProduct } = useShop();
+>>>>>>> develop
   const navigate = useNavigate();
 
   const handleAddProduct = () => {
@@ -19,6 +23,14 @@ const AdminProducts = () => {
   const handleDeleteProduct = (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       deleteProduct(id);
+    }
+  };
+
+  const handleStatusChange = async (product, newStatus) => {
+    if (product.status === newStatus) return;
+    const result = await updateProduct({ id: product.id, status: newStatus });
+    if (!result.success) {
+      alert(result.error || "Failed to update status");
     }
   };
 
@@ -47,23 +59,36 @@ const AdminProducts = () => {
               <th>Price</th>
               <th>Category</th>
               <th>Collection</th>
+              <th>Status</th>
               <th className="text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
+            {adminProducts.map((product) => (
               <tr key={product.id}>
                 <td>
-                  <div className="table-img-container">
-                    <img loading="lazy" src={product.img} alt={product.name} />
+                  <div className="table-img-wrapper">
+                    <div className="table-img-container">
+                      <img loading="lazy" src={product.img} alt={product.name} />
+                    </div>
+                    <div className="img-hover-preview">
+                      <img loading="lazy" src={product.img} alt={product.name} />
+                    </div>
                   </div>
                 </td>
                 <td>
-                  <div className="table-img-container">
-                    {product.hoverImage ? (
-                      <img loading="lazy" src={product.hoverImage} alt="Hover" />
-                    ) : (
-                      <span style={{color: '#aaa', fontSize: '0.85rem'}}>None</span>
+                  <div className="table-img-wrapper">
+                    <div className="table-img-container">
+                      {product.hoverImage ? (
+                        <img loading="lazy" src={product.hoverImage} alt="Hover" />
+                      ) : (
+                        <span style={{color: '#aaa', fontSize: '0.85rem'}}>None</span>
+                      )}
+                    </div>
+                    {product.hoverImage && (
+                      <div className="img-hover-preview">
+                        <img loading="lazy" src={product.hoverImage} alt="Hover" />
+                      </div>
                     )}
                   </div>
                 </td>
@@ -91,6 +116,17 @@ const AdminProducts = () => {
                   )}
                 </td>
                 <td>
+                  <select 
+                    value={product.status || 'DRAFT'} 
+                    onChange={(e) => handleStatusChange(product, e.target.value)}
+                    className={`status-select status-${product.status?.toLowerCase() || 'draft'}`}
+                  >
+                    <option value="DRAFT">Draft</option>
+                    <option value="PUBLISHED">Published</option>
+                    <option value="ARCHIVED">Archived</option>
+                  </select>
+                </td>
+                <td>
                   <div className="table-actions">
                     <button className="btn-icon edit" onClick={() => handleEditProduct(product)} title="Edit">
                       <Edit2 size={16} />
@@ -102,9 +138,9 @@ const AdminProducts = () => {
                 </td>
               </tr>
             ))}
-            {products.length === 0 && (
+            {adminProducts.length === 0 && (
               <tr>
-                <td colSpan="6" className="text-center empty-table">
+                <td colSpan="7" className="text-center empty-table">
                   No products found. Add your first product!
                 </td>
               </tr>
