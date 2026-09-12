@@ -4,6 +4,11 @@ from sqlalchemy.sql import func
 import enum
 from app.database.database import Base
 
+class ProductStatus(str, enum.Enum):
+    DRAFT = "DRAFT"
+    PUBLISHED = "PUBLISHED"
+    ARCHIVED = "ARCHIVED"
+
 
 
 # Association Tables for Many-to-Many relationships
@@ -118,7 +123,7 @@ class Product(Base):
     
     is_new_arrival = Column(Boolean, default=False)
     is_featured = Column(Boolean, default=False)
-    is_active = Column(Boolean, default=True)
+    status = Column(SQLEnum(ProductStatus), default=ProductStatus.DRAFT, index=True)
     
     is_offer_available = Column(Boolean, default=False)
     offer_coupon_code = Column(String(50), nullable=True)

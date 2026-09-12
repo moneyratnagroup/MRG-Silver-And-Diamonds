@@ -1,6 +1,12 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime
+from enum import Enum
+
+class ProductStatus(str, Enum):
+    DRAFT = "DRAFT"
+    PUBLISHED = "PUBLISHED"
+    ARCHIVED = "ARCHIVED"
 
 # -------------------------
 # Taxonomy Schemas
@@ -108,7 +114,7 @@ class ProductBase(BaseModel):
     mrp_price: Optional[float] = None
     is_new_arrival: bool = False
     is_featured: bool = False
-    is_active: bool = True
+    status: ProductStatus = ProductStatus.DRAFT
     is_offer_available: Optional[bool] = False
     offer_coupon_code: Optional[str] = None
 
@@ -128,7 +134,7 @@ class ProductUpdate(BaseModel):
     mrp_price: Optional[float] = None
     is_new_arrival: Optional[bool] = None
     is_featured: Optional[bool] = None
-    is_active: Optional[bool] = None
+    status: Optional[ProductStatus] = None
     is_offer_available: Optional[bool] = None
     offer_coupon_code: Optional[str] = None
     occasion_ids: Optional[List[int]] = None

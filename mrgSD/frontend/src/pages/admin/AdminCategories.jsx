@@ -66,9 +66,9 @@ const AdminCategories = () => {
 
   const openEditModal = (col) => {
     setEditingCollectionId(col.id);
-    setNewCollectionName(col.displayName);
-    setNewCollectionSlug(col.name);
-    setSelectedCategories(col.categoryIds || []);
+    setNewCollectionName(col.name);
+    setNewCollectionSlug(col.name.toLowerCase().replace(/[^a-z0-9-]/g, ''));
+    setSelectedCategories(col.category_ids || []);
     setIsCollectionModalOpen(true);
   };
 
@@ -154,14 +154,13 @@ const AdminCategories = () => {
             {collections.length > 0 ? collections.map(col => (
               <div key={col.id} className="category-item">
                 <div className="category-item-info">
-                  <span className="category-name">{col.displayName}</span>
-                  <span className="category-slug">Slug: {col.name}</span>
-                  {col.categoryIds && col.categoryIds.length > 0 && (
+                  <span className="category-name">{col.name}</span>
+                  {col.category_ids && col.category_ids.length > 0 && (
                     <span
                       className="category-slug linked-cats-link"
                       onClick={() => openEditModal(col)}
                     >
-                      {col.categoryIds.length} Linked Categories
+                      {col.category_ids.length} Linked Categories
                     </span>
                   )}
                 </div>
