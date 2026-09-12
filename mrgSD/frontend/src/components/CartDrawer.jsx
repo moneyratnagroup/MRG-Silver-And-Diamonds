@@ -43,7 +43,7 @@ const CartDrawer = () => {
               {cartItems.map((item) => (
                 <div key={item.id} className="cart-item">
                   <div className="cart-item-image">
-                    <img src={item.img} alt={item.name} />
+                    <img loading="lazy" src={item.img} alt={item.name} />
                   </div>
                   <div className="cart-item-details">
                     <h4 className="cart-item-name">{item.name}</h4>
@@ -71,7 +71,7 @@ const CartDrawer = () => {
                 <span>₹{calculateSubtotal().toLocaleString('en-IN')}</span>
               </div>
               <p className="shipping-note">Taxes and shipping calculated at checkout</p>
-              <button className="btn-checkout">Checkout</button>
+              <Link to="/checkout" className="btn-checkout" style={{textDecoration: 'none', display: 'block', textAlign: 'center'}} onClick={handleClose}>Checkout</Link>
               <Link to="/cart" className="btn-view-cart" onClick={handleClose}>View Full Cart</Link>
             </div>
           </>

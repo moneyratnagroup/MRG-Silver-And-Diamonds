@@ -92,13 +92,22 @@ const AdminTestimonialForm = () => {
     const payloadToSave = { ...formData, imageKey: finalImageKey };
 
     if (id) {
-      await updateTestimonial(payloadToSave);
-      alert("Testimonial updated successfully!");
+      const success = await updateTestimonial(payloadToSave);
+      if (success) {
+        alert("Testimonial updated successfully!");
+        navigate('/admin/testimonials');
+      } else {
+        alert("Failed to update testimonial.");
+      }
     } else {
-      await addTestimonial(payloadToSave);
-      alert("Testimonial added successfully!");
+      const success = await addTestimonial(payloadToSave);
+      if (success) {
+        alert("Testimonial added successfully!");
+        navigate('/admin/testimonials');
+      } else {
+        alert("Failed to add testimonial.");
+      }
     }
-    navigate('/admin/testimonials');
   };
 
   return (
@@ -145,7 +154,7 @@ const AdminTestimonialForm = () => {
               />
               {formData.imagePreview && (
                 <div className="img-preview-box" style={{ marginTop: '10px', width: '120px', height: '120px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #ddd' }}>
-                  <img src={formData.imagePreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img loading="lazy" src={formData.imagePreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
               )}
             </div>

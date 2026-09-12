@@ -21,16 +21,7 @@
   margin-bottom: 8px;
 }
 
-.main-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: #1F314A;
-  text-align: center;
-  margin: 0;
-}
+
 
 .decorative-line {
   width: 70px;
@@ -101,7 +92,7 @@
 }
 
 .category-name {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 2px;

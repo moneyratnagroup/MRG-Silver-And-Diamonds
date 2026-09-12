@@ -4,7 +4,7 @@ import { useShop } from '../../context/ShopContext';
 import './AdminInventory.css';
 
 const AdminInventory = () => {
-  const { products, updateInventory, inventoryMovements } = useShop();
+  const { adminProducts: products, updateInventory, inventoryMovements } = useShop();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') || 'overview'; // overview, management, history, reports
 
@@ -195,7 +195,7 @@ const AdminInventory = () => {
                     <tr key={p.id}>
                       <td>
                         <div className="inv-prod-cell">
-                          <img src={p.img} alt={p.name} className="inv-prod-img" />
+                          <img loading="lazy" src={p.img} alt={p.name} className="inv-prod-img" />
                           <div className="inv-prod-info">
                             <h4>{p.name}</h4>
                             <p>{p.sku}</p>

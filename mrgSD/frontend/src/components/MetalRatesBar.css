@@ -2,9 +2,9 @@
   background-color: #6B2737;
   backdrop-filter: blur(8px);
   color: #F7E7CE;
-  padding: 0.6rem 0;
+  padding: 4px 0;
   font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   letter-spacing: 0.5px;
   position: relative;
   z-index: 1040;
@@ -14,11 +14,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.rates-container::-webkit-scrollbar {
+  display: none;
 }
 
 .rate-item {
@@ -46,16 +52,21 @@
 
 .rate-info {
   margin-left: auto;
-  color: #888;
-  font-size: 0.75rem;
+  color: rgba(247, 231, 206, 0.7);
+  font-size: 0.65rem;
 }
 
 @media (max-width: 768px) {
   .metal-rates-bar {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
   }
   
   .rates-container {
     gap: 1rem;
+    justify-content: flex-start;
+  }
+  
+  .desktop-only {
+    display: none !important;
   }
 }

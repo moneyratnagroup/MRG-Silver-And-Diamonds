@@ -146,7 +146,7 @@ const AdminHomepage = () => {
                     <tr key={banner.id}>
                       <td>
                         <div className="table-img-container banner-table-img">
-                          <img src={banner.image} alt="Banner Preview" />
+                          <img loading="lazy" src={banner.image} alt="Banner Preview" />
                         </div>
                       </td>
                       <td className="font-medium" dangerouslySetInnerHTML={{ __html: banner.title }}></td>
@@ -231,7 +231,7 @@ const AdminHomepage = () => {
                   placeholder="https://..."
                 />
                 {bannerFormData.image && (
-                  <img src={bannerFormData.image} alt="Preview" className="banner-preview" />
+                  <img loading="lazy" src={bannerFormData.image} alt="Preview" className="banner-preview" />
                 )}
               </div>
               

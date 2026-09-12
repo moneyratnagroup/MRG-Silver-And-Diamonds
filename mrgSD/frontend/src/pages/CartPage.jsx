@@ -1,6 +1,7 @@
 import React from 'react';
 import { useShop } from '../context/ShopContext';
 import { Plus, Minus, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import './Pages.css';
 
 const CartPage = () => {
@@ -34,7 +35,7 @@ const CartPage = () => {
             {cartItems.map(item => (
               <div key={item.id} className="cart-table-row">
                 <div className="td-product">
-                  <img src={item.img} alt={item.name} className="cart-table-img" />
+                  <img loading="lazy" src={item.img} alt={item.name} className="cart-table-img" />
                   <div>
                     <h3 className="cart-table-name">{item.name}</h3>
                     <p className="cart-table-price">{item.price}</p>
@@ -62,7 +63,9 @@ const CartPage = () => {
               <span>₹{calculateSubtotal().toLocaleString('en-IN')}</span>
             </div>
             <p className="shipping-note">Taxes and shipping calculated at checkout</p>
-            <button className="btn-primary w-100">Checkout</button>
+            <Link to="/checkout" style={{textDecoration: 'none'}}>
+              <button className="btn-primary w-100">Checkout</button>
+            </Link>
           </div>
         </div>
       )}

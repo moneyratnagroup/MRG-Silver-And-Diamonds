@@ -2,13 +2,24 @@ import React from 'react';
 import { useShop } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 import './ProductsGallery.css'; // Reusing the exact same styling as requested
-import braceletImg from '../assets/silver_charm_bracelet.png';
+import braceletImg from '../assets/silver_charm_bracelet.webp';
 
 const FeaturedCollection = () => {
   const navigate = useNavigate();
-  const { toggleWishlist, isInWishlist } = useShop();
+  const { products, toggleWishlist, isInWishlist, addToCart } = useShop();
 
-  // Mock data for the first populated product
+  const featuredProducts = products.filter(p => 
+    p.collections && p.collections.some(c => 
+      c.name.toLowerCase() === 'featured' || 
+      c.name.toLowerCase() === 'featured collection'
+    )
+  ).slice(0, 8);
+
+  // If no featured products are found, we'll keep the placeholders so the layout doesn't look broken
+  // until the admin actually creates the "Featured" collection and adds products to it.
+  const hasFeaturedProducts = featuredProducts.length > 0;
+
+  // Mock data for the first populated product (used as fallback)
   const sampleProduct = {
     id: 1,
     name: "Classic Silver Charm Bracelet",
@@ -45,51 +56,101 @@ const FeaturedCollection = () => {
   return (
     <section className="products-gallery-section" style={{ backgroundColor: '#ffffff' }}>
       <div className="pg-header">
-        <h2 className="pg-title">Featured Collection</h2>
+        <h2 className="global-subheading">Featured Collection</h2>
         <p className="pg-tagline">
           Handpicked silver jewellery crafted to celebrate elegance, tradition, and everyday beauty.
         </p>
       </div>
 
       <div className="pg-grid">
-        {/* Sample Fully Populated Product Card */}
-        <div className="pg-card">
-          <div className="pg-image-container" onClick={() => handleProductClick(sampleProduct)} style={{cursor: 'pointer'}}>
-            {sampleProduct.originalPrice && calculateDiscount(sampleProduct.originalPrice, sampleProduct.price) && (
-              <span className="pg-discount-badge">
-                {calculateDiscount(sampleProduct.originalPrice, sampleProduct.price)}% OFF
-              </span>
-            )}
-            <img src={sampleProduct.img} alt={sampleProduct.name} className="pg-image" />
-            <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(sampleProduct); }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(sampleProduct.id) ? "#e53e3e" : "none"} stroke={isInWishlist(sampleProduct.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-              </svg>
-            </button>
-          </div>
-          <div className="pg-details">
-            <h3 className="pg-item-name">{sampleProduct.name}</h3>
-            <div className="pg-price-container">
-              <p className="pg-item-price">{sampleProduct.price}</p>
-              {sampleProduct.originalPrice && (
-                <p className="pg-item-original-price">{sampleProduct.originalPrice}</p>
-              )}
+        {hasFeaturedProducts ? (
+          // Render real featured products
+          featuredProducts.map((product) => (
+            <div className="pg-card" key={product.id}>
+              <div className="pg-image-container" onClick={() => handleProductClick(product)} style={{cursor: 'pointer'}}>
+                {product.originalPrice && calculateDiscount(product.originalPrice, product.price) && (
+                  <span className="pg-discount-badge">
+                    {calculateDiscount(product.originalPrice, product.price)}% OFF
+                  </span>
+                )}
+                <img loading="lazy" src={product.img || braceletImg} alt={product.name} className="pg-image" />
+                <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? "#e53e3e" : "none"} stroke={isInWishlist(product.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                </button>
+              </div>
+              <div className="pg-details">
+                <h3 className="pg-item-name">{product.name}</h3>
+                <div className="pg-price-container">
+                  <p className="pg-item-price">{product.price}</p>
+                  {product.originalPrice && (
+                    <p className="pg-item-original-price">{product.originalPrice}</p>
+                  )}
+                </div>
+                <button 
+                  className="pg-add-to-cart" 
+                  onClick={(e) => { 
+                    e.stopPropagation(); 
+                    addToCart(product); 
+                  }}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          // Render fallback placeholders until admin creates the collection
+          <>
+            {/* Sample Fully Populated Product Card */}
+            <div className="pg-card">
+              <div className="pg-image-container" onClick={() => handleProductClick(sampleProduct)} style={{cursor: 'pointer'}}>
+                {sampleProduct.originalPrice && calculateDiscount(sampleProduct.originalPrice, sampleProduct.price) && (
+                  <span className="pg-discount-badge">
+                    {calculateDiscount(sampleProduct.originalPrice, sampleProduct.price)}% OFF
+                  </span>
+                )}
+                <img loading="lazy" src={sampleProduct.img} alt={sampleProduct.name} className="pg-image" />
+                <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(sampleProduct); }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(sampleProduct.id) ? "#e53e3e" : "none"} stroke={isInWishlist(sampleProduct.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                </button>
+              </div>
+              <div className="pg-details">
+                <h3 className="pg-item-name">{sampleProduct.name}</h3>
+                <div className="pg-price-container">
+                  <p className="pg-item-price">{sampleProduct.price}</p>
+                  {sampleProduct.originalPrice && (
+                    <p className="pg-item-original-price">{sampleProduct.originalPrice}</p>
+                  )}
+                </div>
+                <button 
+                  className="pg-add-to-cart" 
+                  onClick={(e) => { 
+                    e.stopPropagation(); 
+                    addToCart(sampleProduct); 
+                  }}
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
 
-          </div>
-        </div>
-
-        {/* Skeleton Placeholders for the remaining 7 items */}
-        {placeholders.map((item) => (
-          <div className="pg-card skeleton-card" key={item}>
-            <div className="pg-image-container skeleton-img"></div>
-            <div className="pg-details">
-              <div className="skeleton-text skeleton-title"></div>
-              <div className="skeleton-text skeleton-price"></div>
-              <div className="skeleton-btn"></div>
-            </div>
-          </div>
-        ))}
+            {/* Skeleton Placeholders for the remaining 7 items */}
+            {placeholders.map((item) => (
+              <div className="pg-card skeleton-card" key={item}>
+                <div className="pg-image-container skeleton-img"></div>
+                <div className="pg-details">
+                  <div className="skeleton-text skeleton-title"></div>
+                  <div className="skeleton-text skeleton-price"></div>
+                  <div className="skeleton-btn"></div>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
     </section>

@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Upload } from 'lucide-react';
+import MultiSelectDropdown from '../../components/admin/MultiSelectDropdown';
 import './AdminProductForm.css';
 
 const AdminProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, addProduct, updateProduct, categories, collections } = useShop();
+  const { adminProducts: products, addProduct, updateProduct, categories, metals, coupons, collections, occasions } = useShop();
   
   const isEditing = Boolean(id);
+  const [errors, setErrors] = useState({});
+  const [isUploading, setIsUploading] = useState(false);
   
   const [formData, setFormData] = useState({
     name: '',
     originalPrice: '',
     price: '',
     category: 'Rings',
-    collection: 'women',
+    collectionIds: [],
+    occasionIds: [],
     desc: '',
     shortDesc: '',
     careInstructions: '',
@@ -34,7 +38,9 @@ const AdminProductForm = () => {
     hallmarked: 'Yes',
     certificate: 'No',
     stockQuantity: '',
-    lowStockThreshold: '5'
+    lowStockThreshold: '5',
+    isOfferAvailable: 'No',
+    offerCouponCode: ''
   });
 
   useEffect(() => {
@@ -46,7 +52,8 @@ const AdminProductForm = () => {
           originalPrice: productToEdit.originalPrice ? productToEdit.originalPrice.replace('₹', '').replace(',', '') : '',
           price: productToEdit.price.replace('₹', '').replace(',', ''),
           category: productToEdit.category,
-          collection: productToEdit.collection,
+          collectionIds: productToEdit.collections?.map(c => c.id) || [],
+          occasionIds: productToEdit.occasions?.map(o => o.id) || [],
           desc: productToEdit.desc,
           shortDesc: productToEdit.shortDesc || '',
           careInstructions: productToEdit.careInstructions || '',
@@ -64,7 +71,9 @@ const AdminProductForm = () => {
           hallmarked: productToEdit.hallmarked !== false ? 'Yes' : 'No',
           certificate: productToEdit.certificate === true ? 'Yes' : 'No',
           stockQuantity: productToEdit.stockQuantity || 0,
-          lowStockThreshold: productToEdit.lowStockThreshold || 5
+          lowStockThreshold: productToEdit.lowStockThreshold || 5,
+          isOfferAvailable: productToEdit.isOfferAvailable ? 'Yes' : 'No',
+          offerCouponCode: productToEdit.offerCouponCode || ''
         });
       }
     }
@@ -75,49 +84,117 @@ const AdminProductForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleCheckboxChange = (e, field) => {
+    const { value, checked } = e.target;
+    const id = parseInt(value);
+    setFormData(prev => {
+      const list = prev[field];
+      if (checked) {
+        return { ...prev, [field]: [...list, id] };
+      } else {
+        return { ...prev, [field]: list.filter(item => item !== id) };
+      }
+    });
+  };
+
+  const handleFileUpload = async (e, field) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const formDataObj = new FormData();
+    formDataObj.append('file', file);
+
+    try {
+      const response = await fetch('http://localhost:8000/api/v1/upload/', {
+        method: 'POST',
+        body: formDataObj,
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const data = await response.json();
+      const imageUrl = `http://localhost:8000${data.url}`;
+
+      if (field === 'galleryImages') {
+        setFormData(prev => ({ 
+          ...prev, 
+          [field]: prev[field] ? `${prev[field]}\n${imageUrl}` : imageUrl 
+        }));
+      } else {
+        setFormData(prev => ({ ...prev, [field]: imageUrl }));
+      }
+    } catch (error) {
+      alert("Error uploading image: " + error.message);
+    } finally {
+      setIsUploading(false);
+      e.target.value = null;
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validation
+    const newErrors = {};
+    if (!formData.name) newErrors.name = true;
+    if (!formData.price) newErrors.price = true;
+    if (!formData.img) newErrors.img = true;
+    if (!formData.desc) newErrors.desc = true;
+    if (!formData.sku) newErrors.sku = true;
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // Stop submission
+    }
+    setErrors({});
     
     // Format price
     const formattedPrice = `₹${Number(formData.price).toLocaleString('en-IN')}`;
     const formattedOriginalPrice = formData.originalPrice ? `₹${Number(formData.originalPrice).toLocaleString('en-IN')}` : null;
     
     const galleryArray = formData.galleryImages.split('\n').map(url => url.trim()).filter(url => url !== '');
-    const finalImages = [formData.img || 'https://images.unsplash.com/photo-1599643478514-4a1101858ff6?auto=format&fit=crop&q=80&w=600', ...galleryArray];
+    const finalImages = [formData.img || 'https://images.unsplash.com/photo-1599643478514-4a1101858ff6?auto=format&fit=crop&q=80&w=600'];
+    if (formData.hoverImage) {
+      finalImages.push(formData.hoverImage.trim());
+    }
+    finalImages.push(...galleryArray);
 
     const productPayload = {
-      name: formData.name,
-      originalPrice: formattedOriginalPrice,
-      price: formattedPrice,
-      category: formData.category,
-      collection: formData.collection,
-      desc: formData.desc,
-      shortDesc: formData.shortDesc,
-      careInstructions: formData.careInstructions,
-      img: formData.img || 'https://images.unsplash.com/photo-1599643478514-4a1101858ff6?auto=format&fit=crop&q=80&w=600',
-      images: finalImages,
-      hoverImage: formData.hoverImage,
-      videoUrl: formData.videoUrl,
       sku: formData.sku,
-      metal: formData.metal,
-      purity: formData.purity,
-      weight: formData.weight ? `${formData.weight}g` : '',
-      finish: formData.finish,
-      stoneType: formData.stoneType,
-      stoneWeight: formData.stoneWeight,
-      hallmarked: formData.hallmarked === 'Yes',
-      certificate: formData.certificate === 'Yes',
-      stockQuantity: parseInt(formData.stockQuantity, 10) || 0,
-      lowStockThreshold: parseInt(formData.lowStockThreshold, 10) || 5
+      name: formData.name,
+      description: formData.desc,
+      category_id: categories.find(c => c.name === formData.category)?.id || null,
+      metal_id: metals.find(m => m.name === formData.metal)?.id || null,
+      purity_id: null,
+      selling_price: parseFloat(formData.price),
+      mrp_price: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
+      is_new_arrival: false,
+      is_featured: false,
+      is_active: true,
+      is_offer_available: formData.isOfferAvailable === 'Yes',
+      offer_coupon_code: formData.isOfferAvailable === 'Yes' && formData.offerCouponCode ? formData.offerCouponCode : null,
+      images: finalImages.map((url, idx) => ({ image_url: url, is_primary: idx === 0 })),
+      occasion_ids: formData.occasionIds,
+      stone_ids: [],
+      collection_ids: formData.collectionIds
     };
 
+    let result;
     if (isEditing) {
-      updateProduct({ ...productPayload, id: parseInt(id) });
+      // Assuming updateProduct also returns { success: ..., error: ... } or just update it to
+      result = await updateProduct({ ...productPayload, id: parseInt(id) });
     } else {
-      addProduct(productPayload);
+      result = await addProduct(productPayload);
     }
     
-    navigate('/admin/products');
+    if (result && result.success) {
+      navigate('/admin/products');
+    } else {
+      alert(result?.error || "Failed to save product. Please try again.");
+    }
   };
 
   return (
@@ -131,17 +208,18 @@ const AdminProductForm = () => {
       </div>
 
       <div className="admin-form-card">
-        <form onSubmit={handleSubmit} className="product-form">
+        <form onSubmit={handleSubmit} className="product-form" noValidate>
           <div className="form-group">
-            <label>Product Name</label>
+            <label>Product Name <span style={{color: '#dc3545'}}>*</span></label>
             <input 
               type="text" 
               name="name" 
               value={formData.name} 
               onChange={handleChange} 
-              required 
+              className={errors.name ? 'input-error' : ''}
               placeholder="e.g. Diamond Stud Earrings"
             />
+            {errors.name && <span className="error-text">required</span>}
           </div>
           
           <div className="form-row">
@@ -157,15 +235,16 @@ const AdminProductForm = () => {
             </div>
 
             <div className="form-group half">
-              <label>Selling Price (₹)</label>
+              <label>Selling Price (₹) <span style={{color: '#dc3545'}}>*</span></label>
               <input 
                 type="number" 
                 name="price" 
                 value={formData.price} 
                 onChange={handleChange} 
-                required 
+                className={errors.price ? 'input-error' : ''}
                 placeholder="2999"
               />
+              {errors.price && <span className="error-text">required</span>}
             </div>
           </div>
           
@@ -180,12 +259,27 @@ const AdminProductForm = () => {
             </div>
             
             <div className="form-group half">
-              <label>Collection</label>
-              <select name="collection" value={formData.collection} onChange={handleChange}>
-                {collections.map(c => (
-                  <option key={c.id} value={c.name}>{c.displayName}</option>
-                ))}
-              </select>
+              <label>Collections</label>
+              <MultiSelectDropdown 
+                options={collections} 
+                selectedIds={formData.collectionIds} 
+                onChange={handleCheckboxChange} 
+                placeholder="Select Collections..." 
+                field="collectionIds" 
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group full">
+              <label>Occasions</label>
+              <MultiSelectDropdown 
+                options={occasions || []} 
+                selectedIds={formData.occasionIds} 
+                onChange={handleCheckboxChange} 
+                placeholder="Select Occasions..." 
+                field="occasionIds" 
+              />
             </div>
           </div>
           
@@ -193,31 +287,55 @@ const AdminProductForm = () => {
           
           <div className="form-row">
             <div className="form-group half">
-              <label>Main Image URL (Required)</label>
-              <input 
-                type="url" 
-                name="img" 
-                value={formData.img} 
-                onChange={handleChange} 
-                placeholder="https://..."
-                required
-              />
+              <label>Main Image URL or Upload <span style={{color: '#dc3545'}}>*</span></label>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <input 
+                  type="text" 
+                  name="img" 
+                  value={formData.img} 
+                  onChange={handleChange} 
+                  className={errors.img ? 'input-error' : ''}
+                  placeholder="https://..."
+                  style={{ flex: 1 }}
+                />
+                <label className="btn-upload" style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '0 15px', background: '#e0e0e0', cursor: 'pointer', borderRadius: '4px', border: '1px solid #ccc' }}>
+                  <Upload size={16} />
+                  <span>{isUploading ? '...' : 'Upload'}</span>
+                  <input type="file" accept="image/*,image/webp" style={{ display: 'none' }} onChange={(e) => handleFileUpload(e, 'img')} disabled={isUploading} />
+                </label>
+              </div>
+              {errors.img && <span className="error-text">required</span>}
             </div>
             <div className="form-group half">
-              <label>Hover Image URL (Optional)</label>
-              <input 
-                type="url" 
-                name="hoverImage" 
-                value={formData.hoverImage} 
-                onChange={handleChange} 
-                placeholder="Image shown on mouse hover..."
-              />
+              <label>Hover Image URL (Optional) or Upload</label>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <input 
+                  type="text" 
+                  name="hoverImage" 
+                  value={formData.hoverImage} 
+                  onChange={handleChange} 
+                  placeholder="Image shown on mouse hover..."
+                  style={{ flex: 1 }}
+                />
+                <label className="btn-upload" style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '0 15px', background: '#e0e0e0', cursor: 'pointer', borderRadius: '4px', border: '1px solid #ccc' }}>
+                  <Upload size={16} />
+                  <span>{isUploading ? '...' : 'Upload'}</span>
+                  <input type="file" accept="image/*,image/webp" style={{ display: 'none' }} onChange={(e) => handleFileUpload(e, 'hoverImage')} disabled={isUploading} />
+                </label>
+              </div>
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group half">
-              <label>Gallery Images (Optional, one URL per line)</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label style={{ margin: 0 }}>Gallery Images (One URL per line)</label>
+                <label className="btn-upload" style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '4px 10px', background: '#e0e0e0', cursor: 'pointer', borderRadius: '4px', border: '1px solid #ccc', fontSize: '0.85rem' }}>
+                  <Upload size={14} />
+                  <span>{isUploading ? 'Uploading...' : 'Upload Image'}</span>
+                  <input type="file" accept="image/*,image/webp" style={{ display: 'none' }} onChange={(e) => handleFileUpload(e, 'galleryImages')} disabled={isUploading} />
+                </label>
+              </div>
               <textarea 
                 name="galleryImages" 
                 value={formData.galleryImages} 
@@ -252,15 +370,16 @@ const AdminProductForm = () => {
           </div>
 
           <div className="form-group">
-            <label>Detailed Description</label>
+            <label>Detailed Description <span style={{color: '#dc3545'}}>*</span></label>
             <textarea 
               name="desc" 
               value={formData.desc} 
               onChange={handleChange} 
+              className={errors.desc ? 'input-error' : ''}
               rows="4"
-              required
               placeholder="Fully describe the jewelry piece..."
             ></textarea>
+            {errors.desc && <span className="error-text">required</span>}
           </div>
 
           <div className="form-group">
@@ -278,22 +397,23 @@ const AdminProductForm = () => {
           
           <div className="form-row">
             <div className="form-group half">
-              <label>SKU</label>
+              <label>SKU <span style={{color: '#dc3545'}}>*</span></label>
               <input 
                 type="text" 
                 name="sku" 
                 value={formData.sku} 
                 onChange={handleChange} 
+                className={errors.sku ? 'input-error' : ''}
                 placeholder="e.g. MRG-RNG-001"
-                required
               />
+              {errors.sku && <span className="error-text">required</span>}
             </div>
             <div className="form-group half">
               <label>Metal</label>
               <select name="metal" value={formData.metal} onChange={handleChange}>
-                <option value="Silver">Silver</option>
-                <option value="Gold">Gold</option>
-                <option value="Platinum">Platinum</option>
+                {metals && metals.map(m => (
+                   <option key={m.id} value={m.name}>{m.name}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -371,6 +491,29 @@ const AdminProductForm = () => {
                 <option value="No">No</option>
               </select>
             </div>
+          </div>
+
+          <h3 className="form-section-title">Offers & Promotions</h3>
+          
+          <div className="form-row">
+            <div className="form-group half">
+              <label>Is Offer Available?</label>
+              <select name="isOfferAvailable" value={formData.isOfferAvailable} onChange={handleChange}>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+            </div>
+            {formData.isOfferAvailable === 'Yes' && (
+              <div className="form-group half">
+                <label>Select Coupon</label>
+                <select name="offerCouponCode" value={formData.offerCouponCode} onChange={handleChange}>
+                  <option value="">-- Select a Coupon --</option>
+                  {coupons && coupons.filter(c => c.isActive).map(c => (
+                    <option key={c.id} value={c.code}>{c.code} ({c.type === 'percent' ? `${c.value}% OFF` : `₹${c.value} OFF`})</option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
 
           <h3 className="form-section-title">Initial Inventory</h3>

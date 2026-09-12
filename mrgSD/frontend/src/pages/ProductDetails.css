@@ -157,6 +157,7 @@
 }
 
 .pd-product-price {
+  font-family: 'Inter', sans-serif;
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--primary);
@@ -164,6 +165,7 @@
 }
 
 .pd-product-original-price {
+  font-family: 'Inter', sans-serif;
   font-size: 1.2rem;
   color: var(--text-light);
   text-decoration: line-through;
@@ -233,7 +235,13 @@
 .pd-description h3 {
   font-size: 1.2rem;
   margin-bottom: 10px;
-  font-family: var(--sans);
+  font-family: 'Open Sans', sans-serif;
+  color: #000000;
+}
+
+.pd-description p {
+  font-family: 'Open Sans', sans-serif;
+  color: #000000;
 }
 
 .pd-actions {
@@ -253,7 +261,7 @@
 
 .btn-add-cart-large {
   flex: 1;
-  background-color: var(--primary);
+  background-color: #1F2A44;
   color: white;
   border: none;
   padding: 15px 30px;
@@ -264,7 +272,7 @@
 }
 
 .btn-add-cart-large:hover {
-  background-color: var(--surface-dark);
+  background-color: #151d30;
 }
 
 .btn-buy-now-large {
@@ -292,14 +300,15 @@
 
 .pd-info-block h4 {
   font-size: 1rem;
-  font-family: var(--sans);
+  font-family: 'Open Sans', sans-serif;
   margin-bottom: 8px;
-  color: var(--heading-color);
+  color: #000000;
 }
 
 .pd-info-block p {
   font-size: 0.95rem;
-  color: var(--text-light);
+  font-family: 'Open Sans', sans-serif;
+  color: #000000;
   line-height: 1.5;
 }
 
@@ -315,36 +324,32 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.pd-specs-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-@media (min-width: 576px) {
-  .pd-specs-grid {
-    grid-template-columns: 1fr 1fr;
-    column-gap: 24px;
-  }
+.pd-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .pd-spec-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 0.95rem;
-  border-bottom: 1px solid #f5f5f5;
-  padding-bottom: 5px;
+  border-bottom: 1px dotted #ccc;
+  padding-bottom: 8px;
 }
 
 .pd-spec-label {
-  color: var(--text-light);
+  color: #000000;
+  font-weight: 500;
 }
 
 .pd-spec-value {
-  color: var(--text);
-  font-weight: 500;
+  color: #000000;
+  font-weight: 600;
   text-align: right;
+  max-width: 65%;
 }
 
 .pd-story-section h4 {
@@ -356,7 +361,8 @@
 
 .pd-story-section p {
   font-size: 0.95rem;
-  color: var(--text-light);
+  font-family: 'Open Sans', sans-serif;
+  color: #000000;
   line-height: 1.6;
 }
 
@@ -447,3 +453,7 @@
   background: rgba(0, 0, 0, 0.1);
   transform: scale(1.05);
 }
+. p d - s i m i l a r - w r a p p e r  
+ . p r o d u c t s - g a l l e r y - s e c t i o n  
+   p a d d i n g - t o p :   0 ;    
+ 

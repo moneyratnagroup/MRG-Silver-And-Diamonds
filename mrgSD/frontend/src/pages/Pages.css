@@ -1,5 +1,5 @@
 .page-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 4rem 2rem;
   font-family: 'Inter', sans-serif;
@@ -10,7 +10,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #000000;
   margin-bottom: 3rem;
   text-align: center;
 }
@@ -30,7 +30,7 @@
 
 .btn-primary {
   display: inline-block;
-  background-color: #1a1a1a;
+  background-color: #000000;
   color: white;
   padding: 0.8rem 2rem;
   border-radius: 50px;
@@ -132,6 +132,7 @@
 }
 
 .cart-table-price {
+  font-family: 'Inter', sans-serif;
   color: #888;
   margin-bottom: 0.75rem;
 }
@@ -230,7 +231,7 @@
 .btn-filter {
   display: flex;
   align-items: center;
-  background-color: #1a1a1a;
+  background-color: #000000;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -269,7 +270,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #1a1a1a;
+  color: #000000;
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 0.75rem;
 }
@@ -374,7 +375,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .contact-detail {
@@ -396,19 +397,11 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .form-group {
   margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #333;
 }
 
 .form-group input,
@@ -434,7 +427,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #1a1a1a;
+  color: #000000;
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 0.75rem;
 }
@@ -581,19 +574,11 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .form-group {
   margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #333;
 }
 
 .form-group input,
@@ -609,7 +594,7 @@
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #1a1a1a;
+  border-color: #000000;
 }
 
 @media (max-width: 768px) {
@@ -622,7 +607,7 @@
 /* --- New About Page Styles --- */
 .about-page {
   font-family: 'Inter', sans-serif;
-  color: #1a1a1a;
+  color: #000000;
   padding-bottom: 4rem;
   animation: fadeIn 0.5s ease;
 }
@@ -674,12 +659,6 @@
   letter-spacing: 2px;
 }
 
-.about-subtitle {
-  font-size: 1.25rem;
-  font-weight: 300;
-  letter-spacing: 1px;
-}
-
 .about-section {
   padding: 6rem 2rem;
 }
@@ -691,7 +670,7 @@
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -706,7 +685,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
   position: relative;
   display: inline-block;
 }
@@ -810,7 +789,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.75rem;
   margin-bottom: 1.25rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .mv-card p {
@@ -827,7 +806,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 2.75rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .divider {
@@ -869,7 +848,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.35rem;
   margin-bottom: 1rem;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .value-item p {
@@ -916,9 +895,7 @@
   .about-title {
     font-size: 2.5rem;
   }
-  .about-subtitle {
-    font-size: 1.1rem;
-  }
+
   .about-section {
     padding: 4rem 1.5rem;
   }

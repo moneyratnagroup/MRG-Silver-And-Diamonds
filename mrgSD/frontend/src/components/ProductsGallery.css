@@ -1,5 +1,5 @@
 .products-gallery-section {
-  padding: 1rem 2rem;
+  padding: 2rem 5%;
   background-color: transparent;
   max-width: 1400px;
   margin: 0 auto;
@@ -27,18 +27,10 @@
 .pg-line {
   width: 40px;
   height: 1px;
-  background: #C7A66A;
+  background: #890206;
 }
 
-.pg-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #C7A66A;
-  margin: 0;
-}
+
 
 .pg-tagline {
   font-family: 'Cormorant Upright', serif;
@@ -57,54 +49,77 @@
   gap: 2rem;
 }
 
+.with-sidebar .pg-grid {
+  /* Smaller min-width when sidebar is open to prevent cards from becoming too large */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
 .pg-card {
-  background-color: #ffffff;
+  background-color: transparent;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #f0f0f0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  transition: transform 0.3s ease;
+  border: none;
+  box-shadow: none;
 }
 
 .pg-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+  transform: translateY(-4px);
 }
 
 .pg-image-container {
   position: relative;
-  width: 100%;
-  aspect-ratio: 4/5;
+  width: 80%;      /* Set your desired fixed width here, e.g., 250px, or keep 100% for responsive grids */
+  height: 250px;    /* Set your desired fixed height here */
   background-color: #f9f9f9;
+  border-radius: 8px;
   overflow: hidden;
 }
 
 .pg-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+  object-fit: contain;
+  transition: transform 0.5s ease, opacity 0.4s ease;
 }
 
 .pg-card:hover .pg-image {
   transform: scale(1.05);
 }
 
+.hover-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.pg-card:hover .primary-img {
+  opacity: 0;
+}
+
+.pg-card:hover .hover-img {
+  opacity: 1;
+}
+
 .pg-discount-badge {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 20px;
+  left: -35px;
   background-color: #a84c19;
   color: white;
-  padding: 4px 8px;
+  padding: 6px 40px;
   font-size: 0.75rem;
   font-weight: 700;
-  border-radius: 4px;
-  letter-spacing: 0.5px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   z-index: 2;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transform: rotate(-45deg);
+  border-radius: 0;
 }
 
 .pg-wishlist-btn {
@@ -123,63 +138,80 @@
   color: #888;
   transition: all 0.2s ease;
   backdrop-filter: blur(4px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   z-index: 2;
 }
 
 .pg-wishlist-btn:hover {
   background: #ffffff;
-  color: #e53e3e; /* Red on hover */
+  color: #e53e3e;
+  /* Red on hover */
   transform: scale(1.1);
 }
 
 .pg-details {
-  padding: 1.5rem;
+  padding: 12px 0 0 0;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
 .pg-item-name {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.1rem;
+  font-family: 'Cormorant Upright', serif;
+  font-size: 1rem;
   font-weight: 500;
-  color: #2c3248;
-  margin: 0 0 0.5rem;
+  color: #000000;
+  margin: 0 0 0.25rem;
   line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pg-item-coupon {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: #a84c19;
+  background-color: rgba(168, 76, 25, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 0 0 0.5rem 0;
+  width: fit-content;
 }
 
 .pg-price-container {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 0 0 1.5rem;
+  margin: 0 0 0.75rem;
   flex-wrap: wrap;
 }
 
 .pg-item-price {
   font-family: 'Inter', sans-serif;
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #000000;
   margin: 0;
 }
 
 .pg-item-original-price {
   font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.75rem;
   color: #888;
   text-decoration: line-through;
   font-weight: 400;
 }
-
+/* 
 .pg-add-to-cart {
-  background-color: #1a1a1a;
+  background-color: #1F2A44;
   color: white;
-  border: 1px solid #1a1a1a;
+  border: 1px solid #1F2A44;
   padding: 0.8rem;
   border-radius: 4px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-weight: 500;
   cursor: pointer;
   margin-top: auto;
@@ -187,11 +219,31 @@
   text-transform: uppercase;
   font-size: 0.85rem;
   letter-spacing: 1px;
+} */
+
+.pg-add-to-cart {
+  background-color:  #1F2A44;   /* yellow */
+  color: white;                 /* black text */
+  border: none;
+  padding: 0.60rem 2rem;
+  border-radius: 999px;        /* pill shape */
+  font-family: Arial, sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: auto;
+  transition: all 0.3s ease;
+  text-transform: none;        /* keeps normal case */
+  font-size: 1rem;
+  letter-spacing: 0;
+  display: inline-block;
+  width: 80%;                  /* matches the 80% width of the image container */
+  text-align: center;
 }
 
 .pg-add-to-cart:hover {
   background-color: #ffffff;
-  color: #1a1a1a;
+  color: #1F2A44;
+  border-color: #1F2A44;
 }
 
 /* Skeleton Placeholder Styles */
@@ -244,6 +296,7 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -258,7 +311,8 @@
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.75);
   display: flex;
-  align-items: flex-start; /* Crucial for preventing top cut-off */
+  align-items: flex-start;
+  /* Crucial for preventing top cut-off */
   justify-content: center;
   z-index: 1000;
   backdrop-filter: blur(4px);
@@ -279,8 +333,15 @@
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; transform: scale(0.95) translateY(20px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .modal-close-btn {
@@ -358,7 +419,7 @@
 }
 
 .thumbnail-container.active {
-  border-color: #1a1a1a;
+  border-color: #000000;
 }
 
 .thumbnail-img {
@@ -375,9 +436,9 @@
 }
 
 .modal-product-name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 1.5rem;
-  color: #1a1a1a;
+  color: #000000;
   margin: 0 0 0.5rem;
   font-weight: 600;
 }
@@ -391,22 +452,23 @@
 
 .modal-product-price {
   font-family: 'Inter', sans-serif;
-  font-size: 1.35rem;
-  color: #a84c19; /* Copper/Brand color for price */
+  font-size: 1.25rem;
+  color: #a84c19;
+  /* Copper/Brand color for price */
   font-weight: 700;
   margin: 0;
 }
 
 .modal-product-original-price {
   font-family: 'Inter', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: #888;
   text-decoration: line-through;
   margin: 0;
 }
 
 .modal-product-desc {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.95rem;
   color: #555;
   line-height: 1.5;
@@ -417,14 +479,15 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
-  margin-top: auto; /* push to bottom if space */
+  margin-top: auto;
+  /* push to bottom if space */
 }
 
 .modal-actions button {
   flex: 1;
   padding: 0.75rem 1.5rem;
   border-radius: 50px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -435,26 +498,27 @@
 
 .btn-add-cart {
   background-color: transparent;
-  color: #1a1a1a;
-  border: 1px solid #1a1a1a;
+  color: #1F2A44;
+  border: 1px solid #1F2A44;
 }
 
 .btn-add-cart:hover {
-  background-color: #f5f5f5;
+  background-color: #1F2A44;
+  color: #ffffff;
 }
 
 .btn-buy-now {
-  background-color: #1a1a1a;
+  background-color: var(--gold);
   color: #ffffff;
-  border: 1px solid #1a1a1a;
+  border: 1px solid var(--gold);
 }
 
 .btn-buy-now:hover {
-  background-color: #333;
+  opacity: 0.9;
 }
 
 .modal-category {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.9rem;
   color: #333;
 }
@@ -474,19 +538,25 @@
   .product-modal {
     flex-direction: column;
   }
+
   .modal-image-gallery {
-    flex-direction: column-reverse; /* Put thumbnails below main image on mobile */
+    flex-direction: column-reverse;
+    /* Put thumbnails below main image on mobile */
   }
+
   .modal-thumbnails {
     flex-direction: row;
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
   }
-  .modal-left, .modal-right {
+
+  .modal-left,
+  .modal-right {
     width: 100%;
     padding: 1.5rem;
   }
+
   .modal-right {
     padding-top: 0;
   }
@@ -496,9 +566,11 @@
   .products-gallery-section {
     padding: 3rem 1.5rem;
   }
+
   .pg-tagline {
     font-size: 1rem;
   }
+
   .pg-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
@@ -510,32 +582,40 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
+
   .pg-details {
     padding: 0.75rem;
   }
+
   .pg-item-name {
     font-size: 0.85rem;
     margin-bottom: 0.25rem;
   }
+
   .pg-price-container {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
   }
+
   .pg-item-price {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
+
   .pg-item-original-price {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
+
   .pg-add-to-cart {
     padding: 0.5rem;
     font-size: 0.7rem;
   }
+
   .pg-wishlist-btn {
     width: 30px;
     height: 30px;
     top: 8px;
     right: 8px;
   }
+
   .pg-wishlist-btn svg {
     width: 16px;
     height: 16px;
@@ -551,17 +631,17 @@
   border: 1px solid #e0e0e0;
   border-radius: 50px;
   padding: 0.5rem 1rem 0.5rem 1.25rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #000000;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .pill-filter-btn:hover {
-  border-color: #1a1a1a;
+  border-color: #000000;
   background-color: #fcfcfc;
 }
 

@@ -20,7 +20,7 @@ const CategoriesMarquee = () => {
       <div className="categories-header">
         <div className="title-with-lines">
           <div className="decorative-line left-line"></div>
-          <h2 className="main-title">SHOP BY CATEGORY</h2>
+          <h2 className="global-subheading">SHOP BY CATEGORY</h2>
           <div className="decorative-line right-line"></div>
         </div>
         <div className="header-icon-wrapper">
@@ -31,9 +31,9 @@ const CategoriesMarquee = () => {
       <div className="marquee-container">
         <div className="marquee-track">
           {categories.map((cat, index) => (
-            <Link to={`/silver/all?type=${cat.name}`} className="category-item" key={index} style={{textDecoration: 'none'}}>
+            <Link to={`/products?type=${cat.name}`} className="category-item" key={index} style={{textDecoration: 'none'}}>
               <div className="category-image-wrapper">
-                <img src={cat.img} alt={cat.name} className="category-image" />
+                <img loading="lazy" src={cat.img} alt={cat.name} className="category-image" />
               </div>
               <span className="category-name">{cat.name}</span>
             </Link>
@@ -42,7 +42,7 @@ const CategoriesMarquee = () => {
           {categories.map((cat, index) => (
             <Link to={`/collections/all?type=${cat.name}`} className="category-item" key={`dup-${index}`} style={{textDecoration: 'none'}}>
               <div className="category-image-wrapper">
-                <img src={cat.img} alt={cat.name} className="category-image" />
+                <img loading="lazy" src={cat.img} alt={cat.name} className="category-image" />
               </div>
               <span className="category-name">{cat.name}</span>
             </Link>

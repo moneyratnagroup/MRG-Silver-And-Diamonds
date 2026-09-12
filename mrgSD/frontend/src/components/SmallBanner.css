@@ -1,8 +1,8 @@
 .small-banner-section {
   width: 100%;
   min-height: 220px;
-  /* Using a dark, moody background image for a premium jewelry feel */
-  background-image: linear-gradient(rgba(10, 15, 30, 0.75), rgba(10, 15, 30, 0.75)), url('https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80&w=1920');
+  /* Using the new abstract gold silk image */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('../assets/navy_gold_silk.webp');
   background-size: cover;
   background-position: center;
   background-attachment: fixed; /* Creates a subtle parallax effect on desktop */
@@ -15,7 +15,7 @@
 }
 
 .small-banner-text {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Upright', serif;
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   color: #ffffff;
   font-weight: 600;

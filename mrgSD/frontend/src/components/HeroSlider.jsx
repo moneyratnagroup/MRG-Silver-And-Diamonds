@@ -24,7 +24,7 @@ const HeroSlider = () => {
     <div className="modern-hero-container">
       <Carousel fade interval={6000} pause="hover" indicators={true} controls={false}>
         
-        {heroBanners.filter(b => b.status === 'publish').map((banner) => (
+        {heroBanners.filter(b => b.status === 'publish').map((banner, index) => (
           <Carousel.Item key={banner.id}>
             <div className="slide-content-wrapper">
               <div className="slide-image-layer">
@@ -32,6 +32,8 @@ const HeroSlider = () => {
                   className="modern-slide-image"
                   src={banner.image}
                   alt={banner.title.replace(/<[^>]*>?/gm, ' ')}
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
                 <div className="light-gradient-overlay"></div>
               </div>

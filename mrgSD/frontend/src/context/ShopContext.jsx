@@ -1,5 +1,8 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { allProducts } from '../data/mockProducts';
+import { useAuth } from './AuthContext';
+import imgBanner11 from '../assets/Banner11.webp';
+import imgbanner12 from '../assets/banner12.webp';
+import imgbanner3 from '../assets/banner3.webp';
 
 // Create Context
 const ShopContext = createContext();
@@ -10,9 +13,15 @@ export const useShop = () => {
 };
 
 export const ShopProvider = ({ children }) => {
+  const { isAuthenticated, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  const [products, setProducts] = useState(allProducts);
+  const [products, setProducts] = useState([]);
+  const [adminProducts, setAdminProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [metals, setMetals] = useState([]);
+  const [collections, setCollections] = useState([]);
+  const [occasions, setOccasions] = useState([]);
   
   // Drawer UI state
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -39,7 +48,7 @@ export const ShopProvider = ({ children }) => {
         setLastUpdated(lastUpdatedTime ? new Date(lastUpdatedTime).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : "");
       }
 
-      const historyRes = await fetch("http://localhost:8000/api/v1/metal-rates");
+      const historyRes = await fetch("http://localhost:8000/api/v1/metal-rates/");
       if (historyRes.ok) {
         const historyData = await historyRes.json();
         const groupedByDate = {};
@@ -65,7 +74,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchTestimonials = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/testimonials");
+      const res = await fetch("http://localhost:8000/api/v1/testimonials/");
       if (res.ok) {
         const data = await res.json();
         const mappedData = data.map(t => ({
@@ -87,10 +96,64 @@ export const ShopProvider = ({ children }) => {
     }
   }, []);
 
+  const fetchTaxonomies = useCallback(async () => {
+    try {
+      const catRes = await fetch("http://localhost:8000/api/v1/products/categories");
+      if (catRes.ok) setCategories(await catRes.json());
+      
+      const metalRes = await fetch("http://localhost:8000/api/v1/products/metals");
+      if (metalRes.ok) setMetals(await metalRes.json());
+
+      const colRes = await fetch("http://localhost:8000/api/v1/products/collections");
+      if (colRes.ok) setCollections(await colRes.json());
+
+      const occRes = await fetch("http://localhost:8000/api/v1/products/occasions");
+      if (occRes.ok) setOccasions(await occRes.json());
+    } catch (err) {
+      console.error("Failed to fetch taxonomies", err);
+    }
+  }, []);
+
+  const fetchProducts = useCallback(async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/products/?include_inactive=true");
+      if (res.ok) {
+        const data = await res.json();
+        const mappedProducts = data.map(p => ({
+          id: p.id,
+          sku: p.sku,
+          name: p.name,
+          originalPrice: p.mrp_price ? `₹${p.mrp_price}` : null,
+          price: `₹${p.selling_price}`,
+          category: p.category?.name || '',
+          collections: p.collections || [],
+          occasions: p.occasions || [],
+          desc: p.description,
+          metal: p.metal?.name || 'Silver',
+          purity: p.purity?.name || '925',
+          img: p.images.length > 0 ? p.images[0].image_url : '',
+          hoverImage: p.images.length > 1 ? p.images[1].image_url : null,
+          images: p.images.map(img => img.image_url),
+          stockQuantity: 10, // Mocking inventory for now
+          lowStockThreshold: 5,
+          isOfferAvailable: p.is_offer_available,
+          offerCouponCode: p.offer_coupon_code,
+          isActive: p.is_active
+        }));
+        setAdminProducts(mappedProducts);
+        setProducts(mappedProducts.filter(p => p.isActive !== false));
+      }
+    } catch (err) {
+      console.error("Failed to fetch products", err);
+    }
+  }, []);
+
   useEffect(() => {
     fetchRates();
     fetchTestimonials();
-  }, [fetchRates, fetchTestimonials]);
+    fetchTaxonomies();
+    fetchProducts();
+  }, [fetchRates, fetchTestimonials, fetchTaxonomies, fetchProducts]);
 
   const updateMetalRates = async (newRates) => {
     const cleanRates = {};
@@ -154,7 +217,7 @@ export const ShopProvider = ({ children }) => {
   const [heroBanners, setHeroBanners] = useState([
     {
       id: 1,
-      image: "/Banner11.jpg",
+      image: imgBanner11,
       preTitle: "925 STERLING SILVER",
       title: "Pure Silver.<br/>Timeless Beauty.",
       subtitle: "Discover handcrafted sterling silver jewellery designed with elegance, purity, and modern luxury.",
@@ -163,7 +226,7 @@ export const ShopProvider = ({ children }) => {
     },
     {
       id: 2,
-      image: "/banner12.png",
+      image: imgbanner12,
       preTitle: "NATURAL DIAMOND COLLECTION",
       title: "Where Every<br/>Diamond Tells<br/>A Story",
       subtitle: "Handcrafted diamond jewellery designed to celebrate life's most precious moments.",
@@ -172,7 +235,7 @@ export const ShopProvider = ({ children }) => {
     },
     {
       id: 3,
-      image: "/banner3.png",
+      image: imgbanner3,
       title: "Silver & Diamonds.<br/>Perfect Harmony.",
       subtitle: "Find the perfect balance of classic silver elegance and the brilliant shine of hand-set diamonds.",
       buttonText: "SHOP NOW",
@@ -204,16 +267,19 @@ export const ShopProvider = ({ children }) => {
         admin_notes: newTestimonial.adminNotes
       };
       
-      const res = await fetch("http://localhost:8000/api/v1/testimonials", {
+      const res = await fetch("http://localhost:8000/api/v1/testimonials/", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
       if (res.ok) {
         await fetchTestimonials();
+        return true;
       }
+      return false;
     } catch (error) {
       console.error("Failed to add testimonial", error);
+      return false;
     }
   };
 
@@ -237,9 +303,12 @@ export const ShopProvider = ({ children }) => {
       });
       if (res.ok) {
         await fetchTestimonials();
+        return true;
       }
+      return false;
     } catch (error) {
       console.error("Failed to update testimonial", error);
+      return false;
     }
   };
 
@@ -256,27 +325,7 @@ export const ShopProvider = ({ children }) => {
     }
   };
 
-  // Categories & Collections
-  const [categories, setCategories] = useState([
-    { id: 1, name: 'Rings' },
-    { id: 2, name: 'Earrings' },
-    { id: 3, name: 'Chains' },
-    { id: 4, name: 'Bracelets' },
-    { id: 5, name: 'Pendants' },
-    { id: 6, name: 'Anklets' },
-    { id: 7, name: 'Idols' },
-    { id: 8, name: 'Bullions' },
-    { id: 9, name: 'Bridal' }
-  ]);
-
-  const [collections, setCollections] = useState([
-    { id: 1, name: 'women', displayName: "Women's Collection", categoryIds: [1, 2, 3] },
-    { id: 2, name: 'men', displayName: "Men's Collection", categoryIds: [1, 3, 4] },
-    { id: 3, name: 'kids', displayName: "Kids Collection", categoryIds: [2, 4, 6] },
-    { id: 4, name: 'religious', displayName: "Religious", categoryIds: [5, 7] },
-    { id: 5, name: 'investment', displayName: "Investment", categoryIds: [8] },
-    { id: 6, name: 'special', displayName: "Special/Bridal", categoryIds: [9, 1, 2] }
-  ]);
+  // Collections are now fetched dynamically from backend
 
   const addCategory = (name) => {
     const newId = categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1;
@@ -461,17 +510,60 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Product Management (Admin)
-  const addProduct = (newProduct) => {
-    const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-    setProducts([...products, { ...newProduct, id: newId }]);
+  const addProduct = async (newProduct) => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/products/", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newProduct)
+      });
+      if (res.ok) {
+        await fetchProducts();
+        return { success: true };
+      }
+      const data = await res.json();
+      return { success: false, error: data.detail || "Failed to add product" };
+    } catch (error) {
+      console.error("Failed to add product", error);
+      return { success: false, error: "Network error. Please try again." };
+    }
   };
 
-  const updateProduct = (updatedProduct) => {
-    setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+  const updateProduct = async (updatedProduct) => {
+    try {
+      const { id, ...payload } = updatedProduct;
+      const res = await fetch(`http://localhost:8000/api/v1/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        await fetchProducts();
+        return { success: true };
+      }
+      const data = await res.json();
+      return { success: false, error: data.detail || "Failed to update product" };
+    } catch (error) {
+      console.error("Failed to update product", error);
+      return { success: false, error: "Network error. Please try again." };
+    }
   };
 
-  const deleteProduct = (id) => {
-    setProducts(products.filter(p => p.id !== id));
+  const deleteProduct = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/products/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        setAdminProducts(prev => prev.filter(p => p.id !== id));
+        setProducts(prev => prev.filter(p => p.id !== id));
+        return { success: true };
+      }
+      return { success: false, error: "Failed to delete product" };
+    } catch (error) {
+      console.error("Failed to delete product", error);
+      return { success: false, error: "Network error" };
+    }
   };
 
   // Inventory Movements
@@ -494,7 +586,7 @@ export const ShopProvider = ({ children }) => {
     const qty = parseInt(adjustment.quantity, 10);
     if (isNaN(qty) || qty <= 0) return;
 
-    setProducts(prevProducts => prevProducts.map(p => {
+    const updater = p => {
       if (p.id === productId) {
         let newStock = p.stockQuantity;
         if (adjustment.type === 'add') newStock += qty;
@@ -517,11 +609,19 @@ export const ShopProvider = ({ children }) => {
         return { ...p, stockQuantity: newStock };
       }
       return p;
-    }));
+    };
+
+    setAdminProducts(prevProducts => prevProducts.map(updater));
+    setProducts(prevProducts => prevProducts.map(updater));
   };
 
   // Add to cart
   const addToCart = (product) => {
+    if (!isAuthenticated) {
+      openAuthModal("Please login to add items to your cart");
+      return;
+    }
+
     setCartItems((prevItems) => {
       // Check if item already exists in cart
       const existingItem = prevItems.find((item) => item.id === product.id);
@@ -550,6 +650,11 @@ export const ShopProvider = ({ children }) => {
 
   // Toggle wishlist
   const toggleWishlist = (product) => {
+    if (!isAuthenticated) {
+      openAuthModal("Please login to save to your wishlist");
+      return;
+    }
+
     setWishlistItems((prevItems) => {
       const exists = prevItems.find((item) => item.id === product.id);
       if (exists) {
@@ -593,6 +698,7 @@ export const ShopProvider = ({ children }) => {
     metalRateHistory,
     deleteMetalRatesHistory,
     products,
+    adminProducts,
     addProduct,
     updateProduct,
     deleteProduct,
@@ -607,6 +713,8 @@ export const ShopProvider = ({ children }) => {
     updateTestimonial,
     deleteTestimonial,
     categories,
+    metals,
+    occasions,
     addCategory,
     deleteCategory,
     collections,
