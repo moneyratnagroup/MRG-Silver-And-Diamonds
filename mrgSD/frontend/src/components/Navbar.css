@@ -500,5 +500,136 @@
     font-size: 0.55rem;
   }
 
-  
+}
+
+/* Search Overlay Modal */
+.search-overlay-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 100px;
+}
+
+.search-modal-content {
+  width: 90%;
+  max-width: 800px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 30px;
+  border-bottom: 1px solid #eee;
+  gap: 15px;
+}
+
+.search-modal-input {
+  flex: 1;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 300;
+  outline: none;
+  background: transparent;
+  color: #333;
+}
+
+.search-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.search-close-btn:hover {
+  color: #333;
+}
+
+.search-results-container {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.search-results-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 30px;
+  gap: 20px;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #f9f9f9;
+  transition: background-color 0.2s ease;
+}
+
+.search-result-item:hover {
+  background-color: #f8f9fa;
+  color: inherit;
+}
+
+.search-result-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.search-result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.search-result-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.search-result-price {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.search-no-results {
+  padding: 40px;
+  text-align: center;
+  color: #777;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .search-overlay-modal {
+    padding-top: 60px;
+  }
+  .search-modal-content {
+    width: 95%;
+  }
+  .search-header {
+    padding: 15px 20px;
+  }
+  .search-result-item {
+    padding: 15px 20px;
+  }
 }

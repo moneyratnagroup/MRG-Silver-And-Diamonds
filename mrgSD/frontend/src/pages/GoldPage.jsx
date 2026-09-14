@@ -178,15 +178,36 @@ const GoldPage = () => {
                 {activeFiltersCount > 0 && <strong>({activeFiltersCount})</strong>}
               </button>
               
-              <select 
-                className="gorings-sort-select"
-                value={sortOption} 
-                onChange={(e) => setSortOption(e.target.value)}
-              >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '1rem', color: '#555', fontWeight: '500' }} className="d-none d-sm-inline">Sort by:</span>
+                <select 
+                  className="custom-sort-select"
+                  value={sortOption} 
+                  onChange={(e) => setSortOption(e.target.value)}
+                  style={{
+                    padding: '0.5rem 2.2rem 0.5rem 1rem',
+                    borderRadius: '50px',
+                    border: '1px solid #e0e0e0',
+                    backgroundColor: '#fff',
+                    fontSize: '1rem',
+                    fontFamily: '"Inter", sans-serif',
+                    color: '#333',
+                    outline: 'none',
+                    cursor: 'pointer',
+                    appearance: 'none',
+                    WebkitAppearance: 'none',
+                    backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23333%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 0.75rem center',
+                    backgroundSize: '14px',
+                    minWidth: '160px'
+                  }}
+                >
                 <option value="default">Featured</option>
                 <option value="price-low-high">Price, low to high</option>
                 <option value="price-high-low">Price, high to low</option>
               </select>
+              </div>
             </div>
           }
         />

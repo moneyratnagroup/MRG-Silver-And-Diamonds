@@ -5,7 +5,7 @@ import { Plus, Edit2, Trash2 } from 'lucide-react';
 import './AdminProducts.css';
 
 const AdminProducts = () => {
-  const { adminProducts, deleteProduct, updateProduct } = useShop();
+  const { adminProducts, deleteProduct, updateProduct, coupons } = useShop();
   const navigate = useNavigate();
 
   const handleAddProduct = () => {
@@ -90,8 +90,28 @@ const AdminProducts = () => {
                 </td>
                 <td className="font-medium">{product.name}</td>
                 <td>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <span style={{ fontWeight: '600' }}>{product.price}</span>
+                    {product.isOfferAvailable && product.offerCouponCode && (
+                      <span style={{ 
+                        backgroundColor: 'rgba(168, 76, 25, 0.1)', 
+                        color: '#a84c19', 
+                        padding: '2px 6px', 
+                        borderRadius: '4px', 
+                        fontSize: '0.7rem', 
+                        fontWeight: '600',
+                        whiteSpace: 'nowrap',
+                        width: 'fit-content'
+                      }}>
+                        {(() => {
+                          const matchedCoupon = coupons?.find(c => c.code === product.offerCouponCode);
+                          if (matchedCoupon && matchedCoupon.type === 'percent') {
+                            return `${matchedCoupon.value}% OFF`;
+                          }
+                          return product.offerCouponCode;
+                        })()}
+                      </span>
+                    )}
                     {product.originalPrice && (
                       <span style={{ textDecoration: 'line-through', color: '#888', fontSize: '0.85rem' }}>
                         {product.originalPrice}

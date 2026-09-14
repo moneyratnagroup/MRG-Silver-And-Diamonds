@@ -180,13 +180,35 @@ export const ShopProvider = ({ children }) => {
     }
   }, []);
 
+  const fetchCoupons = useCallback(async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/coupons/");
+      if (res.ok) {
+        const data = await res.json();
+        const mappedCoupons = data.map(c => ({
+          id: c.id,
+          code: c.code,
+          type: c.type,
+          value: c.value,
+          minCartValue: c.min_cart_value,
+          expiryDate: c.expiry_date,
+          isActive: c.is_active
+        }));
+        setCoupons(mappedCoupons);
+      }
+    } catch (err) {
+      console.error("Failed to fetch coupons", err);
+    }
+  }, []);
+
   useEffect(() => {
     fetchRates();
     fetchTestimonials();
     fetchTaxonomies();
     fetchProducts();
     fetchAdminProducts();
-  }, [fetchRates, fetchTestimonials, fetchTaxonomies, fetchProducts, fetchAdminProducts]);
+    fetchCoupons();
+  }, [fetchRates, fetchTestimonials, fetchTaxonomies, fetchProducts, fetchAdminProducts, fetchCoupons]);
 
   const updateMetalRates = async (newRates) => {
     const cleanRates = {};
@@ -431,42 +453,78 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Coupons (Admin & Frontend)
-  const [coupons, setCoupons] = useState([
-    {
-      id: 1,
-      code: 'WELCOME10',
-      type: 'percent', // 'percent' or 'fixed'
-      value: 10,
-      minCartValue: 2000,
-      expiryDate: '2026-12-31',
-      isActive: true
-    },
-    {
-      id: 2,
-      code: 'FLAT500',
-      type: 'fixed',
-      value: 500,
-      minCartValue: 5000,
-      expiryDate: '2026-12-31',
-      isActive: true
+  const [coupons, setCoupons] = useState([]);
+
+  const addCoupon = async (newCoupon) => {
+    try {
+      const payload = {
+        code: newCoupon.code,
+        type: newCoupon.type,
+        value: newCoupon.value,
+        min_cart_value: newCoupon.minCartValue || null,
+        expiry_date: newCoupon.expiryDate || null,
+        is_active: newCoupon.isActive !== undefined ? newCoupon.isActive : true
+      };
+      const res = await fetch("http://localhost:8000/api/v1/coupons/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        fetchCoupons();
+      }
+    } catch (error) {
+      console.error("Failed to add coupon:", error);
     }
-  ]);
-
-  const addCoupon = (newCoupon) => {
-    const newId = coupons.length > 0 ? Math.max(...coupons.map(c => c.id)) + 1 : 1;
-    setCoupons([...coupons, { ...newCoupon, id: newId }]);
   };
 
-  const updateCoupon = (updatedCoupon) => {
-    setCoupons(coupons.map(c => c.id === updatedCoupon.id ? updatedCoupon : c));
+  const updateCoupon = async (updatedCoupon) => {
+    try {
+      const payload = {
+        code: updatedCoupon.code,
+        type: updatedCoupon.type,
+        value: updatedCoupon.value,
+        min_cart_value: updatedCoupon.minCartValue || null,
+        expiry_date: updatedCoupon.expiryDate || null,
+        is_active: updatedCoupon.isActive
+      };
+      const res = await fetch(`http://localhost:8000/api/v1/coupons/${updatedCoupon.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        fetchCoupons();
+      }
+    } catch (error) {
+      console.error("Failed to update coupon:", error);
+    }
   };
 
-  const deleteCoupon = (id) => {
-    setCoupons(coupons.filter(c => c.id !== id));
+  const deleteCoupon = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/coupons/${id}`, {
+        method: "DELETE"
+      });
+      if (res.ok) {
+        fetchCoupons();
+      }
+    } catch (error) {
+      console.error("Failed to delete coupon:", error);
+    }
   };
 
-  const toggleCouponStatus = (id) => {
-    setCoupons(coupons.map(c => c.id === id ? { ...c, isActive: !c.isActive } : c));
+  const toggleCouponStatus = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/coupons/${id}/toggle`, {
+        method: "PATCH"
+      });
+      if (res.ok) {
+        fetchCoupons();
+      }
+    } catch (error) {
+      console.error("Failed to toggle coupon:", error);
+    }
   };
 
   // Orders (Admin)

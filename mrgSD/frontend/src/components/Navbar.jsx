@@ -13,7 +13,11 @@ const MRGNavbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
-  const { getWishlistCount, setIsWishlistOpen, getCartCount, setIsCartOpen } = useShop();
+  const { getWishlistCount, setIsWishlistOpen, getCartCount, setIsCartOpen, products } = useShop();
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -58,6 +62,22 @@ const MRGNavbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    const query = searchQuery.toLowerCase();
+    const results = (products || []).filter(p => 
+      p.name?.toLowerCase().includes(query) ||
+      p.category?.toLowerCase().includes(query) ||
+      p.metal?.toLowerCase().includes(query) ||
+      p.shortDesc?.toLowerCase().includes(query) ||
+      p.sku?.toLowerCase().includes(query)
+    );
+    setSearchResults(results.slice(0, 10));
+  }, [searchQuery, products]);
+
   const handleWishlistClick = () => {
     if (window.innerWidth < 992) {
       setIsWishlistOpen(true);
@@ -75,6 +95,7 @@ const MRGNavbar = () => {
   };
 
   return (
+    <>
     <Navbar expanded={expanded} onToggle={setExpanded} sticky="top" expand="lg" className={`custom-navbar ${scrolled ? 'scrolled' : ''}`}>
       <Container fluid className="px-4 px-lg-5 flex-column custom-navbar-container desktop-layout">
 
@@ -100,7 +121,7 @@ const MRGNavbar = () => {
           {/* Right: Utilities */}
           <div className="d-flex align-items-center justify-content-end" style={{ flex: '1 1 0%' }}>
             <div className="utilities">
-              <button className="utility-btn" aria-label="Search">
+              <button className="utility-btn" aria-label="Search" onClick={() => setIsSearchOpen(true)}>
                 <Search size={20} strokeWidth={1.5} />
               </button>
 
@@ -387,6 +408,62 @@ const MRGNavbar = () => {
       {/* Authentication Modal */}
       <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
     </Navbar>
+
+      {/* Search Overlay */}
+      {isSearchOpen && (
+        <div className="search-overlay-modal" onClick={(e) => {
+          if (e.target.className === 'search-overlay-modal') setIsSearchOpen(false);
+        }}>
+          <div className="search-modal-content">
+            <div className="search-header">
+              <Search size={24} color="#666" />
+              <input 
+                type="text" 
+                placeholder="Search for jewelry, metals, collections..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+                className="search-modal-input"
+              />
+              <button className="search-close-btn" onClick={() => setIsSearchOpen(false)}>
+                <X size={24} />
+              </button>
+            </div>
+            {searchQuery.trim() && (
+              <div className="search-results-container">
+                {searchResults.length > 0 ? (
+                  <div className="search-results-list">
+                    {searchResults.map(product => (
+                      <Link 
+                        to={`/product/${product.id}`} 
+                        key={product.id} 
+                        className="search-result-item"
+                        onClick={() => {
+                          setIsSearchOpen(false);
+                          setSearchQuery('');
+                        }}
+                      >
+                        <img src={product.img || (product.images && product.images[0]?.image_url)} alt={product.name} className="search-result-img" />
+                        <div className="search-result-info">
+                          <div className="search-result-name">{product.name}</div>
+                          <div className="search-result-price">
+                            {typeof product.price === 'number' ? `₹${product.price.toLocaleString('en-IN')}` : product.price}
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="search-no-results">
+                    No products found for "{searchQuery}"
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
