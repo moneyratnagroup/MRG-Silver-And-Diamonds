@@ -139,10 +139,10 @@ export const ShopProvider = ({ children }) => {
           status: p.status,
           isOfferAvailable: p.is_offer_available,
           offerCouponCode: p.offer_coupon_code,
-          isActive: p.is_active
+          isActive: p.status === 'PUBLISHED'
         }));
         setAdminProducts(mappedProducts);
-        setProducts(mappedProducts.filter(p => p.isActive !== false));
+        setProducts(mappedProducts.filter(p => p.isActive));
       }
     } catch (err) {
       console.error("Failed to fetch products", err);
@@ -696,13 +696,8 @@ export const ShopProvider = ({ children }) => {
         method: 'DELETE'
       });
       if (res.ok) {
-<<<<<<< HEAD
         setAdminProducts(prev => prev.filter(p => p.id !== id));
         setProducts(prev => prev.filter(p => p.id !== id));
-=======
-        setProducts(products.filter(p => p.id !== id));
-        setAdminProducts(adminProducts.filter(p => p.id !== id));
->>>>>>> develop
         return { success: true };
       }
       return { success: false, error: "Failed to delete product" };

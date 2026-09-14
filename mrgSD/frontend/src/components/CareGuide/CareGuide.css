@@ -147,7 +147,7 @@
 .scroll-line {
   width: 1px;
   height: 40px;
-  background: white;
+  background: #f8f6f0;
   position: relative;
   overflow: hidden;
 }
@@ -258,7 +258,7 @@
    Section 5: Golden Rules
    ========================================================================== */
 .golden-rules-section {
-  background-color: white;
+  background-color: #f8f6f0;
 }
 
 .rules-grid {
@@ -320,7 +320,7 @@
 }
 
 .editorial-section.bg-white {
-  background-color: white;
+  background-color: #f8f6f0;
 }
 
 .editorial-row {
@@ -456,7 +456,7 @@
 }
 
 .gem-card {
-  background: white;
+  background: #f8f6f0;
   border: 1px solid var(--care-border);
   overflow: hidden;
   transition: var(--transition-smooth);
@@ -622,7 +622,7 @@
    Section 12: Cleaning Ritual Timeline
    ========================================================================== */
 .cleaning-ritual-section {
-  background-color: white;
+  background-color: #f8f6f0;
 }
 
 .timeline-container {
@@ -652,7 +652,7 @@
   padding: 40px 20px 0;
   text-align: center;
   max-width: 400px;
-  background: white; /* to cover the line behind text */
+  background: #f8f6f0; /* to cover the line behind text */
 }
 
 .step-marker {
@@ -663,7 +663,7 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: white;
+  background: #f8f6f0;
   border: 2px solid var(--care-accent);
   transition: var(--transition-smooth);
 }
@@ -735,7 +735,7 @@
 .reference-table-wrapper {
   overflow-x: auto;
   margin-top: 50px;
-  background: white;
+  background: #f8f6f0;
   border: 1px solid var(--care-border);
 }
 
@@ -872,7 +872,7 @@
 }
 
 .care-btn-solid:hover {
-  background: white;
+  background: #f8f6f0;
   color: var(--care-dark) !important;
   border-color: white;
 }

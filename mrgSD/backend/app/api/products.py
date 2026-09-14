@@ -143,22 +143,13 @@ def get_products(
     metal_id: Optional[int] = None,
     is_new_arrival: Optional[bool] = None,
     is_featured: Optional[bool] = None,
-<<<<<<< HEAD
-    include_inactive: bool = False,
-=======
     status: Optional[str] = "PUBLISHED",
->>>>>>> develop
     db: Session = Depends(get_db)
 ):
     query = db.query(models.Product)
     
-<<<<<<< HEAD
-    if not include_inactive:
-        query = query.filter(models.Product.is_active == True)
-=======
     if status and status.upper() != "ALL":
         query = query.filter(models.Product.status == status.upper())
->>>>>>> develop
     
     if collection_id:
         query = query.filter(models.Product.collections.any(models.Collection.id == collection_id))
@@ -218,9 +209,9 @@ def create_product(product_in: schemas.ProductCreate, db: Session = Depends(get_
         db.add(db_product)
         db.commit()
         db.refresh(db_product)
-    except IntegrityError:
+    except IntegrityError as e:
         db.rollback()
-        raise HTTPException(status_code=400, detail="A product with this SKU already exists.")
+        raise HTTPException(status_code=400, detail=str(e))
     
     # Handle images
     if product_in.images:
