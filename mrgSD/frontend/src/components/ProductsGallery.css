@@ -143,7 +143,7 @@
 }
 
 .pg-wishlist-btn:hover {
-  background: #ffffff;
+  background: #f8f6f0;
   color: #e53e3e;
   /* Red on hover */
   transform: scale(1.1);
@@ -241,7 +241,7 @@
 }
 
 .pg-add-to-cart:hover {
-  background-color: #ffffff;
+  background-color: #f8f6f0;
   color: #1F2A44;
   border-color: #1F2A44;
 }
@@ -249,7 +249,7 @@
 /* Skeleton Placeholder Styles */
 .skeleton-card {
   border: 1px solid #eaeaea;
-  background-color: #fff;
+  background-color: #f8f6f0;
   box-shadow: none;
 }
 
@@ -321,7 +321,7 @@
 }
 
 .product-modal {
-  background-color: #ffffff;
+  background-color: #f8f6f0;
   border-radius: 12px;
   width: 100%;
   max-width: 900px;
@@ -627,7 +627,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background-color: #fff;
+  background-color: #f8f6f0;
   border: 1px solid #e0e0e0;
   border-radius: 50px;
   padding: 0.5rem 1rem 0.5rem 1.25rem;
@@ -642,7 +642,7 @@
 
 .pill-filter-btn:hover {
   border-color: #000000;
-  background-color: #fcfcfc;
+  background-color: #f8f6f0;
 }
 
 .filter-count-badge {

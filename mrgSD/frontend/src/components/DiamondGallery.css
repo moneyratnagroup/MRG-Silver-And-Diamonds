@@ -5,7 +5,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 4rem 5%;
-  background-color: #fff;
+  background-color: #f8f6f0;
   font-family: 'Cormorant Upright', serif;
 }
 
@@ -86,7 +86,7 @@
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
-  background-color: #fff;
+  background-color: #f8f6f0;
   color: #666;
   font-size: 0.55rem;
   font-weight: 600;
