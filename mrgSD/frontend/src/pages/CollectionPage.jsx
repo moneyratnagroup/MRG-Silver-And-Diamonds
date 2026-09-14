@@ -69,7 +69,7 @@ const CollectionPage = () => {
   const currentCollectionObj = collections?.find(c => matchCollection(c, collectionId));
   const baseTitle = isAll ? "All" : currentCollectionObj ? currentCollectionObj.name : "Collection";
   
-  let displayTitle = isAll ? "All Products" : `${baseTitle} Collection`;
+  let displayTitle = isAll ? "All Products" : (baseTitle.toLowerCase().endsWith('collection') ? baseTitle : `${baseTitle} Collection`);
   if (typeFilter) {
     displayTitle = typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase();
   }

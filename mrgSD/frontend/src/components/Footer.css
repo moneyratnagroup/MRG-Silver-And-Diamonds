@@ -1,9 +1,10 @@
 .footer-section {
-  background-image: url('../assets/footer-bg.png');
+  background-color: #1F2A44; /* Fallback deep navy */
+  background-image: url('../assets/footer_bg.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: #1a1a1a; /* Warm White */
+  color: #F8F6F2; /* Warm White */
   font-family: 'Inter', sans-serif;
   padding: 80px 0 40px;
   margin-top: auto;

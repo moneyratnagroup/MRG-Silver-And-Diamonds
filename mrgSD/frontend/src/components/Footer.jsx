@@ -52,14 +52,14 @@ const Footer = () => {
             <h4 className="footer-heading">SHOP</h4>
             <ul className="footer-links-list">
               <li><Link to="/"><ChevronRight size={14} className="chevron-icon" /> New Arrivals</Link></li>
-              <li><Link to="/silver/women"><ChevronRight size={14} className="chevron-icon" /> Women's Collection</Link></li>
-              <li><Link to="/silver/men"><ChevronRight size={14} className="chevron-icon" /> Men's Collection</Link></li>
-              <li><Link to="/silver/kids"><ChevronRight size={14} className="chevron-icon" /> Kids Collection</Link></li>
-              <li><Link to="/silver/couple"><ChevronRight size={14} className="chevron-icon" /> Couple Collection</Link></li>
+              <li><Link to="/products?collection=women"><ChevronRight size={14} className="chevron-icon" /> Women's Collection</Link></li>
+              <li><Link to="/products?collection=men"><ChevronRight size={14} className="chevron-icon" /> Men's Collection</Link></li>
+              <li><Link to="/products?collection=kids"><ChevronRight size={14} className="chevron-icon" /> Kids Collection</Link></li>
+              <li><Link to="/products?collection=couple"><ChevronRight size={14} className="chevron-icon" /> Couple Collection</Link></li>
               <li><Link to="/products"><ChevronRight size={14} className="chevron-icon" /> All Products</Link></li>
               <li><Link to="/diamonds"><ChevronRight size={14} className="chevron-icon" /> Diamond Jewellery</Link></li>
-              {/* <li><Link to="/silver/investment"><ChevronRight size={14} className="chevron-icon" /> Silver Coins</Link></li> */}
-              <li><Link to="/silver/religious"><ChevronRight size={14} className="chevron-icon" /> Pooja & Idols</Link></li>
+              {/* <li><Link to="/products?collection=investment"><ChevronRight size={14} className="chevron-icon" /> Silver Coins</Link></li> */}
+              <li><Link to="/products?collection=religious"><ChevronRight size={14} className="chevron-icon" /> Pooja & Idols</Link></li>
               <li><Link to="/silver/custom"><ChevronRight size={14} className="chevron-icon" /> Customized Jewellery</Link></li>
             </ul>
           </div>

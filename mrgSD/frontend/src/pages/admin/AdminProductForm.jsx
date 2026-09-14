@@ -574,7 +574,7 @@ const AdminProductForm = () => {
           <div className="form-actions">
             <button type="button" className="btn-cancel" onClick={() => navigate('/admin/products')}>Cancel</button>
             <button type="submit" className="btn-submit">
-              {isEditing ? 'Save Changes' : 'Add Product'}
+              {isEditing ? 'Update' : 'Add Product'}
             </button>
           </div>
         </form>

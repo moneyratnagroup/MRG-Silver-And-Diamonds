@@ -7,9 +7,7 @@ import braceletImg from '../assets/silver_charm_bracelet.webp';
 
 const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null, sidebarComponent = null }) => {
   const navigate = useNavigate();
-  const { toggleWishlist, isInWishlist, addToCart } = useShop();
-
-
+  const { toggleWishlist, isInWishlist, addToCart, coupons } = useShop();
 
   // Mock array for skeleton placeholders
   const placeholders = [1, 2, 3];
@@ -21,6 +19,25 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
     if (origVal > sellVal) {
       return Math.round(((origVal - sellVal) / origVal) * 100);
     }
+    return null;
+  };
+
+  const getRibbonText = (product) => {
+    if (product.isOfferAvailable && product.offerCouponCode && coupons) {
+      const matchedCoupon = coupons.find(c => c.code === product.offerCouponCode);
+      if (matchedCoupon) {
+        return matchedCoupon.type === 'percent' 
+          ? `${matchedCoupon.value}% OFF` 
+          : `₹${matchedCoupon.value} OFF`;
+      }
+    }
+    
+    // Fallback to original price calculation
+    const discount = calculateDiscount(product.originalPrice, product.price);
+    if (discount) {
+      return `${discount}% OFF`;
+    }
+    
     return null;
   };
 
@@ -63,9 +80,9 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
               products.map((product) => (
                 <div className="pg-card" key={product.id}>
                   <div className="pg-image-container" onClick={() => handleProductClick(product)} style={{ cursor: 'pointer' }}>
-                    {product.originalPrice && calculateDiscount(product.originalPrice, product.price) && (
+                    {getRibbonText(product) && (
                       <span className="pg-discount-badge">
-                        {calculateDiscount(product.originalPrice, product.price)}% OFF
+                        {getRibbonText(product)}
                       </span>
                     )}
                     <img loading="lazy" src={product.img} alt={product.name} className={`pg-image ${product.hoverImage ? 'primary-img' : ''}`} />

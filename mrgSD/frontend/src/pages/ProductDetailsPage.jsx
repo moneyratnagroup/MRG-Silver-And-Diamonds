@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
-import { ChevronLeft, X } from 'lucide-react';
+import { ChevronLeft, X, Star } from 'lucide-react';
 import ProductsGallery from '../components/ProductsGallery';
 import './ProductDetails.css';
 import imgbislogo from '../assets/bis_logo.webp';
@@ -15,6 +15,48 @@ const ProductDetailsPage = () => {
   const [showFullDetails, setShowFullDetails] = useState(false);
   const [showPriceBreakup, setShowPriceBreakup] = useState(false);
   const [showAppModal, setShowAppModal] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewText, setReviewText] = useState("");
+  const [reviewImage, setReviewImage] = useState(null);
+  const [reviewError, setReviewError] = useState("");
+  const [reviewSuccess, setReviewSuccess] = useState(false);
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setReviewImage(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
+  const handleSubmitReview = () => {
+    setReviewError("");
+    setReviewSuccess(false);
+
+    const missingFields = [];
+    if (reviewRating === 0) missingFields.push("Rating");
+    if (!reviewText.trim()) missingFields.push("Write a review");
+    if (!reviewTitle.trim()) missingFields.push("Title your review");
+
+    if (missingFields.length > 0) {
+      setReviewError(`Please fill in the following required fields: ${missingFields.join(", ")}`);
+      return;
+    }
+
+    setReviewSuccess(true);
+    setReviewRating(0);
+    setReviewTitle("");
+    setReviewText("");
+    setReviewImage(null);
+
+    // Automatically close the form after a short delay so the user sees the success message
+    setTimeout(() => {
+      setShowReviewForm(false);
+      setReviewSuccess(false);
+    }, 2500);
+  };
 
   const handleEnquire = () => {
     const phoneNumber = '+919876543210'; // Default number as per plan
@@ -161,7 +203,24 @@ const ProductDetailsPage = () => {
                   {showFullDetails ? 'Hide Details' : 'View Full Details'}
                 </button>
               </div>
-              <p>{product.desc || 'An exquisite piece crafted with precision and care, perfect for elevating any occasion. We have meticulously designed this piece to offer timeless elegance and superior comfort.'}</p>
+              
+              <div style={{ marginBottom: '15px' }}>
+                <p 
+                  className={`pd-desc-text ${!isDescExpanded ? 'pd-desc-clamped' : ''}`}
+                  onClick={() => !isDescExpanded && setIsDescExpanded(true)}
+                  title={!isDescExpanded ? "Click to expand" : ""}
+                >
+                  {product.desc || 'An exquisite piece crafted with precision and care, perfect for elevating any occasion. We have meticulously designed this piece to offer timeless elegance and superior comfort.'}
+                </p>
+                {isDescExpanded && (
+                  <button 
+                    onClick={() => setIsDescExpanded(false)}
+                    style={{ background: 'none', border: 'none', color: '#B89146', textDecoration: 'underline', cursor: 'pointer', padding: '0', fontSize: '0.85rem', fontWeight: '600', marginTop: '5px' }}
+                  >
+                    show less
+                  </button>
+                )}
+              </div>
 
               {showFullDetails && (
                 <div className="pd-expanded-details">
@@ -222,6 +281,111 @@ const ProductDetailsPage = () => {
           </div>
         </div>
       </div>
+      {/* Product Reviews Section */}
+      <div className="pd-reviews-section">
+        <h2 className="pd-reviews-title">Customer Reviews</h2>
+        
+        <div className="pd-reviews-container">
+          <div className="pd-reviews-summary">
+            <div className="pd-rating-big">4.8</div>
+            <div className="pd-stars">
+              <Star fill="#B89146" color="#B89146" size={20} />
+              <Star fill="#B89146" color="#B89146" size={20} />
+              <Star fill="#B89146" color="#B89146" size={20} />
+              <Star fill="#B89146" color="#B89146" size={20} />
+              <Star color="#B89146" size={20} />
+            </div>
+            <p>Based on 12 reviews</p>
+            <button className="pd-write-review-btn" onClick={() => setShowReviewForm(!showReviewForm)}>
+              {showReviewForm ? 'Cancel' : 'Write a Review'}
+            </button>
+          </div>
+
+          <div className="pd-reviews-list">
+             {showReviewForm && (
+               <div className="pd-review-form-container">
+                 <h3>Write a Review</h3>
+                 <form className="pd-review-form">
+                   <div className="pd-form-group">
+                     <label>Rating <span style={{color: 'red'}}>*</span></label>
+                     <div className="pd-form-stars" onMouseLeave={() => setHoverRating(0)}>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star 
+                            key={star} 
+                            color={star <= (hoverRating || reviewRating) ? "#B89146" : "#ccc"} 
+                            fill={star <= (hoverRating || reviewRating) ? "#B89146" : "transparent"}
+                            size={24} 
+                            style={{ cursor: 'pointer', transition: 'all 0.2s ease' }} 
+                            onMouseEnter={() => setHoverRating(star)}
+                            onClick={() => setReviewRating(star)}
+                          />
+                        ))}
+                     </div>
+                   </div>
+                   <div className="pd-form-group">
+                     <label>Write a review <span style={{color: 'red'}}>*</span></label>
+                     <textarea rows="4" placeholder="Write your comments here" value={reviewText} onChange={(e) => setReviewText(e.target.value)}></textarea>
+                   </div>
+                   <div className="pd-form-group">
+                     <label>Title your review <span style={{color: 'red'}}>*</span></label>
+                     <input type="text" placeholder="Give your review a title" value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)} />
+                   </div>
+                   
+                   <div className="pd-form-group">
+                     <label>Share a photo (Optional)</label>
+                     <input type="file" accept="image/*" onChange={handleImageChange} style={{ border: 'none', padding: '0' }} />
+                     {reviewImage && (
+                       <div style={{ position: 'relative', display: 'inline-block', marginTop: '10px' }}>
+                         <img src={reviewImage} alt="Preview" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ccc' }} />
+                         <button type="button" onClick={() => setReviewImage(null)} style={{ position: 'absolute', top: '-5px', right: '-5px', background: 'red', color: 'white', borderRadius: '50%', width: '20px', height: '20px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>X</button>
+                       </div>
+                     )}
+                   </div>
+                   
+                   {reviewError && <div style={{color: 'red', marginBottom: '15px', fontSize: '0.9rem'}}>{reviewError}</div>}
+                   {reviewSuccess && <div style={{color: 'green', marginBottom: '15px', fontSize: '0.9rem'}}>Thank you for the review and welcome again!</div>}
+                   
+                   <button type="button" className="pd-submit-review-btn" onClick={handleSubmitReview}>Submit Review</button>
+                 </form>
+               </div>
+             )}
+             
+             {/* Mock Review */}
+             <div className="pd-review-item">
+               <div className="pd-review-header">
+                 <div className="pd-stars">
+                   <Star fill="#B89146" color="#B89146" size={16} />
+                   <Star fill="#B89146" color="#B89146" size={16} />
+                   <Star fill="#B89146" color="#B89146" size={16} />
+                   <Star fill="#B89146" color="#B89146" size={16} />
+                   <Star fill="#B89146" color="#B89146" size={16} />
+                 </div>
+                 <span className="pd-review-date">Oct 12, 2025</span>
+               </div>
+               <h4 className="pd-review-title">Absolutely Beautiful!</h4>
+               <p className="pd-review-text">I bought this for my anniversary and my wife loved it. The quality is amazing and it sparkles beautifully in the light.</p>
+               <span className="pd-review-author">- John D.</span>
+             </div>
+             
+             <div className="pd-review-item">
+               <div className="pd-review-header">
+                 <div className="pd-stars">
+                   <Star fill="#B89146" color="#B89146" size={16} />
+                   <Star fill="#B89146" color="#B89146" size={16} />
+                   <Star fill="#B89146" color="#B89146" size={16} />
+                   <Star fill="#B89146" color="#B89146" size={16} />
+                   <Star color="#B89146" size={16} />
+                 </div>
+                 <span className="pd-review-date">Sep 05, 2025</span>
+               </div>
+               <h4 className="pd-review-title">Great design, good fit</h4>
+               <p className="pd-review-text">The design is very elegant and the finishing is top-notch. Shipping was fast too!</p>
+               <span className="pd-review-author">- Priya S.</span>
+             </div>
+          </div>
+        </div>
+      </div>
+
       {similarProducts.length > 0 && (
         <div className="pd-similar-wrapper">
           <ProductsGallery
