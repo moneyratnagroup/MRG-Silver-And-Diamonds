@@ -1,5 +1,9 @@
 .footer-section {
-  background-color: #1F2A44; /* Deep Navy Blue */
+  background-color: #1F2A44; /* Fallback deep navy */
+  background-image: url('../assets/footer_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #F8F6F2; /* Warm White */
   font-family: 'Inter', sans-serif;
   padding: 80px 0 40px;

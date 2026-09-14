@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
 
-from app.api import metal_rates, testimonials, upload, auth, products
+from app.api import metal_rates, testimonials, upload, auth, products, coupons
 
 app = FastAPI()
 
@@ -28,6 +28,7 @@ app.include_router(testimonials.router, prefix="/api/v1/testimonials", tags=["te
 app.include_router(upload.router, prefix="/api/v1/upload", tags=["upload"])
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
 app.include_router(products.router, prefix="/api/v1/products", tags=["products"])
+app.include_router(coupons.router, prefix="/api/v1/coupons", tags=["coupons"])
 
 @app.get("/")
 def root():
