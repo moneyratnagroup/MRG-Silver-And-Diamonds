@@ -143,13 +143,22 @@ def get_products(
     metal_id: Optional[int] = None,
     is_new_arrival: Optional[bool] = None,
     is_featured: Optional[bool] = None,
+<<<<<<< HEAD
+    include_inactive: bool = False,
+=======
     status: Optional[str] = "PUBLISHED",
+>>>>>>> develop
     db: Session = Depends(get_db)
 ):
     query = db.query(models.Product)
     
+<<<<<<< HEAD
+    if not include_inactive:
+        query = query.filter(models.Product.is_active == True)
+=======
     if status and status.upper() != "ALL":
         query = query.filter(models.Product.status == status.upper())
+>>>>>>> develop
     
     if collection_id:
         query = query.filter(models.Product.collections.any(models.Collection.id == collection_id))

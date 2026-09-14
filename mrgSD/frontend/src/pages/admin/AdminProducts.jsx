@@ -6,6 +6,7 @@ import './AdminProducts.css';
 
 const AdminProducts = () => {
   const { adminProducts, deleteProduct, updateProduct, coupons } = useShop();
+ 
   const navigate = useNavigate();
 
   const handleAddProduct = () => {
