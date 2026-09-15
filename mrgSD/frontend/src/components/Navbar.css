@@ -2,7 +2,7 @@
   background-color: #F7F3E8;
   height: auto;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 0.5rem 0 0 0;
+  padding: 0;
   font-family: 'Cormorant Upright', serif;
   z-index: 1050;
   transition: all 0.3s ease;
@@ -19,6 +19,14 @@
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
+}
+
+.brand-logo-main-img {
+  height: 55px;
+  max-width: 200px;
+  width: auto;
+  object-fit: contain;
+  margin-top: -8px;
 }
 
 .brand-icon-svg {
@@ -447,7 +455,7 @@
     grid-template-areas: "logo nav icons";
     align-items: center;
     gap: 2rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0;
   }
 
   .custom-navbar .navbar-top-row {
@@ -490,6 +498,12 @@
 
   .custom-navbar .brand-icon-img {
     width: 36px !important;
+  }
+
+  .custom-navbar .brand-logo-main-img {
+    height: 70px;
+    max-width: 280px;
+    margin-top: -12px;
   }
 
   .custom-navbar .brand-name {
