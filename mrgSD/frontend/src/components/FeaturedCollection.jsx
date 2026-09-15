@@ -54,7 +54,7 @@ const FeaturedCollection = () => {
   };
 
   return (
-    <section className="products-gallery-section" style={{ backgroundColor: '#ffffff' }}>
+    <section className="products-gallery-section" style={{ backgroundColor: '#f8f6f0' }}>
       <div className="pg-header">
         <h2 className="global-subheading">Featured Collection</h2>
         <p className="pg-tagline">

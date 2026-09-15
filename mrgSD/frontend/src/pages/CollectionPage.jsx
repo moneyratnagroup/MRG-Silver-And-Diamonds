@@ -136,7 +136,7 @@ const CollectionPage = () => {
                     padding: '0.5rem 2.2rem 0.5rem 1rem',
                     borderRadius: '50px',
                     border: '1px solid #e0e0e0',
-                    backgroundColor: '#fff',
+                    backgroundColor: '#f8f6f0',
                     fontSize: '1rem',
                     fontFamily: '"Inter", sans-serif',
                     color: '#333',

@@ -74,7 +74,7 @@
   height: 120px;
   border-radius: 50%;
   border: 1px solid #E5DED6;
-  background: #FFFFFF;
+  background: #f8f6f0;
   overflow: hidden;
   transition: transform 300ms ease, box-shadow 300ms ease;
 }

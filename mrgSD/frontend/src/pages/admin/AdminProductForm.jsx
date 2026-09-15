@@ -8,8 +8,7 @@ import './AdminProductForm.css';
 const AdminProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, adminProducts, addProduct, updateProduct, categories, metals, collections, occasions, coupons } = useShop();
-  
+  const { adminProducts, products, addProduct, updateProduct, categories, metals, collections, occasions, coupons } = useShop();
   const isEditing = Boolean(id);
   const [errors, setErrors] = useState({});
   const [isUploading, setIsUploading] = useState(false);
@@ -28,7 +27,7 @@ const AdminProductForm = () => {
     galleryImages: '',
     hoverImage: '',
     videoUrl: '',
-    sku: '',
+    sku: `MRG-${Math.floor(100000 + Math.random() * 900000)}`,
     metal: 'Silver',
     purity: '925',
     weight: '',

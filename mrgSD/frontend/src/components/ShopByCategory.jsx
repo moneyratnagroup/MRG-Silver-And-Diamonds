@@ -7,12 +7,18 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import './ShopByCategory.css';
 
+import imgCatRings from '../assets/cat_rings.jpg';
+import imgCatEarrings from '../assets/cat_earrings.jpg';
+import imgCatPendants from '../assets/cat_pendants.jpg';
+import imgCatChains from '../assets/cat_chains.jpg';
+import imgCatBangles from '../assets/cat_bangles.jpg';
+
 const categories = [
-  { name: 'RINGS', desc: 'Timeless Elegance', img: 'https://images.unsplash.com/photo-1605100804763-247f529cb665?q=80&w=600&auto=format&fit=crop' },
-  { name: 'EARRINGS', desc: 'Glamour in Every Detail', img: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=600&auto=format&fit=crop' },
-  { name: 'PENDANTS', desc: 'Graceful & Meaningful', img: 'https://images.unsplash.com/photo-1599643478524-fb66f7f6a6c0?q=80&w=600&auto=format&fit=crop' },
-  { name: 'CHAINS', desc: 'Strength & Sophistication', img: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop' },
-  { name: 'BANGLES', desc: 'Tradition That Shines', img: 'https://images.unsplash.com/photo-1599643477874-c5aaffe71207?q=80&w=600&auto=format&fit=crop' },
+  { name: 'RINGS', desc: 'Timeless Elegance', img: imgCatRings },
+  { name: 'EARRINGS', desc: 'Glamour in Every Detail', img: imgCatEarrings },
+  { name: 'PENDANTS', desc: 'Graceful & Meaningful', img: imgCatPendants },
+  { name: 'CHAINS', desc: 'Strength & Sophistication', img: imgCatChains },
+  { name: 'BANGLES', desc: 'Tradition That Shines', img: imgCatBangles },
   { name: 'BRACELETS', desc: 'Subtle. Stylish. You.', img: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop' },
   { name: 'NECKLACES', desc: 'Make Every Moment Special', img: 'https://images.unsplash.com/photo-1599643477874-c5aaffe71207?q=80&w=600&auto=format&fit=crop' },
   { name: 'ANKLETS', desc: 'Grace In Every Step', img: 'https://images.unsplash.com/photo-1515562141207-7a8ea3a19b88?q=80&w=600&auto=format&fit=crop' },

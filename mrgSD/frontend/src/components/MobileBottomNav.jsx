@@ -83,7 +83,7 @@ const MobileBottomNav = () => {
           {showMenu && isAuthenticated && (
             <div className="mobile-account-menu" style={{
               position: 'absolute', bottom: '100%', right: '10px',
-              backgroundColor: '#fff', padding: '10px 0', borderRadius: '8px',
+              backgroundColor: '#f8f6f0', padding: '10px 0', borderRadius: '8px',
               boxShadow: '0 -4px 20px rgba(0,0,0,0.1)', minWidth: '150px',
               border: '1px solid #eee', marginBottom: '15px', zIndex: 1050,
               textAlign: 'left'

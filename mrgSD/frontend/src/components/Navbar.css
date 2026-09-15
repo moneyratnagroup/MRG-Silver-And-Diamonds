@@ -1,5 +1,5 @@
 .custom-navbar {
-  background-color: #faf8f5;
+  background-color: #F7F3E8;
   height: auto;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   padding: 0.5rem 0 0 0;
@@ -9,7 +9,7 @@
 }
 
 .custom-navbar.scrolled {
-  background-color: #faf8f5;
+  background-color: #F7F3E8;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
