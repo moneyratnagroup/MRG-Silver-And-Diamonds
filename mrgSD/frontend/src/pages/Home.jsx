@@ -3,7 +3,6 @@ import HeroSlider from '../components/HeroSlider';
 import ShopByCategory from '../components/ShopByCategory';
 import ProductsGallery from '../components/ProductsGallery';
 import OurPromises from '../components/OurPromises';
-import SmallBanner from '../components/SmallBanner';
 import FeaturedCollection from '../components/FeaturedCollection';
 import SplitGateway from '../components/SplitGateway';
 import AnnouncementBar from '../components/AnnouncementBar';
@@ -65,7 +64,6 @@ const Home = () => {
         </div>
       </section>
       <OurPromises />
-      <SmallBanner />
       <FeaturedCollection />
       <SplitGateway />
     </>
