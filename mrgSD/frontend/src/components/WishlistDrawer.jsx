@@ -55,9 +55,9 @@ const WishlistDrawer = () => {
                       <button 
                         className="btn-move-to-cart" 
                         onClick={() => handleEnquire(item)}
-                        style={{ backgroundColor: '#25D366', color: 'white', borderColor: '#25D366' }}
+                        style={{ backgroundColor: '#1F2A44', color: 'white', borderColor: '#1F2A44', borderRadius: '999px', textTransform: 'none' }}
                       >
-                        Enquire on WhatsApp
+                        Add to Cart
                       </button>
                       <button className="btn-remove-icon" onClick={() => toggleWishlist(item)} aria-label="Remove">
                         <Trash2 size={16} />

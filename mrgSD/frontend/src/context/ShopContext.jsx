@@ -13,7 +13,7 @@ export const useShop = () => {
 };
 
 export const ShopProvider = ({ children }) => {
-  const { isAuthenticated, openAuthModal } = useAuth();
+  const { isAuthenticated, user, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [products, setProducts] = useState([]);
@@ -22,6 +22,36 @@ export const ShopProvider = ({ children }) => {
   const [metals, setMetals] = useState([]);
   const [collections, setCollections] = useState([]);
   const [occasions, setOccasions] = useState([]);
+  
+  // Sync Cart and Wishlist with Local Storage per User
+  useEffect(() => {
+    if (user && user.id) {
+      const savedCart = localStorage.getItem(`cart_${user.id}`);
+      if (savedCart) {
+        try { setCartItems(JSON.parse(savedCart)); } catch (e) {}
+      }
+      
+      const savedWishlist = localStorage.getItem(`wishlist_${user.id}`);
+      if (savedWishlist) {
+        try { setWishlistItems(JSON.parse(savedWishlist)); } catch (e) {}
+      }
+    } else {
+      setCartItems([]);
+      setWishlistItems([]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user && user.id && cartItems.length >= 0) {
+      localStorage.setItem(`cart_${user.id}`, JSON.stringify(cartItems));
+    }
+  }, [cartItems, user]);
+
+  useEffect(() => {
+    if (user && user.id && wishlistItems.length >= 0) {
+      localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(wishlistItems));
+    }
+  }, [wishlistItems, user]);
   
   // Drawer UI state
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -696,13 +726,8 @@ export const ShopProvider = ({ children }) => {
         method: 'DELETE'
       });
       if (res.ok) {
-<<<<<<< HEAD
         setAdminProducts(prev => prev.filter(p => p.id !== id));
         setProducts(prev => prev.filter(p => p.id !== id));
-=======
-        setProducts(products.filter(p => p.id !== id));
-        setAdminProducts(adminProducts.filter(p => p.id !== id));
->>>>>>> develop
         return { success: true };
       }
       return { success: false, error: "Failed to delete product" };
