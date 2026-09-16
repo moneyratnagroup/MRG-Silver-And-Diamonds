@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
-import imgBanner11 from '../assets/Banner11.webp';
+import imgBanner11 from '../assets/Banner1.png';
 import imgbanner12 from '../assets/banner12.webp';
 import imgbanner3 from '../assets/banner3.webp';
 
