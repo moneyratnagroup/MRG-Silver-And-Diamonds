@@ -33,7 +33,10 @@ const WishlistPage = () => {
           {wishlistItems.map(item => (
             <div key={item.id} className="wishlist-card">
               <div className="wishlist-card-img" onClick={() => handleProductClick(item)} style={{ cursor: 'pointer' }}>
-                <img loading="lazy" src={item.img} alt={item.name} />
+                <img loading="lazy" src={item.img} alt={item.name} className={item.hoverImage ? 'primary-img' : ''} />
+                {item.hoverImage && (
+                  <img loading="lazy" src={item.hoverImage} alt={`${item.name} hover`} className="hover-img" />
+                )}
                 <button className="btn-remove-absolute" onClick={(e) => { e.stopPropagation(); toggleWishlist(item); }}>
                   <Trash2 size={18} />
                 </button>
@@ -42,11 +45,11 @@ const WishlistPage = () => {
                 <h3>{item.name}</h3>
                 <p>{item.price}</p>
                 <button 
-                  className="btn-primary w-100 mt-2" 
+                  className="btn-primary mt-2" 
                   onClick={() => handleEnquire(item)}
-                  style={{ backgroundColor: '#25D366', color: 'white', borderColor: '#25D366' }}
+                  style={{ backgroundColor: '#1F2A44', color: 'white', borderColor: '#1F2A44', borderRadius: '999px', textTransform: 'none', width: '80%' }}
                 >
-                  Enquire on WhatsApp
+                  Add to Cart
                 </button>
               </div>
             </div>
