@@ -209,9 +209,9 @@ def create_product(product_in: schemas.ProductCreate, db: Session = Depends(get_
         db.add(db_product)
         db.commit()
         db.refresh(db_product)
-    except IntegrityError:
+    except IntegrityError as e:
         db.rollback()
-        raise HTTPException(status_code=400, detail="A product with this SKU already exists.")
+        raise HTTPException(status_code=400, detail=str(e))
     
     # Handle images
     if product_in.images:

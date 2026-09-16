@@ -8,12 +8,13 @@ import './AdminProductForm.css';
 const AdminProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, adminProducts, addProduct, updateProduct, categories, metals, collections, occasions, coupons } = useShop();
-  
+  const { products, addProduct, updateProduct, categories, metals, collections, occasions } = useShop();
+
+
   const isEditing = Boolean(id);
   const [errors, setErrors] = useState({});
   const [isUploading, setIsUploading] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     name: '',
     originalPrice: '',
@@ -28,7 +29,7 @@ const AdminProductForm = () => {
     galleryImages: '',
     hoverImage: '',
     videoUrl: '',
-    sku: '',
+    sku: `MRG-${Math.floor(100000 + Math.random() * 900000)}`,
     metal: 'Silver',
     purity: '925',
     weight: '',
@@ -121,9 +122,9 @@ const AdminProductForm = () => {
       const imageUrl = `http://localhost:8000${data.url}`;
 
       if (field === 'galleryImages') {
-        setFormData(prev => ({ 
-          ...prev, 
-          [field]: prev[field] ? `${prev[field]}\n${imageUrl}` : imageUrl 
+        setFormData(prev => ({
+          ...prev,
+          [field]: prev[field] ? `${prev[field]}\n${imageUrl}` : imageUrl
         }));
       } else {
         setFormData(prev => ({ ...prev, [field]: imageUrl }));
@@ -138,7 +139,7 @@ const AdminProductForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validation
     const newErrors = {};
     if (!formData.name) newErrors.name = true;
@@ -146,17 +147,17 @@ const AdminProductForm = () => {
     if (!formData.img) newErrors.img = true;
     if (!formData.desc) newErrors.desc = true;
     if (!formData.sku) newErrors.sku = true;
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return; // Stop submission
     }
     setErrors({});
-    
+
     // Format price
     const formattedPrice = `₹${Number(formData.price).toLocaleString('en-IN')}`;
     const formattedOriginalPrice = formData.originalPrice ? `₹${Number(formData.originalPrice).toLocaleString('en-IN')}` : null;
-    
+
     const galleryArray = formData.galleryImages.split('\n').map(url => url.trim()).filter(url => url !== '');
     const finalImages = [formData.img || 'https://images.unsplash.com/photo-1599643478514-4a1101858ff6?auto=format&fit=crop&q=80&w=600'];
     if (formData.hoverImage) {
@@ -191,7 +192,7 @@ const AdminProductForm = () => {
     } else {
       result = await addProduct(productPayload);
     }
-    
+
     if (result && result.success) {
       navigate('/admin/products');
     } else {
@@ -212,44 +213,44 @@ const AdminProductForm = () => {
       <div className="admin-form-card">
         <form onSubmit={handleSubmit} className="product-form" noValidate>
           <div className="form-group">
-            <label>Product Name <span style={{color: '#dc3545'}}>*</span></label>
-            <input 
-              type="text" 
-              name="name" 
-              value={formData.name} 
-              onChange={handleChange} 
+            <label>Product Name <span style={{ color: '#dc3545' }}>*</span></label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               className={errors.name ? 'input-error' : ''}
               placeholder="e.g. Diamond Stud Earrings"
             />
             {errors.name && <span className="error-text">required</span>}
           </div>
-          
+
           <div className="form-row">
             <div className="form-group half">
               <label>Original Price (MRP)</label>
-              <input 
-                type="number" 
-                name="originalPrice" 
-                value={formData.originalPrice} 
-                onChange={handleChange} 
+              <input
+                type="number"
+                name="originalPrice"
+                value={formData.originalPrice}
+                onChange={handleChange}
                 placeholder="Optional e.g. 3999"
               />
             </div>
 
             <div className="form-group half">
-              <label>Selling Price (₹) <span style={{color: '#dc3545'}}>*</span></label>
-              <input 
-                type="number" 
-                name="price" 
-                value={formData.price} 
-                onChange={handleChange} 
+              <label>Selling Price (₹) <span style={{ color: '#dc3545' }}>*</span></label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
                 className={errors.price ? 'input-error' : ''}
                 placeholder="2999"
               />
               {errors.price && <span className="error-text">required</span>}
             </div>
           </div>
-          
+
           <div className="form-row">
             <div className="form-group half">
               <label>Product Category</label>
@@ -259,52 +260,52 @@ const AdminProductForm = () => {
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group half">
               <label>Collections</label>
-              <MultiSelectDropdown 
-                options={collections} 
-                selectedIds={formData.collectionIds} 
-                onChange={handleCheckboxChange} 
-                placeholder="Select Collections..." 
-                field="collectionIds" 
+              <MultiSelectDropdown
+                options={collections}
+                selectedIds={formData.collectionIds}
+                onChange={handleCheckboxChange}
+                placeholder="Select Collections..."
+                field="collectionIds"
               />
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group half">
-              <label>Status <span style={{color: '#dc3545'}}>*</span></label>
+              <label>Status <span style={{ color: '#dc3545' }}>*</span></label>
               <select name="status" value={formData.status} onChange={handleChange}>
                 <option value="DRAFT">Draft (Hidden from customers)</option>
                 <option value="PUBLISHED">Published (Visible to customers)</option>
                 <option value="ARCHIVED">Archived (Discontinued)</option>
               </select>
             </div>
-            
+
             <div className="form-group half">
               <label>Occasions</label>
-              <MultiSelectDropdown 
-                options={occasions || []} 
-                selectedIds={formData.occasionIds} 
-                onChange={handleCheckboxChange} 
-                placeholder="Select Occasions..." 
-                field="occasionIds" 
+              <MultiSelectDropdown
+                options={occasions || []}
+                selectedIds={formData.occasionIds}
+                onChange={handleCheckboxChange}
+                placeholder="Select Occasions..."
+                field="occasionIds"
               />
             </div>
           </div>
-          
+
           <h3 className="form-section-title">Media & Assets</h3>
-          
+
           <div className="form-row">
             <div className="form-group half">
-              <label>Main Image URL or Upload <span style={{color: '#dc3545'}}>*</span></label>
+              <label>Main Image URL or Upload <span style={{ color: '#dc3545' }}>*</span></label>
               <div style={{ display: 'flex', gap: '10px' }}>
-                <input 
-                  type="text" 
-                  name="img" 
-                  value={formData.img} 
-                  onChange={handleChange} 
+                <input
+                  type="text"
+                  name="img"
+                  value={formData.img}
+                  onChange={handleChange}
                   className={errors.img ? 'input-error' : ''}
                   placeholder="https://..."
                   style={{ flex: 1 }}
@@ -325,11 +326,11 @@ const AdminProductForm = () => {
             <div className="form-group half">
               <label>Hover Image URL (Optional) or Upload</label>
               <div style={{ display: 'flex', gap: '10px' }}>
-                <input 
-                  type="text" 
-                  name="hoverImage" 
-                  value={formData.hoverImage} 
-                  onChange={handleChange} 
+                <input
+                  type="text"
+                  name="hoverImage"
+                  value={formData.hoverImage}
+                  onChange={handleChange}
                   placeholder="Image shown on mouse hover..."
                   style={{ flex: 1 }}
                 />
@@ -357,10 +358,10 @@ const AdminProductForm = () => {
                   <input type="file" accept="image/*,image/webp" style={{ display: 'none' }} onChange={(e) => handleFileUpload(e, 'galleryImages')} disabled={isUploading} />
                 </label>
               </div>
-              <textarea 
-                name="galleryImages" 
-                value={formData.galleryImages} 
-                onChange={handleChange} 
+              <textarea
+                name="galleryImages"
+                value={formData.galleryImages}
+                onChange={handleChange}
                 rows="4"
                 placeholder="https://image1...&#10;https://image2..."
               ></textarea>
@@ -374,35 +375,35 @@ const AdminProductForm = () => {
             </div>
             <div className="form-group half">
               <label>Product Video URL (Optional 360° view)</label>
-              <input 
-                type="url" 
-                name="videoUrl" 
-                value={formData.videoUrl} 
-                onChange={handleChange} 
+              <input
+                type="url"
+                name="videoUrl"
+                value={formData.videoUrl}
+                onChange={handleChange}
                 placeholder="e.g. YouTube or MP4 link..."
               />
             </div>
           </div>
 
           <h3 className="form-section-title">Product Description</h3>
-          
+
           <div className="form-group">
             <label>Short Description (For product cards)</label>
-            <input 
-              type="text" 
-              name="shortDesc" 
-              value={formData.shortDesc} 
-              onChange={handleChange} 
+            <input
+              type="text"
+              name="shortDesc"
+              value={formData.shortDesc}
+              onChange={handleChange}
               placeholder="A brief 1-sentence highlight..."
             />
           </div>
 
           <div className="form-group">
-            <label>Detailed Description <span style={{color: '#dc3545'}}>*</span></label>
-            <textarea 
-              name="desc" 
-              value={formData.desc} 
-              onChange={handleChange} 
+            <label>Detailed Description <span style={{ color: '#dc3545' }}>*</span></label>
+            <textarea
+              name="desc"
+              value={formData.desc}
+              onChange={handleChange}
               className={errors.desc ? 'input-error' : ''}
               rows="4"
               placeholder="Fully describe the jewelry piece..."
@@ -412,25 +413,25 @@ const AdminProductForm = () => {
 
           <div className="form-group">
             <label>Care Instructions (Optional)</label>
-            <textarea 
-              name="careInstructions" 
-              value={formData.careInstructions} 
-              onChange={handleChange} 
+            <textarea
+              name="careInstructions"
+              value={formData.careInstructions}
+              onChange={handleChange}
               rows="3"
               placeholder="e.g. Keep away from water and perfume..."
             ></textarea>
           </div>
 
           <h3 className="form-section-title">Jewellery Details</h3>
-          
+
           <div className="form-row">
             <div className="form-group half">
-              <label>SKU <span style={{color: '#dc3545'}}>*</span></label>
-              <input 
-                type="text" 
-                name="sku" 
-                value={formData.sku} 
-                onChange={handleChange} 
+              <label>SKU <span style={{ color: '#dc3545' }}>*</span></label>
+              <input
+                type="text"
+                name="sku"
+                value={formData.sku}
+                onChange={handleChange}
                 className={errors.sku ? 'input-error' : ''}
                 placeholder="e.g. MRG-RNG-001"
               />
@@ -440,7 +441,7 @@ const AdminProductForm = () => {
               <label>Metal</label>
               <select name="metal" value={formData.metal} onChange={handleChange}>
                 {metals && metals.map(m => (
-                   <option key={m.id} value={m.name}>{m.name}</option>
+                  <option key={m.id} value={m.name}>{m.name}</option>
                 ))}
               </select>
             </div>
@@ -458,12 +459,12 @@ const AdminProductForm = () => {
             </div>
             <div className="form-group half">
               <label>Weight (grams)</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 step="0.01"
-                name="weight" 
-                value={formData.weight} 
-                onChange={handleChange} 
+                name="weight"
+                value={formData.weight}
+                onChange={handleChange}
                 placeholder="e.g. 15"
               />
             </div>
@@ -472,11 +473,11 @@ const AdminProductForm = () => {
           <div className="form-row">
             <div className="form-group half">
               <label>Finish (Optional)</label>
-              <input 
-                type="text" 
-                name="finish" 
-                value={formData.finish} 
-                onChange={handleChange} 
+              <input
+                type="text"
+                name="finish"
+                value={formData.finish}
+                onChange={handleChange}
                 placeholder="e.g. Matte, High Polish, Oxidized"
               />
             </div>
@@ -501,11 +502,11 @@ const AdminProductForm = () => {
             </div>
             <div className="form-group half">
               <label>Stone Weight (Optional)</label>
-              <input 
-                type="text" 
-                name="stoneWeight" 
-                value={formData.stoneWeight} 
-                onChange={handleChange} 
+              <input
+                type="text"
+                name="stoneWeight"
+                value={formData.stoneWeight}
+                onChange={handleChange}
                 placeholder="e.g. 0.5 ct"
               />
             </div>
@@ -522,7 +523,7 @@ const AdminProductForm = () => {
           </div>
 
           <h3 className="form-section-title">Offers & Promotions</h3>
-          
+
           <div className="form-row">
             <div className="form-group half">
               <label>Is Offer Available?</label>
@@ -549,29 +550,29 @@ const AdminProductForm = () => {
           <div className="form-row">
             <div className="form-group half">
               <label>Initial Stock Quantity</label>
-              <input 
-                type="number" 
-                name="stockQuantity" 
-                value={formData.stockQuantity} 
-                onChange={handleChange} 
+              <input
+                type="number"
+                name="stockQuantity"
+                value={formData.stockQuantity}
+                onChange={handleChange}
                 placeholder="0"
                 min="0"
               />
             </div>
             <div className="form-group half">
               <label>Low Stock Alert Threshold</label>
-              <input 
-                type="number" 
-                name="lowStockThreshold" 
-                value={formData.lowStockThreshold} 
-                onChange={handleChange} 
+              <input
+                type="number"
+                name="lowStockThreshold"
+                value={formData.lowStockThreshold}
+                onChange={handleChange}
                 placeholder="5"
                 min="0"
               />
             </div>
           </div>
-          
-          
+
+
           <div className="form-actions">
             <button type="button" className="btn-cancel" onClick={() => navigate('/admin/products')}>Cancel</button>
             <button type="submit" className="btn-submit">

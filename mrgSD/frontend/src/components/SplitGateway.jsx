@@ -16,8 +16,14 @@ const SplitGateway = () => {
           loading="lazy"
         />
         <div className="editorial-overlay"></div>
-        <div className="editorial-content">
-          <h3 className="editorial-title">Gold</h3>
+        <div className="editorial-content-top">
+          <p className="ed-subtitle">PURE & TIMELESS</p>
+          <h3 className="ed-title">GOLD</h3>
+          <span className="ed-cursive">collection</span>
+        </div>
+        <div className="editorial-content-bottom">
+          <p className="ed-subcaption">CRAFTED FOR ROYALTY</p>
+          <span className="ed-cta">SHOP THE COLLECTION</span>
         </div>
       </Link>
 
@@ -29,8 +35,14 @@ const SplitGateway = () => {
           loading="lazy"
         />
         <div className="editorial-overlay"></div>
-        <div className="editorial-content">
-          <h3 className="editorial-title">Silver</h3>
+        <div className="editorial-content-top">
+          <p className="ed-subtitle">TRENDING NOW</p>
+          <h3 className="ed-title">SILVER</h3>
+          <span className="ed-cursive">jewels</span>
+        </div>
+        <div className="editorial-content-bottom">
+          <p className="ed-subcaption">TIMELESS STYLES FOR YOU</p>
+          <span className="ed-cta">SHOP THE COLLECTION</span>
         </div>
       </Link>
 
@@ -42,8 +54,14 @@ const SplitGateway = () => {
           loading="lazy"
         />
         <div className="editorial-overlay"></div>
-        <div className="editorial-content">
-          <h3 className="editorial-title">Diamond</h3>
+        <div className="editorial-content-top">
+          <p className="ed-subtitle">ELEVATE YOUR</p>
+          <h3 className="ed-title">DIAMOND</h3>
+          <span className="ed-cursive">elegance</span>
+        </div>
+        <div className="editorial-content-bottom">
+          <p className="ed-subcaption">DESIGN PIECES, JUST FOR YOU</p>
+          <span className="ed-cta">SHOP THE COLLECTION</span>
         </div>
       </Link>
     </>

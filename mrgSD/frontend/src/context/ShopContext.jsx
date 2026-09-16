@@ -169,10 +169,10 @@ export const ShopProvider = ({ children }) => {
           status: p.status,
           isOfferAvailable: p.is_offer_available,
           offerCouponCode: p.offer_coupon_code,
-          isActive: p.is_active
+          isActive: p.status === 'PUBLISHED'
         }));
         setAdminProducts(mappedProducts);
-        setProducts(mappedProducts.filter(p => p.isActive !== false));
+        setProducts(mappedProducts.filter(p => p.isActive));
       }
     } catch (err) {
       console.error("Failed to fetch products", err);
