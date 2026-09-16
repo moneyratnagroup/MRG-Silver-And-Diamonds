@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
+import { fetchWithAuth } from '../utils/api';
 import imgBanner11 from '../assets/Banner11.webp';
 import imgbanner12 from '../assets/banner12.webp';
 import imgbanner3 from '../assets/banner3.webp';
@@ -23,6 +24,23 @@ export const ShopProvider = ({ children }) => {
   const [collections, setCollections] = useState([]);
   const [occasions, setOccasions] = useState([]);
   
+  // Fetch Wishlist from Backend
+  const fetchWishlist = useCallback(async () => {
+    if (user && user.id) {
+      try {
+        const res = await fetchWithAuth('/api/v1/wishlists/', { method: 'GET' });
+        if (res.ok) {
+          const data = await res.json();
+          // The backend returns an array of WishlistItemSchema
+          // which has { id, user_id, created_at, product: { ... } }
+          setWishlistItems(data.map(item => item.product));
+        }
+      } catch (err) {
+        console.error("Failed to fetch wishlist", err);
+      }
+    }
+  }, [user]);
+
   // Sync Cart and Wishlist with Local Storage per User
   useEffect(() => {
     if (user && user.id) {
@@ -31,15 +49,17 @@ export const ShopProvider = ({ children }) => {
         try { setCartItems(JSON.parse(savedCart)); } catch (e) {}
       }
       
-      const savedWishlist = localStorage.getItem(`wishlist_${user.id}`);
-      if (savedWishlist) {
-        try { setWishlistItems(JSON.parse(savedWishlist)); } catch (e) {}
-      }
+      fetchWishlist();
     } else {
       setCartItems([]);
-      setWishlistItems([]);
+      const savedGuestWishlist = localStorage.getItem('wishlist_guest');
+      if (savedGuestWishlist) {
+        try { setWishlistItems(JSON.parse(savedGuestWishlist)); } catch (e) {}
+      } else {
+        setWishlistItems([]);
+      }
     }
-  }, [user]);
+  }, [user, fetchWishlist]);
 
   useEffect(() => {
     if (user && user.id && cartItems.length >= 0) {
@@ -50,6 +70,8 @@ export const ShopProvider = ({ children }) => {
   useEffect(() => {
     if (user && user.id && wishlistItems.length >= 0) {
       localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(wishlistItems));
+    } else if (!user && wishlistItems.length >= 0) {
+      localStorage.setItem('wishlist_guest', JSON.stringify(wishlistItems));
     }
   }, [wishlistItems, user]);
   
@@ -820,19 +842,33 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Toggle wishlist
-  const toggleWishlist = (product) => {
-    if (!isAuthenticated) {
-      openAuthModal("Please login to save to your wishlist");
-      return;
-    }
+  const toggleWishlist = async (product) => {
+    const exists = wishlistItems.find((item) => item.id === product.id);
 
-    setWishlistItems((prevItems) => {
-      const exists = prevItems.find((item) => item.id === product.id);
+    if (isAuthenticated) {
       if (exists) {
-        return prevItems.filter((item) => item.id !== product.id);
+        try {
+          const res = await fetchWithAuth(`/api/v1/wishlists/${product.id}`, { method: 'DELETE' });
+          if (res.ok) {
+            setWishlistItems((prevItems) => prevItems.filter((item) => item.id !== product.id));
+          }
+        } catch (e) { console.error(e); }
+      } else {
+        try {
+          const res = await fetchWithAuth(`/api/v1/wishlists/${product.id}`, { method: 'POST' });
+          if (res.ok) {
+            setWishlistItems((prevItems) => [...prevItems, product]);
+          }
+        } catch (e) { console.error(e); }
       }
-      return [...prevItems, product];
-    });
+    } else {
+      // Keep the existing localStorage wishlist behavior for logged-out users
+      if (exists) {
+        setWishlistItems((prevItems) => prevItems.filter((item) => item.id !== product.id));
+      } else {
+        setWishlistItems((prevItems) => [...prevItems, product]);
+      }
+    }
   };
 
   // Check if item is in wishlist
