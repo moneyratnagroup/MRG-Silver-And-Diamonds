@@ -4,6 +4,7 @@ import { Filter, X, ShieldCheck, Gem, Users, Truck, RotateCcw, BadgeCheck, Phone
 import DiamondGallery from '../components/DiamondGallery';
 import FilterDrawer from '../components/FilterDrawer';
 import FilterSidebarContent from '../components/FilterSidebarContent';
+import ActiveFilters from '../components/ActiveFilters';
 import { useShop } from '../context/ShopContext';
 import './GoldPage.css';
 
@@ -13,7 +14,7 @@ import catRings from '../assets/cat_rings_layout.webp';
 const GoldPage = () => {
   const { collectionId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { products: allProductsContext } = useShop();
+  const { products: allProductsContext, collections } = useShop();
   const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
 
@@ -90,7 +91,20 @@ const GoldPage = () => {
 
   const isAll = collectionId === 'all' || !collectionId;
   const showLanding = isAll && !typeFilter && !occasionFilter && !priceFilter;
-  const baseTitle = isAll ? "All Gold" : collectionId ? collectionId.charAt(0).toUpperCase() + collectionId.slice(1) : "Collection";
+  const getCollectionName = (id) => {
+    if (!id || id === 'all') return "All Gold";
+    if (id.toLowerCase() === 'women') return "Women's";
+    if (id.toLowerCase() === 'men') return "Men's";
+    if (id.toLowerCase() === 'kids') return "Kids";
+    if (id.toLowerCase() === 'religious') return "Religious";
+    if (id.toLowerCase() === 'special') return "Special";
+    if (collections && collections.length > 0) {
+      const found = collections.find(c => c.id.toString() === id.toString() || c.name.toLowerCase() === id.toLowerCase());
+      if (found) return found.name.replace(/ collection$/i, '').trim();
+    }
+    return id.charAt(0).toUpperCase() + id.slice(1);
+  };
+  const baseTitle = getCollectionName(collectionId);
   let displayTitle = isAll ? "All Gold Jewelry" : `${baseTitle} Collection`;
   if (typeFilter) {
     displayTitle = typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase();
@@ -179,24 +193,13 @@ const GoldPage = () => {
         </>
       )}
 
-      {/* 4. Collection Wrapper */}
-      <section id="gorings-collection-start" className="container" style={{ maxWidth: '1400px',  margin: '0 auto', padding: '0 1rem' }}>
-
-        {showLanding && (
-          <div className="gold-collection-header">
-            <span className="gold-impact-eyebrow" style={{ color: '#8b2525' }}>✦ ALL GOLD JEWELLERY ✦</span>
-            <h2 className="gold-collection-title gold-serif">Find Your Perfect Piece</h2>
-            <p className="gold-hero-desc" style={{ maxWidth: '600px', margin: '0 auto' }}>
-              From everyday elegance to grand celebrations, explore our wide range of gold jewellery crafted to suit every style and occasion.
-            </p>
-          </div>
-        )}
-
-        <DiamondGallery
-          products={displayProducts}
-          title={showLanding ? "" : displayTitle}
-          tagline={showLanding ? "" : `Explore our exclusive ${baseTitle} jewelry.`}
-          itemsPerPage={12}
+      {/* Collection Grid */}
+      <section id="gold-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
+        <DiamondGallery 
+          products={displayProducts} 
+          title={displayTitle} 
+          tagline={`Explore our exclusive ${baseTitle} jewelry.`}
+          activeFiltersComponent={<ActiveFilters />}
           sidebarComponent={
             isFilterOpen ? (
               <div className="desktop-only collection-sidebar-content">

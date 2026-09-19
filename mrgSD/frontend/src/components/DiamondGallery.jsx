@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Heart, ChevronLeft, ChevronRight, SearchX } from 'lucide-react';
 import './DiamondGallery.css';
 
-const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, itemsPerPage = 6 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,12 +40,17 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
 
       <div className={`dg-layout-container ${sidebarComponent ? 'with-sidebar' : ''}`} style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
         {sidebarComponent && (
-          <div className="dg-sidebar" style={{ width: '250px', flexShrink: 0, position: 'sticky', top: '100px', paddingRight: '10px' }}>
+          <div className="dg-sidebar" style={{ width: '250px', flexShrink: 0, position: 'sticky', top: '100px', maxHeight: disableSidebarScroll ? 'none' : 'calc(100vh - 120px)', overflowY: disableSidebarScroll ? 'visible' : 'auto', paddingRight: '10px' }}>
             {sidebarComponent}
           </div>
         )}
         
         <div className="dg-grid-wrapper" style={{ flexGrow: 1 }}>
+          {activeFiltersComponent && (
+            <div className="dg-active-filters-wrapper" style={{ marginBottom: '1rem' }}>
+              {activeFiltersComponent}
+            </div>
+          )}
           <div className="aesthetic-gallery-grid">
             {currentProducts.length > 0 ? (
               currentProducts.map((product, index) => {
@@ -103,8 +107,10 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                 );
               })
             ) : (
-              <div className="minimal-empty-state">
-                <p>No products found in this collection.</p>
+              <div className="minimal-empty-state" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '4rem 2rem', color: '#666', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                <SearchX size={48} color="#bdc3c7" strokeWidth={1.5} />
+                <h3 style={{ fontSize: '1.2rem', color: '#333', margin: 0, fontFamily: 'Playfair Display, serif' }}>No Products Found</h3>
+                <p style={{ margin: 0, fontSize: '0.9rem' }}>Sorry, we couldn't find any products matching your current filters.</p>
               </div>
             )}
             

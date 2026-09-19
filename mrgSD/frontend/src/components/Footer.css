@@ -1,6 +1,7 @@
 .footer-section {
-  background-color: #1F2A44; /* Fallback deep navy */
-  background-image: url('../assets/navy_gold_silk.webp');
+  background-color: #071426; /* Midnight luxury navy */
+  /* Overlay fades the image to ~25% opacity while maintaining the midnight navy base */
+  background-image: linear-gradient(rgba(7, 20, 38, 0.75), rgba(7, 20, 38, 0.75)), url('../assets/navy_gold_silk.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -272,7 +273,7 @@
 }
 
 .trust-title {
-  color: #1a1a1a;
+  color: #ffffff;
   font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
   font-weight: 600;
@@ -280,7 +281,7 @@
 }
 
 .trust-subtitle {
-  color: #4a4a4a;
+  color: #eeeeee;
   font-size: 0.8rem;
   margin-top: 2px;
 }

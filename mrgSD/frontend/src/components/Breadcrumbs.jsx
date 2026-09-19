@@ -30,6 +30,14 @@ const Breadcrumbs = () => {
 
               // Define paths that do not have their own page and shouldn't be clickable
               const nonClickablePaths = ['/silver', '/product'];
+              
+              if (location.pathname.match(/^\/diamonds\/all(\/|$)/i)) {
+                nonClickablePaths.push('/diamonds');
+              }
+              if (location.pathname.match(/^\/gold\/all(\/|$)/i)) {
+                nonClickablePaths.push('/gold');
+              }
+
               const isClickable = !nonClickablePaths.includes(routeTo);
 
               return (
