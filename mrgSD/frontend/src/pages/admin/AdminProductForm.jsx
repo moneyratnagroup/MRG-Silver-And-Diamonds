@@ -8,8 +8,7 @@ import './AdminProductForm.css';
 const AdminProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, adminProducts, addProduct, updateProduct, categories, metals, collections, occasions, coupons } = useShop();
-  
+  const { adminProducts, products, addProduct, updateProduct, categories, metals, collections, occasions, coupons } = useShop();
   const isEditing = Boolean(id);
   const [errors, setErrors] = useState({});
   const [isUploading, setIsUploading] = useState(false);
@@ -18,7 +17,7 @@ const AdminProductForm = () => {
     name: '',
     originalPrice: '',
     price: '',
-    category: 'Rings',
+    category: '',
     collectionIds: [],
     occasionIds: [],
     desc: '',
@@ -29,8 +28,8 @@ const AdminProductForm = () => {
     hoverImage: '',
     videoUrl: '',
     sku: `MRG-${Math.floor(100000 + Math.random() * 900000)}`,
-    metal: 'Silver',
-    purity: '925',
+    metal: '',
+    purity: '',
     weight: '',
     finish: '',
     stoneType: 'None',
@@ -52,7 +51,7 @@ const AdminProductForm = () => {
           name: productToEdit.name,
           originalPrice: productToEdit.originalPrice ? productToEdit.originalPrice.replace('₹', '').replace(',', '') : '',
           price: productToEdit.price.replace('₹', '').replace(',', ''),
-          category: productToEdit.category,
+          category: productToEdit.category || '',
           collectionIds: productToEdit.collections?.map(c => c.id) || [],
           occasionIds: productToEdit.occasions?.map(o => o.id) || [],
           desc: productToEdit.desc,
@@ -63,8 +62,8 @@ const AdminProductForm = () => {
           hoverImage: productToEdit.hoverImage || '',
           videoUrl: productToEdit.videoUrl || '',
           sku: productToEdit.sku || '',
-          metal: productToEdit.metal || 'Silver',
-          purity: productToEdit.purity || '925',
+          metal: productToEdit.metal || '',
+          purity: productToEdit.purity || '',
           weight: productToEdit.weight ? productToEdit.weight.replace('g', '') : '',
           finish: productToEdit.finish || '',
           stoneType: productToEdit.stoneType || 'None',
@@ -254,6 +253,7 @@ const AdminProductForm = () => {
             <div className="form-group half">
               <label>Product Category</label>
               <select name="category" value={formData.category} onChange={handleChange}>
+                <option value="">-- Select Product Type --</option>
                 {categories.map(c => (
                   <option key={c.id} value={c.name}>{c.name}</option>
                 ))}
@@ -439,6 +439,7 @@ const AdminProductForm = () => {
             <div className="form-group half">
               <label>Metal</label>
               <select name="metal" value={formData.metal} onChange={handleChange}>
+                <option value="">-- Select Metal --</option>
                 {metals && metals.map(m => (
                   <option key={m.id} value={m.name}>{m.name}</option>
                 ))}
@@ -450,6 +451,7 @@ const AdminProductForm = () => {
             <div className="form-group half">
               <label>Purity</label>
               <select name="purity" value={formData.purity} onChange={handleChange}>
+                <option value="">-- Select Purity --</option>
                 <option value="925">925 (Sterling Silver)</option>
                 <option value="999">999 (Pure Silver)</option>
                 <option value="22k">22k Gold</option>

@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
 import './Navbar.css';
 import imgmrgicon from '../assets/mrgicon.webp';
+import logomrg from '../assets/LOGOMRG.webp';
 
 const MRGNavbar = () => {
   const [expanded, setExpanded] = useState(false);
@@ -110,11 +111,7 @@ const MRGNavbar = () => {
           {/* Center: Brand Logo */}
           <div className="d-flex align-items-center justify-content-center" style={{ flex: '1 1 0%' }}>
             <Navbar.Brand as={Link} to="/" className="brand-logo-container m-0">
-              <img loading="lazy" src={imgmrgicon} alt="Moneyratna Logo" className="brand-icon-img" width="48" height="48" style={{ width: '48px', height: 'auto', marginRight: '10px' }} />
-              <div className="brand-text">
-                <span className="brand-name">MONEYRATNA</span>
-                <span className="brand-tagline">JEWELLERY</span>
-              </div>
+              <img loading="lazy" src={logomrg} alt="Moneyratna Logo" className="brand-logo-main-img" />
             </Navbar.Brand>
           </div>
 
@@ -122,22 +119,22 @@ const MRGNavbar = () => {
           <div className="d-flex align-items-center justify-content-end" style={{ flex: '1 1 0%' }}>
             <div className="utilities">
               <button className="utility-btn" aria-label="Search" onClick={() => setIsSearchOpen(true)}>
-                <Search size={20} strokeWidth={1.5} />
+                <Search size={18} strokeWidth={1.5} />
               </button>
 
               <button className="utility-btn d-none d-lg-flex" aria-label="Wishlist" onClick={handleWishlistClick}>
-                <Heart size={20} strokeWidth={1.5} />
+                <Heart size={18} strokeWidth={1.5} />
                 {wishlistCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{wishlistCount}</span>}
               </button>
 
               <button className="utility-btn d-none d-lg-flex" aria-label="Cart" onClick={() => setIsCartOpen(true)}>
-                <ShoppingCart size={20} strokeWidth={1.5} />
+                <ShoppingCart size={18} strokeWidth={1.5} />
                 {cartCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{cartCount}</span>}
               </button>
 
               {isLoading ? (
                 <div className="utility-btn d-none d-lg-flex" aria-label="Loading Account">
-                  <User size={20} strokeWidth={1.5} style={{ opacity: 0.5 }} />
+                  <User size={18} strokeWidth={1.5} style={{ opacity: 0.5 }} />
                 </div>
               ) : isAuthenticated ? (
                 <div className="d-none d-lg-flex align-items-center h-100" style={{ position: 'relative' }} ref={profileMenuRef}>
@@ -217,7 +214,7 @@ const MRGNavbar = () => {
                 </div>
               ) : (
                 <button className="utility-btn d-none d-lg-flex" aria-label="User Account" onClick={openAuthModal}>
-                  <User size={20} strokeWidth={1.5} />
+                  <User size={18} strokeWidth={1.5} />
                 </button>
               )}
             </div>

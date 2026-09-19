@@ -1,9 +1,9 @@
 import React from 'react';
+import { Sparkles } from 'lucide-react';
 import HeroSlider from '../components/HeroSlider';
 import ShopByCategory from '../components/ShopByCategory';
 import ProductsGallery from '../components/ProductsGallery';
 import OurPromises from '../components/OurPromises';
-import SmallBanner from '../components/SmallBanner';
 import FeaturedCollection from '../components/FeaturedCollection';
 import SplitGateway from '../components/SplitGateway';
 import AnnouncementBar from '../components/AnnouncementBar';
@@ -29,7 +29,13 @@ const Home = () => {
         products={featuredProducts}
       />
       <section className="home-editorial-section">
-        <h2 className="home-editorial-heading">Jewellery for Every Chapter of Your Life</h2>
+        <div className="pg-title-with-lines" style={{ marginBottom: '30px' }}>
+          <div className="pg-line"></div>
+          <Sparkles size={12} color="#890206" className="pg-sparkle" />
+          <h2 className="global-subheading" style={{ marginBottom: 0 }}>Jewellery for Every Chapter of Your Life</h2>
+          <Sparkles size={12} color="#890206" className="pg-sparkle" />
+          <div className="pg-line"></div>
+        </div>
         <div className="home-bento-grid">
           <div className="bento-right-col">
             <div className="home-editorial-image-wrapper">
@@ -65,7 +71,6 @@ const Home = () => {
         </div>
       </section>
       <OurPromises />
-      <SmallBanner />
       <FeaturedCollection />
       <SplitGateway />
     </>

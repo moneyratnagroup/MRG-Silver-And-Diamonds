@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { fetchWithAuth } from '../utils/api';
-import imgBanner11 from '../assets/Banner11.webp';
+import imgBanner11 from '../assets/Banner1.png';
 import imgbanner12 from '../assets/banner12.webp';
 import imgbanner3 from '../assets/banner3.webp';
 
@@ -323,34 +323,23 @@ export const ShopProvider = ({ children }) => {
   // Homepage Content (Admin)
   const [announcementText, setAnnouncementText] = useState('<span>FREE SHIPPING OVER ₹5000</span> &nbsp;&nbsp;|&nbsp;&nbsp; <span style="color: #C7A66A">USE CODE WELCOME10</span>');
   
-  const [heroBanners, setHeroBanners] = useState([
-    {
-      id: 1,
-      image: imgBanner11,
-      preTitle: "925 STERLING SILVER",
-      title: "Pure Silver.<br/>Timeless Beauty.",
-      subtitle: "Discover handcrafted sterling silver jewellery designed with elegance, purity, and modern luxury.",
-      buttonText: "SHOP COLLECTION",
-      status: "publish"
-    },
-    {
-      id: 2,
-      image: imgbanner12,
-      preTitle: "NATURAL DIAMOND COLLECTION",
-      title: "Where Every<br/>Diamond Tells<br/>A Story",
-      subtitle: "Handcrafted diamond jewellery designed to celebrate life's most precious moments.",
-      buttonText: "EXPLORE DIAMONDS",
-      status: "publish"
-    },
-    {
-      id: 3,
-      image: imgbanner3,
-      title: "Silver & Diamonds.<br/>Perfect Harmony.",
-      subtitle: "Find the perfect balance of classic silver elegance and the brilliant shine of hand-set diamonds.",
-      buttonText: "SHOP NOW",
-      status: "publish"
+  const [heroBanners, setHeroBanners] = useState([]);
+
+  const fetchBanners = useCallback(async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/banners/");
+      if (res.ok) {
+        const data = await res.json();
+        setHeroBanners(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch banners", err);
     }
-  ]);
+  }, []);
+
+  useEffect(() => {
+    fetchBanners();
+  }, [fetchBanners]);
 
   const updateAnnouncementText = (newText) => {
     setAnnouncementText(newText);
@@ -915,6 +904,7 @@ export const ShopProvider = ({ children }) => {
     updateAnnouncementText,
     heroBanners,
     updateHeroBanners,
+    fetchBanners,
     testimonials,
     addTestimonial,
     updateTestimonial,

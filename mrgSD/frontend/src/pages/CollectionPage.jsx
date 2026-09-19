@@ -5,6 +5,7 @@ import ProductsGallery from '../components/ProductsGallery';
 import FilterDrawer from '../components/FilterDrawer';
 import FilterSidebarContent from '../components/FilterSidebarContent';
 import SidebarFilter from '../components/SidebarFilter';
+import ActiveFilters from '../components/ActiveFilters';
 import { useShop } from '../context/ShopContext';
 import './Pages.css';
 
@@ -103,6 +104,7 @@ const CollectionPage = () => {
           title={displayTitle}
           tagline={typeFilter ? `Explore our stunning collection of ${displayTitle.toLowerCase()}.` : isAll ? "Browse our entire catalog of premium silver and diamond jewelry." : `Explore our exclusive ${baseTitle} jewelry, curated for elegance and style.`}
           products={displayProducts}
+          activeFiltersComponent={<ActiveFilters />}
           sidebarComponent={
             isFilterOpen ? (
               <div className="desktop-only collection-sidebar-content">

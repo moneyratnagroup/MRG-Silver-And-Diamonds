@@ -1,6 +1,7 @@
 .footer-section {
-  background-color: #1F2A44; /* Fallback deep navy */
-  background-image: url('../assets/navy_gold_silk.webp');
+  background-color: #071426; /* Midnight luxury navy */
+  /* Overlay fades the image to ~25% opacity while maintaining the midnight navy base */
+  background-image: linear-gradient(rgba(7, 20, 38, 0.75), rgba(7, 20, 38, 0.75)), url('../assets/navy_gold_silk.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -59,7 +60,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #fff;
   line-height: 1.2;
   letter-spacing: 1px;
 }
@@ -76,7 +77,7 @@
 .footer-description {
   font-size: 0.85rem;
   line-height: 1.8;
-  color: #4a4a4a; /* Secondary Text */
+  color: #eee;
   margin-bottom: 35px;
 }
 
@@ -94,7 +95,7 @@
   align-items: flex-start;
   gap: 15px;
   font-size: 0.85rem;
-  color: #4a4a4a;
+  color: #eee;
   line-height: 1.6;
 }
 
@@ -109,7 +110,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #fff;
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -129,7 +130,7 @@
   display: flex;
   align-items: flex-start;
   gap: 8px; /* Added gap for chevron */
-  color: #4a4a4a;
+  color: #fff;
   text-decoration: none;
   font-size: 0.85rem;
   transition: color 0.4s ease, transform 0.4s ease;
@@ -151,7 +152,7 @@
 .subscribe-text {
   font-size: 0.85rem;
   line-height: 1.7;
-  color: #4a4a4a;
+  color: #eee;
   margin-bottom: 25px;
 }
 
@@ -272,7 +273,7 @@
 }
 
 .trust-title {
-  color: #1a1a1a;
+  color: #ffffff;
   font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
   font-weight: 600;
@@ -280,7 +281,7 @@
 }
 
 .trust-subtitle {
-  color: #4a4a4a;
+  color: #eeeeee;
   font-size: 0.8rem;
   margin-top: 2px;
 }

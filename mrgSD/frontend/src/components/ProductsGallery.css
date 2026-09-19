@@ -1,5 +1,5 @@
 .products-gallery-section {
-  padding: 2rem 5%;
+  padding: 2rem 0;
   background-color: transparent;
   max-width: 1400px;
   margin: 0 auto;
@@ -28,6 +28,10 @@
   width: 40px;
   height: 1px;
   background: #890206;
+}
+
+.pg-sparkle {
+  color: #890206;
 }
 
 

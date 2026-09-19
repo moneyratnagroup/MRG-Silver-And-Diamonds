@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, SearchX } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import './ProductsGallery.css';
 import { useNavigate } from 'react-router-dom';
 import braceletImg from '../assets/silver_charm_bracelet.webp';
 
-const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null, sidebarComponent = null }) => {
+const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null, sidebarComponent = null, activeFiltersComponent = null }) => {
   const navigate = useNavigate();
   const { toggleWishlist, isInWishlist, addToCart, coupons } = useShop();
 
@@ -52,9 +52,9 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
           {title && (
             <div className="pg-title-with-lines">
               <div className="pg-line"></div>
-              <Sparkles size={12} color="#890206" className="pg-sparkle" />
+              <Sparkles size={12} className="pg-sparkle" />
               <h2 className="global-subheading">{title}</h2>
-              <Sparkles size={12} color="#890206" className="pg-sparkle" />
+              <Sparkles size={12} className="pg-sparkle" />
               <div className="pg-line"></div>
             </div>
           )}
@@ -70,11 +70,16 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
 
       <div className={`pg-layout-container ${sidebarComponent ? 'with-sidebar' : ''}`} style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
         {sidebarComponent && (
-          <div className="pg-sidebar" style={{ width: '250px', flexShrink: 0, position: 'sticky', top: '100px', maxHeight: 'calc(100vh - 120px)', overflowY: 'auto', paddingRight: '10px' }}>
+          <div className="pg-sidebar" style={{ width: '250px', flexShrink: 0, position: 'sticky', top: '100px', paddingRight: '10px' }}>
             {sidebarComponent}
           </div>
         )}
         <div className="pg-grid-wrapper" style={{ flexGrow: 1 }}>
+          {activeFiltersComponent && (
+            <div className="pg-active-filters-wrapper" style={{ marginBottom: '1rem' }}>
+              {activeFiltersComponent}
+            </div>
+          )}
           <div className="pg-grid">
             {products.length > 0 ? (
               products.map((product) => (
@@ -97,11 +102,7 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                   </div>
                   <div className="pg-details">
                     <h3 className="pg-item-name">{product.name}</h3>
-                    {product.isOfferAvailable && product.offerCouponCode && (
-                      <div className="pg-item-coupon">
-                        Use Code: <strong>{product.offerCouponCode}</strong>
-                      </div>
-                    )}
+
                     <div className="pg-price-container">
                       <p className="pg-item-price">{product.price}</p>
                       {product.originalPrice && (
@@ -121,16 +122,11 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                 </div>
               ))
             ) : (
-              placeholders.map((item) => (
-                <div className="pg-card skeleton-card" key={item}>
-                  <div className="pg-image-container skeleton-img"></div>
-                  <div className="pg-details">
-                    <div className="skeleton-text skeleton-title"></div>
-                    <div className="skeleton-text skeleton-price"></div>
-                    <div className="skeleton-btn"></div>
-                  </div>
-                </div>
-              ))
+              <div className="pg-empty-state" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '4rem 2rem', color: '#666', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                <SearchX size={48} color="#bdc3c7" strokeWidth={1.5} />
+                <h3 style={{ fontSize: '1.2rem', color: '#333', margin: 0, fontFamily: 'Playfair Display, serif' }}>No Products Found</h3>
+                <p style={{ margin: 0, fontSize: '0.9rem' }}>Sorry, we couldn't find any products matching your current filters.</p>
+              </div>
             )}
           </div>
         </div>
