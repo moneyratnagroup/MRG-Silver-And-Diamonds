@@ -11,7 +11,7 @@ def seed_data():
     db = SessionLocal()
     try:
         # Seed Categories
-        categories_data = ['Rings', 'Earrings', 'Chains', 'Bracelets', 'Pendants', 'Anklets', 'Idols', 'Bullions', 'Bridal', 'Coins', 'Bars']
+        categories_data = ['Rings', 'Earrings', 'Chains', 'Bracelets', 'Bangles', 'Pendants', 'Anklets', 'Idols', 'Bullions', 'Bridal', 'Coins', 'Bars']
         categories_map = {}
         for c in categories_data:
             cat = db.query(models.Category).filter(models.Category.name == c).first()
