@@ -1,4 +1,5 @@
 import React from 'react';
+import { Sparkles } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 import './ProductsGallery.css'; // Reusing the exact same styling as requested
@@ -26,6 +27,7 @@ const FeaturedCollection = () => {
     originalPrice: "₹2,999",
     price: "₹2,499",
     img: braceletImg,
+    hoverImage: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=600",
     images: [
       braceletImg, // front view
       "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=600", // side view
@@ -56,7 +58,13 @@ const FeaturedCollection = () => {
   return (
     <section className="products-gallery-section" style={{ backgroundColor: '#f8f6f0' }}>
       <div className="pg-header">
-        <h2 className="global-subheading">Featured Collection</h2>
+        <div className="pg-title-with-lines">
+          <div className="pg-line"></div>
+          <Sparkles size={12} color="#890206" className="pg-sparkle" />
+          <h2 className="global-subheading">Featured Collection</h2>
+          <Sparkles size={12} color="#890206" className="pg-sparkle" />
+          <div className="pg-line"></div>
+        </div>
         <p className="pg-tagline">
           Handpicked silver jewellery crafted to celebrate elegance, tradition, and everyday beauty.
         </p>
@@ -73,7 +81,10 @@ const FeaturedCollection = () => {
                     {calculateDiscount(product.originalPrice, product.price)}% OFF
                   </span>
                 )}
-                <img loading="lazy" src={product.img || braceletImg} alt={product.name} className="pg-image" />
+                <img loading="lazy" src={product.img || braceletImg} alt={product.name} className={`pg-image ${product.hoverImage ? 'primary-img' : ''}`} />
+                {product.hoverImage && (
+                  <img loading="lazy" src={product.hoverImage} alt={`${product.name} hover`} className="pg-image hover-img" />
+                )}
                 <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? "#e53e3e" : "none"} stroke={isInWishlist(product.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -111,7 +122,10 @@ const FeaturedCollection = () => {
                     {calculateDiscount(sampleProduct.originalPrice, sampleProduct.price)}% OFF
                   </span>
                 )}
-                <img loading="lazy" src={sampleProduct.img} alt={sampleProduct.name} className="pg-image" />
+                <img loading="lazy" src={sampleProduct.img} alt={sampleProduct.name} className={`pg-image ${sampleProduct.hoverImage ? 'primary-img' : ''}`} />
+                {sampleProduct.hoverImage && (
+                  <img loading="lazy" src={sampleProduct.hoverImage} alt={`${sampleProduct.name} hover`} className="pg-image hover-img" />
+                )}
                 <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(sampleProduct); }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(sampleProduct.id) ? "#e53e3e" : "none"} stroke={isInWishlist(sampleProduct.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>

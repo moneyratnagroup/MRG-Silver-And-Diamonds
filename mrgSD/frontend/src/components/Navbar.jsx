@@ -119,22 +119,22 @@ const MRGNavbar = () => {
           <div className="d-flex align-items-center justify-content-end" style={{ flex: '1 1 0%' }}>
             <div className="utilities">
               <button className="utility-btn" aria-label="Search" onClick={() => setIsSearchOpen(true)}>
-                <Search size={20} strokeWidth={1.5} />
+                <Search size={18} strokeWidth={1.5} />
               </button>
 
               <button className="utility-btn d-none d-lg-flex" aria-label="Wishlist" onClick={handleWishlistClick}>
-                <Heart size={20} strokeWidth={1.5} />
+                <Heart size={18} strokeWidth={1.5} />
                 {wishlistCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{wishlistCount}</span>}
               </button>
 
               <button className="utility-btn d-none d-lg-flex" aria-label="Cart" onClick={() => setIsCartOpen(true)}>
-                <ShoppingCart size={20} strokeWidth={1.5} />
+                <ShoppingCart size={18} strokeWidth={1.5} />
                 {cartCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{cartCount}</span>}
               </button>
 
               {isLoading ? (
                 <div className="utility-btn d-none d-lg-flex" aria-label="Loading Account">
-                  <User size={20} strokeWidth={1.5} style={{ opacity: 0.5 }} />
+                  <User size={18} strokeWidth={1.5} style={{ opacity: 0.5 }} />
                 </div>
               ) : isAuthenticated ? (
                 <div className="d-none d-lg-flex align-items-center h-100" style={{ position: 'relative' }} ref={profileMenuRef}>
@@ -214,7 +214,7 @@ const MRGNavbar = () => {
                 </div>
               ) : (
                 <button className="utility-btn d-none d-lg-flex" aria-label="User Account" onClick={openAuthModal}>
-                  <User size={20} strokeWidth={1.5} />
+                  <User size={18} strokeWidth={1.5} />
                 </button>
               )}
             </div>

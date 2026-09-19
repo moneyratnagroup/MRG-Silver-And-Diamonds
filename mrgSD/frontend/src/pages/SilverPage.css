@@ -1,10 +1,10 @@
 /* SilverPage.css - Template */
 
 .silver-page-wrapper {
-  background-color: #fbfbfc;
+  background-color: #F6FBFA;
   min-height: 100vh;
   font-family: 'Cormorant Upright', serif;
-  color: #1a2245; 
+  color: #26313D; 
 }
 
 /* Hero Section */
@@ -12,7 +12,7 @@
   display: flex;
   align-items: stretch;
   height: 80vh;
-  background-color: #f8f6f0;
+  background-color: #F6FBFA;
 }
 
 .silver-hero-left, .silver-hero-right {
@@ -39,7 +39,7 @@
 .silver-sparkle-icons {
   display: flex;
   align-items: flex-start;
-  color: #444;
+  color: #71849A;
   margin-bottom: 1rem;
 }
 
@@ -47,14 +47,14 @@
 .silver-title {
   font-family: 'Cormorant Upright', serif;
   font-size: 4rem;
-  color: #333;
+  color: #0B1F3A;
   line-height: 1.1;
   margin-bottom: 2.5rem;
   font-weight: 500;
 }
 
 .silver-btn-solid {
-  background-color: #333;
+  background-color: #0B1F3A;
   color: #fff;
   border: none;
   padding: 1rem 2.5rem;
@@ -72,8 +72,8 @@
 
 /* Marquee */
 .silver-marquee {
-  background-color: #e5e5e5;
-  color: #333;
+  background-color: #D5DDE4;
+  color: #0B1F3A;
   padding: 0.8rem 0;
   overflow: hidden;
   white-space: nowrap;
@@ -99,7 +99,7 @@
 /* Split Section */
 .silver-split-section {
   display: flex;
-  background-color: #fbfbfc;
+  background-color: #F6FBFA;
 }
 
 .silver-split-text {
@@ -114,13 +114,13 @@
 .silver-split-title {
   font-family: 'Cormorant Upright', serif;
   font-size: 3.5rem;
-  color: #333;
+  color: #0B1F3A;
   margin-bottom: 1.5rem;
   font-weight: 500;
 }
 
 .silver-split-desc {
-  color: #555;
+  color: #26313D;
   font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 2.5rem;
@@ -141,7 +141,7 @@
 .silver-sparkles-decor {
   padding: 2rem 10%;
   display: flex;
-  color: #333;
+  color: #71849A;
 }
 
 /* Filter Bar */
@@ -157,7 +157,7 @@
 .silver-filter-btn {
   background: transparent;
   border: none;
-  color: #333;
+  color: #0B1F3A;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -171,7 +171,7 @@
 .silver-sort-select {
   padding: 0.5rem 2rem 0.5rem 1rem;
   border: none;
-  color: #333;
+  color: #0B1F3A;
   background: transparent;
   outline: none;
   cursor: pointer;
@@ -184,7 +184,7 @@
 
 /* Wavy Banner */
 .silver-wavy-banner {
-  background-color: #333;
+  background-color: #0B1F3A;
   color: #fff;
   text-align: center;
   padding: 4rem 2rem;
@@ -201,7 +201,7 @@
 /* Bottom Split Section */
 .silver-bottom-split {
   display: flex;
-  background-color: #fbfbfc;
+  background-color: #F6FBFA;
   padding: 5rem 0;
   align-items: center;
 }
@@ -215,13 +215,13 @@
 .silver-bottom-title {
   font-family: 'Cormorant Upright', serif;
   font-size: 3.5rem;
-  color: #333;
+  color: #0B1F3A;
   margin-bottom: 1.5rem;
   font-weight: 500;
 }
 
 .silver-bottom-desc {
-  color: #555;
+  color: #26313D;
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 2.5rem;
@@ -261,4 +261,79 @@
   .silver-bottom-images {
     padding: 2rem;
   }
+}
+
+/* Scoped Blue Theme for ProductsGallery and FilterSidebarContent in Silver Page */
+.silver-page-wrapper .global-subheading,
+.silver-page-wrapper .pg-title-with-lines h2,
+.silver-page-wrapper .pg-item-name {
+  color: #0B1F3A !important;
+}
+
+.silver-page-wrapper .sidebar-title,
+.silver-page-wrapper .filter-accordion-title {
+  color: #0B2755 !important;
+}
+
+.silver-page-wrapper .pg-sparkle {
+  color: #71849A !important;
+}
+
+.silver-page-wrapper .pg-line {
+  background: #D5DDE4 !important;
+}
+
+.silver-page-wrapper .pg-tagline {
+  color: #0B1F3A !important;
+}
+
+
+.silver-page-wrapper .pg-item-price {
+  color: #0B1F3A !important;
+}
+
+.silver-page-wrapper .pg-item-original-price {
+  color: #71849A !important;
+}
+
+.silver-page-wrapper .pg-add-to-cart {
+  background-color: #0B1F3A !important;
+  color: #FFFFFF !important;
+}
+
+.silver-page-wrapper .pg-add-to-cart:hover {
+  background-color: #71849A !important;
+  color: #FFFFFF !important;
+  border-color: #71849A !important;
+}
+
+.silver-page-wrapper .pg-discount-badge {
+  background-color: #0B1F3A !important;
+}
+
+.silver-page-wrapper .pg-item-coupon {
+  background-color: #D5DDE4 !important;
+  color: #0B1F3A !important;
+}
+
+.silver-page-wrapper .checkbox-text {
+  color: #70809C !important;
+}
+
+.silver-page-wrapper .custom-checkbox-label input {
+  accent-color: #001D4A !important;
+}
+
+.silver-page-wrapper .filter-accordion-icon {
+  color: #71849A !important;
+}
+
+.silver-page-wrapper .active-badge-small {
+  background-color: #0B1F3A !important;
+  color: #FFFFFF !important;
+}
+
+.silver-page-wrapper .custom-sort-select {
+  border-color: #D5DDE4 !important;
+  color: #0B1F3A !important;
 }

@@ -27,6 +27,7 @@ import app.models.otp
 import app.models.address
 import app.models.product
 import app.models.coupon
+import app.models.banner
 
 # Set the SQLAlchemy URL dynamically from our project config
 config.set_main_option("sqlalchemy.url", str(settings.DATABASE_URL).replace("%", "%%"))

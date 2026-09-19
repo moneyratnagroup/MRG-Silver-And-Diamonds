@@ -4,6 +4,7 @@ import { Filter, X } from 'lucide-react';
 import ProductsGallery from '../components/ProductsGallery';
 import FilterDrawer from '../components/FilterDrawer';
 import FilterSidebarContent from '../components/FilterSidebarContent';
+import ActiveFilters from '../components/ActiveFilters';
 import { useShop } from '../context/ShopContext';
 import './SilverPage.css';
 
@@ -12,11 +13,12 @@ import catRings from '../assets/cat_rings_layout.webp';
 import visionBg from '../assets/vision_bg.webp';
 import presenceBg from '../assets/presence_bg.webp';
 import imgsilvermodel from '../assets/silvermodel.webp';
+import silverImg from '../assets/silverimg.webp';
 
 const SilverPage = () => {
   const { collectionId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { products: allProductsContext } = useShop();
+  const { products: allProductsContext, collections } = useShop();
   // Open by default on desktop if on 'all' collection
   const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
@@ -91,7 +93,20 @@ const SilverPage = () => {
 
   const isAll = collectionId === 'all' || !collectionId;
   const showLanding = isAll && !typeFilter && !occasionFilter && !priceFilter;
-  const baseTitle = isAll ? "All Silver" : collectionId ? collectionId.charAt(0).toUpperCase() + collectionId.slice(1) : "Collection";
+  const getCollectionName = (id) => {
+    if (!id || id === 'all') return "All Silver";
+    if (id.toLowerCase() === 'women') return "Women's";
+    if (id.toLowerCase() === 'men') return "Men's";
+    if (id.toLowerCase() === 'kids') return "Kids";
+    if (id.toLowerCase() === 'religious') return "Religious";
+    if (id.toLowerCase() === 'special') return "Special";
+    if (collections && collections.length > 0) {
+      const found = collections.find(c => c.id.toString() === id.toString() || c.name.toLowerCase() === id.toLowerCase());
+      if (found) return found.name.replace(/ collection$/i, '').trim();
+    }
+    return id.charAt(0).toUpperCase() + id.slice(1);
+  };
+  const baseTitle = getCollectionName(collectionId);
   let displayTitle = isAll ? "All Silver Products" : `${baseTitle} Collection`;
   if (typeFilter) {
     displayTitle = typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase();
@@ -105,7 +120,7 @@ const SilverPage = () => {
           {/* Hero Section */}
           <section className="silver-hero">
             <div className="silver-hero-left">
-              <img loading="lazy" src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800&auto=format&fit=crop" alt="Silver Jewelry" />
+              <img loading="lazy" src={silverImg} alt="Silver Jewelry" />
             </div>
             <div className="silver-hero-center">
               <div className="silver-sparkle-icons">
@@ -141,6 +156,7 @@ const SilverPage = () => {
           title={displayTitle}
           tagline={typeFilter ? `Explore our stunning collection of silver ${displayTitle.toLowerCase()}.` : isAll ? "Browse our entire catalog of premium silver jewelry." : `Explore our exclusive silver ${baseTitle} jewelry, curated for elegance and style.`}
           products={displayProducts}
+          activeFiltersComponent={<ActiveFilters />}
           sidebarComponent={
             isFilterOpen ? (
               <div className="desktop-only collection-sidebar-content">
@@ -164,7 +180,7 @@ const SilverPage = () => {
               <div style={{flex: isFilterOpen ? 1 : 0}}></div> {/* Spacer when filter button is hidden */}
 
               <div className="sort-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '1rem', color: '#555', fontWeight: '500' }} className="d-none d-sm-inline">Sort by:</span>
+                <span style={{ fontSize: '1rem', color: '#0B1F3A', fontWeight: '500' }} className="d-none d-sm-inline">Sort by:</span>
                 <select
                   className="custom-sort-select"
                   value={sortOption}
@@ -172,16 +188,16 @@ const SilverPage = () => {
                   style={{
                     padding: '0.5rem 2.2rem 0.5rem 1rem',
                     borderRadius: '50px',
-                    border: '1px solid #e0e0e0',
+                    border: '1px solid #D5DDE4',
                     backgroundColor: '#fff',
                     fontSize: '1rem',
                     fontFamily: '"Inter", sans-serif',
-                    color: '#333',
+                    color: '#0B1F3A',
                     outline: 'none',
                     cursor: 'pointer',
                     appearance: 'none',
                     WebkitAppearance: 'none',
-                    backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23333%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
+                    backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%230B1F3A%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'right 0.75rem center',
                     backgroundSize: '14px',

@@ -4,6 +4,7 @@ import { Filter, X } from 'lucide-react';
 import DiamondGallery from '../components/DiamondGallery';
 import FilterDrawer from '../components/FilterDrawer';
 import FilterSidebarContent from '../components/FilterSidebarContent';
+import ActiveFilters from '../components/ActiveFilters';
 import { useShop } from '../context/ShopContext';
 import './DiamondsPage.css';
 
@@ -21,7 +22,7 @@ import bentoRing3 from '../assets/bento_ring_3_1787566387700.webp';
 const DiamondsPage = () => {
   const { collectionId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { products: allProductsContext } = useShop();
+  const { products: allProductsContext, collections } = useShop();
   const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
   
@@ -97,7 +98,20 @@ const DiamondsPage = () => {
 
   const isAll = collectionId === 'all' || !collectionId;
   const showLanding = isAll && !typeFilter && !occasionFilter && !priceFilter;
-  const baseTitle = isAll ? "All Diamonds" : collectionId ? collectionId.charAt(0).toUpperCase() + collectionId.slice(1) : "Collection";
+  const getCollectionName = (id) => {
+    if (!id || id === 'all') return "All Diamonds";
+    if (id.toLowerCase() === 'women') return "Women's";
+    if (id.toLowerCase() === 'men') return "Men's";
+    if (id.toLowerCase() === 'kids') return "Kids";
+    if (id.toLowerCase() === 'religious') return "Religious";
+    if (id.toLowerCase() === 'special') return "Special";
+    if (collections && collections.length > 0) {
+      const found = collections.find(c => c.id.toString() === id.toString() || c.name.toLowerCase() === id.toLowerCase());
+      if (found) return found.name.replace(/ collection$/i, '').trim();
+    }
+    return id.charAt(0).toUpperCase() + id.slice(1);
+  };
+  const baseTitle = getCollectionName(collectionId);
   let displayTitle = isAll ? "All Diamond Jewelry" : `${baseTitle} Collection`;
   if (typeFilter) {
     displayTitle = typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase();
@@ -170,11 +184,13 @@ const DiamondsPage = () => {
       )}
 
       {/* Collection Grid */}
-      <section id="gorings-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
+      <section id="diamonds-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
         <DiamondGallery 
           products={displayProducts} 
           title={displayTitle} 
           tagline={`Explore our exclusive ${baseTitle} jewelry.`}
+          disableSidebarScroll={true}
+          activeFiltersComponent={<ActiveFilters />}
           sidebarComponent={
             isFilterOpen ? (
               <div className="desktop-only collection-sidebar-content">

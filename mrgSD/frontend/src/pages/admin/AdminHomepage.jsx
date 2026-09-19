@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useShop } from '../../context/ShopContext';
-import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Upload } from 'lucide-react';
 import './AdminHomepage.css';
+import './AdminProducts.css';
 
 const AdminHomepage = () => {
-  const { announcementText, updateAnnouncementText, heroBanners, updateHeroBanners } = useShop();
+  const { announcementText, updateAnnouncementText, heroBanners, fetchBanners } = useShop();
   
   const [localAnnouncement, setLocalAnnouncement] = useState(announcementText);
-  const [localBanners, setLocalBanners] = useState([...heroBanners]);
   const [isSaved, setIsSaved] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [expandedSubtitles, setExpandedSubtitles] = useState([]);
   
   // Banner Modal State
@@ -43,6 +44,34 @@ const AdminHomepage = () => {
     setIsBannerModalOpen(true);
   };
 
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const formDataObj = new FormData();
+    formDataObj.append('file', file);
+
+    try {
+      const response = await fetch('http://localhost:8000/api/v1/upload/', {
+        method: 'POST',
+        body: formDataObj,
+      });
+
+      if (!response.ok) throw new Error('Upload failed');
+
+      const data = await response.json();
+      const imageUrl = `http://localhost:8000${data.url}`;
+
+      setBannerFormData(prev => ({ ...prev, image: imageUrl }));
+    } catch (error) {
+      alert("Error uploading image: " + error.message);
+    } finally {
+      setIsUploading(false);
+      e.target.value = null;
+    }
+  };
+
   const toggleSubtitle = (id) => {
     setExpandedSubtitles(prev => 
       prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
@@ -54,33 +83,48 @@ const AdminHomepage = () => {
     setBannerFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSaveBanner = (e) => {
+  const handleSaveBanner = async (e) => {
     e.preventDefault();
-    let updatedBanners;
-    
-    if (editingBanner) {
-      // Update existing
-      updatedBanners = localBanners.map(b => b.id === bannerFormData.id ? bannerFormData : b);
-    } else {
-      // Create new
-      const newId = localBanners.length > 0 ? Math.max(...localBanners.map(b => b.id)) + 1 : 1;
-      updatedBanners = [...localBanners, { ...bannerFormData, id: newId }];
+    try {
+      if (editingBanner && editingBanner.id) {
+        const res = await fetch(`http://localhost:8000/api/v1/banners/${bannerFormData.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bannerFormData)
+        });
+        if (!res.ok) throw new Error("Failed to update banner");
+      } else {
+        const res = await fetch(`http://localhost:8000/api/v1/banners/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bannerFormData)
+        });
+        if (!res.ok) throw new Error("Failed to create banner");
+      }
+      await fetchBanners();
+      setIsBannerModalOpen(false);
+    } catch (err) {
+      alert(err.message);
     }
-    
-    setLocalBanners(updatedBanners);
-    setIsBannerModalOpen(false);
   };
 
-  const handleDeleteBanner = (id) => {
+  const handleDeleteBanner = async (id) => {
     if (window.confirm("Are you sure you want to delete this banner?")) {
-      setLocalBanners(localBanners.filter(b => b.id !== id));
+      try {
+        const res = await fetch(`http://localhost:8000/api/v1/banners/${id}`, {
+          method: 'DELETE'
+        });
+        if (!res.ok) throw new Error("Failed to delete banner");
+        await fetchBanners();
+      } catch (err) {
+        alert(err.message);
+      }
     }
   };
 
   const handleSave = (e) => {
     e.preventDefault();
     updateAnnouncementText(localAnnouncement);
-    updateHeroBanners(localBanners);
     
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 3000);
@@ -135,7 +179,7 @@ const AdminHomepage = () => {
                 </tr>
               </thead>
               <tbody>
-                {localBanners.map((banner) => {
+                {heroBanners.map((banner) => {
                   const isExpanded = expandedSubtitles.includes(banner.id);
                   const shouldTruncate = banner.subtitle && banner.subtitle.length > 35;
                   const displaySubtitle = !shouldTruncate || isExpanded 
@@ -188,7 +232,7 @@ const AdminHomepage = () => {
                   </tr>
                   );
                 })}
-                {localBanners.length === 0 && (
+                {heroBanners.length === 0 && (
                   <tr>
                     <td colSpan="6" className="text-center empty-table">
                       No hero banners found. Create one!
@@ -221,17 +265,27 @@ const AdminHomepage = () => {
             
             <form onSubmit={handleSaveBanner} className="product-form">
               <div className="form-group">
-                <label>Image URL</label>
-                <input 
-                  type="text" 
-                  name="image" 
-                  value={bannerFormData.image} 
-                  onChange={handleBannerFormChange} 
-                  required 
-                  placeholder="https://..."
-                />
+                <label>Image URL or Upload System Image</label>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <input 
+                    type="text" 
+                    name="image" 
+                    value={bannerFormData.image} 
+                    onChange={handleBannerFormChange} 
+                    required 
+                    placeholder="https://..."
+                    style={{ flex: 1 }}
+                  />
+                  <label className="btn-upload" style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '0 15px', background: '#e0e0e0', cursor: 'pointer', borderRadius: '4px', border: '1px solid #ccc' }}>
+                    <Upload size={16} />
+                    <span>{isUploading ? 'Uploading...' : 'Upload'}</span>
+                    <input type="file" accept="image/*,image/webp" style={{ display: 'none' }} onChange={handleFileUpload} disabled={isUploading} />
+                  </label>
+                </div>
                 {bannerFormData.image && (
-                  <img loading="lazy" src={bannerFormData.image} alt="Preview" className="banner-preview" />
+                  <div style={{ marginTop: '10px' }}>
+                    <img loading="lazy" src={bannerFormData.image} alt="Preview" className="banner-preview" style={{ maxHeight: '120px', borderRadius: '4px', border: '1px solid #ddd', objectFit: 'cover' }} />
+                  </div>
                 )}
               </div>
               
