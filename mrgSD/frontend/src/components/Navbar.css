@@ -1,15 +1,15 @@
 .custom-navbar {
-  background-color: #faf8f5;
+  background-color: #F7F3E8;
   height: auto;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 0.5rem 0 0 0;
-  font-family: 'Cormorant Upright', serif;
+  padding: 0;
+  font-family: 'Playfair Display', serif;
   z-index: 1050;
   transition: all 0.3s ease;
 }
 
 .custom-navbar.scrolled {
-  background-color: #faf8f5;
+  background-color: #F7F3E8;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
@@ -19,6 +19,14 @@
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
+}
+
+.brand-logo-main-img {
+  height: 55px;
+  max-width: 200px;
+  width: auto;
+  object-fit: contain;
+  margin-top: -8px;
 }
 
 .brand-icon-svg {
@@ -37,7 +45,7 @@
   font-size: 1.4rem;
   font-weight: 600;
   color: #B89146;
-  font-family: 'Cormorant Upright', serif;
+  font-family: 'Playfair Display', serif;
   letter-spacing: 1.5px;
   line-height: 1.1;
 }
@@ -61,9 +69,9 @@
 
 .nav-link-custom {
   color: #000000 !important;
-  font-weight: 500;
-  font-size: 0.85rem;
-  letter-spacing: 1.5px;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.12em;
   transition: color 0.3s ease;
   display: flex;
   align-items: center;
@@ -163,7 +171,7 @@
 }
 
 .mega-title {
-  font-family: 'Cormorant Upright', serif;
+  font-family: 'Playfair Display', serif;
   font-weight: 700;
   font-size: 1.15rem;
   color: #000000;
@@ -186,12 +194,14 @@
 .utility-btn {
   background: none;
   border: none;
-  color: #2c3e50;
+  color: #000000;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem;
+  width: 38px;
+  height: 38px;
+  padding: 0;
   transition: color 0.3s ease;
   position: relative;
 }
@@ -235,7 +245,7 @@
   width: 100%;
   background-color: transparent;
   color: #000000;
-  font-family: 'Cormorant Upright', serif;
+  font-family: 'Playfair Display', serif;
 }
 
 .nav-search-input::placeholder {
@@ -287,7 +297,7 @@
   color: #000000;
   padding: 0.75rem 1.5rem;
   transition: background-color 0.2s ease, color 0.2s ease;
-  font-family: 'Cormorant Upright', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 0.9rem;
   font-weight: 700;
   text-align: center;
@@ -447,7 +457,7 @@
     grid-template-areas: "logo nav icons";
     align-items: center;
     gap: 2rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0;
   }
 
   .custom-navbar .navbar-top-row {
@@ -479,17 +489,24 @@
   }
 
   .custom-navbar .nav-links-container {
-    gap: 12px;
+    gap: 36px;
   }
 
   .custom-navbar .nav-link-custom {
     white-space: nowrap;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    font-weight: 400;
   }
 
   .custom-navbar .brand-icon-img {
     width: 36px !important;
+  }
+
+  .custom-navbar .brand-logo-main-img {
+    height: 70px;
+    max-width: 280px;
+    margin-top: -12px;
   }
 
   .custom-navbar .brand-name {
@@ -500,5 +517,136 @@
     font-size: 0.55rem;
   }
 
-  
+}
+
+/* Search Overlay Modal */
+.search-overlay-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 100px;
+}
+
+.search-modal-content {
+  width: 90%;
+  max-width: 800px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 30px;
+  border-bottom: 1px solid #eee;
+  gap: 15px;
+}
+
+.search-modal-input {
+  flex: 1;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 300;
+  outline: none;
+  background: transparent;
+  color: #333;
+}
+
+.search-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.search-close-btn:hover {
+  color: #333;
+}
+
+.search-results-container {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.search-results-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 30px;
+  gap: 20px;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #f9f9f9;
+  transition: background-color 0.2s ease;
+}
+
+.search-result-item:hover {
+  background-color: #f8f9fa;
+  color: inherit;
+}
+
+.search-result-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.search-result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.search-result-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.search-result-price {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.search-no-results {
+  padding: 40px;
+  text-align: center;
+  color: #777;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .search-overlay-modal {
+    padding-top: 60px;
+  }
+  .search-modal-content {
+    width: 95%;
+  }
+  .search-header {
+    padding: 15px 20px;
+  }
+  .search-result-item {
+    padding: 15px 20px;
+  }
 }

@@ -43,7 +43,7 @@
 }
 
 .account-tab.active {
-  background-color: #fff;
+  background-color: #f8f6f0;
   color: #02275a;
   border-left-color: #d4af37;
   font-weight: 600;
@@ -51,7 +51,7 @@
 
 /* Content Area Styling */
 .account-content {
-  background-color: #fff;
+  background-color: #f8f6f0;
   border-radius: 8px;
   padding: 30px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -181,7 +181,7 @@
   border: 1px solid #eaeaea;
   border-radius: 8px;
   padding: 20px;
-  background: #fff;
+  background: #f8f6f0;
   transition: box-shadow 0.3s ease;
 }
 

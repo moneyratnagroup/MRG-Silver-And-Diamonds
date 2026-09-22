@@ -1,30 +1,30 @@
 .metal-rates-bar {
-  background-color: #6B2737;
+  background-color: #1B2033; /* Dark navy */
   backdrop-filter: blur(8px);
-  color: #F7E7CE;
+  color: #EAE3D2; /* Muted ivory */
   padding: 4px 0;
   font-family: 'Inter', sans-serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.5px;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
   position: relative;
   z-index: 1040;
+  overflow: hidden;
 }
 
 .rates-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: nowrap;
-  gap: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
   white-space: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
 }
-.rates-container::-webkit-scrollbar {
-  display: none;
+
+.rates-marquee-content {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .rate-item {
@@ -40,7 +40,7 @@
 }
 
 .rate-value {
-  color: #F7E7CE;
+  color: #EAE3D2;
   font-weight: 500;
 }
 
@@ -56,17 +56,38 @@
   font-size: 0.65rem;
 }
 
-@media (max-width: 768px) {
+.mobile-tab-only {
+  display: none;
+}
+
+@media (max-width: 1024px) {
   .metal-rates-bar {
-    font-size: 0.65rem;
+    font-size: 10.5px;
   }
   
   .rates-container {
-    gap: 1rem;
+    max-width: none;
+    padding: 0;
     justify-content: flex-start;
+    animation: scrollMetalRates 20s linear infinite;
+    width: max-content;
+  }
+  
+  .rates-marquee-content {
+    gap: 1rem;
+    padding-right: 1rem; /* Acts as the gap before the duplicated content */
+  }
+
+  .mobile-tab-only {
+    display: flex;
   }
   
   .desktop-only {
     display: none !important;
   }
+}
+
+@keyframes scrollMetalRates {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }

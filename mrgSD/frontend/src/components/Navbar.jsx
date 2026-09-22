@@ -7,13 +7,18 @@ import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
 import './Navbar.css';
 import imgmrgicon from '../assets/mrgicon.webp';
+import logomrg from '../assets/LOGOMRG.webp';
 
 const MRGNavbar = () => {
   const [expanded, setExpanded] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
-  const { getWishlistCount, setIsWishlistOpen, getCartCount, setIsCartOpen } = useShop();
+  const { getWishlistCount, setIsWishlistOpen, getCartCount, setIsCartOpen, products } = useShop();
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -58,6 +63,22 @@ const MRGNavbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    const query = searchQuery.toLowerCase();
+    const results = (products || []).filter(p => 
+      p.name?.toLowerCase().includes(query) ||
+      p.category?.toLowerCase().includes(query) ||
+      p.metal?.toLowerCase().includes(query) ||
+      p.shortDesc?.toLowerCase().includes(query) ||
+      p.sku?.toLowerCase().includes(query)
+    );
+    setSearchResults(results.slice(0, 10));
+  }, [searchQuery, products]);
+
   const handleWishlistClick = () => {
     if (window.innerWidth < 992) {
       setIsWishlistOpen(true);
@@ -75,6 +96,7 @@ const MRGNavbar = () => {
   };
 
   return (
+    <>
     <Navbar expanded={expanded} onToggle={setExpanded} sticky="top" expand="lg" className={`custom-navbar ${scrolled ? 'scrolled' : ''}`}>
       <Container fluid className="px-4 px-lg-5 flex-column custom-navbar-container desktop-layout">
 
@@ -89,34 +111,30 @@ const MRGNavbar = () => {
           {/* Center: Brand Logo */}
           <div className="d-flex align-items-center justify-content-center" style={{ flex: '1 1 0%' }}>
             <Navbar.Brand as={Link} to="/" className="brand-logo-container m-0">
-              <img loading="lazy" src={imgmrgicon} alt="Moneyratna Logo" className="brand-icon-img" width="48" height="48" style={{ width: '48px', height: 'auto', marginRight: '10px' }} />
-              <div className="brand-text">
-                <span className="brand-name">MONEYRATNA</span>
-                <span className="brand-tagline">JEWELLERY</span>
-              </div>
+              <img loading="lazy" src={logomrg} alt="Moneyratna Logo" className="brand-logo-main-img" />
             </Navbar.Brand>
           </div>
 
           {/* Right: Utilities */}
           <div className="d-flex align-items-center justify-content-end" style={{ flex: '1 1 0%' }}>
             <div className="utilities">
-              <button className="utility-btn" aria-label="Search">
-                <Search size={20} strokeWidth={1.5} />
+              <button className="utility-btn" aria-label="Search" onClick={() => setIsSearchOpen(true)}>
+                <Search size={18} strokeWidth={1.5} />
               </button>
 
               <button className="utility-btn d-none d-lg-flex" aria-label="Wishlist" onClick={handleWishlistClick}>
-                <Heart size={20} strokeWidth={1.5} />
+                <Heart size={18} strokeWidth={1.5} />
                 {wishlistCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{wishlistCount}</span>}
               </button>
 
               <button className="utility-btn d-none d-lg-flex" aria-label="Cart" onClick={() => setIsCartOpen(true)}>
-                <ShoppingCart size={20} strokeWidth={1.5} />
+                <ShoppingCart size={18} strokeWidth={1.5} />
                 {cartCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{cartCount}</span>}
               </button>
 
               {isLoading ? (
                 <div className="utility-btn d-none d-lg-flex" aria-label="Loading Account">
-                  <User size={20} strokeWidth={1.5} style={{ opacity: 0.5 }} />
+                  <User size={18} strokeWidth={1.5} style={{ opacity: 0.5 }} />
                 </div>
               ) : isAuthenticated ? (
                 <div className="d-none d-lg-flex align-items-center h-100" style={{ position: 'relative' }} ref={profileMenuRef}>
@@ -196,7 +214,7 @@ const MRGNavbar = () => {
                 </div>
               ) : (
                 <button className="utility-btn d-none d-lg-flex" aria-label="User Account" onClick={openAuthModal}>
-                  <User size={20} strokeWidth={1.5} />
+                  <User size={18} strokeWidth={1.5} />
                 </button>
               )}
             </div>
@@ -387,6 +405,62 @@ const MRGNavbar = () => {
       {/* Authentication Modal */}
       <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
     </Navbar>
+
+      {/* Search Overlay */}
+      {isSearchOpen && (
+        <div className="search-overlay-modal" onClick={(e) => {
+          if (e.target.className === 'search-overlay-modal') setIsSearchOpen(false);
+        }}>
+          <div className="search-modal-content">
+            <div className="search-header">
+              <Search size={24} color="#666" />
+              <input 
+                type="text" 
+                placeholder="Search for jewelry, metals, collections..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+                className="search-modal-input"
+              />
+              <button className="search-close-btn" onClick={() => setIsSearchOpen(false)}>
+                <X size={24} />
+              </button>
+            </div>
+            {searchQuery.trim() && (
+              <div className="search-results-container">
+                {searchResults.length > 0 ? (
+                  <div className="search-results-list">
+                    {searchResults.map(product => (
+                      <Link 
+                        to={`/product/${product.id}`} 
+                        key={product.id} 
+                        className="search-result-item"
+                        onClick={() => {
+                          setIsSearchOpen(false);
+                          setSearchQuery('');
+                        }}
+                      >
+                        <img src={product.img || (product.images && product.images[0]?.image_url)} alt={product.name} className="search-result-img" />
+                        <div className="search-result-info">
+                          <div className="search-result-name">{product.name}</div>
+                          <div className="search-result-price">
+                            {typeof product.price === 'number' ? `₹${product.price.toLocaleString('en-IN')}` : product.price}
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="search-no-results">
+                    No products found for "{searchQuery}"
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

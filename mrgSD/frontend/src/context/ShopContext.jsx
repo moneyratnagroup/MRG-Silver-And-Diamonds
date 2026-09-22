@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
-import imgBanner11 from '../assets/Banner11.webp';
+import { fetchWithAuth } from '../utils/api';
+import imgBanner11 from '../assets/Banner1.png';
 import imgbanner12 from '../assets/banner12.webp';
 import imgbanner3 from '../assets/banner3.webp';
 
@@ -13,7 +14,7 @@ export const useShop = () => {
 };
 
 export const ShopProvider = ({ children }) => {
-  const { isAuthenticated, openAuthModal } = useAuth();
+  const { isAuthenticated, user, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [products, setProducts] = useState([]);
@@ -22,6 +23,99 @@ export const ShopProvider = ({ children }) => {
   const [metals, setMetals] = useState([]);
   const [collections, setCollections] = useState([]);
   const [occasions, setOccasions] = useState([]);
+  
+  // Fetch Wishlist from Backend
+  const fetchWishlist = useCallback(async () => {
+    if (user && user.id) {
+      try {
+        const res = await fetchWithAuth('/api/v1/wishlists/', { method: 'GET' });
+        if (res.ok) {
+          const data = await res.json();
+          // The backend returns an array of WishlistItemSchema
+          // which has { id, user_id, created_at, product: { ... } }
+          setWishlistItems(data.map(item => item.product));
+        }
+      } catch (err) {
+        console.error("Failed to fetch wishlist", err);
+      }
+    }
+  }, [user]);
+
+  // Fetch Cart from Backend
+  const fetchCart = useCallback(async () => {
+    if (user && user.id) {
+      try {
+        const res = await fetchWithAuth('/api/v1/carts/', { method: 'GET' });
+        if (res.ok) {
+          const data = await res.json();
+          const mappedCart = data.map(item => {
+            const p = item.product;
+            return {
+              id: p.id,
+              sku: p.sku,
+              name: p.name,
+              originalPrice: p.mrp_price ? `₹${p.mrp_price}` : null,
+              price: `₹${p.selling_price}`,
+              category: p.category?.name || '',
+              collections: p.collections || [],
+              occasions: p.occasions || [],
+              desc: p.description,
+              metal: p.metal?.name || 'Silver',
+              purity: p.purity?.name || '925',
+              img: p.images && p.images.length > 0 ? p.images[0].image_url : '',
+              hoverImage: p.images && p.images.length > 1 ? p.images[1].image_url : null,
+              images: p.images ? p.images.map(img => img.image_url) : [],
+              stockQuantity: 10,
+              lowStockThreshold: 5,
+              status: p.status,
+              isOfferAvailable: p.is_offer_available,
+              offerCouponCode: p.offer_coupon_code,
+              isActive: p.status === 'PUBLISHED',
+              quantity: item.quantity
+            };
+          });
+          setCartItems(mappedCart);
+        }
+      } catch (err) {
+        console.error("Failed to fetch cart", err);
+      }
+    }
+  }, [user]);
+
+  // Sync Cart and Wishlist with Backend/Local Storage
+  useEffect(() => {
+    if (user && user.id) {
+      fetchCart();
+      fetchWishlist();
+    } else {
+      const savedGuestCart = localStorage.getItem('cart_guest');
+      if (savedGuestCart) {
+        try { setCartItems(JSON.parse(savedGuestCart)); } catch (e) {}
+      } else {
+        setCartItems([]);
+      }
+      const savedGuestWishlist = localStorage.getItem('wishlist_guest');
+      if (savedGuestWishlist) {
+        try { setWishlistItems(JSON.parse(savedGuestWishlist)); } catch (e) {}
+      } else {
+        setWishlistItems([]);
+      }
+    }
+  }, [user, fetchWishlist, fetchCart]);
+
+  useEffect(() => {
+    if (!user) {
+      localStorage.setItem('cart_guest', JSON.stringify(cartItems));
+    }
+  }, [cartItems, user]);
+
+  useEffect(() => {
+    if (user && user.id && wishlistItems.length >= 0) {
+      localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(wishlistItems));
+    } else if (!user && wishlistItems.length >= 0) {
+      localStorage.setItem('wishlist_guest', JSON.stringify(wishlistItems));
+    }
+  }, [wishlistItems, user]);
   
   // Drawer UI state
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -136,15 +230,70 @@ export const ShopProvider = ({ children }) => {
           images: p.images.map(img => img.image_url),
           stockQuantity: 10, // Mocking inventory for now
           lowStockThreshold: 5,
+          status: p.status,
           isOfferAvailable: p.is_offer_available,
           offerCouponCode: p.offer_coupon_code,
-          isActive: p.is_active
+          isActive: p.status === 'PUBLISHED'
         }));
         setAdminProducts(mappedProducts);
-        setProducts(mappedProducts.filter(p => p.isActive !== false));
+        setProducts(mappedProducts.filter(p => p.isActive));
       }
     } catch (err) {
       console.error("Failed to fetch products", err);
+    }
+  }, []);
+
+  const fetchAdminProducts = useCallback(async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/products/?status=ALL");
+      if (res.ok) {
+        const data = await res.json();
+        const mappedProducts = data.map(p => ({
+          id: p.id,
+          sku: p.sku,
+          name: p.name,
+          originalPrice: p.mrp_price ? `₹${p.mrp_price}` : null,
+          price: `₹${p.selling_price}`,
+          category: p.category?.name || '',
+          collections: p.collections || [],
+          occasions: p.occasions || [],
+          desc: p.description,
+          metal: p.metal?.name || 'Silver',
+          purity: p.purity?.name || '925',
+          img: p.images.length > 0 ? p.images[0].image_url : '',
+          hoverImage: p.images.length > 1 ? p.images[1].image_url : null,
+          images: p.images.map(img => img.image_url),
+          stockQuantity: 10, // Mocking inventory for now
+          lowStockThreshold: 5,
+          status: p.status,
+          isOfferAvailable: p.is_offer_available,
+          offerCouponCode: p.offer_coupon_code
+        }));
+        setAdminProducts(mappedProducts);
+      }
+    } catch (err) {
+      console.error("Failed to fetch admin products", err);
+    }
+  }, []);
+
+  const fetchCoupons = useCallback(async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/coupons/");
+      if (res.ok) {
+        const data = await res.json();
+        const mappedCoupons = data.map(c => ({
+          id: c.id,
+          code: c.code,
+          type: c.type,
+          value: c.value,
+          minCartValue: c.min_cart_value,
+          expiryDate: c.expiry_date,
+          isActive: c.is_active
+        }));
+        setCoupons(mappedCoupons);
+      }
+    } catch (err) {
+      console.error("Failed to fetch coupons", err);
     }
   }, []);
 
@@ -153,7 +302,9 @@ export const ShopProvider = ({ children }) => {
     fetchTestimonials();
     fetchTaxonomies();
     fetchProducts();
-  }, [fetchRates, fetchTestimonials, fetchTaxonomies, fetchProducts]);
+    fetchAdminProducts();
+    fetchCoupons();
+  }, [fetchRates, fetchTestimonials, fetchTaxonomies, fetchProducts, fetchAdminProducts, fetchCoupons]);
 
   const updateMetalRates = async (newRates) => {
     const cleanRates = {};
@@ -214,34 +365,23 @@ export const ShopProvider = ({ children }) => {
   // Homepage Content (Admin)
   const [announcementText, setAnnouncementText] = useState('<span>FREE SHIPPING OVER ₹5000</span> &nbsp;&nbsp;|&nbsp;&nbsp; <span style="color: #C7A66A">USE CODE WELCOME10</span>');
   
-  const [heroBanners, setHeroBanners] = useState([
-    {
-      id: 1,
-      image: imgBanner11,
-      preTitle: "925 STERLING SILVER",
-      title: "Pure Silver.<br/>Timeless Beauty.",
-      subtitle: "Discover handcrafted sterling silver jewellery designed with elegance, purity, and modern luxury.",
-      buttonText: "SHOP COLLECTION",
-      status: "publish"
-    },
-    {
-      id: 2,
-      image: imgbanner12,
-      preTitle: "NATURAL DIAMOND COLLECTION",
-      title: "Where Every<br/>Diamond Tells<br/>A Story",
-      subtitle: "Handcrafted diamond jewellery designed to celebrate life's most precious moments.",
-      buttonText: "EXPLORE DIAMONDS",
-      status: "publish"
-    },
-    {
-      id: 3,
-      image: imgbanner3,
-      title: "Silver & Diamonds.<br/>Perfect Harmony.",
-      subtitle: "Find the perfect balance of classic silver elegance and the brilliant shine of hand-set diamonds.",
-      buttonText: "SHOP NOW",
-      status: "publish"
+  const [heroBanners, setHeroBanners] = useState([]);
+
+  const fetchBanners = useCallback(async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/banners/");
+      if (res.ok) {
+        const data = await res.json();
+        setHeroBanners(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch banners", err);
     }
-  ]);
+  }, []);
+
+  useEffect(() => {
+    fetchBanners();
+  }, [fetchBanners]);
 
   const updateAnnouncementText = (newText) => {
     setAnnouncementText(newText);
@@ -327,67 +467,149 @@ export const ShopProvider = ({ children }) => {
 
   // Collections are now fetched dynamically from backend
 
-  const addCategory = (name) => {
-    const newId = categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1;
-    setCategories([...categories, { id: newId, name }]);
+  const addCategory = async (name) => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/products/categories", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+      if (res.ok) {
+        const newCategory = await res.json();
+        setCategories(prev => [...prev, newCategory]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const deleteCategory = (id) => {
-    setCategories(categories.filter(c => c.id !== id));
+  const deleteCategory = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/products/categories/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) setCategories(prev => prev.filter(c => c.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const addCollection = (name, displayName, categoryIds = []) => {
-    const newId = collections.length > 0 ? Math.max(...collections.map(c => c.id)) + 1 : 1;
-    setCollections([...collections, { id: newId, name, displayName, categoryIds }]);
+  const addCollection = async (name, displayName, categoryIds = []) => {
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/products/collections", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: displayName || name, category_ids: categoryIds })
+      });
+      if (res.ok) {
+        const newCollection = await res.json();
+        setCollections(prev => [...prev, newCollection]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const deleteCollection = (id) => {
-    setCollections(collections.filter(c => c.id !== id));
+  const deleteCollection = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/products/collections/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) setCollections(prev => prev.filter(c => c.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const updateCollection = (id, name, displayName, categoryIds = []) => {
-    setCollections(collections.map(c => 
-      c.id === id ? { ...c, name, displayName, categoryIds } : c
-    ));
+  const updateCollection = async (id, name, displayName, categoryIds = []) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/products/collections/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: displayName || name, category_ids: categoryIds })
+      });
+      if (res.ok) {
+        const updatedCollection = await res.json();
+        setCollections(prev => prev.map(c => c.id === id ? updatedCollection : c));
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // Coupons (Admin & Frontend)
-  const [coupons, setCoupons] = useState([
-    {
-      id: 1,
-      code: 'WELCOME10',
-      type: 'percent', // 'percent' or 'fixed'
-      value: 10,
-      minCartValue: 2000,
-      expiryDate: '2026-12-31',
-      isActive: true
-    },
-    {
-      id: 2,
-      code: 'FLAT500',
-      type: 'fixed',
-      value: 500,
-      minCartValue: 5000,
-      expiryDate: '2026-12-31',
-      isActive: true
+  const [coupons, setCoupons] = useState([]);
+
+  const addCoupon = async (newCoupon) => {
+    try {
+      const payload = {
+        code: newCoupon.code,
+        type: newCoupon.type,
+        value: newCoupon.value,
+        min_cart_value: newCoupon.minCartValue || null,
+        expiry_date: newCoupon.expiryDate || null,
+        is_active: newCoupon.isActive !== undefined ? newCoupon.isActive : true
+      };
+      const res = await fetch("http://localhost:8000/api/v1/coupons/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        fetchCoupons();
+      }
+    } catch (error) {
+      console.error("Failed to add coupon:", error);
     }
-  ]);
-
-  const addCoupon = (newCoupon) => {
-    const newId = coupons.length > 0 ? Math.max(...coupons.map(c => c.id)) + 1 : 1;
-    setCoupons([...coupons, { ...newCoupon, id: newId }]);
   };
 
-  const updateCoupon = (updatedCoupon) => {
-    setCoupons(coupons.map(c => c.id === updatedCoupon.id ? updatedCoupon : c));
+  const updateCoupon = async (updatedCoupon) => {
+    try {
+      const payload = {
+        code: updatedCoupon.code,
+        type: updatedCoupon.type,
+        value: updatedCoupon.value,
+        min_cart_value: updatedCoupon.minCartValue || null,
+        expiry_date: updatedCoupon.expiryDate || null,
+        is_active: updatedCoupon.isActive
+      };
+      const res = await fetch(`http://localhost:8000/api/v1/coupons/${updatedCoupon.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        fetchCoupons();
+      }
+    } catch (error) {
+      console.error("Failed to update coupon:", error);
+    }
   };
 
-  const deleteCoupon = (id) => {
-    setCoupons(coupons.filter(c => c.id !== id));
+  const deleteCoupon = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/coupons/${id}`, {
+        method: "DELETE"
+      });
+      if (res.ok) {
+        fetchCoupons();
+      }
+    } catch (error) {
+      console.error("Failed to delete coupon:", error);
+    }
   };
 
-  const toggleCouponStatus = (id) => {
-    setCoupons(coupons.map(c => c.id === id ? { ...c, isActive: !c.isActive } : c));
+  const toggleCouponStatus = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/coupons/${id}/toggle`, {
+        method: "PATCH"
+      });
+      if (res.ok) {
+        fetchCoupons();
+      }
+    } catch (error) {
+      console.error("Failed to toggle coupon:", error);
+    }
   };
 
   // Orders (Admin)
@@ -519,6 +741,7 @@ export const ShopProvider = ({ children }) => {
       });
       if (res.ok) {
         await fetchProducts();
+        await fetchAdminProducts();
         return { success: true };
       }
       const data = await res.json();
@@ -539,6 +762,7 @@ export const ShopProvider = ({ children }) => {
       });
       if (res.ok) {
         await fetchProducts();
+        await fetchAdminProducts();
         return { success: true };
       }
       const data = await res.json();
@@ -616,52 +840,96 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Add to cart
-  const addToCart = (product) => {
+  const addToCart = async (product) => {
     if (!isAuthenticated) {
-      openAuthModal("Please login to add items to your cart");
+      setCartItems((prevItems) => {
+        const existingItem = prevItems.find((item) => item.id === product.id);
+        if (existingItem) {
+          return prevItems.map((item) =>
+            item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          );
+        }
+        return [...prevItems, { ...product, quantity: 1 }];
+      });
+      setIsCartOpen(true);
       return;
     }
 
-    setCartItems((prevItems) => {
-      // Check if item already exists in cart
-      const existingItem = prevItems.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prevItems.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
+    try {
+      const res = await fetchWithAuth('/api/v1/carts/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: product.id, quantity: 1 })
+      });
+      if (res.ok) {
+        fetchCart();
+        setIsCartOpen(true);
       }
-      return [...prevItems, { ...product, quantity: 1 }];
-    });
-    setIsCartOpen(true); // Auto-open cart on add
+    } catch (e) { console.error(e); }
   };
 
   // Remove from cart
-  const removeFromCart = (productId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
-  };
-
-  // Update cart quantity
-  const updateCartQuantity = (productId, newQuantity) => {
-    if (newQuantity < 1) return;
-    setCartItems(prevItems => 
-      prevItems.map(item => item.id === productId ? { ...item, quantity: newQuantity } : item)
-    );
-  };
-
-  // Toggle wishlist
-  const toggleWishlist = (product) => {
+  const removeFromCart = async (productId) => {
     if (!isAuthenticated) {
-      openAuthModal("Please login to save to your wishlist");
+      setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
       return;
     }
 
-    setWishlistItems((prevItems) => {
-      const exists = prevItems.find((item) => item.id === product.id);
+    try {
+      const res = await fetchWithAuth(`/api/v1/carts/${productId}`, { method: 'DELETE' });
+      if (res.ok) fetchCart();
+    } catch (e) { console.error(e); }
+  };
+
+  // Update cart quantity
+  const updateCartQuantity = async (productId, newQuantity) => {
+    if (newQuantity < 1) return;
+    
+    if (!isAuthenticated) {
+      setCartItems(prevItems => 
+        prevItems.map(item => item.id === productId ? { ...item, quantity: newQuantity } : item)
+      );
+      return;
+    }
+
+    try {
+      const res = await fetchWithAuth(`/api/v1/carts/${productId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: newQuantity })
+      });
+      if (res.ok) fetchCart();
+    } catch (e) { console.error(e); }
+  };
+
+  // Toggle wishlist
+  const toggleWishlist = async (product) => {
+    const exists = wishlistItems.find((item) => item.id === product.id);
+
+    if (isAuthenticated) {
       if (exists) {
-        return prevItems.filter((item) => item.id !== product.id);
+        try {
+          const res = await fetchWithAuth(`/api/v1/wishlists/${product.id}`, { method: 'DELETE' });
+          if (res.ok) {
+            setWishlistItems((prevItems) => prevItems.filter((item) => item.id !== product.id));
+          }
+        } catch (e) { console.error(e); }
+      } else {
+        try {
+          const res = await fetchWithAuth(`/api/v1/wishlists/${product.id}`, { method: 'POST' });
+          if (res.ok) {
+            setWishlistItems((prevItems) => [...prevItems, product]);
+          }
+        } catch (e) { console.error(e); }
       }
-      return [...prevItems, product];
-    });
+    } else {
+      // Keep the existing localStorage wishlist behavior for logged-out users
+      if (exists) {
+        setWishlistItems((prevItems) => prevItems.filter((item) => item.id !== product.id));
+      } else {
+        setWishlistItems((prevItems) => [...prevItems, product]);
+      }
+    }
   };
 
   // Check if item is in wishlist
@@ -708,6 +976,7 @@ export const ShopProvider = ({ children }) => {
     updateAnnouncementText,
     heroBanners,
     updateHeroBanners,
+    fetchBanners,
     testimonials,
     addTestimonial,
     updateTestimonial,

@@ -7,8 +7,8 @@
 
 .slide-content-wrapper {
   position: relative;
-  height: 88vh;
-  min-height: 720px;
+  height: 85vh;
+  min-height:400px;
   /*600px previously*/
   display: flex;
   align-items: center;
@@ -39,14 +39,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-
-  background: linear-gradient(
-    90deg,
-    rgba(3, 8, 18, 0.92),
-    rgba(3, 8, 18, 0.75),
-    rgba(3, 8, 18, 0.20),
-    transparent
-  );
+  background: none;
 }
 
 @keyframes subtleZoom {

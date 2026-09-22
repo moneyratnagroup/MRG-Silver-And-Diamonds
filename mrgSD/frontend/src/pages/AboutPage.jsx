@@ -1,160 +1,217 @@
 import React from 'react';
-import { ArrowRight, Sparkles, Gem, Sun } from 'lucide-react';
+import { ArrowDown, Crown, Users, Gem, Star, ShieldCheck, Sparkles, HeartHandshake, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+// Asset imports based on listed files
 import heroDiamondsGold from '../assets/hero_diamonds_gold.png';
+import designSketch from '../assets/designsketch.png';
+import designSketchhh from '../assets/designsketchhh.png';
+import manikantanImg from '../assets/Manikantansir.webp';
+import sajeshImg from '../assets/sajesh.webp';
 import earringsBg from '../assets/earrings_bg.webp';
 import presenceBg from '../assets/presence_bg.webp';
 import visionBg from '../assets/vision_bg.webp';
+import catNecklacesLayout from '../assets/cat_necklaces_layout.webp';
+import catBraceletsLayout from '../assets/cat_bracelets_layout.webp';
+
 import './AboutUs.css';
 
 const AboutPage = () => {
   return (
     <div className="about-lumina-container">
-      {/* Hero Section */}
-        <section className="about-hero-split">
-          <div className="hero-text-side">
-            <h1 className="hero-title serif-text">
-              Clarity.<br />
-              Intention.<br />
-              <span className="text-gold">Impact.</span>
-            </h1>
-            <div className="hero-subtitle-line"></div>
-            <p className="global-subheading">
-              SMART CRAFTSMANSHIP.<br />
-              TIMELESS ELEGANCE.
-            </p>
-            <Link to="/collections" className="btn-lumina">
-              DISCOVER YOURS <ArrowRight size={16} />
-            </Link>
-          </div>
-          <div className="hero-image-side">
-            <img loading="lazy" 
-              src={heroDiamondsGold} 
-              alt="Golden diamond with swirls" 
-            />
-            <div className="vertical-tag">
-              YOUR IDENTITY, ELEVATED.
-            </div>
-          </div>
-        </section>
-
-      {/* Leadership Section */}
-      <section className="leadership-section">
-        <div className="leadership-header">
-          <h2 className="serif-text">The Visionaries</h2>
-          <p>Our Journey & Legacy</p>
-        </div>
-        <div className="leadership-grid">
-          {/* CMD */}
-          <div className="leader-card">
-            <img loading="lazy" src={presenceBg} alt="CMD" className="leader-image" />
-            <div className="leader-info">
-              <h3 className="serif-text">Moneykantan Surya Venkata</h3>
-              <span className="leader-role">Chairman & Managing Director</span>
-              <p className="leader-message">
-                "Our vision has always been to craft not just jewelry, but timeless legacies that speak to the soul of our patrons."
-              </p>
-              <p className="leader-journey">
-                Starting with a clear vision, our CMD built MRG on the foundation of uncompromising quality and deep-rooted trust. His journey is a testament to the belief that true luxury lies in the details. Under his guidance, the brand has evolved into a symbol of smart craftsmanship and timeless elegance.
-              </p>
-            </div>
-          </div>
-
-          {/* Director */}
-          <div className="leader-card">
-            <img loading="lazy" src={visionBg} alt="Director" className="leader-image" />
-            <div className="leader-info">
-              <h3 className="serif-text">Sajeesh</h3>
-              <span className="leader-role">Director</span>
-              <p className="leader-message">
-                "We design for those who understand that true elegance is silent, yet profoundly impactful."
-              </p>
-              <p className="leader-journey">
-                With an eye for aesthetics and a deep respect for traditional artistry, our Director has continuously pushed the boundaries of design. His journey involves bringing a fresh, modern perspective to classic jewelry, ensuring every piece resonates with the modern wearer.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features 3-Column Section */}
-      <section className="features-3col">
-        <div className="feature-block dark video-bg-block">
-          <img loading="lazy" src={earringsBg} className="block-bg-video" alt="Diamond earrings" />
-          <div className="block-content">
-            <Sparkles size={32} className="feature-icon" strokeWidth={1} />
-            <div className="feature-number">01</div>
-            <h3 className="serif-text">VISION</h3>
-            <p>
-              We define the core of who you are and where you're going with bespoke pieces that resonate with your personal journey.
-            </p>
-          </div>
-        </div>
+      
+      {/* 1. Hero Section */}
+      <section className="about-hero-section">
+        <div className="hero-bg-overlay"></div>
+        <img loading="lazy" src={heroDiamondsGold} alt="Hero Background" className="hero-bg-image" />
         
-        <div className="feature-block light">
-          <Gem size={32} className="feature-icon" strokeWidth={1} />
-          <div className="feature-number">02</div>
-          <h3 className="serif-text">CRAFTSMANSHIP</h3>
-          <p>
-            We design a visual language that speaks before you do. Every diamond and silver cut is a testament to our precision.
-          </p>
-        </div>
-        
-        <div className="feature-block dark video-bg-block">
-          <img loading="lazy" src={presenceBg} className="block-bg-video" alt="Diamond ring on velvet" />
-          <div className="block-content">
-            <Sun size={32} className="feature-icon" strokeWidth={1} />
-            <div className="feature-number">03</div>
-            <h3 className="serif-text">PRESENCE</h3>
-            <p>
-              We build consistency across every touchpoint that matters, ensuring your elegance is felt in every room you enter.
+        <div className="hero-content">
+          <div className="hero-left">
+            <h1 className="hero-title serif-text">ABOUT US</h1>
+            <h2 className="hero-subtitle">CRAFTING ELEGANCE. CELEBRATING MOMENTS.</h2>
+            <div className="hero-divider"></div>
+            <p className="hero-description">
+              At Moneyratna Jewellery, we believe jewellery is more than an accessory — it is a reflection of love, tradition and timeless beauty. Our journey is built on trust, quality and a passion for creating jewellery that becomes part of your story.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Showcase Section */}
-      <section className="showcase-section">
-        <div className="showcase-image">
-          <img loading="lazy" 
-            src={visionBg} 
-            alt="Hand with diamond ring" 
-          />
-        </div>
-        <div className="showcase-text">
-          <div className="circular-badge">
-            <span className="badge-text">
-              THOUGHTFUL<br />—<br />INTELLIGENT<br />—<br />TIMELESS
-            </span>
+            <button className="btn-discover" onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>
+              DISCOVER OUR STORY <ArrowDown size={16} />
+            </button>
           </div>
           
-          <h2 className="serif-text">
-            True elegance<br />
-            is silent.<br />
-            Exceptional<br />craftsmanship<br />
-            <span className="text-gold">is remembered.</span>
-          </h2>
-          <div className="showcase-line"></div>
-          <p>
-            We create pieces that don't chase attention. They earn recognition through subtle brilliance and unmatched quality.
-          </p>
+          <div className="hero-right">
+            <div className="vertical-text">
+              TRADITION<br />MEETS<br />TIMELESS<br />BEAUTY
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Bottom Quote Banner */}
-      <section className="bottom-banner">
-        <div className="quote-box">
-          <div className="quote-mark">“</div>
-          <div className="quote-divider"></div>
-          <div className="quote-text">
-            The most powerful pieces aren't the loudest.<br />
-            They're the clearest.
+      {/* 2. Our Story Section */}
+      <section className="story-section">
+        <div className="story-left">
+          <div className="story-image-collage">
+            <img loading="lazy" src={designSketch} alt="Design Sketch" className="story-img-main" />
+            <img loading="lazy" src={designSketchhh} alt="Ring" className="story-img-sub" />
           </div>
         </div>
-        <Link to="/contact" className="legacy-link">
-          LET'S BUILD YOUR LEGACY <ArrowRight size={16} />
-        </Link>
+        <div className="story-right">
+          <span className="section-eyebrow text-gold">OUR STORY</span>
+          <h2 className="section-title serif-text">More Than Jewellery,<br/>A Story of Trust</h2>
+          <p className="section-text">
+            Moneyratna Jewellery is a proud venture of Moneyratna Groups, built on a legacy of trust and a vision for a brighter, more beautiful tomorrow. We bring together traditional craftsmanship and contemporary designs to create jewellery that celebrates life's most precious moments.
+          </p>
+          <div className="story-stats">
+            <div className="stat-item">
+              <Crown className="stat-icon" size={24} />
+              <span>Years of<br/>Excellence</span>
+            </div>
+            <div className="stat-item">
+              <Users className="stat-icon" size={24} />
+              <span>Happy<br/>Customers</span>
+            </div>
+            <div className="stat-item">
+              <Gem className="stat-icon" size={24} />
+              <span>Exclusive<br/>Designs</span>
+            </div>
+          </div>
+        </div>
       </section>
+
+      {/* 3. Leadership Section */}
+      <section className="leadership-split-section">
+        <div className="leader-box dark-theme">
+          <h3 className="leader-section-title">CHAIRMAN'S MESSAGE</h3>
+          <div className="leader-divider"></div>
+          <div className="leader-content-row">
+            <div className="leader-photo-wrapper left-side">
+              <img loading="lazy" src={manikantanImg} alt="Chairman" className="leader-photo" />
+            </div>
+            <div className="leader-text-wrapper">
+              <div className="quote-icon">“</div>
+              <p className="leader-quote">
+                Jewellery is not merely something we wear; it is something we cherish. With our jewellery venture, we aim to create lasting relationships with our customers through quality, authenticity and personalized service.
+              </p>
+              <div className="leader-name">
+                <strong>Chairman</strong><br/>
+                Moneyratna Groups
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="leader-box light-theme">
+          <h3 className="leader-section-title">DIRECTOR'S MESSAGE</h3>
+          <div className="leader-divider"></div>
+          <div className="leader-content-row reverse">
+            <div className="leader-photo-wrapper right-side">
+              <img loading="lazy" src={sajeshImg} alt="Director" className="leader-photo" />
+            </div>
+            <div className="leader-text-wrapper">
+              <div className="quote-icon">“</div>
+              <p className="leader-quote">
+                Our vision is to create a brand that beautifully combines tradition, elegance and modernity. We are committed to offering exquisite jewellery, a memorable shopping experience and a future built on trust, innovation and customer satisfaction.
+              </p>
+              <div className="leader-name">
+                <strong>Director</strong><br/>
+                Moneyratna Groups
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Vision & Mission Section */}
+      <div className="vm-main-header">
+        <h4 className="vm-sub-title">VISION & MISSION</h4>
+        <h2 className="vm-main-title serif-text text-gold">A LEGACY OF ELEGANCE</h2>
+      </div>
+      <section className="vision-mission-section">
+        <div className="vm-container">
+          <div className="vm-box">
+            <div className="watermark-v">V</div>
+            <div className="vm-content-wrapper">
+              <div className="vm-header">
+                <h3 className="serif-text text-gold">OUR VISION</h3>
+              </div>
+              <p>
+                To become a trusted and admired jewellery brand known for quality, elegance, authenticity and exceptional customer experience, while creating timeless jewellery that becomes part of life's most cherished moments.
+              </p>
+            </div>
+          </div>
+          <div className="vm-separator"></div>
+          <div className="vm-box">
+            <div className="watermark-m">M</div>
+            <div className="vm-content-wrapper">
+              <div className="vm-header">
+                <h3 className="serif-text text-gold">OUR MISSION</h3>
+              </div>
+              <p>
+                To provide high-quality, authentic and beautifully crafted jewellery with transparent pricing and exceptional service. We strive to combine traditional craftsmanship with contemporary designs and build long-lasting relationships through trust and integrity.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Our Values Section */}
+      <section className="values-section">
+        <h2 className="values-title serif-text">OUR VALUES</h2>
+        <div className="values-grid">
+          <div className="value-item">
+            <div className="value-icon-wrapper">
+              <HeartHandshake size={32} strokeWidth={1.5} />
+            </div>
+            <h4>TRUST</h4>
+            <p>Building relationships through honesty and transparency.</p>
+          </div>
+          <div className="value-item">
+            <div className="value-icon-wrapper">
+              <ShieldCheck size={32} strokeWidth={1.5} />
+            </div>
+            <h4>QUALITY</h4>
+            <p>Committed to exceptional quality and craftsmanship.</p>
+          </div>
+          <div className="value-item">
+            <div className="value-icon-wrapper">
+              <Sparkles size={32} strokeWidth={1.5} />
+            </div>
+            <h4>INNOVATION</h4>
+            <p>Blending tradition with contemporary design.</p>
+          </div>
+          <div className="value-item">
+            <div className="value-icon-wrapper">
+              <Gem size={32} strokeWidth={1.5} />
+            </div>
+            <h4>ELEGANCE</h4>
+            <p>Creating designs that celebrate timeless beauty.</p>
+          </div>
+          <div className="value-item">
+            <div className="value-icon-wrapper">
+              <Users size={32} strokeWidth={1.5} />
+            </div>
+            <h4>CUSTOMER FIRST</h4>
+            <p>Making every customer experience memorable.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Gallery / Sparkle Section */}
+      <section className="gallery-section">
+        <div className="gallery-grid">
+          <img loading="lazy" src={catNecklacesLayout} alt="Jewellery 1" />
+          <img loading="lazy" src={catBraceletsLayout} alt="Jewellery 2" />
+          <img loading="lazy" src={presenceBg} alt="Jewellery 3" />
+          <img loading="lazy" src={visionBg} alt="Jewellery 4" />
+        </div>
+        <div className="gallery-center-card">
+          <span className="serif-text">EVERY OCCASION<br/>DESERVES A LITTLE<br/>SPARKLE</span>
+          <div className="gallery-divider"></div>
+        </div>
+      </section>
+
+      {/* 7. Final CTA Section */}
+      <div className="about-footer-spacer"></div>
+
     </div>
   );
 };

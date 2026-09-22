@@ -1,5 +1,10 @@
 .footer-section {
-  background-color: #1F2A44; /* Deep Navy Blue */
+  background-color: #071426; /* Midnight luxury navy */
+  /* Overlay fades the image to ~25% opacity while maintaining the midnight navy base */
+  background-image: linear-gradient(rgba(7, 20, 38, 0.75), rgba(7, 20, 38, 0.75)), url('../assets/navy_gold_silk.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #F8F6F2; /* Warm White */
   font-family: 'Inter', sans-serif;
   padding: 80px 0 40px;
@@ -47,7 +52,7 @@
 }
 
 .footer-diamond-logo {
-  color: #C8A96A; /* Soft Gold */
+  color: #9B7835; /* Soft Gold */
   margin-bottom: 12px;
 }
 
@@ -55,7 +60,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
   font-weight: 600;
-  color: #F8F6F2;
+  color: #fff;
   line-height: 1.2;
   letter-spacing: 1px;
 }
@@ -65,14 +70,14 @@
   font-size: 0.8rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #C8A96A;
+  color: #9B7835;
   margin-top: 4px;
 }
 
 .footer-description {
   font-size: 0.85rem;
   line-height: 1.8;
-  color: #C9CDD4; /* Secondary Text */
+  color: #eee;
   margin-bottom: 35px;
 }
 
@@ -90,12 +95,12 @@
   align-items: flex-start;
   gap: 15px;
   font-size: 0.85rem;
-  color: #C9CDD4;
+  color: #eee;
   line-height: 1.6;
 }
 
 .footer-contact-icon {
-  color: #C8A96A;
+  color: #9B7835;
   flex-shrink: 0;
   margin-top: 4px;
 }
@@ -105,7 +110,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1rem;
   font-weight: 600;
-  color: #F8F6F2;
+  color: #fff;
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -125,7 +130,7 @@
   display: flex;
   align-items: flex-start;
   gap: 8px; /* Added gap for chevron */
-  color: #C9CDD4;
+  color: #fff;
   text-decoration: none;
   font-size: 0.85rem;
   transition: color 0.4s ease, transform 0.4s ease;
@@ -133,12 +138,12 @@
 }
 
 .footer-links-list li a:hover {
-  color: #C8A96A; /* Soft Gold */
+  color: #9B7835; /* Soft Gold */
   transform: translateX(5px);
 }
 
 .chevron-icon {
-  color: #C8A96A; /* Soft Gold */
+  color: #9B7835; /* Soft Gold */
   flex-shrink: 0;
   margin-top: 3px;
 }
@@ -147,7 +152,7 @@
 .subscribe-text {
   font-size: 0.85rem;
   line-height: 1.7;
-  color: #C9CDD4;
+  color: #eee;
   margin-bottom: 25px;
 }
 
@@ -162,9 +167,9 @@
   flex-grow: 1;
   background-color: transparent;
   border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.4); /* Bottom border style */
+  border-bottom: 1px solid rgba(0,0,0,0.2); /* Bottom border style */
   padding: 10px 5px;
-  color: #F8F6F2;
+  color: #1a1a1a;
   font-size: 0.95rem;
   border-radius: 0;
   outline: none;
@@ -174,11 +179,11 @@
   color: #8c93a1;
 }
 .subscribe-input:focus {
-  border-color: #C8A96A;
+  border-color: #9B7835;
 }
 
 .subscribe-btn {
-  background-color: #C8A96A; /* Soft Gold */
+  background-color: #9B7835; /* Soft Gold */
   border: none;
   color: #1F2A44;
   font-weight: 600;
@@ -191,14 +196,14 @@
 }
 .subscribe-btn:hover {
   background-color: #6D2E46; /* Wine Red */
-  color: #F8F6F2;
+  color: #1a1a1a;
 }
 
 .footer-social-title {
   font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #F8F6F2;
+  color: #1a1a1a;
   margin-bottom: 25px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -216,8 +221,8 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #C8A96A;
+  border: 1px solid rgba(0,0,0,0.2);
+  color: #9B7835;
   text-decoration: none;
   transition: all 0.4s ease;
 }
@@ -225,7 +230,7 @@
 .social-icon-link:hover {
   background-color: #6D2E46; /* Wine Red */
   border-color: #6D2E46;
-  color: #F8F6F2;
+  color: #1a1a1a;
   transform: scale(1.1);
   box-shadow: 0 0 15px rgba(109, 46, 70, 0.4);
 }
@@ -236,8 +241,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 40px 0;
-  border-top: 1px solid rgba(255,255,255,0.12);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
+  border-top: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
   flex-wrap: wrap;
   gap: 25px;
 }
@@ -254,12 +259,12 @@
   display: block;
   height: 30px;
   width: 1px;
-  background-color: rgba(255,255,255,0.12);
+  background-color: rgba(0,0,0,0.1);
   margin-left: auto;
 }
 
 .trust-icon-wrapper {
-  color: #C8A96A;
+  color: #9B7835;
 }
 
 .trust-text {
@@ -268,7 +273,7 @@
 }
 
 .trust-title {
-  color: #F8F6F2;
+  color: #ffffff;
   font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
   font-weight: 600;
@@ -276,7 +281,7 @@
 }
 
 .trust-subtitle {
-  color: #C9CDD4;
+  color: #eeeeee;
   font-size: 0.8rem;
   margin-top: 2px;
 }
@@ -299,7 +304,7 @@
 }
 
 .we-accept-text {
-  color: #F8F6F2;
+  color: #1a1a1a;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 1px;
@@ -307,7 +312,7 @@
 }
 
 .payment-card {
-  background-color: #ffffff;
+  background-color: #f8f6f0;
   border-radius: 4px;
   padding: 4px 10px;
   display: flex;
@@ -338,7 +343,7 @@
 
 .footer-copyright {
   font-size: 0.9rem;
-  color: #C9CDD4;
+  color: #4a4a4a;
 }
 
 .footer-legal-links {
@@ -348,19 +353,19 @@
 }
 
 .pipe-separator {
-  color: rgba(255,255,255,0.2);
+  color: rgba(0,0,0,0.2);
   font-size: 0.9rem;
 }
 
 .footer-legal-links a {
-  color: #C9CDD4;
+  color: #4a4a4a;
   text-decoration: none;
   font-size: 0.85rem;
   transition: color 0.4s ease;
 }
 
 .footer-legal-links a:hover {
-  color: #C8A96A; /* Soft Gold */
+  color: #9B7835; /* Soft Gold */
 }
 
 /* RESPONSIVE DESIGN */
@@ -369,7 +374,7 @@
     justify-content: flex-start;
   }
   .trust-item {
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
     padding-bottom: 20px;
     margin-bottom: 10px;
   }
@@ -402,3 +407,4 @@
     display: none;
   }
 }
+

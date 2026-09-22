@@ -5,6 +5,7 @@ import ProductsGallery from '../components/ProductsGallery';
 import FilterDrawer from '../components/FilterDrawer';
 import FilterSidebarContent from '../components/FilterSidebarContent';
 import SidebarFilter from '../components/SidebarFilter';
+import ActiveFilters from '../components/ActiveFilters';
 import { useShop } from '../context/ShopContext';
 import './Pages.css';
 
@@ -69,7 +70,7 @@ const CollectionPage = () => {
   const currentCollectionObj = collections?.find(c => matchCollection(c, collectionId));
   const baseTitle = isAll ? "All" : currentCollectionObj ? currentCollectionObj.name : "Collection";
   
-  let displayTitle = isAll ? "All Products" : `${baseTitle} Collection`;
+  let displayTitle = isAll ? "All Products" : (baseTitle.toLowerCase().endsWith('collection') ? baseTitle : `${baseTitle} Collection`);
   if (typeFilter) {
     displayTitle = typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase();
   }
@@ -103,6 +104,7 @@ const CollectionPage = () => {
           title={displayTitle}
           tagline={typeFilter ? `Explore our stunning collection of ${displayTitle.toLowerCase()}.` : isAll ? "Browse our entire catalog of premium silver and diamond jewelry." : `Explore our exclusive ${baseTitle} jewelry, curated for elegance and style.`}
           products={displayProducts}
+          activeFiltersComponent={<ActiveFilters />}
           sidebarComponent={
             isFilterOpen ? (
               <div className="desktop-only collection-sidebar-content">
@@ -136,7 +138,7 @@ const CollectionPage = () => {
                     padding: '0.5rem 2.2rem 0.5rem 1rem',
                     borderRadius: '50px',
                     border: '1px solid #e0e0e0',
-                    backgroundColor: '#fff',
+                    backgroundColor: '#f8f6f0',
                     fontSize: '1rem',
                     fontFamily: '"Inter", sans-serif',
                     color: '#333',

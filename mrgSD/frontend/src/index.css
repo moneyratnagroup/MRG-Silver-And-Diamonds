@@ -12,7 +12,7 @@
   --cream: #FAF8F5;
   --white: #FFFFFF;
 
-  --surface: #FFFFFF;
+  --surface: #f8f6f0;
   --surface-alt: #FAF8F5;
   --surface-dark: #02275a;
 
@@ -210,7 +210,7 @@ h5 {
   color: #890206;
   font-family: 'Cormorant Upright', serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 p {
@@ -289,9 +289,9 @@ code {
 
 /* --- GLOBAL ADMIN MODAL & FORM STYLES --- */
 .modal-content {
-  background-color: white;
+  background-color: #f8f6f0;
   border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   max-height: 90vh;
@@ -302,7 +302,7 @@ code {
 
 .modal-header {
   align-items: center;
-  background-color: #fcfcfc;
+  background-color: #f8f6f0;
   border-bottom: 1px solid #eee;
   display: flex;
   justify-content: space-between;
@@ -329,7 +329,7 @@ code {
 }
 
 .modal-footer {
-  background-color: #fcfcfc;
+  background-color: #f8f6f0;
   border-top: 1px solid #eee;
   display: flex;
   gap: 1rem;
@@ -348,7 +348,7 @@ code {
 .form-group input,
 .form-group select,
 .form-group textarea {
-  background-color: #fcfcfc;
+  background-color: #f8f6f0;
   border-radius: 6px;
   border: 1px solid #ccc;
   color: #1a1a1a;
