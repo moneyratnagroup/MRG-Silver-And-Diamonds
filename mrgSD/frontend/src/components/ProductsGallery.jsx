@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
-import { Sparkles, SearchX } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Sparkles, SearchX, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import './ProductsGallery.css';
 import { useNavigate } from 'react-router-dom';
 import braceletImg from '../assets/silver_charm_bracelet.webp';
 
-const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null, sidebarComponent = null, activeFiltersComponent = null }) => {
+const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null, sidebarComponent = null, activeFiltersComponent = null, enablePagination = false, itemsPerPage = 12 }) => {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [products]);
+
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const currentProducts = enablePagination 
+    ? products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    : products;
   const { toggleWishlist, isInWishlist, addToCart, coupons } = useShop();
 
   // Mock array for skeleton placeholders
@@ -81,8 +91,8 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
             </div>
           )}
           <div className="pg-grid">
-            {products.length > 0 ? (
-              products.map((product) => (
+            {currentProducts.length > 0 ? (
+              currentProducts.map((product) => (
                 <div className="pg-card" key={product.id}>
                   <div className="pg-image-container" onClick={() => handleProductClick(product)} style={{ cursor: 'pointer' }}>
                     {getRibbonText(product) && (
@@ -126,6 +136,61 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                 <SearchX size={48} color="#bdc3c7" strokeWidth={1.5} />
                 <h3 style={{ fontSize: '1.2rem', color: '#333', margin: 0, fontFamily: 'Playfair Display, serif' }}>No Products Found</h3>
                 <p style={{ margin: 0, fontSize: '0.9rem' }}>Sorry, we couldn't find any products matching your current filters.</p>
+              </div>
+            )}
+            
+            {enablePagination && totalPages > 1 && (
+              <div className="gallery-pagination" style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', marginTop: '3rem' }}>
+                <button 
+                  className="pagination-btn" 
+                  disabled={currentPage === 1}
+                  onClick={() => {
+                    setCurrentPage(prev => Math.max(prev - 1, 1));
+                    window.scrollTo({ top: document.getElementById('silver-collection-start')?.offsetTop || 0, behavior: 'smooth' });
+                  }}
+                  style={{
+                    width: '36px', height: '36px', borderRadius: '50%', border: 'none', background: '#F6FBFA', color: '#71849A',
+                    display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    opacity: currentPage === 1 ? 0.5 : 1
+                  }}
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                
+                {Array.from({ length: totalPages }).map((_, i) => (
+                  <button 
+                    key={i}
+                    onClick={() => {
+                      setCurrentPage(i + 1);
+                      window.scrollTo({ top: document.getElementById('silver-collection-start')?.offsetTop || 0, behavior: 'smooth' });
+                    }}
+                    style={{
+                      width: '36px', height: '36px', borderRadius: '50%', border: 'none',
+                      background: currentPage === i + 1 ? '#0B2755' : 'transparent',
+                      color: currentPage === i + 1 ? '#fff' : '#70809C',
+                      display: 'flex', justifyContent: 'center', alignItems: 'center',
+                      cursor: 'pointer', fontSize: '1.1rem', fontWeight: '500'
+                    }}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+
+                <button 
+                  className="pagination-btn" 
+                  disabled={currentPage === totalPages}
+                  onClick={() => {
+                    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                    window.scrollTo({ top: document.getElementById('silver-collection-start')?.offsetTop || 0, behavior: 'smooth' });
+                  }}
+                  style={{
+                    width: '36px', height: '36px', borderRadius: '50%', border: 'none', background: '#F6FBFA', color: '#71849A',
+                    display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    opacity: currentPage === totalPages ? 0.5 : 1
+                  }}
+                >
+                  <ChevronRight size={18} />
+                </button>
               </div>
             )}
           </div>

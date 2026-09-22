@@ -156,6 +156,8 @@ const SilverPage = () => {
           title={displayTitle}
           tagline={typeFilter ? `Explore our stunning collection of silver ${displayTitle.toLowerCase()}.` : isAll ? "Browse our entire catalog of premium silver jewelry." : `Explore our exclusive silver ${baseTitle} jewelry, curated for elegance and style.`}
           products={displayProducts}
+          enablePagination={true}
+          itemsPerPage={12}
           activeFiltersComponent={<ActiveFilters />}
           sidebarComponent={
             isFilterOpen ? (
@@ -180,7 +182,7 @@ const SilverPage = () => {
               <div style={{flex: isFilterOpen ? 1 : 0}}></div> {/* Spacer when filter button is hidden */}
 
               <div className="sort-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '1rem', color: '#0B1F3A', fontWeight: '500' }} className="d-none d-sm-inline">Sort by:</span>
+                <span style={{ fontSize: '1rem', color: '#0B2755', fontWeight: '500' }} className="d-none d-sm-inline">Sort by:</span>
                 <select
                   className="custom-sort-select"
                   value={sortOption}
@@ -192,12 +194,12 @@ const SilverPage = () => {
                     backgroundColor: '#fff',
                     fontSize: '1rem',
                     fontFamily: '"Inter", sans-serif',
-                    color: '#0B1F3A',
+                    color: '#0B2755',
                     outline: 'none',
                     cursor: 'pointer',
                     appearance: 'none',
                     WebkitAppearance: 'none',
-                    backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%230B1F3A%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
+                    backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%230B2755%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'right 0.75rem center',
                     backgroundSize: '14px',
