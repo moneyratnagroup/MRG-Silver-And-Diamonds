@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Filter, X } from 'lucide-react';
+import { Filter, X, Gem, Shield, Wrench, Sprout } from 'lucide-react';
 import DiamondGallery from '../components/DiamondGallery';
 import FilterDrawer from '../components/FilterDrawer';
 import FilterSidebarContent from '../components/FilterSidebarContent';
@@ -10,14 +10,15 @@ import './DiamondsPage.css';
 
 // Import images
 import customHero1 from '../assets/hero_diamonds.webp';
+import heroDiamondsWine from '../assets/hero_diamonds_necklace_wine.jpg';
+import heroDiamondsModelWine from '../assets/hero_diamonds_model_wine.jpg';
 import customHero2 from '../assets/hero_diamonds_gold.png';
 import earringsBg from '../assets/earrings_bg.webp';
-import presenceBg from '../assets/presence_bg.webp';
+import presenceBg from '../assets/presence_bg_wine.webp';
 import visionBg from '../assets/vision_bg.webp';
-import catRings from '../assets/cat_rings_layout.webp';
-import bentoRing1 from '../assets/bento_ring_1_1787566345955.webp';
-import bentoRing2 from '../assets/bento_ring_2_1787566366440.webp';
-import bentoRing3 from '../assets/bento_ring_3_1787566387700.webp';
+import diamondMood from '../assets/diamond_collection_mood_wine.webp';
+import bannerVisionNecklace from '../assets/banner_vision_necklace.png';
+import bannerMissionRings from '../assets/banner_mission_rings.png';
 
 const DiamondsPage = () => {
   const { collectionId } = useParams();
@@ -125,66 +126,53 @@ const DiamondsPage = () => {
       {/* Hero Section */}
       <section className="gorings-hero">
         <div className="gorings-hero-left">
-          <img loading="lazy" src="https://i.pinimg.com/736x/c5/54/77/c55477911eaf29d483f3f299e523d7ec.jpg" alt="Diamonds" />
+          <img loading="lazy" src={heroDiamondsWine} alt="Regal Ruby and Diamond Haute Joaillerie Necklace" />
         </div>
         <div className="gorings-hero-center">
           <div className="gorings-sparkle-icons">
             <span className="sparkle">✦</span>
             <span className="sparkle small">✦</span>
           </div>
-          <p className="global-subheading">LONG-LASTING, HYPOALLERGENIC +<br/>FUNDS NEW CAUSES EVERY MONTH</p>
-          <h1 className="gorings-title">Jewelry that stays<br/>gold & does good</h1>
-          <button className="gorings-btn-solid">SHOP THE COLLECTION</button>
+          <p className="global-subheading">✦ ETHICALLY SOURCED • FLAWLESS CUT • CERTIFIED ✦</p>
+          <h1 className="gorings-title">Brilliance that lasts<br className="hero-desktop-br" />for generations</h1>
+          <button 
+            className="gorings-btn-solid"
+            onClick={() => {
+              const el = document.getElementById('gorings-collection-start');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            <span>EXPLORE THE COLLECTION</span>
+            <span className="hero-btn-arrow">→</span>
+          </button>
         </div>
         <div className="gorings-hero-right">
-          <img loading="lazy" src="https://amalfa.in/cdn/shop/files/image_22_1dc86f45-bd5e-4aef-adf6-1d80d4064245.png?v=1778141255&width=800" alt="Smiling model wearing rings" />
+          <img loading="lazy" src={heroDiamondsModelWine} alt="Elegant model wearing fine diamond jewelry against red wine velvet" />
         </div>
       </section>
 
       {/* Marquee Banner */}
       <div className="gorings-marquee">
         <div className="gorings-marquee-content">
-          <span>✦ 30% donated to new causes every month</span>
-          <span>✦ 30% donated to new causes every month</span>
-          <span>✦ 30% donated to new causes every month</span>
-          <span>✦ 30% donated to new causes every month</span>
+          <span>✦ 100% Certified Natural Diamonds</span>
+          <span>✦ Master Artisan Craftsmanship</span>
+          <span>✦ Ethically Sourced & Certified</span>
+          <span>✦ Cherished for Generations</span>
+          <span>✦ 100% Certified Natural Diamonds</span>
+          <span>✦ Master Artisan Craftsmanship</span>
+          <span>✦ Ethically Sourced & Certified</span>
+          <span>✦ Cherished for Generations</span>
         </div>
       </div>
-
-      {/* Bento Grid Section */}
-      <section className="bento-grid">
-        <div className="bento-cell bento-logo">
-          <div className="bento-logo-icon">
-            <span>GG</span>
-          </div>
-          <h3>GEMS GLOBAL</h3>
-          <p>— JEWELS —</p>
-        </div>
-        <div className="bento-cell bento-img1">
-          <img loading="lazy" src={bentoRing1} alt="Nested rings" />
-        </div>
-        <div className="bento-cell bento-img2">
-          <img loading="lazy" src={bentoRing2} alt="Three stone ring" />
-        </div>
-        <div className="bento-cell bento-text-box">
-          <h2>JEWELRY<br />COLLECTION</h2>
-          <p>Elevate your shine with stunning pieces on sale.<br />Hurry — your glow awaits!</p>
-        </div>
-        <div className="bento-cell bento-blank"></div>
-        <div className="bento-cell bento-img3">
-          <img loading="lazy" src={bentoRing3} alt="Marquise ring" />
-        </div>
-      </section>
-
-      <section className="gorings-sparkles-decor">
-        <span className="sparkle large">✦</span>
-        <span className="sparkle medium">✦</span>
-      </section>
         </>
       )}
 
       {/* Collection Grid */}
+<<<<<<< Updated upstream
       <section id="diamonds-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
+=======
+      <section id="gorings-collection-start" className="container gorings-collection-section">
+>>>>>>> Stashed changes
         <DiamondGallery 
           products={displayProducts} 
           title={displayTitle} 
@@ -247,30 +235,201 @@ const DiamondsPage = () => {
         />
       </section>
 
-      {/* Wavy Banner */}
       {showLanding && (
         <>
-          <section className="gorings-wavy-banner">
-            <div className="gorings-wavy-text">
-              MAKING FUNDRAISING SIMPLE, EFFECTIVE, AND JOYFUL
+          {/* The Essence of Elegance & Our Promise Section */}
+          <section className="diamonds-essence-section">
+            <div className="diamonds-essence-container">
+              {/* Top Row: The Essence of Elegance */}
+              <div className="diamonds-essence-row essence-row-top">
+                <div className="essence-text-col essence-vision-text">
+                  <div className="essence-tag">
+                    <span className="essence-tag-text">THE ESSENCE OF ELEGANCE</span>
+                    <span className="essence-tag-line" />
+                  </div>
+                  <h2 className="essence-title">
+                    Timeless Beauty,<br />
+                    <em>for Generations</em>
+                  </h2>
+                  <p className="essence-desc">
+                    Hand-selected diamonds and master craftsmanship designed to celebrate life's most unforgettable moments and milestones.
+                  </p>
+                </div>
+
+                <div className="essence-media-col essence-media-necklace">
+                  <div className="essence-photo-wrap">
+                    <img 
+                      loading="lazy" 
+                      src={bannerVisionNecklace} 
+                      alt="Exquisite Floral Diamond Necklace" 
+                      className="essence-photo" 
+                    />
+                  </div>
+                </div>
+
+                <div className="essence-aside-col essence-aside-legacy">
+                  <span className="aside-sub">MORE THAN</span>
+                  <h3 className="aside-script">Jewellery,</h3>
+                  <span className="aside-main">IT'S A LEGACY</span>
+                  <div className="aside-star-flourish">
+                    <span className="flourish-line" />
+                    <span className="flourish-star">✦</span>
+                    <span className="flourish-line" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Row Divider */}
+              <div className="diamonds-essence-divider" />
+
+              {/* Bottom Row: Our Promise */}
+              <div className="diamonds-essence-row essence-row-bottom">
+                <div className="essence-media-col essence-media-rings">
+                  <div className="essence-photo-wrap">
+                    <img 
+                      loading="lazy" 
+                      src={bannerMissionRings} 
+                      alt="Fine Solitaire Ring and Diamond Earrings" 
+                      className="essence-photo" 
+                    />
+                  </div>
+                </div>
+
+                <div className="essence-text-col essence-promise-col">
+                  <div className="essence-promise-inner">
+                    <div className="essence-tag">
+                      <span className="essence-tag-text">OUR PROMISE</span>
+                    </div>
+                    <h2 className="essence-title">
+                      Crafting Brilliance,<br />
+                      <span>With Trust</span>
+                    </h2>
+                    <p className="essence-desc">
+                      Every creation reflects an unwavering commitment to authenticity, exceptional quality, and enduring luxury tailored just for you.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="essence-aside-col essence-aside-pillars">
+                  <div className="essence-pillars-list">
+                    <div className="pillar-row">
+                      <span className="pillar-dot">✦</span>
+                      <span className="pillar-label">QUALITY</span>
+                    </div>
+                    <div className="pillar-row">
+                      <span className="pillar-dot">✦</span>
+                      <span className="pillar-label">TRUST</span>
+                    </div>
+                    <div className="pillar-row">
+                      <span className="pillar-dot">✦</span>
+                      <span className="pillar-label">BEAUTY</span>
+                    </div>
+                    <div className="pillar-row">
+                      <span className="pillar-dot">✦</span>
+                      <span className="pillar-label">ALWAYS</span>
+                    </div>
+                  </div>
+                  <div className="pillars-sparkle-gem">✦</div>
+                </div>
+              </div>
             </div>
           </section>
 
-          {/* Stay Gold & Do Good Section */}
-          <section className="gorings-bottom-split">
-            <div className="gorings-bottom-text">
-              <p className="global-subheading">JEWELRY THAT PROMISES TO</p>
-              <h2 className="gorings-bottom-title">Stay gold & do good</h2>
-              <p className="gorings-bottom-desc">
-                Our collection of long-lasting, never-take-it-off jewelry is ready to<br/>
-                shine through literally anything on your agenda. The best part?<br/>
-                30% of your order funds new causes monthly.
-              </p>
-              <button className="gorings-btn-solid">OUR STORY</button>
+          <section className="diamonds-hallmark-divider">
+            <div className="hallmark-divider-line left" />
+            <div className="hallmark-divider-emblem">
+              <span className="hallmark-sparkle">✦</span>
+              <div className="hallmark-gem-icon">
+                <Gem size={20} strokeWidth={1.2} />
+              </div>
+              <span className="hallmark-sparkle">✦</span>
             </div>
-            <div className="gorings-bottom-images">
-              <img loading="lazy" src={visionBg} alt="Model smiling" className="gorings-bottom-img1" />
-              <img loading="lazy" src={presenceBg} alt="Hands wearing rings" className="gorings-bottom-img2" />
+            <div className="hallmark-divider-line right" />
+          </section>
+          <section className="diamonds-aesthetic-banner">
+            <div className="diamonds-banner-content">
+              <span className="diamonds-banner-eyebrow">✦ &nbsp; THE ART OF BRILLIANCE &nbsp; ✦</span>
+              <h2 className="diamonds-banner-heading">
+                Ethically Sourced. Exceptionally Cut. Forever Yours.
+              </h2>
+              <div className="diamonds-banner-pillars">
+                <span className="diamonds-banner-pillar">
+                  <span className="pillar-sparkle">✦</span> 100% Certified Diamonds
+                </span>
+                <span className="diamonds-banner-dot">•</span>
+                <span className="diamonds-banner-pillar">
+                  <span className="pillar-sparkle">✦</span> Master Artisan Craftsmanship
+                </span>
+                <span className="diamonds-banner-dot">•</span>
+                <span className="diamonds-banner-pillar">
+                  <span className="pillar-sparkle">✦</span> Cherished for Generations
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* Diamonds Editorial Story Section */}
+          <section className="diamonds-editorial-split">
+            <div className="diamonds-editorial-container">
+              <div className="diamonds-editorial-text">
+                <span className="diamonds-editorial-eyebrow">✦ MONEYRATNA DIAMONDS ✦</span>
+                <h2 className="diamonds-editorial-title">Crafted for a Lifetime of Radiance</h2>
+                <p className="diamonds-editorial-desc">
+                  Every diamond in our collection is hand-selected for its extraordinary fire, cut, and brilliance. Designed to celebrate your unforgettable milestones with enduring artistry.
+                </p>
+
+                <div className="diamonds-editorial-pillars">
+                  <div className="editorial-pillar-card">
+                    <span className="pillar-icon-box">
+                      <Shield size={17} strokeWidth={1.8} />
+                    </span>
+                    <div className="pillar-info">
+                      <h4 className="pillar-title">Certified Fire & Authenticity</h4>
+                      <p className="pillar-text">100% natural, conflict-free stones certified to the highest international standards.</p>
+                    </div>
+                  </div>
+                  <div className="editorial-pillar-card">
+                    <span className="pillar-icon-box">
+                      <Wrench size={17} strokeWidth={1.8} />
+                    </span>
+                    <div className="pillar-info">
+                      <h4 className="pillar-title">Bespoke Artisan Settings</h4>
+                      <p className="pillar-text">Masterfully handcrafted prongs and micro-pavé settings for everlasting brilliance.</p>
+                    </div>
+                  </div>
+                  <div className="editorial-pillar-card">
+                    <span className="pillar-icon-box">
+                      <Sprout size={17} strokeWidth={1.8} />
+                    </span>
+                    <div className="pillar-info">
+                      <h4 className="pillar-title">Purpose & Conscious Legacy</h4>
+                      <p className="pillar-text">A dedicated share of each creation supports artisan families and education.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="diamonds-editorial-action">
+                  <button 
+                    className="diamonds-editorial-btn"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  >
+                    <span>EXPLORE OUR STORY</span>
+                    <span className="editorial-btn-arrow">→</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Framed Visual Showcase Card matching Image 1 */}
+              <div className="diamonds-editorial-visuals">
+                <div className="editorial-visuals-frame">
+                  <div className="editorial-card card-primary">
+                    <img loading="lazy" src={diamondMood} alt="Extraordinary Diamond Pendant with Fire Reflection" className="editorial-img" />
+                  </div>
+                  <div className="editorial-card card-secondary">
+                    <img loading="lazy" src={presenceBg} alt="Fine Solitaire Diamond Ring in Velvet Box" className="editorial-img" />
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
         </>

@@ -38,19 +38,27 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
         </div>
       )}
 
-      <div className={`dg-layout-container ${sidebarComponent ? 'with-sidebar' : ''}`} style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
+      <div className={`dg-layout-container ${sidebarComponent ? 'with-sidebar' : ''}`}>
         {sidebarComponent && (
+<<<<<<< Updated upstream
           <div className="dg-sidebar" style={{ width: '250px', flexShrink: 0, position: 'sticky', top: '100px', maxHeight: disableSidebarScroll ? 'none' : 'calc(100vh - 120px)', overflowY: disableSidebarScroll ? 'visible' : 'auto', paddingRight: '10px' }}>
+=======
+          <div className="dg-sidebar">
+>>>>>>> Stashed changes
             {sidebarComponent}
           </div>
         )}
         
+<<<<<<< Updated upstream
         <div className="dg-grid-wrapper" style={{ flexGrow: 1 }}>
           {activeFiltersComponent && (
             <div className="dg-active-filters-wrapper" style={{ marginBottom: '1rem' }}>
               {activeFiltersComponent}
             </div>
           )}
+=======
+        <div className="dg-grid-wrapper">
+>>>>>>> Stashed changes
           <div className="aesthetic-gallery-grid">
             {currentProducts.length > 0 ? (
               currentProducts.map((product, index) => {

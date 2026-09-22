@@ -507,6 +507,7 @@
   line-height: 1.5;
 }
 
+<<<<<<< Updated upstream
 .pd-desc-text {
   font-size: 0.95rem;
   line-height: 1.6;
@@ -523,6 +524,8 @@
   cursor: pointer;
 }
 
+=======
+>>>>>>> Stashed changes
 .pd-expanded-details {
   margin-top: 20px;
   padding-top: 20px;
@@ -667,6 +670,7 @@
 
 .pd-similar-wrapper .products-gallery-section {
   padding-top: 0;
+<<<<<<< Updated upstream
 }
 
 /* Product Reviews Section */
@@ -846,4 +850,6 @@
 .pd-review-author {
   font-weight: 600;
   color: #666;
+=======
+>>>>>>> Stashed changes
 }
