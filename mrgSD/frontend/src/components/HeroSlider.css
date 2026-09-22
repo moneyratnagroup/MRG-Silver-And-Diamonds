@@ -7,8 +7,8 @@
 
 .slide-content-wrapper {
   position: relative;
-  height: 88vh;
-  min-height: 720px;
+  height: 85vh;
+  min-height:400px;
   /*600px previously*/
   display: flex;
   align-items: center;

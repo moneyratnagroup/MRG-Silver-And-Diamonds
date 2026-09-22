@@ -420,6 +420,8 @@
 
 .gold-page-wrapper .dg-sidebar {
   margin-left: -1rem;
+  max-height: none !important;
+  overflow-y: visible !important;
 }
 
 .gold-page-wrapper .gorings-filter-bar {
