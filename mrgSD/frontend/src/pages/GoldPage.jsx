@@ -199,6 +199,7 @@ const GoldPage = () => {
           products={displayProducts} 
           title={displayTitle} 
           tagline={`Explore our exclusive ${baseTitle} jewelry.`}
+          disableSidebarScroll={true}
           activeFiltersComponent={<ActiveFilters />}
           sidebarComponent={
             isFilterOpen ? (

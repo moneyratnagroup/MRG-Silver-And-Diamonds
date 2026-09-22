@@ -41,17 +41,59 @@ export const ShopProvider = ({ children }) => {
     }
   }, [user]);
 
-  // Sync Cart and Wishlist with Local Storage per User
+  // Fetch Cart from Backend
+  const fetchCart = useCallback(async () => {
+    if (user && user.id) {
+      try {
+        const res = await fetchWithAuth('/api/v1/carts/', { method: 'GET' });
+        if (res.ok) {
+          const data = await res.json();
+          const mappedCart = data.map(item => {
+            const p = item.product;
+            return {
+              id: p.id,
+              sku: p.sku,
+              name: p.name,
+              originalPrice: p.mrp_price ? `₹${p.mrp_price}` : null,
+              price: `₹${p.selling_price}`,
+              category: p.category?.name || '',
+              collections: p.collections || [],
+              occasions: p.occasions || [],
+              desc: p.description,
+              metal: p.metal?.name || 'Silver',
+              purity: p.purity?.name || '925',
+              img: p.images && p.images.length > 0 ? p.images[0].image_url : '',
+              hoverImage: p.images && p.images.length > 1 ? p.images[1].image_url : null,
+              images: p.images ? p.images.map(img => img.image_url) : [],
+              stockQuantity: 10,
+              lowStockThreshold: 5,
+              status: p.status,
+              isOfferAvailable: p.is_offer_available,
+              offerCouponCode: p.offer_coupon_code,
+              isActive: p.status === 'PUBLISHED',
+              quantity: item.quantity
+            };
+          });
+          setCartItems(mappedCart);
+        }
+      } catch (err) {
+        console.error("Failed to fetch cart", err);
+      }
+    }
+  }, [user]);
+
+  // Sync Cart and Wishlist with Backend/Local Storage
   useEffect(() => {
     if (user && user.id) {
-      const savedCart = localStorage.getItem(`cart_${user.id}`);
-      if (savedCart) {
-        try { setCartItems(JSON.parse(savedCart)); } catch (e) {}
-      }
-      
+      fetchCart();
       fetchWishlist();
     } else {
-      setCartItems([]);
+      const savedGuestCart = localStorage.getItem('cart_guest');
+      if (savedGuestCart) {
+        try { setCartItems(JSON.parse(savedGuestCart)); } catch (e) {}
+      } else {
+        setCartItems([]);
+      }
       const savedGuestWishlist = localStorage.getItem('wishlist_guest');
       if (savedGuestWishlist) {
         try { setWishlistItems(JSON.parse(savedGuestWishlist)); } catch (e) {}
@@ -59,11 +101,11 @@ export const ShopProvider = ({ children }) => {
         setWishlistItems([]);
       }
     }
-  }, [user, fetchWishlist]);
+  }, [user, fetchWishlist, fetchCart]);
 
   useEffect(() => {
-    if (user && user.id && cartItems.length >= 0) {
-      localStorage.setItem(`cart_${user.id}`, JSON.stringify(cartItems));
+    if (!user) {
+      localStorage.setItem('cart_guest', JSON.stringify(cartItems));
     }
   }, [cartItems, user]);
 
@@ -798,36 +840,66 @@ export const ShopProvider = ({ children }) => {
   };
 
   // Add to cart
-  const addToCart = (product) => {
+  const addToCart = async (product) => {
     if (!isAuthenticated) {
-      openAuthModal("Please login to add items to your cart");
+      setCartItems((prevItems) => {
+        const existingItem = prevItems.find((item) => item.id === product.id);
+        if (existingItem) {
+          return prevItems.map((item) =>
+            item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          );
+        }
+        return [...prevItems, { ...product, quantity: 1 }];
+      });
+      setIsCartOpen(true);
       return;
     }
 
-    setCartItems((prevItems) => {
-      // Check if item already exists in cart
-      const existingItem = prevItems.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prevItems.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
+    try {
+      const res = await fetchWithAuth('/api/v1/carts/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: product.id, quantity: 1 })
+      });
+      if (res.ok) {
+        fetchCart();
+        setIsCartOpen(true);
       }
-      return [...prevItems, { ...product, quantity: 1 }];
-    });
-    setIsCartOpen(true); // Auto-open cart on add
+    } catch (e) { console.error(e); }
   };
 
   // Remove from cart
-  const removeFromCart = (productId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+  const removeFromCart = async (productId) => {
+    if (!isAuthenticated) {
+      setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+      return;
+    }
+
+    try {
+      const res = await fetchWithAuth(`/api/v1/carts/${productId}`, { method: 'DELETE' });
+      if (res.ok) fetchCart();
+    } catch (e) { console.error(e); }
   };
 
   // Update cart quantity
-  const updateCartQuantity = (productId, newQuantity) => {
+  const updateCartQuantity = async (productId, newQuantity) => {
     if (newQuantity < 1) return;
-    setCartItems(prevItems => 
-      prevItems.map(item => item.id === productId ? { ...item, quantity: newQuantity } : item)
-    );
+    
+    if (!isAuthenticated) {
+      setCartItems(prevItems => 
+        prevItems.map(item => item.id === productId ? { ...item, quantity: newQuantity } : item)
+      );
+      return;
+    }
+
+    try {
+      const res = await fetchWithAuth(`/api/v1/carts/${productId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: newQuantity })
+      });
+      if (res.ok) fetchCart();
+    } catch (e) { console.error(e); }
   };
 
   // Toggle wishlist

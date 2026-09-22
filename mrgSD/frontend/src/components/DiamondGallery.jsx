@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, ChevronLeft, ChevronRight, SearchX } from 'lucide-react';
+import { useShop } from '../context/ShopContext';
 import './DiamondGallery.css';
 
-const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false }) => {
+const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false, itemsPerPage = 8 }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+  const { addToCart } = useShop();
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -101,7 +104,7 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                       <span className="product-card-price">
                         {product.price.includes('₹') || product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `₹ ${product.price}`}
                       </span>
-                      <button className="add-to-cart-btn" onClick={(e) => { e.stopPropagation(); }}>
+                      <button className="add-to-cart-btn" onClick={(e) => { e.stopPropagation(); addToCart(product); }}>
                         ADD TO CART
                       </button>
                     </div>
