@@ -156,3 +156,9 @@
   color: #eab308;
   letter-spacing: 2px;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .header-actions { flex-direction: column; align-items: stretch; gap: 1rem; }
+  .admin-testimonials-table-container { overflow-x: auto; }
+}

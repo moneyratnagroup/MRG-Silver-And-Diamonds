@@ -261,3 +261,9 @@
 
 
 
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .header-actions { flex-direction: column; align-items: stretch; gap: 1rem; }
+  .admin-rates-table-container { overflow-x: auto; }
+}

@@ -42,12 +42,6 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
       }
     }
     
-    // Fallback to original price calculation
-    const discount = calculateDiscount(product.originalPrice, product.price);
-    if (discount) {
-      return `${discount}% OFF`;
-    }
-    
     return null;
   };
 

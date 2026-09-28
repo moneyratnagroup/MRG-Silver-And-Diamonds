@@ -25,6 +25,7 @@ const CollectionPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
   const typeFilter = searchParams.get('type');
+  const typeFiltersArray = typeFilter ? typeFilter.split(',') : [];
   const occasionFilter = searchParams.get('occasion');
   
   const matchCollection = (c, searchParam) => {
@@ -45,8 +46,8 @@ const CollectionPage = () => {
     ? allProductsContext 
     : allProductsContext.filter(p => p.collections && p.collections.some(c => matchCollection(c, collectionId)));
   
-  if (typeFilter) {
-    products = products.filter(p => p.category && p.category.toUpperCase() === typeFilter.toUpperCase());
+  if (typeFiltersArray.length > 0) {
+    products = products.filter(p => p.category && typeFiltersArray.map(t => t.toUpperCase()).includes(p.category.toUpperCase()));
   }
 
   if (occasionFilter) {
@@ -71,8 +72,10 @@ const CollectionPage = () => {
   const baseTitle = isAll ? "All" : currentCollectionObj ? currentCollectionObj.name : "Collection";
   
   let displayTitle = isAll ? "All Products" : (baseTitle.toLowerCase().endsWith('collection') ? baseTitle : `${baseTitle} Collection`);
-  if (typeFilter) {
-    displayTitle = typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase();
+  if (typeFiltersArray.length === 1) {
+    displayTitle = typeFiltersArray[0].charAt(0).toUpperCase() + typeFiltersArray[0].slice(1).toLowerCase();
+  } else if (typeFiltersArray.length > 1) {
+    displayTitle = `${typeFiltersArray.length} Selected Types`;
   }
 
   // Sort products
@@ -95,14 +98,14 @@ const CollectionPage = () => {
     });
   }
 
-  const activeFiltersCount = (collectionId && collectionId !== 'all' ? 1 : 0) + (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
+  const activeFiltersCount = (collectionId && collectionId !== 'all' ? 1 : 0) + (typeFiltersArray.length > 0 ? 1 : 0) + (occasionFilter ? 1 : 0);
 
   return (
     <div className="collection-page-container">
       <div className="collection-layout">
         <ProductsGallery 
           title={displayTitle}
-          tagline={typeFilter ? `Explore our stunning collection of ${displayTitle.toLowerCase()}.` : isAll ? "Browse our entire catalog of premium silver and diamond jewelry." : `Explore our exclusive ${baseTitle} jewelry, curated for elegance and style.`}
+          tagline={typeFiltersArray.length > 0 ? `Explore our stunning collection of ${displayTitle.toLowerCase()}.` : isAll ? "Browse our entire catalog of premium silver and diamond jewelry." : `Explore our exclusive ${baseTitle} jewelry, curated for elegance and style.`}
           products={displayProducts}
           activeFiltersComponent={<ActiveFilters />}
           sidebarComponent={

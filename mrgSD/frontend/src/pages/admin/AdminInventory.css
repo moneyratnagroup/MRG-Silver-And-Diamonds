@@ -330,3 +330,13 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .inventory-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .inventory-tabs { flex-wrap: wrap; gap: 1rem; }
+  .inv-filter-row { flex-direction: column; align-items: stretch; }
+  .inv-modal { padding: 1rem; }
+  .inv-modal-form { grid-template-columns: 1fr; }
+  .reports-grid { grid-template-columns: 1fr; }
+}
