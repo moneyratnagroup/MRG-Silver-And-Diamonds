@@ -32,6 +32,7 @@ const FilterSidebarContent = () => {
   const { categories, collections, occasions } = useShop();
   
   const typeFilter = searchParams.get('type');
+  const typeFiltersArray = typeFilter ? typeFilter.split(',') : [];
   const occasionFilter = searchParams.get('occasion');
   const priceFilter = searchParams.get('price');
 
@@ -101,6 +102,26 @@ const FilterSidebarContent = () => {
     }
   };
 
+  const handleMultiSelect = (type, value) => {
+    const currentPath = window.location.pathname;
+    const newParams = new URLSearchParams(searchParams);
+    const currentValues = newParams.get(type) ? newParams.get(type).split(',') : [];
+    
+    if (currentValues.includes(value)) {
+      const updatedValues = currentValues.filter(v => v !== value);
+      if (updatedValues.length > 0) {
+        newParams.set(type, updatedValues.join(','));
+      } else {
+        newParams.delete(type);
+      }
+    } else {
+      currentValues.push(value);
+      newParams.set(type, currentValues.join(','));
+    }
+    
+    navigate(`${currentPath}?${newParams.toString()}`);
+  };
+
   const handleClearAll = () => {
     navigate(window.location.pathname);
   };
@@ -152,15 +173,15 @@ const FilterSidebarContent = () => {
         </div>
       </AccordionItem>
 
-      <AccordionItem title="Product Type" defaultOpen={true} activeCount={typeFilter ? 1 : 0}>
+      <AccordionItem title="Product Type" defaultOpen={true} activeCount={typeFiltersArray.length}>
         <div className="filter-checkbox-list">
           {activeCategories.map(cat => (
             <label key={cat.id} className="custom-checkbox-label">
               <input 
-                type="radio" 
+                type="checkbox" 
                 name="productType"
-                checked={typeFilter && typeFilter.toLowerCase() === cat.name.toLowerCase()} 
-                onChange={() => handleFilterSelect('type', cat.name.toLowerCase())} 
+                checked={typeFiltersArray.some(t => t.toLowerCase() === cat.name.toLowerCase())} 
+                onChange={() => handleMultiSelect('type', cat.name.toLowerCase())} 
               />
               <span className="checkbox-text">{cat.name}</span>
             </label>
