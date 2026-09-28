@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
-import { Plus, Edit2, Trash2 } from 'lucide-react';
+import { Plus, Edit2, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import './AdminProducts.css';
 
 const AdminProducts = () => {
   const { adminProducts, deleteProduct, updateProduct, coupons } = useShop();
  
   const navigate = useNavigate();
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterMetal, setFilterMetal] = useState('All');
+  const itemsPerPage = 10;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterMetal]);
+
+  const uniqueMetals = ['All', ...new Set(adminProducts.map(p => p.metal).filter(Boolean))];
+
+  const filteredProducts = adminProducts.filter(product => {
+    const matchesSearch = product.name?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          product.category?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesMetal = filterMetal === 'All' || product.metal === filterMetal;
+    return matchesSearch && matchesMetal;
+  });
+  
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
   const handleAddProduct = () => {
     navigate('/admin/products/new');
@@ -46,6 +68,25 @@ const AdminProducts = () => {
         </div>
       </div>
 
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+        <input 
+          type="text" 
+          placeholder="Search products by name or category..." 
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{ padding: '0.6rem 1rem', borderRadius: '6px', border: '1px solid #ccc', flexGrow: 1, maxWidth: '400px', fontSize: '0.9rem' }}
+        />
+        <select 
+          value={filterMetal} 
+          onChange={(e) => setFilterMetal(e.target.value)}
+          style={{ padding: '0.6rem 1rem', borderRadius: '6px', border: '1px solid #ccc', minWidth: '180px', fontSize: '0.9rem' }}
+        >
+          {uniqueMetals.map(metal => (
+            <option key={metal} value={metal}>{metal === 'All' ? 'All Metals' : metal}</option>
+          ))}
+        </select>
+      </div>
+
       <div className="admin-products-table-container">
         <table className="admin-products-table">
           <thead>
@@ -61,7 +102,7 @@ const AdminProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {adminProducts.map((product) => (
+            {currentProducts.map((product) => (
               <tr key={product.id}>
                 <td>
                   <div className="table-img-wrapper">
@@ -120,7 +161,14 @@ const AdminProducts = () => {
                     )}
                   </div>
                 </td>
-                <td><span className="badge-pill">{product.category}</span></td>
+                <td>
+                  <span className="badge-pill">{product.category}</span>
+                  {product.metal && (
+                    <div style={{ fontSize: '0.75rem', color: '#666', marginTop: '4px' }}>
+                      {product.metal}
+                    </div>
+                  )}
+                </td>
                 <td>
                   {product.collections && product.collections.length > 0 ? (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
@@ -155,16 +203,36 @@ const AdminProducts = () => {
                 </td>
               </tr>
             ))}
-            {adminProducts.length === 0 && (
+            {filteredProducts.length === 0 && (
               <tr>
-                <td colSpan="7" className="text-center empty-table">
-                  No products found. Add your first product!
+                <td colSpan="8" className="text-center empty-table" style={{ padding: '2rem' }}>
+                  {adminProducts.length === 0 ? "No products found. Add your first product!" : "No products found matching your search."}
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+      
+      {totalPages > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginTop: '1.5rem', paddingBottom: '2rem' }}>
+          <button 
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            style={{ padding: '0.5rem', cursor: currentPage === 1 ? 'not-allowed' : 'pointer', background: '#fff', border: '1px solid #e0e0e0', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <ChevronLeft size={18} color={currentPage === 1 ? '#ccc' : '#333'} />
+          </button>
+          <span style={{ fontSize: '0.9rem', color: '#555', fontWeight: '500' }}>Page {currentPage} of {totalPages}</span>
+          <button 
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            style={{ padding: '0.5rem', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer', background: '#fff', border: '1px solid #e0e0e0', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <ChevronRight size={18} color={currentPage === totalPages ? '#ccc' : '#333'} />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

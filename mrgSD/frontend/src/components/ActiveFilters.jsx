@@ -12,6 +12,7 @@ const ActiveFilters = () => {
   const { collections, occasions } = useShop();
 
   const typeFilter = searchParams.get('type');
+  const typeFiltersArray = typeFilter ? typeFilter.split(',') : [];
   const occasionFilter = searchParams.get('occasion');
   const priceFilter = searchParams.get('price');
 
@@ -27,6 +28,17 @@ const ActiveFilters = () => {
     if (filterKey === 'collection') {
       const basePath = currentPath.split('/')[1] || 'products';
       navigate(`/${basePath}/all${window.location.search}`);
+    } else if (filterKey.startsWith('type:')) {
+      const typeToRemove = filterKey.split(':')[1];
+      const newParams = new URLSearchParams(searchParams);
+      const currentTypes = newParams.get('type') ? newParams.get('type').split(',') : [];
+      const updatedTypes = currentTypes.filter(t => t !== typeToRemove);
+      if (updatedTypes.length > 0) {
+        newParams.set('type', updatedTypes.join(','));
+      } else {
+        newParams.delete('type');
+      }
+      navigate(`${currentPath}?${newParams.toString()}`);
     } else {
       const newParams = new URLSearchParams(searchParams);
       newParams.delete(filterKey);
@@ -84,12 +96,12 @@ const ActiveFilters = () => {
         </button>
       )}
       
-      {typeFilter && (
-        <button className="active-filter-pill" onClick={() => handleRemoveFilter('type')}>
-          {typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase()}
+      {typeFiltersArray.map(type => (
+        <button key={type} className="active-filter-pill" onClick={() => handleRemoveFilter(`type:${type}`)}>
+          {type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()}
           <X size={14} className="filter-pill-close" />
         </button>
-      )}
+      ))}
 
       {occasionFilter && (
         <button className="active-filter-pill" onClick={() => handleRemoveFilter('occasion')}>

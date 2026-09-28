@@ -22,12 +22,13 @@ const FilterDrawer = ({ isOpen, setIsOpen }) => {
   const { products: allProductsContext } = useShop();
 
   const typeFilter = searchParams.get('type');
+  const typeFiltersArray = typeFilter ? typeFilter.split(',') : [];
   const occasionFilter = searchParams.get('occasion');
   
   // Calculate result count based on current filters
   let filteredProducts = collectionId === 'all' || !collectionId ? allProductsContext : allProductsContext.filter(p => p.collection === collectionId);
-  if (typeFilter) {
-    filteredProducts = filteredProducts.filter(p => p.category && p.category.toUpperCase() === typeFilter.toUpperCase());
+  if (typeFiltersArray.length > 0) {
+    filteredProducts = filteredProducts.filter(p => p.category && typeFiltersArray.map(t => t.toUpperCase()).includes(p.category.toUpperCase()));
   }
   if (occasionFilter) {
     filteredProducts = filteredProducts.filter(p => p.occasion && p.occasion.toLowerCase() === occasionFilter.toLowerCase());
