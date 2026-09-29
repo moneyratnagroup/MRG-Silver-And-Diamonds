@@ -2,8 +2,8 @@
 :root {
   --about-cream: #F7F3E8;
   --about-cream-light: #FAF8F5;
-  --about-dark: #2c1a12;
-  --about-darker: #1a100b;
+  --about-dark: #0B1B3D;
+  --about-darker: #050D24;
   --about-gold: #B89146;
   --about-gold-hover: #9c7b3c;
   --about-serif: 'Cormorant Upright', serif;
@@ -58,7 +58,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, rgba(20, 15, 12, 0.85) 0%, rgba(20, 15, 12, 0.6) 50%, rgba(20, 15, 12, 0.2) 100%);
+  background: linear-gradient(to right, rgba(11, 27, 61, 0.85) 0%, rgba(11, 27, 61, 0.6) 50%, rgba(11, 27, 61, 0.2) 100%);
   z-index: 1;
 }
 
@@ -140,6 +140,7 @@
     justify-content: flex-end;
     padding-top: 2rem;
   }
+
   .vertical-text {
     text-align: right;
     font-size: 1rem;
@@ -175,7 +176,8 @@
 .story-image-collage {
   position: relative;
   width: 100%;
-  padding-bottom: 75%; /* aspect ratio */
+  padding-bottom: 75%;
+  /* aspect ratio */
 }
 
 .story-img-main {
@@ -185,7 +187,7 @@
   width: 80%;
   height: 100%;
   object-fit: cover;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .story-img-sub {
@@ -196,7 +198,7 @@
   height: 60%;
   object-fit: cover;
   border: 8px solid var(--about-cream-light);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .story-right {
@@ -287,7 +289,7 @@
 }
 
 .leader-box.dark-theme {
-  background-color: #4A2C1B;
+  background-color: #16264C;
   color: #fff;
 }
 
@@ -324,6 +326,7 @@
     flex-direction: row;
     align-items: flex-start;
   }
+
   .leader-content-row.reverse {
     flex-direction: row-reverse;
   }
@@ -389,8 +392,8 @@
   position: relative;
   padding: 2.5rem 2rem;
   color: #fff;
-  background-color: #4A2C1B;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  background-color: #16264C;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   overflow: hidden;
 }
 
@@ -457,7 +460,7 @@
   .vm-box {
     padding: 2rem 5rem;
   }
-  
+
   .vm-box:last-child {
     margin-top: 5rem;
   }
@@ -494,6 +497,7 @@
     font-size: 22rem;
     top: -10%;
   }
+
   .watermark-m {
     font-size: 26rem;
     bottom: -15%;
@@ -544,7 +548,7 @@
   .vm-separator {
     display: block;
     width: 1px;
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255, 255, 255, 0.2);
     min-height: 100%;
   }
 }
@@ -667,11 +671,11 @@
   background-color: var(--about-cream-light);
   padding: 1.5rem 1.5rem;
   text-align: center;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   z-index: 10;
   width: 85%;
   max-width: 320px;
@@ -690,6 +694,7 @@
     width: auto;
     max-width: none;
   }
+
   .gallery-center-card span {
     font-size: 1.2rem;
   }

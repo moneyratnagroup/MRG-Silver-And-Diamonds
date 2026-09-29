@@ -10,6 +10,27 @@ import './GoldPage.css';
 
 // Import images
 import catRings from '../assets/cat_rings_layout.webp';
+import featuredRing1 from '../assets/featured_ring_1.png';
+import featuredRing2 from '../assets/featured_ring_2.png';
+import featuredRing3 from '../assets/featured_ring_3.png';
+import featuredRing4 from '../assets/featured_ring_4.png';
+import saleItem1 from '../assets/sale_item_1.png';
+import saleItem2 from '../assets/sale_item_2.jpg';
+import saleItem3 from '../assets/sale_item_3.jpg';
+import saleItem4 from '../assets/sale_item_4.png';
+import topRatedItem1 from '../assets/top_rated_item_1.png';
+import topRatedItem2 from '../assets/top_rated_item_2.png';
+import topRatedItem3 from '../assets/top_rated_item_3.png';
+import topRatedItem4 from '../assets/top_rated_item_4.jpg';
+import featuredItem1 from '../assets/featured_item_1.png';
+import featuredItem2 from '../assets/featured_item_2.png';
+import featuredItem3 from '../assets/featured_item_3.png';
+import featuredItem4 from '../assets/featured_item_4.png';
+import journeyStep1 from '../assets/journey_step_1.jpg';
+import journeyStep2 from '../assets/journey_step_2.jpg';
+import journeyStep3 from '../assets/journey_step_3.jpg';
+import journeyStep4New from '../assets/journey_step_4_new.jpg';
+import journeyStep5 from '../assets/journey_step_5.png';
 
 const GoldPage = () => {
   const { collectionId } = useParams();
@@ -17,6 +38,34 @@ const GoldPage = () => {
   const { products: allProductsContext, collections } = useShop();
   const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
+  const [activeFeaturedTab, setActiveFeaturedTab] = useState('Top Seller');
+
+  const featuredData = {
+    'Top Seller': [
+      { img: featuredRing1, title: 'THE AUTUMN EQUINOX', isHighlight: true },
+      { img: featuredRing2, title: 'Ring 2' },
+      { img: featuredRing3, title: 'Ring 3' },
+      { img: featuredRing4, title: 'Ring 4' }
+    ],
+    'Sale': [
+      { img: saleItem1, title: 'ANTIQUE JHUMKA SET', isHighlight: true },
+      { img: saleItem2, title: 'PEACOCK CHOKER' },
+      { img: saleItem3, title: 'GOLDEN CRESCENT' },
+      { img: saleItem4, title: 'FLORAL ELEGANCE' }
+    ],
+    'Top Rated': [
+      { img: topRatedItem1, title: 'ROYAL EMERALD DROP', isHighlight: true },
+      { img: topRatedItem2, title: 'DIAMOND LEAF CASCADE' },
+      { img: topRatedItem3, title: 'GEOMETRIC CHOKER' },
+      { img: topRatedItem4, title: 'CLUSTER DIAMOND BANGLES' }
+    ],
+    'Featured': [
+      { img: featuredItem1, title: 'POLKI DELIGHT', isHighlight: true },
+      { img: featuredItem2, title: 'ELEGANT GREEN DROP' },
+      { img: featuredItem3, title: 'TEMPLE HERITAGE' },
+      { img: featuredItem4, title: 'KUNDAN BRIDAL SET' }
+    ]
+  };
 
   const typeFilter = searchParams.get('type');
   const occasionFilter = searchParams.get('occasion');
@@ -127,7 +176,7 @@ const GoldPage = () => {
               </div>
               <p className="global-subheading" style={{ color: '#8b2525' }}>PURE TRADITION -<br />EXQUISITE CRAFTSMANSHIP</p>
               <h1 className="gold-hero-title gold-serif">Golden moments<br />crafted for you</h1>
-              <button className="gold-btn" onClick={() => document.getElementById('gorings-collection-start').scrollIntoView({ behavior: 'smooth' })}>
+              <button className="gold-btn" onClick={() => document.getElementById('gold-collection-start').scrollIntoView({ behavior: 'smooth' })}>
                 SHOP THE COLLECTION
               </button>
             </div>
@@ -136,57 +185,67 @@ const GoldPage = () => {
             </div>
           </section>
 
-          {/* 3. Benefit Bar */}
-          <section className="gold-benefit-bar">
-            <div className="gold-benefit-item">
-              <Truck size={20} />
-              <span>Free & Insured Shipping</span>
-            </div>
-            <div className="gold-benefit-separator"></div>
-            <div className="gold-benefit-item">
-              <RotateCcw size={20} />
-              <span>Easy Returns</span>
-            </div>
-            <div className="gold-benefit-separator"></div>
-            <div className="gold-benefit-item">
-              <BadgeCheck size={20} />
-              <span>100% Authentic Gold</span>
-            </div>
-            <div className="gold-benefit-separator"></div>
-            <div className="gold-benefit-item">
-              <Phone size={20} />
-              <span>Dedicated Support</span>
-            </div>
-          </section>
+          {/* Featured Rings Section */}
+          <section className="jared-featured">
+             <div className="jared-featured-content">
+               <h2 className="jared-featured-title">Find your perfect piece</h2>
+               <div className="jared-featured-tabs">
+                 {['Top Seller', 'Sale', 'Top Rated', 'Featured'].map(tab => (
+                   <button 
+                     key={tab}
+                     className={activeFeaturedTab === tab ? 'active' : ''}
+                     onClick={() => setActiveFeaturedTab(tab)}
+                   >
+                     {tab}
+                   </button>
+                 ))}
+               </div>
+               
+               <div className="jared-featured-grid">
+                 {featuredData[activeFeaturedTab].map((item, index) => (
+                   <div key={index} className={`jared-featured-card ${item.isHighlight ? 'highlight' : ''}`}>
+                     <img loading="lazy" src={item.img} alt={item.title || `Ring ${index + 1}`} />
+                     {item.isHighlight && (
+                       <div className="jared-card-info">
+                         <h3>{item.title}</h3>
+                         <a href="#gold-collection-start" onClick={(e) => { e.preventDefault(); document.getElementById('gold-collection-start').scrollIntoView({ behavior: 'smooth' }); }}>SHOP NOW &rarr;</a>
+                       </div>
+                     )}
+                   </div>
+                 ))}
+               </div>
+             </div>
+           </section>
 
-          {/* 2. Top Split Section */}
-          <section className="gold-split-top" style={{ marginTop: '3rem' }}>
-            <div className="gold-split-image">
-              <img loading="lazy" src="https://i.pinimg.com/736x/68/52/a8/6852a80bc5be4f7a128a4b5318b72039.jpg" alt="Gold Bangle" />
-              <div className="gold-split-image-overlay">
-                ELEGANCE LIVES IN EVERY DETAIL
+          {/* Golden Journey Section */}
+          <section className="golden-journey-section">
+            <h2 className="golden-journey-title gold-serif">THE GOLDEN JOURNEY</h2>
+            <p className="golden-journey-subtitle">From inspiration to your most cherished moments.</p>
+            
+            <div className="journey-steps">
+              <div className="journey-step">
+                <div className="step-img-wrapper"><img src={journeyStep1} alt="Inspiration" /></div>
+                <span>Inspiration</span>
               </div>
-            </div>
-            <div className="gold-split-text">
-              <span className="gold-impact-eyebrow" style={{ color: '#8b2525', marginBottom: '1rem' }}>TIMELESS BEAUTY</span>
-              <h2 className="gold-split-title gold-serif">More Than Jewellery,<br />A Brighter Tomorrow</h2>
-              <p className="gold-hero-desc">
-                Our gold jewellery is a celebration of heritage, artistry, and modern elegance. Each piece is crafted with precision and care, designed to be a part of your most cherished moments.
-              </p>
-
-              <div className="gold-hero-features" style={{ marginTop: '1rem' }}>
-                <div className="gold-hero-feature">
-                  <Medal size={20} />
-                  <span>Certified<br />Purity (BIS)</span>
-                </div>
-                <div className="gold-hero-feature">
-                  <Award size={20} />
-                  <span>Exclusive<br />Designs</span>
-                </div>
-                <div className="gold-hero-feature">
-                  <HeartHandshake size={20} />
-                  <span>Lifetime<br />Value</span>
-                </div>
+              <div className="journey-connector"></div>
+              <div className="journey-step">
+                <div className="step-img-wrapper"><img src={journeyStep2} alt="Design" /></div>
+                <span>Design</span>
+              </div>
+              <div className="journey-connector"></div>
+              <div className="journey-step">
+                <div className="step-img-wrapper"><img src={journeyStep3} alt="Craft" /></div>
+                <span>Craft</span>
+              </div>
+              <div className="journey-connector"></div>
+              <div className="journey-step">
+                <div className="step-img-wrapper"><img src={journeyStep4New} alt="Finish" /></div>
+                <span>Finish</span>
+              </div>
+              <div className="journey-connector"></div>
+              <div className="journey-step">
+                <div className="step-img-wrapper"><img src={journeyStep5} alt="Your Story" /></div>
+                <span>Your Story</span>
               </div>
             </div>
           </section>
@@ -257,60 +316,7 @@ const GoldPage = () => {
         />
       </section>
 
-      {/* 5. Impact Section */}
-      {showLanding && (
-        <>
-          <section className="gold-impact-section">
-            <div className="gold-impact-left">
-              <span className="gold-impact-eyebrow">GOLD THAT GIVES BACK</span>
-              <h2 className="gold-impact-title gold-serif">MAKING A BRIGHTER<br />TOMORROW TOGETHER</h2>
-              <p className="gold-hero-desc" style={{ color: '#ccc' }}>
-                A portion of every purchase goes towards supporting education, healthcare and community development.
-              </p>
-              <button className="gold-btn-outline">
-                OUR IMPACT →
-              </button>
-            </div>
-            <div className="gold-impact-right">
-              <div className="gold-impact-icon">
-                <Users size={32} strokeWidth={1} />
-                <span>PEOPLE<br /><small>Stronger Communities</small></span>
-              </div>
-              <div className="gold-impact-icon">
-                <Globe size={32} strokeWidth={1} />
-                <span>PLANET<br /><small>A Greener Tomorrow</small></span>
-              </div>
-              <div className="gold-impact-icon">
-                <TreePine size={32} strokeWidth={1} />
-                <span>PROSPERITY<br /><small>Brighter Futures</small></span>
-              </div>
-            </div>
-          </section>
 
-          {/* 6. Bottom Split CTA */}
-          <section className="gold-bottom-cta">
-            <div className="gold-bottom-text">
-              <span className="gold-impact-eyebrow" style={{ color: '#8b2525', marginBottom: '1rem' }}>JEWELLERY THAT PROMISES MORE</span>
-              <h2 className="gold-bottom-title gold-serif">Stay gold & do good</h2>
-              <p className="gold-hero-desc">
-                Our collection of long-lasting, never-take-it-off gold jewellery is ready to shine through all of life's moments. The best part? 30% of your order funds new causes monthly.
-              </p>
-              <div style={{ marginTop: '1rem' }}>
-                <button className="gold-btn">
-                  OUR STORY →
-                </button>
-              </div>
-            </div>
-
-            <div className="gold-bottom-image-wrapper">
-              <img loading="lazy" src={catRings} alt="Gold rings lifestyle" />
-              <div className="gold-bottom-vertical">
-                <span>BEAUTY THAT CREATES CHANGE</span>
-              </div>
-            </div>
-          </section>
-        </>
-      )}
 
       <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} />
     </div>
