@@ -1,17 +1,7 @@
 .footer-section {
-<<<<<<< Updated upstream
-  background-color: #071426; /* Midnight luxury navy */
-  /* Overlay fades the image to ~25% opacity while maintaining the midnight navy base */
-  background-image: linear-gradient(rgba(7, 20, 38, 0.75), rgba(7, 20, 38, 0.75)), url('../assets/navy_gold_silk.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: #F8F6F2; /* Warm White */
-=======
   background: radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.08) 0%, transparent 60%),
               linear-gradient(180deg, #0e172a 0%, #080d19 100%);
   color: #F8F6F2;
->>>>>>> Stashed changes
   font-family: 'Inter', sans-serif;
   padding: 85px 0 45px;
   margin-top: auto;
@@ -69,10 +59,6 @@
 }
 
 .footer-diamond-logo {
-<<<<<<< Updated upstream
-  color: #9B7835; /* Soft Gold */
-  margin-bottom: 12px;
-=======
   filter: drop-shadow(0 2px 10px rgba(197, 160, 89, 0.35));
   flex-shrink: 0;
 }
@@ -80,24 +66,15 @@
 .footer-brand-text {
   display: flex;
   flex-direction: column;
->>>>>>> Stashed changes
 }
 
 .footer-brand-title {
   font-family: 'Playfair Display', serif;
-<<<<<<< Updated upstream
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #fff;
-  line-height: 1.2;
-  letter-spacing: 1px;
-=======
   font-size: 1.85rem;
   font-weight: 700;
   color: #FFFFFF;
   line-height: 1.15;
   letter-spacing: 0.5px;
->>>>>>> Stashed changes
 }
 
 .footer-brand-subtitle {
@@ -105,17 +82,6 @@
   font-size: 0.72rem;
   letter-spacing: 3.5px;
   text-transform: uppercase;
-<<<<<<< Updated upstream
-  color: #9B7835;
-  margin-top: 4px;
-}
-
-.footer-description {
-  font-size: 0.85rem;
-  line-height: 1.8;
-  color: #eee;
-  margin-bottom: 35px;
-=======
   color: #C5A059;
   margin-top: 3px;
   font-weight: 600;
@@ -127,7 +93,6 @@
   color: #9EABC0;
   margin-bottom: 28px;
   font-weight: 350;
->>>>>>> Stashed changes
 }
 
 .footer-contact-list {
@@ -142,16 +107,6 @@
 .footer-contact-item {
   display: flex;
   align-items: flex-start;
-<<<<<<< Updated upstream
-  gap: 15px;
-  font-size: 0.85rem;
-  color: #eee;
-  line-height: 1.6;
-}
-
-.footer-contact-icon {
-  color: #9B7835;
-=======
   gap: 12px;
   font-size: 0.86rem;
   color: #B5C0D0;
@@ -168,7 +123,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
->>>>>>> Stashed changes
   flex-shrink: 0;
   margin-top: 2px;
   transition: all 0.3s ease;
@@ -183,17 +137,10 @@
 /* Link Columns */
 .footer-heading {
   font-family: 'Playfair Display', serif;
-<<<<<<< Updated upstream
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 20px;
-=======
   font-size: 0.96rem;
   font-weight: 700;
   color: #FFFFFF;
   margin-bottom: 22px;
->>>>>>> Stashed changes
   text-transform: uppercase;
   letter-spacing: 2px;
   position: relative;
@@ -221,17 +168,10 @@
 }
 
 .footer-links-list li a {
-<<<<<<< Updated upstream
-  display: flex;
-  align-items: flex-start;
-  gap: 8px; /* Added gap for chevron */
-  color: #fff;
-=======
   display: inline-flex;
   align-items: center;
   gap: 8px;
   color: #9EABC0;
->>>>>>> Stashed changes
   text-decoration: none;
   font-size: 0.88rem;
   transition: all 0.25s ease;
@@ -239,14 +179,6 @@
 }
 
 .footer-links-list li a:hover {
-<<<<<<< Updated upstream
-  color: #9B7835; /* Soft Gold */
-  transform: translateX(5px);
-}
-
-.chevron-icon {
-  color: #9B7835; /* Soft Gold */
-=======
   color: #E8D39E;
   transform: translateX(4px);
 }
@@ -254,7 +186,6 @@
 .chevron-icon {
   color: #C5A059;
   opacity: 0.7;
->>>>>>> Stashed changes
   flex-shrink: 0;
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
@@ -268,13 +199,8 @@
 .subscribe-text {
   font-size: 0.88rem;
   line-height: 1.7;
-<<<<<<< Updated upstream
-  color: #eee;
-  margin-bottom: 25px;
-=======
   color: #9EABC0;
   margin-bottom: 20px;
->>>>>>> Stashed changes
 }
 
 .subscribe-form {
@@ -297,38 +223,19 @@
   flex: 1;
   background: transparent;
   border: none;
-<<<<<<< Updated upstream
-  border-bottom: 1px solid rgba(0,0,0,0.2); /* Bottom border style */
-  padding: 10px 5px;
-  color: #1a1a1a;
-  font-size: 0.95rem;
-  border-radius: 0;
-=======
   padding: 12px 16px;
   color: #FFFFFF;
   font-size: 0.9rem;
->>>>>>> Stashed changes
   outline: none;
   font-family: 'Inter', sans-serif;
 }
 
 .subscribe-input::placeholder {
-<<<<<<< Updated upstream
-  color: #8c93a1;
-}
-.subscribe-input:focus {
-  border-color: #9B7835;
-}
-
-.subscribe-btn {
-  background-color: #9B7835; /* Soft Gold */
-=======
   color: #6C7A92;
 }
 
 .subscribe-btn {
   background: linear-gradient(135deg, #C5A059 0%, #A68037 100%);
->>>>>>> Stashed changes
   border: none;
   color: #0B1329;
   font-weight: 700;
@@ -342,29 +249,17 @@
 }
 
 .subscribe-btn:hover {
-<<<<<<< Updated upstream
-  background-color: #6D2E46; /* Wine Red */
-  color: #1a1a1a;
-=======
   background: linear-gradient(135deg, #D4AF37 0%, #B89243 100%);
   color: #000000;
   box-shadow: 0 0 14px rgba(197, 160, 89, 0.4);
->>>>>>> Stashed changes
 }
 
 .footer-social-title {
   font-family: 'Playfair Display', serif;
-<<<<<<< Updated upstream
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 25px;
-=======
   font-size: 0.96rem;
   font-weight: 700;
   color: #FFFFFF;
   margin-bottom: 18px;
->>>>>>> Stashed changes
   text-transform: uppercase;
   letter-spacing: 2px;
   position: relative;
@@ -394,26 +289,14 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-<<<<<<< Updated upstream
-  border: 1px solid rgba(0,0,0,0.2);
-  color: #9B7835;
-=======
   border: 1px solid rgba(197, 160, 89, 0.3);
   background: rgba(255, 255, 255, 0.04);
   color: #C5A059;
->>>>>>> Stashed changes
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .social-icon-link:hover {
-<<<<<<< Updated upstream
-  background-color: #6D2E46; /* Wine Red */
-  border-color: #6D2E46;
-  color: #1a1a1a;
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(109, 46, 70, 0.4);
-=======
   background: rgba(197, 160, 89, 0.2);
   border-color: #C5A059;
   color: #FFFFFF;
@@ -503,7 +386,6 @@
   font-size: 10px;
   font-weight: bold;
   font-style: italic;
->>>>>>> Stashed changes
 }
 
 /* BOTTOM TRUST BAR: Features */
@@ -511,15 +393,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-<<<<<<< Updated upstream
-  padding: 40px 0;
-  border-top: 1px solid rgba(0,0,0,0.1);
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-=======
   padding: 42px 0;
   border-top: 1px solid rgba(197, 160, 89, 0.15);
   border-bottom: 1px solid rgba(197, 160, 89, 0.15);
->>>>>>> Stashed changes
   flex-wrap: wrap;
   gap: 25px;
 }
@@ -536,21 +412,13 @@
   display: block;
   height: 32px;
   width: 1px;
-<<<<<<< Updated upstream
-  background-color: rgba(0,0,0,0.1);
-=======
   background: linear-gradient(180deg, transparent, rgba(197, 160, 89, 0.25), transparent);
->>>>>>> Stashed changes
   margin-left: auto;
 }
 
 .trust-icon-wrapper {
-<<<<<<< Updated upstream
-  color: #9B7835;
-=======
   color: #C5A059;
   filter: drop-shadow(0 2px 6px rgba(197, 160, 89, 0.2));
->>>>>>> Stashed changes
 }
 
 .trust-text {
@@ -559,11 +427,7 @@
 }
 
 .trust-title {
-<<<<<<< Updated upstream
-  color: #ffffff;
-=======
   color: #FFFFFF;
->>>>>>> Stashed changes
   font-family: 'Playfair Display', serif;
   font-size: 1.05rem;
   font-weight: 600;
@@ -571,11 +435,7 @@
 }
 
 .trust-subtitle {
-<<<<<<< Updated upstream
-  color: #eeeeee;
-=======
   color: #9EABC0;
->>>>>>> Stashed changes
   font-size: 0.8rem;
   margin-top: 2px;
 }
@@ -598,20 +458,12 @@
 }
 
 .we-accept-text {
-<<<<<<< Updated upstream
-  color: #1a1a1a;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  margin-right: 15px;
-=======
   color: #E8D39E;
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 1.5px;
   margin-right: 10px;
   text-transform: uppercase;
->>>>>>> Stashed changes
 }
 
 .payment-card {
@@ -645,13 +497,8 @@
 }
 
 .footer-copyright {
-<<<<<<< Updated upstream
-  font-size: 0.9rem;
-  color: #4a4a4a;
-=======
   font-size: 0.86rem;
   color: #8C99AE;
->>>>>>> Stashed changes
 }
 
 .footer-legal-links {
@@ -661,32 +508,19 @@
 }
 
 .pipe-separator {
-<<<<<<< Updated upstream
-  color: rgba(0,0,0,0.2);
-  font-size: 0.9rem;
-}
-
-.footer-legal-links a {
-  color: #4a4a4a;
-=======
   color: rgba(197, 160, 89, 0.25);
   font-size: 0.85rem;
 }
 
 .footer-legal-links a {
   color: #8C99AE;
->>>>>>> Stashed changes
   text-decoration: none;
   font-size: 0.84rem;
   transition: color 0.3s ease;
 }
 
 .footer-legal-links a:hover {
-<<<<<<< Updated upstream
-  color: #9B7835; /* Soft Gold */
-=======
   color: #C5A059;
->>>>>>> Stashed changes
 }
 
 /* RESPONSIVE DESIGN */
@@ -695,11 +529,7 @@
     justify-content: flex-start;
   }
   .trust-item {
-<<<<<<< Updated upstream
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-=======
     border-bottom: 1px solid rgba(197, 160, 89, 0.1);
->>>>>>> Stashed changes
     padding-bottom: 20px;
     margin-bottom: 10px;
   }

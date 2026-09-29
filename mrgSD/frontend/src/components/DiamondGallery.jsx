@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, ChevronLeft, ChevronRight, SearchX } from 'lucide-react';
+import { useShop } from '../context/ShopContext';
 import './DiamondGallery.css';
 
-const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false }) => {
+const DiamondGallery = ({ 
+  products = [], 
+  title, 
+  tagline, 
+  filterComponent, 
+  sidebarComponent, 
+  activeFiltersComponent = null, 
+  disableSidebarScroll = false,
+  itemsPerPage = 12
+}) => {
   const navigate = useNavigate();
+  const { addToCart, toggleWishlist, isInWishlist } = useShop();
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -40,25 +52,17 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
 
       <div className={`dg-layout-container ${sidebarComponent ? 'with-sidebar' : ''}`}>
         {sidebarComponent && (
-<<<<<<< Updated upstream
-          <div className="dg-sidebar" style={{ width: '250px', flexShrink: 0, position: 'sticky', top: '100px', maxHeight: disableSidebarScroll ? 'none' : 'calc(100vh - 120px)', overflowY: disableSidebarScroll ? 'visible' : 'auto', paddingRight: '10px' }}>
-=======
           <div className="dg-sidebar">
->>>>>>> Stashed changes
             {sidebarComponent}
           </div>
         )}
         
-<<<<<<< Updated upstream
-        <div className="dg-grid-wrapper" style={{ flexGrow: 1 }}>
+        <div className="dg-grid-wrapper">
           {activeFiltersComponent && (
             <div className="dg-active-filters-wrapper" style={{ marginBottom: '1rem' }}>
               {activeFiltersComponent}
             </div>
           )}
-=======
-        <div className="dg-grid-wrapper">
->>>>>>> Stashed changes
           <div className="aesthetic-gallery-grid">
             {currentProducts.length > 0 ? (
               currentProducts.map((product, index) => {
@@ -92,7 +96,18 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                   >
                     <div className="product-card-header">
                       <span className="product-card-subtitle">{subtitles[index % 6]}</span>
-                      <Heart size={18} strokeWidth={1.5} className="product-card-heart" />
+                      <Heart 
+                        size={18} 
+                        strokeWidth={1.5} 
+                        className="product-card-heart"
+                        fill={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "none"}
+                        color={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "currentColor"}
+                        style={{ cursor: 'pointer' }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (toggleWishlist) toggleWishlist(product);
+                        }}
+                      />
                     </div>
                     
                     <div className="product-card-image-wrapper">
@@ -107,7 +122,13 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                       <span className="product-card-price">
                         {product.price.includes('₹') || product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `₹ ${product.price}`}
                       </span>
-                      <button className="add-to-cart-btn" onClick={(e) => { e.stopPropagation(); }}>
+                      <button 
+                        className="add-to-cart-btn" 
+                        onClick={(e) => { 
+                          e.stopPropagation(); 
+                          if (addToCart) addToCart(product);
+                        }}
+                      >
                         ADD TO CART
                       </button>
                     </div>
