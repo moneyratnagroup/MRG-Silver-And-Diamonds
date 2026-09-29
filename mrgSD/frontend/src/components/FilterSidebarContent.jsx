@@ -133,10 +133,10 @@ const FilterSidebarContent = () => {
       <div style={{ padding: '0 0 1rem 0', display: 'flex', justifyContent: 'flex-end' }}>
         <button 
           onClick={handleClearAll} 
+          className="filter-clear-all-btn"
           style={{ 
             background: 'none', 
             border: 'none', 
-            color: '#a84c19', 
             fontSize: '0.85rem', 
             fontWeight: '600', 
             cursor: 'pointer', 

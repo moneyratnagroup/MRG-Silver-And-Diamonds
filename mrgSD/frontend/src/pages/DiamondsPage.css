@@ -12,7 +12,7 @@
   display: flex;
   align-items: stretch;
   height: 80vh;
-  background-color: #f8f6f0;
+  background-color: #06152b;
 }
 
 .gorings-hero-left, .gorings-hero-right {
@@ -24,6 +24,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .gorings-hero-center {
@@ -33,14 +34,18 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 2rem;
+  padding: 3rem 2rem;
+  background: radial-gradient(circle at center, #0a1f3d 0%, #06152b 100%);
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
 }
 
 .gorings-sparkle-icons {
   display: flex;
   align-items: flex-start;
-  color: #1a2c5b;
-  margin-bottom: 1rem;
+  color: #dfba6f;
+  margin-bottom: 1.2rem;
 }
 
 .sparkle {
@@ -54,52 +59,77 @@
   margin-left: 0.2rem;
 }
 
+.gorings-hero-center .global-subheading {
+  color: #dfba6f;
+  font-size: 0.8rem;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  margin-bottom: 1.4rem;
+  text-transform: uppercase;
+}
 
 .gorings-title {
   font-family: 'Cormorant Upright', serif;
   font-size: 4rem;
-  color: #1a2c5b;
-  line-height: 1.1;
+  color: #ffffff;
+  line-height: 1.15;
   margin-bottom: 2.5rem;
   font-weight: 500;
 }
 
 .gorings-btn-solid {
-  background-color: #1a2c5b;
-  color: #fff;
-  border: none;
-  padding: 1rem 2.5rem;
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(223, 186, 111, 0.7);
+  padding: 0.9rem 2.2rem;
   font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .gorings-btn-solid:hover {
-  opacity: 0.9;
+  background-color: #dfba6f;
+  color: #06152b;
+  border-color: #dfba6f;
+}
+
+.hero-btn-arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+.gorings-btn-solid:hover .hero-btn-arrow {
+  transform: translateX(4px);
 }
 
 /* Marquee */
 .gorings-marquee {
-  background-color: #edf2fb;
-  color: #1a2c5b;
-  padding: 0.8rem 0;
+  background-color: #051327;
+  color: #d2deeb;
+  padding: 0.85rem 0;
   overflow: hidden;
   white-space: nowrap;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 500;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .gorings-marquee-content {
   display: inline-block;
-  animation: goringsMarquee 20s linear infinite;
+  animation: goringsMarquee 25s linear infinite;
 }
 
 .gorings-marquee-content span {
-  margin-right: 2rem;
+  margin-right: 2.5rem;
 }
 
 @keyframes goringsMarquee {
@@ -202,69 +232,27 @@
   appearance: none;
 }
 
-/* Wavy Banner */
-.gorings-wavy-banner {
-  background-color: #1a2c5b;
-  color: #fff;
-  text-align: center;
-  padding: 4rem 2rem;
-  margin-top: 5rem;
-  border-radius: 50% 50% 50% 50% / 30px 30px 30px 30px;
-}
-
-.gorings-wavy-text {
-  font-size: 0.9rem;
-  letter-spacing: 3px;
-  font-weight: 600;
-}
-
-/* Bottom Split Section */
-.gorings-bottom-split {
+/* Diamond Bottom Stay Gold Banner Section */
+.diamonds-bottom-banner-section {
+  width: 100%;
+  background: #07172E;
+  margin: 3.5rem 0 2rem;
+  padding: 0;
   display: flex;
-  background-color: #fbfbfc;
-  padding: 5rem 0;
-  align-items: center;
+  justify-content: center;
 }
 
-.gorings-bottom-text {
-  flex: 1;
-  padding: 5rem 10%;
+.diamonds-bottom-banner-container {
+  width: 100%;
+  max-width: 1400px;
+  box-sizing: border-box;
 }
 
-
-.gorings-bottom-title {
-  font-family: 'Cormorant Upright', serif;
-  font-size: 3.5rem;
-  color: #1a2c5b;
-  margin-bottom: 1.5rem;
-  font-weight: 500;
-}
-
-.gorings-bottom-desc {
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin-bottom: 2.5rem;
-  max-width: 400px;
-}
-
-.gorings-bottom-images {
-  flex: 1;
-  display: flex;
-  gap: 1rem;
-  padding-right: 5%;
-}
-
-.gorings-bottom-img1 {
-  width: 50%;
-  object-fit: cover;
-  margin-top: 2rem;
-}
-
-.gorings-bottom-img2 {
-  width: 50%;
-  object-fit: cover;
-  margin-bottom: 2rem;
+.diamonds-bottom-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: auto;
 }
 
 @media (max-width: 992px) {
@@ -275,142 +263,96 @@
   .gorings-hero-left, .gorings-hero-right {
     height: 300px;
   }
-  .gorings-split-section, .gorings-bottom-split {
+  .gorings-split-section {
     flex-direction: column;
   }
-  .gorings-bottom-images {
-    padding: 2rem;
-  }
 }
-/* Bento Grid Layout */
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 250px;
-  gap: 0;
-  background-color: #EFEBE0; /* Beige background */
+
+
+/* Blue Theme for Filter Drawer (Mobile) */
+.diamond-theme {
+  background-color: #fbfbfc !important;
+}
+
+.diamond-theme .drawer-title-custom,
+.diamond-theme .filter-clear-all-btn,
+.diamond-theme .btn-clear-filters,
+.diamond-theme .btn-show-results,
+.diamond-theme .filter-accordion-title,
+.diamond-theme .checkbox-text {
+  color: #1a2c5b !important;
+}
+
+.diamond-theme .custom-checkbox-label input {
+  accent-color: #1a2c5b !important;
+}
+
+/* Blue Theme for Filter Sidebar (Desktop) */
+.diamonds-page-wrapper .collection-sidebar-content .sidebar-title {
+  color: #1a2c5b !important;
+}
+
+.diamonds-page-wrapper .filter-clear-all-btn,
+.diamonds-page-wrapper .filter-accordion-title,
+.diamonds-page-wrapper .checkbox-text {
+  color: #1a2c5b !important;
+}
+
+.diamonds-page-wrapper .custom-checkbox-label input {
+  accent-color: #1a2c5b !important;
+}
+
+/* Reduce width of the border box (product card) */
+.diamonds-page-wrapper .product-card {
+  padding: 1rem 1rem 0.75rem 1rem;
+  max-width: 280px;
+  min-height: auto;
+}
+
+.diamonds-page-wrapper .product-card-image-wrapper {
+  margin-bottom: 0.75rem;
+  aspect-ratio: 4 / 3;
+  min-height: auto;
+  max-height: 220px;
   width: 100%;
 }
 
-.bento-cell {
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.bento-cell img {
+.diamonds-page-wrapper .product-card-image-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px; /* Slightly round the images if they don't have built-in borders */
 }
 
-.bento-cell:hover img {
-  transform: scale(1.05);
+/* Slimmer add to cart button */
+.diamonds-page-wrapper .product-card .add-to-cart-btn {
+  padding: 8px 0;
+  font-size: 0.7rem;
 }
 
-.bento-logo {
-  grid-column: span 1;
-  background-color: #EFEBE0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
+/* Reduce border box width by displaying 4 items per row */
+.diamonds-page-wrapper .aesthetic-gallery-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
 }
 
-.bento-logo-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 2px solid #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-  position: relative;
-}
-
-.bento-logo-icon span {
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: #333;
-  letter-spacing: -2px;
-}
-
-.bento-logo h3 {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  color: #333;
-  margin: 0;
-}
-
-.bento-logo p {
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  color: #555;
-  margin: 0;
-}
-
-.bento-img1 {
-  grid-column: span 2;
-}
-
-.bento-img2 {
-  grid-column: span 1;
-}
-
-.bento-text-box {
-  grid-column: span 2;
-  background-color: #EFEBE0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 4rem;
-}
-
-.bento-text-box h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 3rem;
-  color: #4A2B20;
-  margin-bottom: 1rem;
-  font-weight: 400;
-  line-height: 1.1;
-}
-
-.bento-text-box p {
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #4A2B20;
-  line-height: 1.5;
-  margin: 0;
-}
-
-.bento-blank {
-  grid-column: span 1;
-  background-color: #EFEBE0;
-}
-
-.bento-img3 {
-  grid-column: span 2;
+@media (max-width: 1200px) {
+  .diamonds-page-wrapper .aesthetic-gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 992px) {
-  .bento-grid {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 300px;
+  .diamonds-page-wrapper .aesthetic-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .bento-logo, .bento-img1, .bento-img2, .bento-text-box, .bento-blank, .bento-img3 {
-    grid-column: span 1;
-  }
-  .bento-text-box {
-    padding: 2rem;
+}
+
+@media (max-width: 576px) {
+  .diamonds-page-wrapper .aesthetic-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
 }

@@ -1,19 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useShop } from '../context/ShopContext';
 import './MetalRatesBar.css';
 
 const MetalRatesBar = () => {
   const { activeMetals, lastUpdated } = useShop();
 
-  const displayMetals = activeMetals ? activeMetals.filter(m => m.metal_name.toLowerCase() !== 'copper') : [];
+  // Deduplicate by metal_name (keep latest) and exclude copper
+  const displayMetals = useMemo(() => {
+    if (!activeMetals || !Array.isArray(activeMetals)) return [];
+    const metalMap = new Map();
+    activeMetals.forEach(m => {
+      if (m.metal_name && m.metal_name.toLowerCase() !== 'copper') {
+        metalMap.set(m.metal_name.toLowerCase(), m);
+      }
+    });
+    return Array.from(metalMap.values());
+  }, [activeMetals]);
 
   if (!displayMetals || displayMetals.length === 0) return null;
 
   const renderMetals = (isDuplicate = false) => (
     <>
-      {displayMetals.map((metal) => (
-        <React.Fragment key={`${metal.metal_name}${isDuplicate ? '-dup' : ''}`}>
-          <div className={`rate-item ${metal.metal_type.toLowerCase()}`}>
+      {displayMetals.map((metal, index) => (
+        <React.Fragment key={`${metal.id || metal.metal_name}-${isDuplicate ? 'dup' : 'orig'}-${index}`}>
+          <div className={`rate-item ${metal.metal_type ? metal.metal_type.toLowerCase() : ''}`}>
             <span className="rate-label">{metal.purity === 'Bullion' ? metal.metal_type + ' Bullion' : `${metal.purity} ${metal.metal_type}`}:</span>
             <span className="rate-value">₹{metal.rate} / {metal.unit}</span>
           </div>

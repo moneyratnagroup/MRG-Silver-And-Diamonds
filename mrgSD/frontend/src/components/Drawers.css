@@ -368,6 +368,10 @@
 }
 
 /* Accordion Custom */
+.filter-clear-all-btn {
+  color: #a84c19;
+}
+
 .filter-accordion-item {
   border-bottom: 1px solid #f0f0f0;
 }

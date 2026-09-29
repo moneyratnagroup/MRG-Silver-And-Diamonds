@@ -41,14 +41,14 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
         </div>
       )}
 
-      <div className={`dg-layout-container ${sidebarComponent ? 'with-sidebar' : ''}`} style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
+      <div className={`dg-layout-container ${sidebarComponent ? 'with-sidebar' : ''}`}>
         {sidebarComponent && (
-          <div className="dg-sidebar" style={{ width: '250px', flexShrink: 0, position: 'sticky', top: '100px', maxHeight: disableSidebarScroll ? 'none' : 'calc(100vh - 120px)', overflowY: disableSidebarScroll ? 'visible' : 'auto', paddingRight: '10px' }}>
+          <div className="dg-sidebar">
             {sidebarComponent}
           </div>
         )}
         
-        <div className="dg-grid-wrapper" style={{ flexGrow: 1 }}>
+        <div className="dg-grid-wrapper">
           {activeFiltersComponent && (
             <div className="dg-active-filters-wrapper" style={{ marginBottom: '1rem' }}>
               {activeFiltersComponent}
@@ -87,7 +87,18 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                   >
                     <div className="product-card-header">
                       <span className="product-card-subtitle">{subtitles[index % 6]}</span>
-                      <Heart size={18} strokeWidth={1.5} className="product-card-heart" />
+                      <Heart 
+                        size={18} 
+                        strokeWidth={1.5} 
+                        className="product-card-heart"
+                        fill={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "none"}
+                        color={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "currentColor"}
+                        style={{ cursor: 'pointer' }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (toggleWishlist) toggleWishlist(product);
+                        }}
+                      />
                     </div>
                     
                     <div className="product-card-image-wrapper">

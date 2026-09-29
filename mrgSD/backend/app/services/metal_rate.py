@@ -9,10 +9,14 @@ def get_metal_rates(db: Session, skip: int = 0, limit: int = 100):
     return db.query(MetalRate).offset(skip).limit(limit).all()
 
 def get_active_metal_rates(db: Session):
-    return db.query(MetalRate).filter(MetalRate.is_active == True).all()
+    rates = db.query(MetalRate).filter(MetalRate.is_active == True).order_by(MetalRate.id.asc()).all()
+    seen = {}
+    for r in rates:
+        seen[r.metal_name.lower()] = r
+    return list(seen.values())
 
 def get_metal_rate_by_name(db: Session, metal_name: str):
-    return db.query(MetalRate).filter(MetalRate.metal_name == metal_name, MetalRate.is_active == True).first()
+    return db.query(MetalRate).filter(MetalRate.metal_name == metal_name, MetalRate.is_active == True).order_by(MetalRate.id.desc()).first()
 
 def create_metal_rate(db: Session, rate: MetalRateCreate):
     db_rate = MetalRate(
@@ -36,13 +40,17 @@ def update_metal_rate(db: Session, rate_id: int, rate_update: MetalRateUpdate):
     if not db_rate or not db_rate.is_active:
         return None
     
-    # Deactivate old rate
-    db_rate.is_active = False
+    update_data = rate_update.model_dump(exclude_unset=True)
+    target_metal_name = update_data.get('metal_name', db_rate.metal_name)
+
+    # Deactivate all active rates for this metal
+    active_rates = db.query(MetalRate).filter(MetalRate.metal_name == target_metal_name, MetalRate.is_active == True).all()
+    for ar in active_rates:
+        ar.is_active = False
     
     # Create new rate based on old + updates
-    update_data = rate_update.model_dump(exclude_unset=True)
     new_rate = MetalRate(
-        metal_name=update_data.get('metal_name', db_rate.metal_name),
+        metal_name=target_metal_name,
         metal_type=update_data.get('metal_type', db_rate.metal_type),
         purity=update_data.get('purity', db_rate.purity),
         unit=update_data.get('unit', db_rate.unit),
@@ -68,13 +76,15 @@ def batch_update_metal_rates(db: Session, batch_update: MetalRateBatchUpdate):
     }
     
     for metal_name, new_rate in batch_update.rates.items():
-        current_rate = get_metal_rate_by_name(db, metal_name)
+        current_rates = db.query(MetalRate).filter(MetalRate.metal_name == metal_name, MetalRate.is_active == True).all()
         
-        if current_rate:
-            current_rate.is_active = False
-            metal_type = current_rate.metal_type
-            purity = current_rate.purity
-            unit = current_rate.unit
+        if current_rates:
+            for cr in current_rates:
+                cr.is_active = False
+            last_rate = current_rates[-1]
+            metal_type = last_rate.metal_type
+            purity = last_rate.purity
+            unit = last_rate.unit
         else:
             # Empty database fallback
             fallback = defaults.get(metal_name, {"type": "Unknown", "purity": "Unknown", "unit": "Unknown"})

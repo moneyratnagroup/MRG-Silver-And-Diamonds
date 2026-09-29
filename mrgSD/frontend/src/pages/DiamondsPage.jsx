@@ -9,15 +9,9 @@ import { useShop } from '../context/ShopContext';
 import './DiamondsPage.css';
 
 // Import images
-import customHero1 from '../assets/hero_diamonds.webp';
-import customHero2 from '../assets/hero_diamonds_gold.png';
-import earringsBg from '../assets/earrings_bg.webp';
-import presenceBg from '../assets/presence_bg.webp';
-import visionBg from '../assets/vision_bg.webp';
-import catRings from '../assets/cat_rings_layout.webp';
-import bentoRing1 from '../assets/bento_ring_1_1787566345955.webp';
-import bentoRing2 from '../assets/bento_ring_2_1787566366440.webp';
-import bentoRing3 from '../assets/bento_ring_3_1787566387700.webp';
+import heroDiamondsNecklaceBlue from '../assets/hero_diamonds_necklace_blue.png';
+import heroDiamondsModelSapphire from '../assets/hero_diamonds_model_sapphire.png';
+import diamondStoryPromiseBanner from '../assets/diamond.png';
 
 const DiamondsPage = () => {
   const { collectionId } = useParams();
@@ -125,64 +119,43 @@ const DiamondsPage = () => {
       
       {showLanding && (
         <>
-      {/* Hero Section */}
-      <section className="gorings-hero">
-        <div className="gorings-hero-left">
-          <img loading="lazy" src="https://i.pinimg.com/736x/c5/54/77/c55477911eaf29d483f3f299e523d7ec.jpg" alt="Diamonds" />
-        </div>
-        <div className="gorings-hero-center">
-          <div className="gorings-sparkle-icons">
-            <span className="sparkle">✦</span>
-            <span className="sparkle small">✦</span>
+          {/* Hero Section */}
+          <section className="gorings-hero">
+            <div className="gorings-hero-left">
+              <img loading="lazy" src={heroDiamondsNecklaceBlue} alt="Diamond Haute Joaillerie Necklace" />
+            </div>
+            <div className="gorings-hero-center">
+              <p className="global-subheading">ETHICALLY SOURCED • FLAWLESS CUT • CERTIFIED</p>
+              <h1 className="gorings-title">Brilliance that lasts<br className="hero-desktop-br" />for generations</h1>
+              <button 
+                className="gorings-btn-solid"
+                onClick={() => {
+                  const el = document.getElementById('diamonds-collection-start');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                <span>EXPLORE THE COLLECTION</span>
+                <span className="hero-btn-arrow">→</span>
+              </button>
+            </div>
+            <div className="gorings-hero-right">
+              <img loading="lazy" src={heroDiamondsModelSapphire} alt="Model wearing exquisite diamond and sapphire jewelry" />
+            </div>
+          </section>
+
+          {/* Marquee Banner */}
+          <div className="gorings-marquee">
+            <div className="gorings-marquee-content">
+              <span>✦ 100% CERTIFIED NATURAL DIAMONDS</span>
+              <span>✦ LIFETIME EXCHANGE & BUYBACK GUARANTEE</span>
+              <span>✦ COMPLIMENTARY INSURED SHIPPING</span>
+              <span>✦ ETHICALLY SOURCED</span>
+              <span>✦ 100% CERTIFIED NATURAL DIAMONDS</span>
+              <span>✦ LIFETIME EXCHANGE & BUYBACK GUARANTEE</span>
+              <span>✦ COMPLIMENTARY INSURED SHIPPING</span>
+              <span>✦ ETHICALLY SOURCED</span>
+            </div>
           </div>
-          <p className="global-subheading">LONG-LASTING, HYPOALLERGENIC +<br/>FUNDS NEW CAUSES EVERY MONTH</p>
-          <h1 className="gorings-title">Jewelry that stays<br/>gold & does good</h1>
-          <button className="gorings-btn-solid">SHOP THE COLLECTION</button>
-        </div>
-        <div className="gorings-hero-right">
-          <img loading="lazy" src="https://amalfa.in/cdn/shop/files/image_22_1dc86f45-bd5e-4aef-adf6-1d80d4064245.png?v=1778141255&width=800" alt="Smiling model wearing rings" />
-        </div>
-      </section>
-
-      {/* Marquee Banner */}
-      <div className="gorings-marquee">
-        <div className="gorings-marquee-content">
-          <span>✦ 30% donated to new causes every month</span>
-          <span>✦ 30% donated to new causes every month</span>
-          <span>✦ 30% donated to new causes every month</span>
-          <span>✦ 30% donated to new causes every month</span>
-        </div>
-      </div>
-
-      {/* Bento Grid Section */}
-      <section className="bento-grid">
-        <div className="bento-cell bento-logo">
-          <div className="bento-logo-icon">
-            <span>GG</span>
-          </div>
-          <h3>GEMS GLOBAL</h3>
-          <p>— JEWELS —</p>
-        </div>
-        <div className="bento-cell bento-img1">
-          <img loading="lazy" src={bentoRing1} alt="Nested rings" />
-        </div>
-        <div className="bento-cell bento-img2">
-          <img loading="lazy" src={bentoRing2} alt="Three stone ring" />
-        </div>
-        <div className="bento-cell bento-text-box">
-          <h2>JEWELRY<br />COLLECTION</h2>
-          <p>Elevate your shine with stunning pieces on sale.<br />Hurry — your glow awaits!</p>
-        </div>
-        <div className="bento-cell bento-blank"></div>
-        <div className="bento-cell bento-img3">
-          <img loading="lazy" src={bentoRing3} alt="Marquise ring" />
-        </div>
-      </section>
-
-      <section className="gorings-sparkles-decor">
-        <span className="sparkle large">✦</span>
-        <span className="sparkle medium">✦</span>
-      </section>
         </>
       )}
 
@@ -250,36 +223,23 @@ const DiamondsPage = () => {
         />
       </section>
 
-      {/* Wavy Banner */}
       {showLanding && (
         <>
-          <section className="gorings-wavy-banner">
-            <div className="gorings-wavy-text">
-              MAKING FUNDRAISING SIMPLE, EFFECTIVE, AND JOYFUL
-            </div>
-          </section>
-
-          {/* Stay Gold & Do Good Section */}
-          <section className="gorings-bottom-split">
-            <div className="gorings-bottom-text">
-              <p className="global-subheading">JEWELRY THAT PROMISES TO</p>
-              <h2 className="gorings-bottom-title">Stay gold & do good</h2>
-              <p className="gorings-bottom-desc">
-                Our collection of long-lasting, never-take-it-off jewelry is ready to<br/>
-                shine through literally anything on your agenda. The best part?<br/>
-                30% of your order funds new causes monthly.
-              </p>
-              <button className="gorings-btn-solid">OUR STORY</button>
-            </div>
-            <div className="gorings-bottom-images">
-              <img loading="lazy" src={visionBg} alt="Model smiling" className="gorings-bottom-img1" />
-              <img loading="lazy" src={presenceBg} alt="Hands wearing rings" className="gorings-bottom-img2" />
+          {/* Diamond Promise Section */}
+          <section className="diamonds-bottom-banner-section">
+            <div className="diamonds-bottom-banner-container">
+              <img 
+                loading="lazy" 
+                src={diamondStoryPromiseBanner} 
+                alt="Jewelry That Promises To Shine Bright & Last Forever" 
+                className="diamonds-bottom-banner-img"
+              />
             </div>
           </section>
         </>
       )}
 
-      <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} />
+      <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} theme="diamond" />
     </div>
   );
 };

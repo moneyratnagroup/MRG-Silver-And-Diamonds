@@ -144,11 +144,12 @@ def get_products(
     is_new_arrival: Optional[bool] = None,
     is_featured: Optional[bool] = None,
     status: Optional[str] = "PUBLISHED",
+    include_inactive: Optional[bool] = None,
     db: Session = Depends(get_db)
 ):
     query = db.query(models.Product)
     
-    if status and status.upper() != "ALL":
+    if not include_inactive and status and status.upper() != "ALL":
         query = query.filter(models.Product.status == status.upper())
     
     if collection_id:

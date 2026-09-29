@@ -6,7 +6,7 @@ import { useShop } from '../context/ShopContext';
 import FilterSidebarContent from './FilterSidebarContent';
 import './Drawers.css';
 
-const FilterDrawer = ({ isOpen, setIsOpen }) => {
+const FilterDrawer = ({ isOpen, setIsOpen, theme }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 992);
 
   useEffect(() => {
@@ -42,8 +42,10 @@ const FilterDrawer = ({ isOpen, setIsOpen }) => {
     return null;
   }
 
+  const themeClass = theme ? `${theme}-theme` : '';
+
   return (
-    <Offcanvas show={isOpen} onHide={handleClose} placement="start" className="new-filter-drawer">
+    <Offcanvas show={isOpen} onHide={handleClose} placement="start" className={`new-filter-drawer ${themeClass}`}>
       <div className="drawer-header-custom">
         <h2 className="drawer-title-custom">Filter By</h2>
         <button className="drawer-close-btn-custom" onClick={handleClose}>
