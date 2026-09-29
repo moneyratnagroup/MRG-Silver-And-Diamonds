@@ -21,6 +21,7 @@ const DiamondsPage = () => {
   const [sortOption, setSortOption] = useState('default');
   
   const typeFilter = searchParams.get('type');
+  const typeFiltersArray = typeFilter ? typeFilter.split(',') : [];
   const occasionFilter = searchParams.get('occasion');
   
   const matchCollection = (c, searchParam) => {
@@ -48,8 +49,8 @@ const DiamondsPage = () => {
     ? diamondProducts.filter(p => p.collections && p.collections.some(c => matchCollection(c, collectionId)))
     : diamondProducts;
   
-  if (typeFilter) {
-    products = products.filter(p => p.category && p.category.toUpperCase() === typeFilter.toUpperCase());
+  if (typeFiltersArray.length > 0) {
+    products = products.filter(p => p.category && typeFiltersArray.map(t => t.toUpperCase()).includes(p.category.toUpperCase()));
   }
 
   if (occasionFilter) {
@@ -88,7 +89,7 @@ const DiamondsPage = () => {
     });
   }
 
-  const activeFiltersCount = (typeFilter ? 1 : 0) + (occasionFilter ? 1 : 0);
+  const activeFiltersCount = (typeFiltersArray.length > 0 ? 1 : 0) + (occasionFilter ? 1 : 0);
 
   const isAll = collectionId === 'all' || !collectionId;
   const showLanding = isAll && !typeFilter && !occasionFilter && !priceFilter;
@@ -107,8 +108,10 @@ const DiamondsPage = () => {
   };
   const baseTitle = getCollectionName(collectionId);
   let displayTitle = isAll ? "All Diamond Jewelry" : `${baseTitle} Collection`;
-  if (typeFilter) {
-    displayTitle = typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1).toLowerCase();
+  if (typeFiltersArray.length === 1) {
+    displayTitle = typeFiltersArray[0].charAt(0).toUpperCase() + typeFiltersArray[0].slice(1).toLowerCase();
+  } else if (typeFiltersArray.length > 1) {
+    displayTitle = `${typeFiltersArray.length} Selected Types`;
   }
 
   return (

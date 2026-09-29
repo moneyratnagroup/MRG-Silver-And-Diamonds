@@ -4,19 +4,10 @@ import { Heart, ChevronLeft, ChevronRight, SearchX } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import './DiamondGallery.css';
 
-const DiamondGallery = ({ 
-  products = [], 
-  title, 
-  tagline, 
-  filterComponent, 
-  sidebarComponent, 
-  activeFiltersComponent = null, 
-  disableSidebarScroll = false,
-  itemsPerPage = 12
-}) => {
+const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false, itemsPerPage = 8 }) => {
   const navigate = useNavigate();
-  const { addToCart, toggleWishlist, isInWishlist } = useShop();
   const [currentPage, setCurrentPage] = useState(1);
+  const { addToCart } = useShop();
 
   useEffect(() => {
     setCurrentPage(1);
@@ -122,13 +113,7 @@ const DiamondGallery = ({
                       <span className="product-card-price">
                         {product.price.includes('₹') || product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `₹ ${product.price}`}
                       </span>
-                      <button 
-                        className="add-to-cart-btn" 
-                        onClick={(e) => { 
-                          e.stopPropagation(); 
-                          if (addToCart) addToCart(product);
-                        }}
-                      >
+                      <button className="add-to-cart-btn" onClick={(e) => { e.stopPropagation(); addToCart(product); }}>
                         ADD TO CART
                       </button>
                     </div>

@@ -318,3 +318,9 @@
 .btn-icon.edit:hover {
   color: #a84c19;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .header-actions { flex-direction: column; align-items: stretch; gap: 1rem; }
+  .admin-categories-table-container { overflow-x: auto; }
+}
