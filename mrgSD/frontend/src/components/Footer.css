@@ -1,13 +1,12 @@
 .footer-section {
-  background: radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.08) 0%, transparent 60%),
-              linear-gradient(180deg, #0e172a 0%, #080d19 100%);
-  color: #F8F6F2;
+  background: #0D1217;
+  color: #B8B3AD;
   font-family: 'Inter', sans-serif;
   padding: 85px 0 45px;
   margin-top: auto;
   overflow-x: hidden;
   position: relative;
-  border-top: 1px solid rgba(197, 160, 89, 0.25);
+  border-top: 1px solid rgba(200, 169, 106, 0.25);
 }
 
 .footer-section::before {
@@ -17,7 +16,7 @@
   left: 10%;
   right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, #c5a059 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #C8A96A 50%, transparent 100%);
   opacity: 0.85;
 }
 
@@ -25,6 +24,43 @@
   max-width: 1360px;
   margin: 0 auto;
   padding: 0 35px;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-wave-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.footer-wave-bg svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+@keyframes subtleWaveFloat {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(8px) scale(1.01); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.footer-wave-bg path {
+  animation: subtleWaveFloat 18s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.footer-wave-bg path:nth-child(even) {
+  animation-duration: 22s;
+  animation-direction: reverse;
 }
 
 /* TOP SECTION: 5 Columns */
@@ -59,7 +95,7 @@
 }
 
 .footer-diamond-logo {
-  filter: drop-shadow(0 2px 10px rgba(197, 160, 89, 0.35));
+  filter: drop-shadow(0 2px 10px rgba(200, 169, 106, 0.35));
   flex-shrink: 0;
 }
 
@@ -72,7 +108,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.85rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #F7F2EA;
   line-height: 1.15;
   letter-spacing: 0.5px;
 }
@@ -82,7 +118,7 @@
   font-size: 0.72rem;
   letter-spacing: 3.5px;
   text-transform: uppercase;
-  color: #C5A059;
+  color: #C8A96A;
   margin-top: 3px;
   font-weight: 600;
 }
@@ -90,7 +126,7 @@
 .footer-description {
   font-size: 0.88rem;
   line-height: 1.75;
-  color: #9EABC0;
+  color: #B8B3AD;
   margin-bottom: 28px;
   font-weight: 350;
 }
@@ -109,7 +145,7 @@
   align-items: flex-start;
   gap: 12px;
   font-size: 0.86rem;
-  color: #B5C0D0;
+  color: #B8B3AD;
   line-height: 1.55;
 }
 
@@ -117,9 +153,9 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: rgba(197, 160, 89, 0.1);
-  border: 1px solid rgba(197, 160, 89, 0.25);
-  color: #C5A059;
+  background: rgba(200, 169, 106, 0.1);
+  border: 1px solid rgba(200, 169, 106, 0.25);
+  color: #C8A96A;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,8 +165,8 @@
 }
 
 .footer-contact-item:hover .footer-contact-icon-box {
-  background: rgba(197, 160, 89, 0.2);
-  border-color: rgba(197, 160, 89, 0.5);
+  background: rgba(200, 169, 106, 0.2);
+  border-color: rgba(200, 169, 106, 0.5);
   transform: scale(1.05);
 }
 
@@ -139,7 +175,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 0.96rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #F7F2EA;
   margin-bottom: 22px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -154,7 +190,7 @@
   left: 0;
   width: 28px;
   height: 2px;
-  background: linear-gradient(90deg, #C5A059, transparent);
+  background: linear-gradient(90deg, #C8A96A, transparent);
   border-radius: 2px;
 }
 
@@ -171,7 +207,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #9EABC0;
+  color: #B8B3AD;
   text-decoration: none;
   font-size: 0.88rem;
   transition: all 0.25s ease;
@@ -179,12 +215,12 @@
 }
 
 .footer-links-list li a:hover {
-  color: #E8D39E;
+  color: #DFBA6F;
   transform: translateX(4px);
 }
 
 .chevron-icon {
-  color: #C5A059;
+  color: #C8A96A;
   opacity: 0.7;
   flex-shrink: 0;
   transition: transform 0.25s ease, opacity 0.25s ease;
@@ -199,14 +235,14 @@
 .subscribe-text {
   font-size: 0.88rem;
   line-height: 1.7;
-  color: #9EABC0;
+  color: #B8B3AD;
   margin-bottom: 20px;
 }
 
 .subscribe-form {
   display: flex;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(197, 160, 89, 0.35);
+  border: 1px solid rgba(200, 169, 106, 0.35);
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 35px;
@@ -215,8 +251,8 @@
 }
 
 .subscribe-form:focus-within {
-  border-color: #C5A059;
-  box-shadow: 0 4px 22px rgba(197, 160, 89, 0.18);
+  border-color: #C8A96A;
+  box-shadow: 0 4px 22px rgba(200, 169, 106, 0.18);
 }
 
 .subscribe-input {
@@ -224,7 +260,7 @@
   background: transparent;
   border: none;
   padding: 12px 16px;
-  color: #FFFFFF;
+  color: #F7F2EA;
   font-size: 0.9rem;
   outline: none;
   font-family: 'Inter', sans-serif;
@@ -235,7 +271,7 @@
 }
 
 .subscribe-btn {
-  background: linear-gradient(135deg, #C5A059 0%, #A68037 100%);
+  background: linear-gradient(135deg, #C8A96A 0%, #9c8047 100%);
   border: none;
   color: #0B1329;
   font-weight: 700;
@@ -249,16 +285,16 @@
 }
 
 .subscribe-btn:hover {
-  background: linear-gradient(135deg, #D4AF37 0%, #B89243 100%);
+  background: #DFBA6F;
   color: #000000;
-  box-shadow: 0 0 14px rgba(197, 160, 89, 0.4);
+  box-shadow: 0 0 14px rgba(200, 169, 106, 0.4);
 }
 
 .footer-social-title {
   font-family: 'Playfair Display', serif;
   font-size: 0.96rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #F7F2EA;
   margin-bottom: 18px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -273,7 +309,7 @@
   left: 0;
   width: 24px;
   height: 2px;
-  background: linear-gradient(90deg, #C5A059, transparent);
+  background: linear-gradient(90deg, #C8A96A, transparent);
 }
 
 .social-icons-row {
@@ -289,19 +325,19 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(197, 160, 89, 0.3);
+  border: 1px solid rgba(200, 169, 106, 0.3);
   background: rgba(255, 255, 255, 0.04);
-  color: #C5A059;
+  color: #C8A96A;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .social-icon-link:hover {
-  background: rgba(197, 160, 89, 0.2);
-  border-color: #C5A059;
-  color: #FFFFFF;
+  background: rgba(200, 169, 106, 0.2);
+  border-color: #C8A96A;
+  color: #F7F2EA;
   transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(197, 160, 89, 0.25);
+  box-shadow: 0 6px 16px rgba(200, 169, 106, 0.25);
 }
 
 .footer-app-heading {
@@ -322,9 +358,9 @@
   gap: 10px;
   padding: 9px 14px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(197, 160, 89, 0.25);
+  border: 1px solid rgba(200, 169, 106, 0.25);
   border-radius: 8px;
-  color: #FFFFFF;
+  color: #F7F2EA;
   text-decoration: none;
   flex: 1;
   min-width: 135px;
@@ -333,8 +369,8 @@
 }
 
 .footer-app-btn:hover {
-  background: rgba(197, 160, 89, 0.15);
-  border-color: #C5A059;
+  background: rgba(200, 169, 106, 0.15);
+  border-color: #C8A96A;
   transform: translateY(-2px);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
@@ -347,7 +383,7 @@
 
 .app-subtitle {
   font-size: 0.58rem;
-  color: #9EABC0;
+  color: #B8B3AD;
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -358,7 +394,7 @@
   font-weight: 600;
   line-height: 1.2;
   margin-top: 2px;
-  color: #FFFFFF;
+  color: #F7F2EA;
 }
 
 .footer-org-code-badge {
@@ -366,10 +402,10 @@
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
-  background: rgba(197, 160, 89, 0.08);
-  border: 1px solid rgba(197, 160, 89, 0.25);
+  background: rgba(200, 169, 106, 0.08);
+  border: 1px solid rgba(200, 169, 106, 0.25);
   border-radius: 20px;
-  color: #E8D39E;
+  color: #DFBA6F;
   font-size: 0.78rem;
   font-weight: 500;
 }
@@ -378,7 +414,7 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: #C5A059;
+  background: #C8A96A;
   color: #080D19;
   display: flex;
   align-items: center;
@@ -394,8 +430,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 42px 0;
-  border-top: 1px solid rgba(197, 160, 89, 0.15);
-  border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+  border-top: 1px solid rgba(200, 169, 106, 0.15);
+  border-bottom: 1px solid rgba(200, 169, 106, 0.15);
   flex-wrap: wrap;
   gap: 25px;
 }
@@ -412,13 +448,13 @@
   display: block;
   height: 32px;
   width: 1px;
-  background: linear-gradient(180deg, transparent, rgba(197, 160, 89, 0.25), transparent);
+  background: linear-gradient(180deg, transparent, rgba(200, 169, 106, 0.25), transparent);
   margin-left: auto;
 }
 
 .trust-icon-wrapper {
-  color: #C5A059;
-  filter: drop-shadow(0 2px 6px rgba(197, 160, 89, 0.2));
+  color: #C8A96A;
+  filter: drop-shadow(0 2px 6px rgba(200, 169, 106, 0.2));
 }
 
 .trust-text {
@@ -427,7 +463,7 @@
 }
 
 .trust-title {
-  color: #FFFFFF;
+  color: #F7F2EA;
   font-family: 'Playfair Display', serif;
   font-size: 1.05rem;
   font-weight: 600;
@@ -435,7 +471,7 @@
 }
 
 .trust-subtitle {
-  color: #9EABC0;
+  color: #B8B3AD;
   font-size: 0.8rem;
   margin-top: 2px;
 }
@@ -458,7 +494,7 @@
 }
 
 .we-accept-text {
-  color: #E8D39E;
+  color: #DFBA6F;
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -498,7 +534,7 @@
 
 .footer-copyright {
   font-size: 0.86rem;
-  color: #8C99AE;
+  color: #B8B3AD;
 }
 
 .footer-legal-links {
@@ -508,19 +544,19 @@
 }
 
 .pipe-separator {
-  color: rgba(197, 160, 89, 0.25);
+  color: rgba(200, 169, 106, 0.25);
   font-size: 0.85rem;
 }
 
 .footer-legal-links a {
-  color: #8C99AE;
+  color: #B8B3AD;
   text-decoration: none;
   font-size: 0.84rem;
   transition: color 0.3s ease;
 }
 
 .footer-legal-links a:hover {
-  color: #C5A059;
+  color: #C8A96A;
 }
 
 /* RESPONSIVE DESIGN */
@@ -529,7 +565,7 @@
     justify-content: flex-start;
   }
   .trust-item {
-    border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+    border-bottom: 1px solid rgba(200, 169, 106, 0.1);
     padding-bottom: 20px;
     margin-bottom: 10px;
   }

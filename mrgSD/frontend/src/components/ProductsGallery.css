@@ -1,5 +1,5 @@
 .products-gallery-section {
-  padding: 2rem 0;
+  padding: 2rem 5%;
   background-color: transparent;
   max-width: 1400px;
   margin: 0 auto;
@@ -22,6 +22,7 @@
   justify-content: center;
   gap: 12px;
   margin-bottom: 15px;
+  position: relative;
 }
 
 .pg-line {
@@ -44,6 +45,28 @@
   max-width: 800px;
   margin: 0 auto;
   line-height: 1.5;
+}
+
+.pg-discover-more {
+  position: absolute;
+  right: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #890206;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .pg-discover-more {
+    position: static;
+    display: block;
+    margin-top: 15px;
+    font-size: 0.8rem;
+  }
 }
 
 .pg-grid {
@@ -89,7 +112,7 @@
   transition: transform 0.5s ease, opacity 0.4s ease;
 }
 
-.pg-card:hover .pg-image {
+.pg-image-container:hover .pg-image {
   transform: scale(1.05);
 }
 
@@ -100,11 +123,11 @@
   opacity: 0;
 }
 
-.pg-card:hover .primary-img {
+.pg-image-container:hover .primary-img {
   opacity: 0;
 }
 
-.pg-card:hover .hover-img {
+.pg-image-container:hover .hover-img {
   opacity: 1;
 }
 
@@ -156,8 +179,18 @@
 .pg-details {
   padding: 12px 0 0 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   flex-grow: 1;
+  width: 80%;
+}
+
+.pg-info-left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-right: 12px;
 }
 
 .pg-item-name {
@@ -188,8 +221,15 @@
 .pg-price-container {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.pg-price-wrapper {
+  display: flex;
+  align-items: center;
   gap: 8px;
-  margin: 0 0 0.75rem;
   flex-wrap: wrap;
 }
 
@@ -208,46 +248,26 @@
   text-decoration: line-through;
   font-weight: 400;
 }
-/* 
-.pg-add-to-cart {
-  background-color: #1F2A44;
-  color: white;
-  border: 1px solid #1F2A44;
-  padding: 0.8rem;
-  border-radius: 4px;
-  font-family: 'Cormorant Upright', serif;
-  font-weight: 500;
+.pg-add-to-cart-icon {
+  background-color: transparent;
+  color: #000000;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  margin-top: auto;
   transition: all 0.3s ease;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-} */
-
-.pg-add-to-cart {
-  background-color:  #1F2A44;   /* yellow */
-  color: white;                 /* black text */
-  border: none;
-  padding: 0.60rem 2rem;
-  border-radius: 999px;        /* pill shape */
-  font-family: Arial, sans-serif;
-  font-weight: 500;
-  cursor: pointer;
-  margin-top: auto;
-  transition: all 0.3s ease;
-  text-transform: none;        /* keeps normal case */
-  font-size: 1rem;
-  letter-spacing: 0;
-  display: inline-block;
-  width: 80%;                  /* matches the 80% width of the image container */
-  text-align: center;
 }
 
-.pg-add-to-cart:hover {
+.pg-add-to-cart-icon:hover {
   background-color: #f8f6f0;
-  color: #1F2A44;
-  border-color: #1F2A44;
+  color: #c9a76b;
+  border-color: #c9a76b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* Skeleton Placeholder Styles */
