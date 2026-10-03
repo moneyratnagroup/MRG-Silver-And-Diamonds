@@ -3,7 +3,7 @@ import { Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './SplitGateway.css';
 import imgdiamondcollectionmood from '../assets/Diamond_Collection.webp';
-import imgGoldCollection from '../assets/Gold_Collection_1.webp';
+import imgGoldCollection from '../assets/Gold_Collection3.webp';
 import imgsilvercollectionmood from '../assets/Silver_Collection_1.webp';
 
 const SplitGateway = () => {

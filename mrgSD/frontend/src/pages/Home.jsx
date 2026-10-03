@@ -9,10 +9,10 @@ import SplitGateway from '../components/SplitGateway';
 import AnnouncementBar from '../components/AnnouncementBar';
 import { useShop } from '../context/ShopContext';
 import './Home.css';
-import imgeditorialimg from '../assets/editorialimg.webp';
-import imgforhim from '../assets/for him.webp';
-import imgforher from '../assets/forher.webp';
-import imgkids from '../assets/kids.webp';
+import imgeditorialimg from '../assets/Golden Family Jewellery Celebration.webp';
+// import imgforhim from '../assets/for him.webp';
+// import imgforher from '../assets/forher.webp';
+// import imgkids from '../assets/kids.webp';
 
 const Home = () => {
   const { products } = useShop();
@@ -23,55 +23,44 @@ const Home = () => {
       <HeroSlider />
       <AnnouncementBar />
       <ShopByCategory />
-      <ProductsGallery
-        title="The Signature Debut"
-        tagline="Discover our inaugural curation of masterpieces—thoughtfully crafted with absolute purity and designed to mark the beginning of a beautiful legacy."
-        products={featuredProducts}
-      />
-      <section className="home-editorial-section">
-        <div className="pg-title-with-lines" style={{ marginBottom: '30px' }}>
-          <div className="pg-line"></div>
-          <Sparkles size={12} color="#890206" className="pg-sparkle" />
-          <h2 className="global-subheading" style={{ marginBottom: 0 }}>Jewellery for Every Chapter of Your Life</h2>
-          <Sparkles size={12} color="#890206" className="pg-sparkle" />
-          <div className="pg-line"></div>
-        </div>
-        <div className="home-bento-grid">
-          <div className="bento-right-col">
-            <div className="home-editorial-image-wrapper">
-              <img src={imgeditorialimg} alt="Jewellery for Every Chapter of Life" className="home-editorial-image" loading="lazy" width="1775" height="888" />
-              <div className="home-editorial-overlay">
-                <p>From first love to forever, from one generation to the next we craft memories that lasts a lifetime</p>
-              </div>
+      <section className="home-editorial-section-new">
+        <div className="editorial-new-content">
+          <div className="editorial-new-text">
+            <div className="editorial-new-eyebrow">
+              <span className="editorial-new-eyebrow-line"></span>
+              MORE THAN JEWELLERY
             </div>
+            <h2 className="editorial-new-heading">
+              Jewellery for Every <br /> Chapter of <span>Your Life</span>
+            </h2>
+            <p className="editorial-new-description">
+              From everyday moments to life’s biggest celebrations, our jewellery is created to become part of the memories you’ll treasure for years to come.
+            </p>
+            <div className="editorial-new-divider">
+              <span className="editorial-new-divider-line"></span>
+              <Sparkles size={14} color="#c9a76b" fill="#c9a76b" />
+              <span className="editorial-new-divider-line"></span>
+            </div>
+            <button className="editorial-new-button">
+              DISCOVER OUR STORY <span>&rarr;</span>
+            </button>
           </div>
-          <div className="bento-left-col">
-            <div className="bento-card">
-              <img src={imgforher} alt="For Her" loading="lazy" className="bento-card-image" />
-              <div className="bento-card-overlay">
-                <h3>For Her</h3>
-                <button className="bento-explore-btn">Explore</button>
-              </div>
-            </div>
-            <div className="bento-card">
-              <img src={imgforhim} alt="For Him" loading="lazy" className="bento-card-image" />
-              <div className="bento-card-overlay">
-                <h3>For Him</h3>
-                <button className="bento-explore-btn">Explore</button>
-              </div>
-            </div>
-            <div className="bento-card">
-              <img src={imgkids} alt="Kids Collection" loading="lazy" className="bento-card-image" />
-              <div className="bento-card-overlay">
-                <h3>Kids Collection</h3>
-                <button className="bento-explore-btn">Explore</button>
-              </div>
-            </div>
+          <div className="editorial-new-image-container">
+            <img src={imgeditorialimg} alt="Golden Family Jewellery Celebration" loading="lazy" />
           </div>
         </div>
       </section>
+      {/* <div className="home-products-container">
+        <ProductsGallery
+          title="The Signature Debut"
+          tagline="Discover our inaugural curation of masterpieces—thoughtfully crafted with absolute purity and designed to mark the beginning of a beautiful legacy."
+          products={featuredProducts}
+        />
+      </div> */}
       <OurPromises />
-      <FeaturedCollection />
+      <div className="home-products-container">
+        <FeaturedCollection />
+      </div>
       <SplitGateway />
     </>
   );

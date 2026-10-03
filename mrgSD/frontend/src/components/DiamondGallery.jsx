@@ -7,7 +7,7 @@ import './DiamondGallery.css';
 const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false, itemsPerPage = 8 }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const { addToCart } = useShop();
+  const { addToCart, isInWishlist, toggleWishlist } = useShop();
 
   useEffect(() => {
     setCurrentPage(1);

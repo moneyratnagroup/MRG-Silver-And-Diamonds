@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, ShoppingCart } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 import './ProductsGallery.css'; // Reusing the exact same styling as requested
@@ -16,30 +16,7 @@ const FeaturedCollection = () => {
     )
   ).slice(0, 8);
 
-  // If no featured products are found, we'll keep the placeholders so the layout doesn't look broken
-  // until the admin actually creates the "Featured" collection and adds products to it.
-  const hasFeaturedProducts = featuredProducts.length > 0;
 
-  // Mock data for the first populated product (used as fallback)
-  const sampleProduct = {
-    id: 1,
-    name: "Classic Silver Charm Bracelet",
-    originalPrice: "₹2,999",
-    price: "₹2,499",
-    img: braceletImg,
-    hoverImage: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=600",
-    images: [
-      braceletImg, // front view
-      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=600", // side view
-      "https://images.unsplash.com/photo-1599643478514-4a1101858ff6?auto=format&fit=crop&q=80&w=600", // on human body
-      "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=600" // certificate
-    ],
-    category: "Bracelets",
-    desc: "A timeless sterling silver charm bracelet perfect for any occasion. Elegantly designed to hold your most precious memories."
-  };
-
-  // We need 8 items total. 1 populated, 7 skeletons.
-  const placeholders = [1, 2, 3, 4, 5, 6, 7];
 
   const calculateDiscount = (original, selling) => {
     if (!original || !selling) return null;
@@ -64,6 +41,7 @@ const FeaturedCollection = () => {
           <h2 className="global-subheading">Featured Collection</h2>
           <Sparkles size={12} color="#890206" className="pg-sparkle" />
           <div className="pg-line"></div>
+          <span className="pg-discover-more" onClick={() => navigate('/products')} style={{ cursor: 'pointer' }}>View All Products</span>
         </div>
         <p className="pg-tagline">
           Handpicked silver jewellery crafted to celebrate elegance, tradition, and everyday beauty.
@@ -71,100 +49,49 @@ const FeaturedCollection = () => {
       </div>
 
       <div className="pg-grid">
-        {hasFeaturedProducts ? (
-          // Render real featured products
-          featuredProducts.map((product) => (
-            <div className="pg-card" key={product.id}>
-              <div className="pg-image-container" onClick={() => handleProductClick(product)} style={{cursor: 'pointer'}}>
-                {product.originalPrice && calculateDiscount(product.originalPrice, product.price) && (
-                  <span className="pg-discount-badge">
-                    {calculateDiscount(product.originalPrice, product.price)}% OFF
-                  </span>
-                )}
-                <img loading="lazy" src={product.img || braceletImg} alt={product.name} className={`pg-image ${product.hoverImage ? 'primary-img' : ''}`} />
-                {product.hoverImage && (
-                  <img loading="lazy" src={product.hoverImage} alt={`${product.name} hover`} className="pg-image hover-img" />
-                )}
-                <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? "#e53e3e" : "none"} stroke={isInWishlist(product.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                  </svg>
-                </button>
-              </div>
-              <div className="pg-details">
+        {featuredProducts.map((product) => (
+          <div className="pg-card" key={product.id}>
+            <div className="pg-image-container" onClick={() => handleProductClick(product)} style={{cursor: 'pointer'}}>
+              {product.originalPrice && calculateDiscount(product.originalPrice, product.price) && (
+                <span className="pg-discount-badge">
+                  {calculateDiscount(product.originalPrice, product.price)}% OFF
+                </span>
+              )}
+              <img loading="lazy" src={product.img || braceletImg} alt={product.name} className={`pg-image ${product.hoverImage ? 'primary-img' : ''}`} />
+              {product.hoverImage && (
+                <img loading="lazy" src={product.hoverImage} alt={`${product.name} hover`} className="pg-image hover-img" />
+              )}
+              <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? "#e53e3e" : "none"} stroke={isInWishlist(product.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
+            </div>
+            <div className="pg-details">
+              <div className="pg-info-left">
                 <h3 className="pg-item-name">{product.name}</h3>
                 <div className="pg-price-container">
-                  <p className="pg-item-price">{product.price}</p>
-                  {product.originalPrice && (
-                    <p className="pg-item-original-price">{product.originalPrice}</p>
-                  )}
+                  <div className="pg-price-wrapper">
+                    <p className="pg-item-price">{product.price}</p>
+                    {product.originalPrice && (
+                      <p className="pg-item-original-price">{product.originalPrice}</p>
+                    )}
+                  </div>
                 </div>
-                <button 
-                  className="pg-add-to-cart" 
-                  onClick={(e) => { 
-                    e.stopPropagation(); 
-                    addToCart(product); 
-                  }}
-                >
-                  Add to Cart
-                </button>
               </div>
+              <button 
+                className="pg-add-to-cart-icon" 
+                aria-label="Add to Cart"
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  addToCart(product); 
+                }}
+              >
+                <ShoppingCart size={18} strokeWidth={2} />
+              </button>
             </div>
-          ))
-        ) : (
-          // Render fallback placeholders until admin creates the collection
-          <>
-            {/* Sample Fully Populated Product Card */}
-            <div className="pg-card">
-              <div className="pg-image-container" onClick={() => handleProductClick(sampleProduct)} style={{cursor: 'pointer'}}>
-                {sampleProduct.originalPrice && calculateDiscount(sampleProduct.originalPrice, sampleProduct.price) && (
-                  <span className="pg-discount-badge">
-                    {calculateDiscount(sampleProduct.originalPrice, sampleProduct.price)}% OFF
-                  </span>
-                )}
-                <img loading="lazy" src={sampleProduct.img} alt={sampleProduct.name} className={`pg-image ${sampleProduct.hoverImage ? 'primary-img' : ''}`} />
-                {sampleProduct.hoverImage && (
-                  <img loading="lazy" src={sampleProduct.hoverImage} alt={`${sampleProduct.name} hover`} className="pg-image hover-img" />
-                )}
-                <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(sampleProduct); }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(sampleProduct.id) ? "#e53e3e" : "none"} stroke={isInWishlist(sampleProduct.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                  </svg>
-                </button>
-              </div>
-              <div className="pg-details">
-                <h3 className="pg-item-name">{sampleProduct.name}</h3>
-                <div className="pg-price-container">
-                  <p className="pg-item-price">{sampleProduct.price}</p>
-                  {sampleProduct.originalPrice && (
-                    <p className="pg-item-original-price">{sampleProduct.originalPrice}</p>
-                  )}
-                </div>
-                <button 
-                  className="pg-add-to-cart" 
-                  onClick={(e) => { 
-                    e.stopPropagation(); 
-                    addToCart(sampleProduct); 
-                  }}
-                >
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-
-            {/* Skeleton Placeholders for the remaining 7 items */}
-            {placeholders.map((item) => (
-              <div className="pg-card skeleton-card" key={item}>
-                <div className="pg-image-container skeleton-img"></div>
-                <div className="pg-details">
-                  <div className="skeleton-text skeleton-title"></div>
-                  <div className="skeleton-text skeleton-price"></div>
-                  <div className="skeleton-btn"></div>
-                </div>
-              </div>
-            ))}
-          </>
-        )}
+          </div>
+        ))}
       </div>
 
     </section>

@@ -1,6 +1,7 @@
 .promises-section {
   padding: 1rem 2rem 4rem;
-  background-color: transparent; /* Soft brand background to separate from white gallery */
+  background-color: transparent;
+  /* Soft brand background to separate from white gallery */
   font-family: 'Cormorant Upright', serif;
   text-align: center;
 }
@@ -45,13 +46,13 @@
   justify-content: center;
   margin-bottom: 1.25rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-  color: #000000;
+  color: #81550f;
   transition: all 0.3s ease;
-  border: 1px solid rgba(0,0,0,0.03);
+  border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .promise-card:hover .promise-icon-wrapper {
-  background-color: #000000;
+  background-color: #c9a76b;
   color: #ffffff;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
@@ -87,23 +88,23 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem 1rem;
   }
-  
+
   .promise-icon-wrapper {
     width: 55px;
     height: 55px;
     margin-bottom: 0.75rem;
   }
-  
+
   .promise-icon-wrapper svg {
     width: 24px;
     height: 24px;
   }
-  
+
   .promise-title {
     font-size: 0.85rem;
     text-align: center;
   }
-  
+
   .promise-desc {
     font-size: 0.75rem;
     text-align: center;
