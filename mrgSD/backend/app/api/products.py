@@ -20,6 +20,9 @@ def get_categories(db: Session = Depends(get_db)):
 
 @router.post("/categories", response_model=schemas.Category)
 def create_category(category: schemas.CategoryCreate, db: Session = Depends(get_db)):
+    existing = db.query(models.Category).filter(models.Category.name.ilike(category.name)).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Category with this name already exists")
     db_obj = models.Category(**category.dict())
     db.add(db_obj)
     db.commit()
@@ -100,6 +103,9 @@ def get_collections(db: Session = Depends(get_db)):
 
 @router.post("/collections", response_model=schemas.Collection)
 def create_collection(collection: schemas.CollectionCreate, db: Session = Depends(get_db)):
+    existing = db.query(models.Collection).filter(models.Collection.name.ilike(collection.name)).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Collection with this name already exists")
     db_obj = models.Collection(name=collection.name)
     if collection.category_ids:
         categories = db.query(models.Category).filter(models.Category.id.in_(collection.category_ids)).all()
