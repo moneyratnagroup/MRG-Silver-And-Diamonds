@@ -11,7 +11,7 @@ import './DiamondsPage.css';
 // Import images
 import heroDiamondsNecklaceBlue from '../assets/hero_diamonds_necklace_blue.png';
 import heroDiamondsModelSapphire from '../assets/hero_diamonds_model_sapphire.png';
-import diamondStoryPromiseBanner from '../assets/diamond.png';
+import diamond10Image from '../assets/diamond10.webp';
 
 const DiamondsPage = () => {
   const { collectionId } = useParams();
@@ -226,14 +226,16 @@ const DiamondsPage = () => {
       {showLanding && (
         <>
           {/* Diamond Promise Section */}
-          <section className="diamonds-bottom-banner-section">
-            <div className="diamonds-bottom-banner-container">
-              <img 
-                loading="lazy" 
-                src={diamondStoryPromiseBanner} 
-                alt="Jewelry That Promises To Shine Bright & Last Forever" 
-                className="diamonds-bottom-banner-img"
-              />
+          <section className="diamonds-full-banner">
+            <img loading="lazy" src={diamond10Image} alt="Diamond jewelry lifestyle" />
+            <div className="diamonds-overlay-text">
+              <div className="diamonds-impact-eyebrow">
+                <span>JEWELRY THAT PROMISES TO</span>
+              </div>
+              <h2 className="diamonds-bottom-title">
+                Shine <em>bright</em><br />
+                & last forever
+              </h2>
             </div>
           </section>
         </>
