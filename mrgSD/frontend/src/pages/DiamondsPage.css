@@ -4,7 +4,7 @@
   background-color: #fbfbfc;
   min-height: 100vh;
   font-family: 'Cormorant Upright', serif;
-  color: #1a2245; 
+  color: #1a2245;
 }
 
 /* Hero Section */
@@ -15,12 +15,14 @@
   background-color: #06152b;
 }
 
-.gorings-hero-left, .gorings-hero-right {
+.gorings-hero-left,
+.gorings-hero-right {
   flex: 1;
   overflow: hidden;
 }
 
-.gorings-hero-left img, .gorings-hero-right img {
+.gorings-hero-left img,
+.gorings-hero-right img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -133,8 +135,13 @@
 }
 
 @keyframes goringsMarquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Split Section */
@@ -232,39 +239,86 @@
   appearance: none;
 }
 
-/* Diamond Bottom Stay Gold Banner Section */
-.diamonds-bottom-banner-section {
-  width: 100%;
-  background: #07172E;
+/* Diamond Full Banner Section */
+.diamonds-full-banner {
   margin: 3.5rem 0 2rem;
-  padding: 0;
-  display: flex;
-  justify-content: center;
+  width: 100%;
+  height: 800px;
+  overflow: hidden;
+  position: relative;
 }
 
-.diamonds-bottom-banner-container {
+.diamonds-full-banner img {
   width: 100%;
-  max-width: 1400px;
-  box-sizing: border-box;
-}
-
-.diamonds-bottom-banner-img {
-  width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
-  image-rendering: auto;
+  object-fit: cover;
+  object-position: center;
 }
 
+.diamonds-overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 10;
+  max-width: 50%;
+}
+
+.diamonds-overlay-text .diamonds-impact-eyebrow {
+  color: #dfba6f;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 4px;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.diamonds-overlay-text .diamonds-bottom-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 6rem;
+  color: #ffffff;
+  line-height: 1.05;
+  margin: 0;
+  font-weight: 500;
+}
+
+.diamonds-overlay-text .diamonds-bottom-title em {
+  color: #dfba6f;
+  font-style: italic;
+  font-weight: 400;
+}
 @media (max-width: 992px) {
   .gorings-hero {
     flex-direction: column;
     height: auto;
   }
-  .gorings-hero-left, .gorings-hero-right {
+
+  .gorings-hero-left,
+  .gorings-hero-right {
     height: 300px;
   }
+
   .gorings-split-section {
     flex-direction: column;
+  }
+
+  .diamonds-overlay-text {
+    max-width: 90%;
+    left: 5%;
+  }
+
+  .diamonds-overlay-text .diamonds-bottom-title {
+    font-size: 3.5rem;
+  }
+
+  .diamonds-overlay-text .diamonds-impact-eyebrow {
+    font-size: 0.75rem;
   }
 }
 
@@ -322,7 +376,8 @@
   height: 100%;
   max-height: 100%;
   object-fit: contain;
-  border-radius: 8px; /* Slightly round the images if they don't have built-in borders */
+  border-radius: 8px;
+  /* Slightly round the images if they don't have built-in borders */
 }
 
 /* Slimmer add to cart button */
