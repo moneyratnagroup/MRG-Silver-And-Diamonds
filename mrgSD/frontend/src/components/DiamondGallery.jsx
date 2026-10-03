@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, ChevronLeft, ChevronRight, SearchX } from 'lucide-react';
+import { Heart, ChevronLeft, ChevronRight, SearchX, ShoppingCart } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import './DiamondGallery.css';
 
 const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false, itemsPerPage = 8 }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const { addToCart } = useShop();
+  const { addToCart, isInWishlist, toggleWishlist } = useShop();
 
   useEffect(() => {
     setCurrentPage(1);
@@ -110,12 +110,14 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                     
                     <div className="product-card-info">
                       <h3 className="product-card-title">{product.name}</h3>
-                      <span className="product-card-price">
-                        {product.price.includes('₹') || product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `₹ ${product.price}`}
-                      </span>
-                      <button className="add-to-cart-btn" onClick={(e) => { e.stopPropagation(); addToCart(product); }}>
-                        ADD TO CART
-                      </button>
+                      <div className="product-card-price-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginTop: 'auto', paddingBottom: '0.25rem' }}>
+                        <span className="product-card-price" style={{ marginBottom: 0 }}>
+                          {product.price.includes('₹') || product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `₹ ${product.price}`}
+                        </span>
+                        <button className="add-to-cart-icon-btn" onClick={(e) => { e.stopPropagation(); addToCart(product); }} title="Add to Cart">
+                          <ShoppingCart size={20} strokeWidth={2} />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );
@@ -129,27 +131,40 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
             )}
             
             {totalPages > 1 && (
-              <div className="gallery-pagination">
+              <div className="gallery-pagination circular-pagination">
                 <button 
-                  className="pagination-btn" 
+                  className="circular-page-btn arrow-btn" 
                   disabled={currentPage === 1}
                   onClick={() => {
                     setCurrentPage(prev => Math.max(prev - 1, 1));
                     window.scrollTo({ top: document.getElementById('gorings-collection-start')?.offsetTop || 0, behavior: 'smooth' });
                   }}
                 >
-                  Previous
+                  <ChevronLeft size={18} strokeWidth={1.5} />
                 </button>
-                <span className="pagination-info">Page {currentPage} of {totalPages}</span>
+                
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i + 1}
+                    className={`circular-page-btn number-btn ${currentPage === i + 1 ? 'active' : ''}`}
+                    onClick={() => {
+                      setCurrentPage(i + 1);
+                      window.scrollTo({ top: document.getElementById('gorings-collection-start')?.offsetTop || 0, behavior: 'smooth' });
+                    }}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+
                 <button 
-                  className="pagination-btn" 
+                  className="circular-page-btn arrow-btn" 
                   disabled={currentPage === totalPages}
                   onClick={() => {
                     setCurrentPage(prev => Math.min(prev + 1, totalPages));
                     window.scrollTo({ top: document.getElementById('gorings-collection-start')?.offsetTop || 0, behavior: 'smooth' });
                   }}
                 >
-                  Next
+                  <ChevronRight size={18} strokeWidth={1.5} />
                 </button>
               </div>
             )}
