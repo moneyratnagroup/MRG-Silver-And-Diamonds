@@ -167,24 +167,29 @@ const GoldPage = () => {
 
       {showLanding && (
         <>
-          {/* 1. Hero Section */}
-          <section className="gold-hero">
-            <div className="gold-hero-left">
-              <img loading="lazy" src="https://i.pinimg.com/736x/e1/e5/1e/e1e51e03038115f665cd02afb4298542.jpg" alt="Gold Jewelry" />
-            </div>
-            <div className="gold-hero-center">
-              <div className="gold-sparkle-icons">
-                <span className="sparkle">✦</span>
-                <span className="sparkle small">✦</span>
+          {/* 1. Hero Section - ORO Design */}
+          <section className="new-gold-hero oro-hero">
+            <div className="oro-hero-content">
+              <div className="oro-hero-left">
+                <div className="oro-eyebrow">
+                  <span className="oro-icon">✦</span>
+                  TIMELESS CRAFTSMANSHIP
+                  <span className="oro-line"></span>
+                </div>
+                
+                <h1 className="oro-title">ORO</h1>
+                <h2 className="oro-subtitle">GOLD COLLECTION</h2>
+                
+                <p className="oro-desc">
+                  Personalized service that goes beyond<br />
+                  expectations: together, we'll craft the<br />
+                  ring of your dreams
+                </p>
+                
+                <a href="#gold-collection-start" className="oro-btn" onClick={(e) => { e.preventDefault(); document.getElementById('gold-collection-start').scrollIntoView({ behavior: 'smooth' }); }}>
+                  EXPLORE GOLD COLLECTION &rarr;
+                </a>
               </div>
-              <p className="global-subheading" style={{ color: '#8b2525' }}>PURE TRADITION -<br />EXQUISITE CRAFTSMANSHIP</p>
-              <h1 className="gold-hero-title gold-serif">Golden moments<br />crafted for you</h1>
-              <button className="gold-btn" onClick={() => document.getElementById('gold-collection-start').scrollIntoView({ behavior: 'smooth' })}>
-                SHOP THE COLLECTION
-              </button>
-            </div>
-            <div className="gold-hero-right">
-              <img loading="lazy" src="https://i.pinimg.com/736x/e8/cd/56/e8cd56b1edc1b32cfe418d1f2a6ba482.jpg" alt="Gold Rings" />
             </div>
           </section>
 
