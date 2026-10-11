@@ -239,60 +239,89 @@
   appearance: none;
 }
 
-/* Diamond Full Banner Section */
-.diamonds-full-banner {
+/* Diamond Promise Section Split Layout */
+.diamond-promise-split {
+  display: flex;
   margin: 3.5rem 0 2rem;
-  width: 100%;
-  height: 800px;
-  overflow: hidden;
-  position: relative;
+  background-color: #06152b;
+  min-height: 600px;
 }
 
-.diamonds-full-banner img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-}
-
-.diamonds-overlay-text {
-  position: absolute;
-  top: 50%;
-  left: 8%;
-  transform: translateY(-50%);
+.promise-split-text {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  z-index: 10;
-  max-width: 50%;
+  padding: 4rem 10%;
+  background: radial-gradient(circle at left, #0a1f3d 0%, #06152b 100%);
 }
 
-.diamonds-overlay-text .diamonds-impact-eyebrow {
+.promise-split-text .promise-impact-eyebrow {
   color: #dfba6f;
   font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   letter-spacing: 4px;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
   text-transform: uppercase;
 }
 
-.diamonds-overlay-text .diamonds-bottom-title {
+.promise-split-text .promise-bottom-title {
   font-family: 'Cormorant Upright', serif;
-  font-size: 6rem;
+  font-size: 6.5rem;
   color: #ffffff;
-  line-height: 1.05;
+  line-height: 1.1;
   margin: 0;
-  font-weight: 500;
-}
-
-.diamonds-overlay-text .diamonds-bottom-title em {
-  color: #dfba6f;
-  font-style: italic;
   font-weight: 400;
 }
+
+.promise-split-text .promise-bottom-title em {
+  color: #dfba6f;
+  font-style: italic;
+}
+
+.promise-split-image.overlapping-composition {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+  background: radial-gradient(circle at center, #1a3c75 0%, #0c1e3e 100%);
+}
+
+.overlapping-img-container {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  height: 650px;
+}
+
+.overlapping-img-container img {
+  position: absolute;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  border: 4px solid #ffffff;
+  object-fit: cover;
+  display: block;
+}
+
+.img-back {
+  width: 70%;
+  height: 75%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.img-front {
+  width: 70%;
+  height: 75%;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+}
+
 @media (max-width: 992px) {
   .gorings-hero {
     flex-direction: column;
@@ -304,21 +333,31 @@
     height: 300px;
   }
 
-  .gorings-split-section {
+  .diamond-promise-split {
     flex-direction: column;
   }
 
-  .diamonds-overlay-text {
-    max-width: 90%;
-    left: 5%;
+  .promise-split-text {
+    padding: 4rem 2rem;
+    align-items: center;
+    text-align: center;
   }
 
-  .diamonds-overlay-text .diamonds-bottom-title {
+  .promise-split-text .promise-bottom-title {
     font-size: 3.5rem;
   }
 
-  .diamonds-overlay-text .diamonds-impact-eyebrow {
-    font-size: 0.75rem;
+  .promise-split-text .promise-impact-eyebrow {
+    font-size: 0.8rem;
+  }
+
+  .promise-split-image.overlapping-composition {
+    padding: 2rem 1rem 4rem;
+  }
+
+  .overlapping-img-container {
+    height: 350px;
+    max-width: 320px;
   }
 }
 
