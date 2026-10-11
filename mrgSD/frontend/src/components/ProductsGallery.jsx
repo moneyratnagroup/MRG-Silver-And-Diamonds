@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, SearchX, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Sparkles, SearchX, ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import './ProductsGallery.css';
 import { useNavigate } from 'react-router-dom';
 import braceletImg from '../assets/silver_charm_bracelet.webp';
 
-const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null, sidebarComponent = null, activeFiltersComponent = null, enablePagination = false, itemsPerPage = 12 }) => {
+const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null, sidebarComponent = null, activeFiltersComponent = null, enablePagination = false, itemsPerPage = 12, useCartIcon = false }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -105,23 +105,50 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                     </button>
                   </div>
                   <div className="pg-details">
-                    <h3 className="pg-item-name">{product.name}</h3>
+                    {useCartIcon ? (
+                      <>
+                        <div className="pg-info-left">
+                          <h3 className="pg-item-name">{product.name}</h3>
 
-                    <div className="pg-price-container">
-                      <p className="pg-item-price">{product.price}</p>
-                      {product.originalPrice && (
-                        <p className="pg-item-original-price">{product.originalPrice}</p>
-                      )}
-                    </div>
-                    <button 
-                      className="pg-add-to-cart" 
-                      onClick={(e) => { 
-                        e.stopPropagation(); 
-                        addToCart(product); 
-                      }}
-                    >
-                      Add to Cart
-                    </button>
+                          <div className="pg-price-container">
+                            <p className="pg-item-price">{product.price}</p>
+                            {product.originalPrice && (
+                              <p className="pg-item-original-price">{product.originalPrice}</p>
+                            )}
+                          </div>
+                        </div>
+                        <button 
+                          className="pg-add-to-cart-icon" 
+                          onClick={(e) => { 
+                            e.stopPropagation(); 
+                            addToCart(product); 
+                          }}
+                          aria-label="Add to Cart"
+                        >
+                          <ShoppingCart size={18} />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <h3 className="pg-item-name">{product.name}</h3>
+
+                        <div className="pg-price-container">
+                          <p className="pg-item-price">{product.price}</p>
+                          {product.originalPrice && (
+                            <p className="pg-item-original-price">{product.originalPrice}</p>
+                          )}
+                        </div>
+                        <button 
+                          className="pg-add-to-cart" 
+                          onClick={(e) => { 
+                            e.stopPropagation(); 
+                            addToCart(product); 
+                          }}
+                        >
+                          Add to Cart
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               ))

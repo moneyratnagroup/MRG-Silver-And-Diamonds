@@ -11,7 +11,7 @@ const ContactPage = () => {
   const validateEmail = (value) => {
     // Restrict email input to max 50 characters
     if (value.length > 50) return;
-    
+
     setEmail(value);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (value && !emailRegex.test(value)) {
@@ -25,7 +25,7 @@ const ContactPage = () => {
     // Only allow digits to be typed, up to 10 max
     const numericValue = value.replace(/\D/g, '').slice(0, 10);
     setMobile(numericValue);
-    
+
     if (numericValue && numericValue.length !== 10) {
       setMobileError('enter 10 digit mobile number');
     } else {
@@ -36,7 +36,7 @@ const ContactPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let valid = true;
-    
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setEmailError('enter valid email');
       valid = false;
@@ -45,7 +45,7 @@ const ContactPage = () => {
       setMobileError('enter 10 digit mobile number');
       valid = false;
     }
-    
+
     if (valid) {
       // Proceed with submit
       console.log('Form is valid');
@@ -73,7 +73,7 @@ const ContactPage = () => {
               <Phone size={22} color="#dc3545" strokeWidth={2.5} />
               <div className="contact-text-new">
                 <h4>Call Us</h4>
-                <p>+91 0000000000<br />+91 0000000000<br />+91 0000000000</p>
+                <p>+91 7025925916<br />+91 0000000000<br />+91 0000000000</p>
               </div>
             </div>
 
@@ -112,27 +112,27 @@ const ContactPage = () => {
 
               <div className="form-group">
                 <label htmlFor="email">Email Address</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  placeholder="Enter your email" 
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Enter your email"
                   value={email}
                   onChange={(e) => validateEmail(e.target.value)}
                   maxLength={50}
-                  required 
+                  required
                 />
                 {emailError && <span style={{ color: 'red', fontSize: '12px', marginTop: '4px', display: 'block' }}>{emailError}</span>}
               </div>
 
               <div className="form-group">
                 <label htmlFor="mobile">Mobile Number</label>
-                <input 
-                  type="tel" 
-                  id="mobile" 
-                  placeholder="Enter your mobile number" 
+                <input
+                  type="tel"
+                  id="mobile"
+                  placeholder="Enter your mobile number"
                   value={mobile}
                   onChange={(e) => validateMobile(e.target.value)}
-                  required 
+                  required
                 />
                 {mobileError && <span style={{ color: 'red', fontSize: '12px', marginTop: '4px', display: 'block' }}>{mobileError}</span>}
               </div>

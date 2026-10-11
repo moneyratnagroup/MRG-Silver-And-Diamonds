@@ -249,9 +249,20 @@
 
 
 /* Product Cards Overrides */
-@media (min-width: 501px) {
+@media (min-width: 501px) and (max-width: 991px) {
   .ivory-theme .pg-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .ivory-theme .pg-image-container {
+    height: 220px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .ivory-theme .pg-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
     gap: 1.5rem !important;
   }
 
