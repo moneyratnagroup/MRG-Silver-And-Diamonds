@@ -1,41 +1,68 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import './Pages.css';
-import imgcarebg from '../assets/carebg.webp';
+import './CareersPage.css';
+import imgcarebg from '../assets/elegant_jewellery_bg.jpg';
 
 const CareersPage = () => {
   return (
     <div className="careers-page-wrapper">
       {/* Hero Banner Section */}
-      <div className="about-hero">
-        <div className="about-hero-image">
-          <img loading="lazy" src={imgcarebg} alt="Careers at Moneyratna" style={{ filter: 'brightness(0.4)' }} />
+      <section className="careers-hero">
+        <div className="careers-hero-image">
+          <img loading="lazy" src={imgcarebg} alt="Careers at Moneyratna" />
         </div>
-        <div className="about-hero-overlay">
-          <h1 className="about-title" style={{ color: '#fff' }}>Join Our Team</h1>
-          <p className="global-subheading" style={{ color: '#f0f0f0' }}>Build a brilliant career with Moneyratna Jewellery</p>
+        <div className="careers-hero-overlay">
+          <h1 className="careers-title">Join Our Legacy</h1>
+          <p className="careers-subtitle">Craft a brilliant career with Moneyratna Jewellery</p>
         </div>
-      </div>
+      </section>
 
-      <div className="page-container py-5" style={{ minHeight: 'auto' }}>
+      {/* Why Join Us Section */}
+      <section className="why-join-us">
         <Container>
-          <div className="content-section text-center" style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <p className="lead mb-4" style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.8' }}>
-              We are always looking for talented individuals who are passionate about jewellery, exceptional craftsmanship, and outstanding customer service.
+          <div className="section-header">
+            <h2 className="section-title">Why Moneyratna?</h2>
+            <p className="section-subtitle">
+              We believe in nurturing talent and passion. Join a team where your craft is valued, and excellence is the standard.
             </p>
-            <div className="mt-5 p-5 bg-light rounded shadow-sm" style={{ border: '1px solid #eee' }}>
-              <h4 style={{ fontFamily: '"Playfair Display", serif', fontSize: '1.8rem', color: '#1a1a1a', marginBottom: '15px' }}>Current Openings</h4>
-              <p className="text-muted mt-3" style={{ fontSize: '1.05rem' }}>There are currently no open positions. Please check back later.</p>
-              <hr className="my-4" style={{ opacity: 0.1 }} />
-              <p className="mb-0" style={{ fontSize: '1.05rem', color: '#555' }}>
-                You can also send your resume to <br />
-                <a href="mailto:careers@moneyratna.com" className="text-decoration-none" style={{ color: '#a84c19', fontWeight: '600', fontSize: '1.2rem', display: 'inline-block', marginTop: '10px' }}>careers@moneyratna.com</a><br />
-                and we will contact you if a suitable position opens up.
-              </p>
+          </div>
+          <div className="benefits-grid">
+            <div className="benefit-card">
+              <div className="benefit-icon">✦</div>
+              <h3 className="benefit-title">Craftsmanship</h3>
+              <p className="benefit-text">Work alongside master artisans and visionaries who are pushing the boundaries of jewellery design.</p>
+            </div>
+            <div className="benefit-card">
+              <div className="benefit-icon">✧</div>
+              <h3 className="benefit-title">Growth</h3>
+              <p className="benefit-text">We invest in your potential with continuous learning opportunities and clear paths for career advancement.</p>
+            </div>
+            <div className="benefit-card">
+              <div className="benefit-icon">✦</div>
+              <h3 className="benefit-title">Culture</h3>
+              <p className="benefit-text">Experience a collaborative, inclusive environment where every voice matters and creativity thrives.</p>
             </div>
           </div>
         </Container>
-      </div>
+      </section>
+
+      {/* Openings Section */}
+      <section className="openings-section">
+        <Container>
+          <div className="empty-state-box">
+            <h3 className="empty-title">Current Openings</h3>
+            <p className="empty-desc">
+              We are currently at full capacity and do not have any open positions. However, we are always on the lookout for extraordinary talent.
+            </p>
+            <hr className="contact-hr" />
+            <p className="resume-prompt">
+              Think you'd be a great fit? Send us your resume and portfolio.
+              <br />
+              <a href="mailto:careers@moneyratna.com" className="email-link">careers@moneyratna.com</a>
+            </p>
+          </div>
+        </Container>
+      </section>
     </div>
   );
 };

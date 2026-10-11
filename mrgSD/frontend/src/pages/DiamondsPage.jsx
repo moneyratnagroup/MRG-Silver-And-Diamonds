@@ -11,7 +11,7 @@ import './DiamondsPage.css';
 // Import images
 import heroDiamondsNecklaceBlue from '../assets/hero_diamonds_necklace_blue.png';
 import heroDiamondsModelSapphire from '../assets/hero_diamonds_model_sapphire.png';
-import diamond10Image from '../assets/diamond10.webp';
+import pearDiamondRing from '../assets/Pear Diamond Ring on Midnight Silk.webp';
 
 const DiamondsPage = () => {
   const { collectionId } = useParams();
@@ -224,21 +224,14 @@ const DiamondsPage = () => {
       </section>
 
       {showLanding && (
-        <>
-          {/* Diamond Promise Section */}
-          <section className="diamonds-full-banner">
-            <img loading="lazy" src={diamond10Image} alt="Diamond jewelry lifestyle" />
-            <div className="diamonds-overlay-text">
-              <div className="diamonds-impact-eyebrow">
-                <span>JEWELRY THAT PROMISES TO</span>
-              </div>
-              <h2 className="diamonds-bottom-title">
-                Shine <em>bright</em><br />
-                & last forever
-              </h2>
-            </div>
-          </section>
-        </>
+        <section className="diamond-full-image-section" style={{ width: '100%', height: '80vh', overflow: 'hidden' }}>
+          <img 
+            loading="lazy" 
+            src={pearDiamondRing} 
+            alt="Pear Diamond Ring on Midnight Silk" 
+            style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', objectPosition: 'center' }}
+          />
+        </section>
       )}
 
       <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} theme="diamond" />
