@@ -7,84 +7,112 @@
   color: #1a2245;
 }
 
-/* Hero Section */
-.gorings-hero {
-  display: flex;
-  align-items: stretch;
-  height: 80vh;
-  background-color: #06152b;
-}
-
-.gorings-hero-left,
-.gorings-hero-right {
-  flex: 1;
-  overflow: hidden;
-}
-
-.gorings-hero-left img,
-.gorings-hero-right img {
+/* Hero Section - NEYRA Banner with Live Overlay */
+.diamond-hero-banner-section {
+  position: relative;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  overflow: hidden;
+  background-color: #06152b;
   display: block;
 }
 
-.gorings-hero-center {
-  flex: 1.2;
+.diamond-hero-banner-img {
+  width: 100%;
+  height: auto;
+  min-height: 440px;
+  max-height: 85vh;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.diamond-hero-overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 3rem 2rem;
-  background: radial-gradient(circle at center, #0a1f3d 0%, #06152b 100%);
-  color: #ffffff;
-  position: relative;
-  z-index: 2;
+  z-index: 3;
+  width: 90%;
+  max-width: 620px;
+  pointer-events: auto;
 }
 
-.gorings-sparkle-icons {
-  display: flex;
-  align-items: flex-start;
+.diamond-hero-eyebrow {
+  font-family: 'Inter', sans-serif;
   color: #dfba6f;
-  margin-bottom: 1.2rem;
-}
-
-.sparkle {
-  font-size: 2rem;
-  line-height: 1;
-}
-
-.sparkle.small {
-  font-size: 1.2rem;
-  margin-top: 0.2rem;
-  margin-left: 0.2rem;
-}
-
-.gorings-hero-center .global-subheading {
-  color: #dfba6f;
-  font-size: 0.8rem;
-  letter-spacing: 2.5px;
+  font-size: clamp(0.68rem, 0.9vw, 0.8rem);
+  letter-spacing: 3.5px;
   font-weight: 500;
-  margin-bottom: 1.4rem;
+  margin: 0 0 0.8rem 0;
   text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
-.gorings-title {
+.neyra-brand-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.neyra-brand-sparkle {
+  color: #dfba6f;
+  font-size: 1.1rem;
+  animation: neyraSparkleGlow 3s ease-in-out infinite alternate;
+}
+
+.neyra-brand-title {
   font-family: 'Cormorant Upright', serif;
-  font-size: 4rem;
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: 14px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #ffffff 0%, #fff4d4 38%, #dfba6f 70%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: neyraGoldShine 6s linear infinite;
+  filter: drop-shadow(0 0 25px rgba(223, 186, 111, 0.45));
+  margin-right: -14px;
+}
+
+.neyra-brand-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.65rem, 0.85vw, 0.72rem);
+  letter-spacing: 5px;
+  font-weight: 600;
+  color: #dfba6f;
+  text-transform: uppercase;
+  margin: 0 0 1.2rem 0;
+  opacity: 0.95;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.diamond-hero-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: clamp(2.2rem, 3.8vw, 3.6rem);
   color: #ffffff;
   line-height: 1.15;
-  margin-bottom: 2.5rem;
+  margin: 0 0 2rem 0;
   font-weight: 500;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
 }
 
-.gorings-btn-solid {
-  background-color: transparent;
+.diamond-hero-btn {
+  background-color: rgba(6, 21, 43, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   color: #ffffff;
-  border: 1px solid rgba(223, 186, 111, 0.7);
-  padding: 0.9rem 2.2rem;
-  font-size: 0.8rem;
+  border: 1px solid rgba(223, 186, 111, 0.75);
+  padding: 0.85rem 2.2rem;
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -93,12 +121,16 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
+  border-radius: 2px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
-.gorings-btn-solid:hover {
+.diamond-hero-btn:hover {
   background-color: #dfba6f;
   color: #06152b;
   border-color: #dfba6f;
+  box-shadow: 0 6px 24px rgba(223, 186, 111, 0.5);
+  transform: translateY(-1px);
 }
 
 .hero-btn-arrow {
@@ -107,8 +139,32 @@
   transition: transform 0.25s ease;
 }
 
-.gorings-btn-solid:hover .hero-btn-arrow {
+.diamond-hero-btn:hover .hero-btn-arrow {
   transform: translateX(4px);
+}
+
+@keyframes neyraGoldShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes neyraSparkleGlow {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(223, 186, 111, 0.9));
+  }
 }
 
 /* Marquee */
@@ -323,14 +379,13 @@
 }
 
 @media (max-width: 992px) {
-  .gorings-hero {
-    flex-direction: column;
-    height: auto;
+  .diamond-hero-banner-img {
+    min-height: 400px;
   }
 
-  .gorings-hero-left,
-  .gorings-hero-right {
-    height: 300px;
+  .diamond-hero-overlay-content {
+    width: 95%;
+    max-width: 520px;
   }
 
   .diamond-promise-split {
@@ -456,3 +511,210 @@
   max-height: none !important;
   overflow-y: visible !important;
 }
+
+/* Diamond Full Image Banner */
+.diamond-full-image-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #06152b;
+  display: block;
+}
+
+.diamond-full-image-bg {
+  width: 100%;
+  height: auto;
+  max-height: 85vh;
+  min-height: 380px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.neyra-banner-cta-hotspot {
+  position: absolute;
+  top: 74%;
+  left: 7%;
+  width: 16%;
+  height: 13%;
+  min-width: 160px;
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 5;
+  outline: none;
+  transition: transform 0.2s ease;
+}
+
+.neyra-banner-cta-hotspot:hover {
+  transform: scale(1.03);
+}
+
+/* Diamond Ring Sparkle Glints Layer */
+.diamond-banner-sparkles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.diamond-glint {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%) scale(0) rotate(0deg);
+  opacity: 0;
+  animation: diamondGlintTwinkle 3.6s ease-in-out infinite;
+}
+
+.diamond-glint-core {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 2px #ffffff, 0 0 16px 5px rgba(223, 186, 111, 0.8), 0 0 24px 8px rgba(255, 255, 255, 0.5);
+  z-index: 3;
+}
+
+.diamond-glint-ray-v {
+  position: absolute;
+  width: 2px;
+  height: 26px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.95) 55%, transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+}
+
+.diamond-glint-ray-h {
+  position: absolute;
+  width: 26px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.95) 55%, transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+}
+
+.diamond-glint-ray-d1 {
+  position: absolute;
+  width: 15px;
+  height: 1.5px;
+  background: linear-gradient(to right, transparent, rgba(255, 245, 220, 0.85) 45%, rgba(255, 245, 220, 0.85) 55%, transparent);
+  transform: rotate(45deg);
+}
+
+.diamond-glint-ray-d2 {
+  position: absolute;
+  width: 15px;
+  height: 1.5px;
+  background: linear-gradient(to right, transparent, rgba(255, 245, 220, 0.85) 45%, rgba(255, 245, 220, 0.85) 55%, transparent);
+  transform: rotate(-45deg);
+}
+
+/* Coordinates & Staggered Cycles for Diamond Facets */
+.glint-solitaire-main {
+  top: 44.5%;
+  left: 66.8%;
+  animation-delay: 0s;
+  animation-duration: 3.2s;
+}
+
+.glint-solitaire-side {
+  top: 49%;
+  left: 62.8%;
+  animation-delay: 1.8s;
+  animation-duration: 3.8s;
+  transform: translate(-50%, -50%) scale(0.85);
+}
+
+.glint-band-upper {
+  top: 50.5%;
+  left: 78.5%;
+  animation-delay: 0.9s;
+  animation-duration: 3.5s;
+}
+
+.glint-band-main {
+  top: 63%;
+  left: 74.2%;
+  animation-delay: 2.3s;
+  animation-duration: 4s;
+}
+
+.glint-band-side {
+  top: 61.5%;
+  left: 84.5%;
+  animation-delay: 1.4s;
+  animation-duration: 3.6s;
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+@keyframes diamondGlintTwinkle {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15) rotate(30deg);
+  }
+  45% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.95) rotate(45deg);
+  }
+  65% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(0.5) rotate(65deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0) rotate(90deg);
+  }
+}
+
+@media (max-width: 992px) {
+  .diamond-full-image-bg {
+    min-height: 300px;
+  }
+  .neyra-banner-cta-hotspot {
+    top: 72%;
+    left: 6%;
+    width: 25%;
+  }
+}
+
+@media (max-width: 600px) {
+  .diamond-hero-banner-img {
+    min-height: 380px;
+  }
+
+  .diamond-hero-overlay-content {
+    width: 92%;
+    padding: 1.5rem 1rem;
+    background: radial-gradient(circle at center, rgba(6, 21, 43, 0.8) 0%, rgba(6, 21, 43, 0.5) 75%, transparent 100%);
+    border-radius: 8px;
+  }
+
+  .diamond-hero-title {
+    margin-bottom: 1.4rem;
+  }
+
+  .diamond-full-image-bg {
+    min-height: 220px;
+  }
+  .neyra-banner-cta-hotspot {
+    top: 70%;
+    left: 5%;
+    width: 35%;
+  }
+}
+
+

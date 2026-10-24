@@ -7,74 +7,119 @@
   overflow-x: hidden;
 }
 
-/* Hero Section */
-.careers-hero {
+/* Hero Banner Section with Separated Live HTML */
+.careers-hero-banner-section {
   position: relative;
-  height: 70vh;
-  min-height: 500px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #f5efe6;
   display: flex;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
 }
 
-.careers-hero-image {
+.careers-hero-banner-img {
+  width: 100%;
+  height: auto;
+  min-height: 480px;
+  max-height: 85vh;
+  object-fit: cover;
+  object-position: center right;
+  display: block;
+}
+
+.careers-hero-content-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3rem 6%;
+  z-index: 3;
+  pointer-events: none;
 }
 
-.careers-hero-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.05);
-  animation: zoomOut 20s infinite alternate linear;
+.careers-hero-left-content {
+  max-width: 580px;
+  pointer-events: auto;
+  text-align: left;
 }
 
-@keyframes zoomOut {
-  from { transform: scale(1.05); }
-  to { transform: scale(1.15); }
+.careers-hero-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.7rem, 0.9vw, 0.82rem);
+  letter-spacing: 4px;
+  font-weight: 600;
+  color: #4a3628;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
 }
 
-.careers-hero-overlay {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  color: #1a1a1a;
-  padding: 4rem 3rem;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 25px 50px rgba(0,0,0,0.1);
-  animation: slideUpFade 1s ease-out forwards;
-  max-width: 800px;
-}
-
-@keyframes slideUpFade {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.careers-title {
+.careers-hero-title {
   font-family: 'Playfair Display', serif;
-  font-size: 4rem;
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  color: #2b1f17;
+  line-height: 1.1;
+  margin: 0 0 1.4rem 0;
   font-weight: 700;
-  margin-bottom: 1.5rem;
-  letter-spacing: 1px;
-  background: linear-gradient(to right, #1a1a1a, #a84c19);
+  letter-spacing: -0.5px;
+}
+
+.careers-title-accent {
+  display: block;
+  font-style: italic;
+  font-weight: 500;
+  background: linear-gradient(135deg, #a84c19 0%, #c47838 50%, #80340c 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.careers-subtitle {
-  font-size: 1.25rem;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  color: #444;
+.careers-hero-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+  line-height: 1.65;
+  color: #42352c;
+  margin: 0 0 2rem 0;
+  max-width: 520px;
+}
+
+.careers-hero-btn {
+  background-color: #2b1a11;
+  color: #ffffff;
+  border: 1px solid #c48b52;
+  padding: 0.95rem 2.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 4px;
+  box-shadow: 0 6px 20px rgba(43, 26, 17, 0.3);
+}
+
+.careers-hero-btn:hover {
+  background-color: #a84c19;
+  border-color: #a84c19;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(168, 76, 25, 0.4);
+}
+
+.hero-btn-arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+.careers-hero-btn:hover .hero-btn-arrow {
+  transform: translateX(5px);
 }
 
 /* Why Join Us Section */
@@ -220,15 +265,40 @@
   box-shadow: 0 6px 20px rgba(168, 76, 25, 0.25);
 }
 
+@media (max-width: 992px) {
+  .careers-hero-banner-img {
+    min-height: 460px;
+    object-position: 70% center;
+  }
+  .careers-hero-content-overlay {
+    padding: 2.5rem 5%;
+    background: linear-gradient(to right, rgba(247, 243, 238, 0.92) 0%, rgba(247, 243, 238, 0.75) 55%, transparent 100%);
+  }
+}
+
 @media (max-width: 768px) {
-  .careers-title {
-    font-size: 2.5rem;
-  }
-  .careers-hero-overlay {
-    padding: 2rem;
-    margin: 1rem;
-  }
   .why-join-us, .openings-section {
     padding: 4rem 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .careers-hero-banner-img {
+    min-height: 480px;
+    object-position: 80% center;
+  }
+  .careers-hero-content-overlay {
+    padding: 2rem 1.25rem;
+    background: linear-gradient(to bottom, rgba(247, 243, 238, 0.94) 0%, rgba(247, 243, 238, 0.85) 70%, rgba(247, 243, 238, 0.5) 100%);
+  }
+  .careers-hero-title {
+    margin-bottom: 1rem;
+  }
+  .careers-hero-desc {
+    margin-bottom: 1.5rem;
+  }
+  .careers-hero-btn {
+    width: 100%;
+    justify-content: center;
   }
 }

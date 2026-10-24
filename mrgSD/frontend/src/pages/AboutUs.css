@@ -52,16 +52,6 @@
   z-index: 0;
 }
 
-.hero-bg-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to right, rgba(11, 27, 61, 0.85) 0%, rgba(11, 27, 61, 0.6) 50%, rgba(11, 27, 61, 0.2) 100%);
-  z-index: 1;
-}
-
 .hero-content {
   position: relative;
   z-index: 2;
@@ -69,7 +59,7 @@
   justify-content: space-between;
   width: 100%;
   align-items: flex-start;
-  color: #fff;
+  color: #2b1f17;
 }
 
 .hero-left {
@@ -93,8 +83,8 @@
   font-size: 0.85rem;
   letter-spacing: 3px;
   margin-bottom: 1.5rem;
-  font-weight: 500;
-  color: #ddd;
+  font-weight: 600;
+  color: #3b2c24;
 }
 
 .hero-divider {
@@ -107,7 +97,7 @@
 .hero-description {
   font-size: 0.95rem;
   line-height: 1.7;
-  color: #ccc;
+  color: #4a3b32;
   margin-bottom: 2.5rem;
 }
 
@@ -151,116 +141,217 @@
   }
 }
 
-/* --- 2. Our Story Section --- */
-.story-section {
-  display: flex;
-  flex-direction: column;
-  padding: 4rem 2rem;
-  background-color: var(--about-cream-light);
-  gap: 3rem;
-}
-
-@media (min-width: 992px) {
-  .story-section {
-    flex-direction: row;
-    padding: 6rem 8%;
-    align-items: center;
-    gap: 5rem;
-  }
-}
-
-.story-left {
-  flex: 1;
-}
-
-.story-image-collage {
+/* --- 2. Our Story Section (Heritage Manifesto) --- */
+.story-manifesto-section {
   position: relative;
-  width: 100%;
-  padding-bottom: 75%;
-  /* aspect ratio */
-}
-
-.story-img-main {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 80%;
-  height: 100%;
-  object-fit: cover;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.story-img-sub {
-  position: absolute;
-  bottom: -10%;
-  right: 0;
-  width: 45%;
-  height: 60%;
-  object-fit: cover;
-  border: 8px solid var(--about-cream-light);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.story-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.section-eyebrow {
-  font-size: 0.8rem;
-  letter-spacing: 2px;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.section-title {
-  font-size: 2rem;
-  line-height: 1.2;
-  color: var(--about-dark);
-  margin-bottom: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .section-title {
-    font-size: 2.5rem;
-  }
+  padding: 4rem 1.25rem;
+  background: radial-gradient(circle at 50% 20%, #FAF8F5 0%, #F5EFE6 60%, #EFE7DA 100%);
+  border-top: 1px solid rgba(184, 145, 70, 0.15);
+  border-bottom: 1px solid rgba(184, 145, 70, 0.15);
+  overflow: hidden;
 }
 
 @media (min-width: 992px) {
-  .section-title {
-    font-size: 3rem;
+  .story-manifesto-section {
+    padding: 4.75rem 2rem;
   }
 }
 
-.section-text {
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: #555;
-  margin-bottom: 2.5rem;
-}
-
-.story-stats {
+.story-manifesto-container {
+  max-width: 960px;
+  margin: 0 auto;
   display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
 }
 
-.stat-item {
+/* Royal Gilded Frame (Heritage Plaque) */
+.manifesto-royal-card {
+  position: relative;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(184, 145, 70, 0.38);
+  box-shadow: 0 16px 40px -12px rgba(88, 64, 40, 0.08),
+              0 2px 12px rgba(184, 145, 70, 0.06);
+  padding: 3.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .manifesto-royal-card {
+    padding: 2.75rem 1.25rem;
+  }
+}
+
+/* Secondary Inset Hairline Border */
+.manifesto-royal-card::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(184, 145, 70, 0.22);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Subtle Heritage Watermark */
+.manifesto-watermark-crest {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--about-serif);
+  font-size: clamp(6.5rem, 16vw, 11rem);
+  font-weight: 700;
+  letter-spacing: 14px;
+  color: rgba(184, 145, 70, 0.05);
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+}
+
+/* Corner Flourishes */
+.card-corner-flourish {
+  position: absolute;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--about-gold);
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.corner-top-left {
+  top: 14px;
+  left: 14px;
+}
+
+.corner-top-right {
+  top: 14px;
+  right: 14px;
+}
+
+.corner-bottom-left {
+  bottom: 14px;
+  left: 14px;
+}
+
+.corner-bottom-right {
+  bottom: 14px;
+  right: 14px;
+}
+
+/* Gilded Crest Badge */
+.story-crest-wrap {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
+  margin-bottom: 1rem;
 }
 
-.stat-icon {
+.story-crest-line {
+  width: 50px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--about-gold), transparent);
+}
+
+.story-crest-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(184, 145, 70, 0.1);
+  border: 1px solid rgba(184, 145, 70, 0.4);
+  padding: 5px 16px;
+  border-radius: 30px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--about-gold);
+  text-transform: uppercase;
+}
+
+.crest-sparkle {
   color: var(--about-gold);
 }
 
-.stat-item span {
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1.3;
+.story-eyebrow-center {
+  position: relative;
+  z-index: 2;
+  font-size: 0.78rem;
+  letter-spacing: 4px;
+  font-weight: 700;
+  color: #7a685c;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.story-manifesto-title {
+  position: relative;
+  z-index: 2;
+  font-family: var(--about-serif);
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  line-height: 1.18;
   color: var(--about-dark);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.story-title-accent {
+  display: inline-block;
+  font-style: italic;
+  font-weight: 500;
+  color: #890206;
+}
+
+/* Diamond Divider */
+.story-manifesto-divider {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  margin: 0 auto 1.75rem auto;
+}
+
+.story-manifesto-divider::before,
+.story-manifesto-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--about-gold);
+  opacity: 0.4;
+}
+
+.manifesto-diamond {
+  padding: 0 10px;
+  color: var(--about-gold);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+/* Heirloom Quote */
+.story-manifesto-quote {
+  position: relative;
+  z-index: 2;
+  font-family: var(--about-serif);
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  font-style: italic;
+  line-height: 1.5;
+  color: #4a3628;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 /* --- 3. Leadership Split Section --- */
@@ -284,7 +375,7 @@
 
 @media (min-width: 992px) {
   .leader-box {
-    padding: 5rem 10%;
+    padding: 5rem 6%;
   }
 }
 
@@ -324,7 +415,7 @@
 @media (min-width: 768px) {
   .leader-content-row {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .leader-content-row.reverse {
@@ -332,20 +423,80 @@
   }
 }
 
-.leader-photo-wrapper {
+/* Editorial Magazine Card Styling */
+.leader-card-editorial {
+  position: relative;
   flex-shrink: 0;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  padding: 5px;
-  border: 1px solid var(--about-gold);
+  width: 200px;
+  margin: 0.75rem;
 }
 
-.leader-photo {
+@media (min-width: 992px) {
+  .leader-card-editorial {
+    width: 215px;
+  }
+}
+
+/* Layered Floating Gold Accent Backdrop */
+.leader-card-editorial::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  border: 1.5px solid var(--about-gold);
+  pointer-events: none;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+.left-card::before {
+  left: -10px;
+}
+
+.right-card::before {
+  right: -10px;
+}
+
+.leader-card-editorial:hover::before {
+  transform: translate(2px, 2px);
+  opacity: 1;
+}
+
+.editorial-frame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+  background: #0B1B3D;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.leader-box.light-theme .editorial-frame {
+  box-shadow: 0 16px 36px rgba(11, 27, 61, 0.12);
+  background: #fff;
+}
+
+.leader-card-editorial:hover .editorial-frame {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.35);
+}
+
+.leader-box.light-theme .leader-card-editorial:hover .editorial-frame {
+  box-shadow: 0 22px 44px rgba(11, 27, 61, 0.18);
+}
+
+.editorial-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  object-position: center 15%;
+  display: block;
 }
 
 .leader-text-wrapper {
