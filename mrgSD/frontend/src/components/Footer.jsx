@@ -17,11 +17,11 @@ const Footer = () => {
           {/* Top-Left champagne gold waves */}
           <path d="M-50,150 Q150,250 350,-50" fill="none" stroke="rgba(200, 169, 106, 0.12)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
           <path d="M-50,200 Q250,350 450,-50" fill="none" stroke="rgba(200, 169, 106, 0.08)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-          
+
           {/* Bottom-Right champagne gold waves */}
           <path d="M1000,650 Q1150,400 1500,300" fill="none" stroke="rgba(200, 169, 106, 0.1)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
           <path d="M1100,650 Q1250,450 1500,400" fill="none" stroke="rgba(200, 169, 106, 0.06)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-          
+
           {/* Bottom-Left subtle navy waves */}
           <path d="M-50,450 Q200,500 300,650" fill="none" stroke="rgba(15, 30, 50, 0.8)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
           <path d="M-50,500 Q150,550 200,650" fill="none" stroke="rgba(15, 30, 50, 0.5)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
@@ -55,7 +55,7 @@ const Footer = () => {
                 <div className="footer-contact-icon-box">
                   <Phone className="footer-contact-icon" size={16} strokeWidth={1.8} />
                 </div>
-                <span>+91 0000000000</span>
+                <span>+91 7025925916</span>
               </li>
               <li className="footer-contact-item">
                 <div className="footer-contact-icon-box">

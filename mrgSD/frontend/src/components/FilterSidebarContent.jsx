@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { useSearchParams, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import './Drawers.css';
 
@@ -24,52 +24,171 @@ export const AccordionItem = ({ title, children, defaultOpen = false, activeCoun
   );
 };
 
-const FilterSidebarContent = () => {
+const FilterSidebarContent = ({ metal: propMetal }) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { collectionId: pathCollectionId } = useParams();
   const collectionId = pathCollectionId || searchParams.get('collection');
-  const { categories, collections, occasions } = useShop();
+  const { categories, collections, occasions, products: allProductsContext } = useShop();
   
+  const currentPath = location.pathname;
+  const currentMetal = propMetal || (
+    currentPath.startsWith('/silver') ? 'silver' :
+    currentPath.startsWith('/gold') ? 'gold' :
+    currentPath.startsWith('/diamonds') ? 'diamonds' : 'all'
+  );
+
   const typeFilter = searchParams.get('type');
   const typeFiltersArray = typeFilter ? typeFilter.split(',') : [];
   const occasionFilter = searchParams.get('occasion');
   const priceFilter = searchParams.get('price');
 
   const matchCollection = (c, searchParam) => {
-      if (!searchParam) return false;
-      const sp = searchParam.toLowerCase();
-      if (c.id.toString() === sp) return true;
-      if (sp === 'women' && c.name.toLowerCase().includes("women")) return true;
-      if (sp === 'men' && c.name.toLowerCase() === "men's collection") return true;
-      if (sp === 'kids' && c.name.toLowerCase().includes("kids")) return true;
-      if (sp === 'religious' && c.name.toLowerCase().includes("religious")) return true;
-      if (sp === 'special' && c.name.toLowerCase().includes("special")) return true;
-      if (c.name.toLowerCase() === sp) return true;
-      return false;
+    if (!searchParam) return false;
+    const sp = searchParam.toLowerCase();
+    if (c.id && c.id.toString() === sp) return true;
+    if (sp === 'women' && c.name && c.name.toLowerCase().includes("women")) return true;
+    if (sp === 'men' && c.name && c.name.toLowerCase() === "men's collection") return true;
+    if (sp === 'kids' && c.name && c.name.toLowerCase().includes("kids")) return true;
+    if (sp === 'religious' && c.name && c.name.toLowerCase().includes("religious")) return true;
+    if (sp === 'special' && c.name && c.name.toLowerCase().includes("special")) return true;
+    if (c.name && c.name.toLowerCase() === sp) return true;
+    return false;
   };
 
-  let activeCategories = categories;
-  if (collectionId && collectionId !== 'all') {
-    const collectionIds = collectionId.split(','); 
-    const activeCollections = collections?.filter(c => collectionIds.some(id => matchCollection(c, id))) || [];
-    
-    if (activeCollections.length > 0) {
-      const allowedCategoryIds = new Set(activeCollections.flatMap(c => c.category_ids || c.categoryIds || []));
-      if (allowedCategoryIds.size > 0) {
-        activeCategories = categories.filter(cat => allowedCategoryIds.has(cat.id));
-      }
+  const isGoldProduct = (p) => (
+    (p.collections && p.collections.some(c => c.name?.toLowerCase() === 'gold')) ||
+    (p.category && p.category.toLowerCase() === 'gold') ||
+    (p.material && p.material.toLowerCase() === 'gold') ||
+    (p.metal && p.metal.toLowerCase().includes('gold')) ||
+    (p.name && p.name.toLowerCase().includes('gold'))
+  );
+
+  const isDiamondProduct = (p) => (
+    (p.collections && p.collections.some(c => c.name?.toLowerCase() === 'diamonds')) || 
+    (p.category && p.category.toLowerCase() === 'diamonds') || 
+    (p.material && p.material.toLowerCase() === 'diamond') ||
+    (p.metal && p.metal.toLowerCase().includes('diamond')) ||
+    (p.name && p.name.toLowerCase().includes('diamond'))
+  );
+
+  const isSilverProduct = (p) => !isGoldProduct(p) && !isDiamondProduct(p);
+
+  // Products belonging to the active metal
+  const metalProducts = useMemo(() => {
+    if (!allProductsContext || allProductsContext.length === 0) return [];
+    if (currentMetal === 'gold') return allProductsContext.filter(isGoldProduct);
+    if (currentMetal === 'diamonds') return allProductsContext.filter(isDiamondProduct);
+    if (currentMetal === 'silver') return allProductsContext.filter(isSilverProduct);
+    return allProductsContext;
+  }, [allProductsContext, currentMetal]);
+
+  // Collections available for this specific metal
+  const availableCollections = useMemo(() => {
+    if (!collections || collections.length === 0) return [];
+    if (currentMetal === 'all' || !allProductsContext || allProductsContext.length === 0) return collections;
+
+    const filtered = collections.filter(col => {
+      return metalProducts.some(p => 
+        p.collections && p.collections.some(c => 
+          (c.id && c.id.toString() === col.id.toString()) || 
+          (c.name && c.name.toLowerCase() === col.name.toLowerCase()) ||
+          matchCollection(c, col.id.toString()) ||
+          matchCollection(c, col.name)
+        )
+      );
+    });
+
+    return filtered.length > 0 ? filtered : collections;
+  }, [collections, metalProducts, currentMetal, allProductsContext]);
+
+  // Product Types (categories) available for this metal and chosen collection
+  const activeCategories = useMemo(() => {
+    if (!categories || categories.length === 0) return [];
+
+    let relevantProducts = metalProducts;
+    if (collectionId && collectionId !== 'all') {
+      relevantProducts = metalProducts.filter(p => 
+        p.collections && p.collections.some(c => matchCollection(c, collectionId))
+      );
     }
-  }
 
+    if (currentMetal === 'all' && (!collectionId || collectionId === 'all') && (!allProductsContext || allProductsContext.length === 0)) {
+      return categories;
+    }
 
-  
-  const priceRanges = [
-    { id: "under-2000", label: "Under ₹2,000" },
-    { id: "2000-5000", label: "₹2,000 - ₹5,000" },
-    { id: "5000-10000", label: "₹5,000 - ₹10,000" },
-    { id: "over-10000", label: "Above ₹10,000" }
-  ];
+    if (relevantProducts.length === 0) {
+      if (collectionId && collectionId !== 'all') {
+        const collectionIds = collectionId.split(','); 
+        const activeCols = collections?.filter(c => collectionIds.some(id => matchCollection(c, id))) || [];
+        if (activeCols.length > 0) {
+          const allowedIds = new Set(activeCols.flatMap(c => c.category_ids || c.categoryIds || []));
+          if (allowedIds.size > 0) {
+            return categories.filter(cat => allowedIds.has(cat.id));
+          }
+        }
+      }
+      if (!allProductsContext || allProductsContext.length === 0) return categories;
+      return [];
+    }
+
+    const filtered = categories.filter(cat => {
+      const catName = cat.name.toLowerCase().trim();
+      return relevantProducts.some(p => {
+        if (!p.category) return false;
+        const pCat = p.category.toLowerCase().trim();
+        return pCat === catName || pCat.includes(catName) || catName.includes(pCat);
+      });
+    });
+
+    return filtered.length > 0 ? filtered : categories;
+  }, [categories, collections, metalProducts, collectionId, currentMetal, allProductsContext]);
+
+  // Occasions available for this specific metal
+  const availableOccasions = useMemo(() => {
+    if (!occasions || occasions.length === 0) return [];
+    if (currentMetal === 'all' || !allProductsContext || allProductsContext.length === 0) return occasions;
+
+    const filtered = occasions.filter(occ => {
+      const occIdStr = occ.id.toString();
+      const occName = occ.name.toLowerCase().trim();
+      return metalProducts.some(p => 
+        p.occasions && p.occasions.some(o => 
+          (o.id && o.id.toString() === occIdStr) || 
+          (o.name && o.name.toLowerCase().trim() === occName)
+        )
+      );
+    });
+
+    return filtered.length > 0 ? filtered : occasions;
+  }, [occasions, metalProducts, currentMetal, allProductsContext]);
+
+  // Metal-specific price brackets
+  const priceRanges = useMemo(() => {
+    if (currentMetal === 'gold') {
+      return [
+        { id: "under-20000", label: "Under ₹20,000" },
+        { id: "20000-40000", label: "₹20,000 - ₹40,000" },
+        { id: "40000-75000", label: "₹40,000 - ₹75,000" },
+        { id: "over-75000", label: "Above ₹75,000" }
+      ];
+    }
+    if (currentMetal === 'diamonds') {
+      return [
+        { id: "under-25000", label: "Under ₹25,000" },
+        { id: "25000-50000", label: "₹25,000 - ₹50,000" },
+        { id: "50000-100000", label: "₹50,000 - ₹1,00,000" },
+        { id: "over-100000", label: "Above ₹1,00,000" }
+      ];
+    }
+    return [
+      { id: "under-2000", label: "Under ₹2,000" },
+      { id: "2000-5000", label: "₹2,000 - ₹5,000" },
+      { id: "5000-10000", label: "₹5,000 - ₹10,000" },
+      { id: "over-10000", label: "Above ₹10,000" }
+    ];
+  }, [currentMetal]);
 
   const handleFilterSelect = (type, value) => {
     const currentPath = window.location.pathname;
@@ -159,7 +278,7 @@ const FilterSidebarContent = () => {
             />
             <span className="checkbox-text">All Categories</span>
           </label>
-          {collections?.map(col => (
+          {availableCollections?.map(col => (
             <label key={col.id} className="custom-checkbox-label">
               <input 
                 type="radio" 
@@ -173,21 +292,23 @@ const FilterSidebarContent = () => {
         </div>
       </AccordionItem>
 
-      <AccordionItem title="Product Type" defaultOpen={true} activeCount={typeFiltersArray.length}>
-        <div className="filter-checkbox-list">
-          {activeCategories.map(cat => (
-            <label key={cat.id} className="custom-checkbox-label">
-              <input 
-                type="checkbox" 
-                name="productType"
-                checked={typeFiltersArray.some(t => t.toLowerCase() === cat.name.toLowerCase())} 
-                onChange={() => handleMultiSelect('type', cat.name.toLowerCase())} 
-              />
-              <span className="checkbox-text">{cat.name}</span>
-            </label>
-          ))}
-        </div>
-      </AccordionItem>
+      {activeCategories.length > 0 && (
+        <AccordionItem title="Product Type" defaultOpen={true} activeCount={typeFiltersArray.length}>
+          <div className="filter-checkbox-list">
+            {activeCategories.map(cat => (
+              <label key={cat.id} className="custom-checkbox-label">
+                <input 
+                  type="checkbox" 
+                  name="productType"
+                  checked={typeFiltersArray.some(t => t.toLowerCase() === cat.name.toLowerCase())} 
+                  onChange={() => handleMultiSelect('type', cat.name.toLowerCase())} 
+                />
+                <span className="checkbox-text">{cat.name}</span>
+              </label>
+            ))}
+          </div>
+        </AccordionItem>
+      )}
 
       <AccordionItem title="Price Range" defaultOpen={true} activeCount={priceFilter ? 1 : 0}>
         <div className="filter-checkbox-list">
@@ -205,21 +326,23 @@ const FilterSidebarContent = () => {
         </div>
       </AccordionItem>
 
-      <AccordionItem title="Occasion" defaultOpen={true} activeCount={occasionFilter ? 1 : 0}>
-        <div className="filter-checkbox-list">
-          {occasions?.map(occ => (
-            <label key={occ.id} className="custom-checkbox-label">
-              <input 
-                type="radio" 
-                name="occasion"
-                checked={occasionFilter && occasionFilter.toString() === occ.id.toString()} 
-                onChange={() => handleFilterSelect('occasion', occ.id.toString())} 
-              />
-              <span className="checkbox-text">{occ.name}</span>
-            </label>
-          ))}
-        </div>
-      </AccordionItem>
+      {availableOccasions.length > 0 && (
+        <AccordionItem title="Occasion" defaultOpen={true} activeCount={occasionFilter ? 1 : 0}>
+          <div className="filter-checkbox-list">
+            {availableOccasions.map(occ => (
+              <label key={occ.id} className="custom-checkbox-label">
+                <input 
+                  type="radio" 
+                  name="occasion"
+                  checked={occasionFilter && occasionFilter.toString() === occ.id.toString()} 
+                  onChange={() => handleFilterSelect('occasion', occ.id.toString())} 
+                />
+                <span className="checkbox-text">{occ.name}</span>
+              </label>
+            ))}
+          </div>
+        </AccordionItem>
+      )}
     </div>
   );
 };

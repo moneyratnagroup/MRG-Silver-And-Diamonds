@@ -139,6 +139,10 @@
   gap: 1rem;
 }
 
+.home-products-container .pg-image {
+  object-fit: cover;
+}
+
 @media (max-width: 768px) {
   .home-products-container .pg-grid {
     gap: 0.5rem;

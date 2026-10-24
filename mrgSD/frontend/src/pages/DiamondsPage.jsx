@@ -60,6 +60,11 @@ const DiamondsPage = () => {
   if (priceFilter) {
     products = products.filter(p => {
       const val = parseFloat((p.price || "0").replace(/[^\d.]/g, '')) || 0;
+      if (priceFilter === 'under-25000') return val < 25000;
+      if (priceFilter === '25000-50000') return val >= 25000 && val <= 50000;
+      if (priceFilter === '50000-100000') return val > 50000 && val <= 100000;
+      if (priceFilter === 'over-100000') return val > 100000;
+      // Backward compatibility
       if (priceFilter === 'under-2000') return val < 2000;
       if (priceFilter === '2000-5000') return val >= 2000 && val <= 5000;
       if (priceFilter === '5000-10000') return val > 5000 && val <= 10000;
@@ -186,7 +191,7 @@ const DiamondsPage = () => {
                     <X size={20} />
                   </button>
                 </div>
-                <FilterSidebarContent />
+                <FilterSidebarContent metal="diamonds" />
               </div>
             ) : null
           }
@@ -287,7 +292,7 @@ const DiamondsPage = () => {
         </section>
       )}
 
-      <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} theme="diamond" />
+      <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} theme="diamond" metal="diamonds" />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
 import HeroSlider from '../components/HeroSlider';
 import ShopByCategory from '../components/ShopByCategory';
@@ -15,6 +16,7 @@ import imgeditorialimg from '../assets/Golden Family Jewellery Celebration.webp'
 // import imgkids from '../assets/kids.webp';
 
 const Home = () => {
+  const navigate = useNavigate();
   const { products } = useShop();
   const featuredProducts = products.slice(0, 4);
 
@@ -41,7 +43,7 @@ const Home = () => {
               <Sparkles size={14} color="#c9a76b" fill="#c9a76b" />
               <span className="editorial-new-divider-line"></span>
             </div>
-            <button className="editorial-new-button">
+            <button className="editorial-new-button" onClick={() => navigate('/about')}>
               DISCOVER OUR STORY <span>&rarr;</span>
             </button>
           </div>
@@ -50,13 +52,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      {/* <div className="home-products-container">
-        <ProductsGallery
-          title="The Signature Debut"
-          tagline="Discover our inaugural curation of masterpieces—thoughtfully crafted with absolute purity and designed to mark the beginning of a beautiful legacy."
-          products={featuredProducts}
-        />
-      </div> */}
+
       <OurPromises />
       <div className="home-products-container">
         <FeaturedCollection />

@@ -109,6 +109,11 @@ const GoldPage = () => {
   if (priceFilter) {
     products = products.filter(p => {
       const val = parseFloat((p.price || "0").replace(/[^\d.]/g, '')) || 0;
+      if (priceFilter === 'under-20000') return val < 20000;
+      if (priceFilter === '20000-40000') return val >= 20000 && val <= 40000;
+      if (priceFilter === '40000-75000') return val > 40000 && val <= 75000;
+      if (priceFilter === 'over-75000') return val > 75000;
+      // Backward compatibility
       if (priceFilter === 'under-2000') return val < 2000;
       if (priceFilter === '2000-5000') return val >= 2000 && val <= 5000;
       if (priceFilter === '5000-10000') return val > 5000 && val <= 10000;
@@ -277,7 +282,7 @@ const GoldPage = () => {
                     <X size={20} />
                   </button>
                 </div>
-                <FilterSidebarContent />
+                <FilterSidebarContent metal="gold" />
               </div>
             ) : null
           }
@@ -326,7 +331,7 @@ const GoldPage = () => {
 
 
 
-      <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} />
+      <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} theme="gold" metal="gold" />
     </div>
   );
 };

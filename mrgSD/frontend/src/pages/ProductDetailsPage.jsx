@@ -392,6 +392,7 @@ const ProductDetailsPage = () => {
             title="Similar Products"
             tagline="You may also like these exquisite pieces from our collection."
             products={similarProducts}
+            useCartIcon={true}
           />
         </div>
       )}

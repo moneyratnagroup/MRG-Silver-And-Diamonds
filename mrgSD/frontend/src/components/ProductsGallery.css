@@ -98,8 +98,8 @@
 
 .pg-image-container {
   position: relative;
-  width: 80%;      /* Set your desired fixed width here, e.g., 250px, or keep 100% for responsive grids */
-  height: 250px;    /* Set your desired fixed height here */
+  width: 100%;
+  height: 250px;
   background-color: #f9f9f9;
   border-radius: 8px;
   overflow: hidden;
@@ -183,7 +183,7 @@
   justify-content: space-between;
   align-items: center;
   flex-grow: 1;
-  width: 80%;
+  width: 100%;
 }
 
 .pg-info-left {
@@ -224,6 +224,7 @@
   justify-content: flex-start;
   margin: 0;
   flex-wrap: wrap;
+  gap: 8px;
 }
 
 .pg-price-wrapper {
@@ -248,6 +249,7 @@
   text-decoration: line-through;
   font-weight: 400;
 }
+
 .pg-add-to-cart-icon {
   background-color: transparent;
   color: #000000;
@@ -684,4 +686,275 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Segmented Metal Capsule Switcher on Collection Toolbar */
+.collection-toolbar-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.toolbar-left-col {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.toolbar-center-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar-right-col {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.metal-segmented-capsule {
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid #797979;
+  border-radius: 50px;
+  padding: 2px 3px;
+  box-sizing: border-box;
+}
+
+.metal-segment-btn {
+  background: transparent;
+  border: none;
+  border-radius: 50px;
+  padding: 0.35rem 1.35rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.25;
+  outline: none;
+}
+
+.metal-segment-btn:hover {
+  color: #000;
+}
+
+.metal-segment-btn.active {
+  background-color: #d1d5db;
+  /* Satin silver grey matching Image 1 */
+  color: #111;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 992px) {
+  .collection-toolbar-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .toolbar-left-col {
+    order: 1;
+  }
+
+  .toolbar-right-col {
+    order: 2;
+  }
+
+  .toolbar-center-col {
+    order: 3;
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+
+  .metal-segmented-capsule {
+    width: 100%;
+    max-width: 420px;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .metal-segment-btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.88rem;
+  }
+}
+
+/* Collection Page Ivory Theme Integration (Matching Image 2) */
+.collection-page-container.ivory-theme {
+  background-color: #FDFBF7;
+  color: #302A2A;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+.ivory-theme.metal-filter-gold .pg-item-name::after {
+  content: "HALLMARKED GOLD" !important;
+}
+
+.ivory-theme.metal-filter-diamond .pg-item-name::after {
+  content: "NATURAL DIAMONDS" !important;
+}
+
+/* Products Page (http://localhost:5173/products) only: Offer strap colour */
+.collection-page-container.ivory-theme .pg-discount-badge,
+.collection-page-container .pg-discount-badge {
+  background-color: #C8A96A !important;
+}
+
+/* Base Price Row for ProductsGallery */
+.pg-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: auto;
+}
+
+/* All Products Page (localhost/products): Product Card Structure & Alignment */
+.collection-page-container .pg-layout-container {
+  gap: 1.5rem !important;
+}
+
+.collection-page-container .pg-grid-wrapper {
+  min-width: 0 !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.collection-page-container .pg-grid {
+  gap: 1.25rem !important;
+}
+
+.collection-page-container .with-sidebar .pg-grid {
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)) !important;
+  gap: 1.25rem !important;
+}
+
+.collection-page-container .pg-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.collection-page-container .pg-image-container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.collection-page-container .pg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.5s ease, opacity 0.4s ease;
+}
+
+.collection-page-container.ivory-theme .pg-details,
+.collection-page-container .pg-details {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  flex-grow: 1;
+  justify-content: space-between !important;
+  padding: 10px 0 0 0 !important;
+  width: 100% !important;
+}
+
+.collection-page-container.ivory-theme .pg-info-left,
+.collection-page-container .pg-info-left {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  padding-right: 0 !important;
+}
+
+.collection-page-container.ivory-theme .pg-item-name,
+.collection-page-container .pg-item-name {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+  line-height: 1.35;
+  height: 2.7em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  width: 100% !important;
+}
+
+/* Remove legacy ::after from .pg-item-name on All Products page */
+.collection-page-container .pg-item-name::after,
+.collection-page-container.ivory-theme .pg-item-name::after {
+  content: none !important;
+  display: none !important;
+}
+
+.collection-page-container.ivory-theme .pg-item-metal,
+.collection-page-container .pg-item-metal {
+  display: block !important;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #8C7B70;
+  text-transform: uppercase;
+  margin-top: 4px !important;
+  margin-bottom: 6px !important;
+  line-height: 1.2;
+  height: 1.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100% !important;
+}
+
+.collection-page-container.ivory-theme .pg-price-row,
+.collection-page-container .pg-price-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  margin-top: auto !important;
+  padding-top: 6px !important;
+}
+
+.collection-page-container.ivory-theme .pg-price-container,
+.collection-page-container .pg-price-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.collection-page-container.ivory-theme .pg-add-to-cart-icon,
+.collection-page-container .pg-add-to-cart-icon {
+  flex-shrink: 0;
+  margin-left: 8px;
 }

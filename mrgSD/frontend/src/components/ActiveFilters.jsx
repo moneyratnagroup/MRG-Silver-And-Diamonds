@@ -79,10 +79,21 @@ const ActiveFilters = () => {
 
   const formatPrice = (priceKey) => {
     switch (priceKey) {
-      case 'under-2000': return 'Under ₹2000';
-      case '2000-5000': return '₹2000 - ₹5000';
-      case '5000-10000': return '₹5000 - ₹10000';
-      case 'over-10000': return 'Over ₹10000';
+      // Silver
+      case 'under-2000': return 'Under ₹2,000';
+      case '2000-5000': return '₹2,000 - ₹5,000';
+      case '5000-10000': return '₹5,000 - ₹10,000';
+      case 'over-10000': return 'Above ₹10,000';
+      // Gold
+      case 'under-20000': return 'Under ₹20,000';
+      case '20000-40000': return '₹20,000 - ₹40,000';
+      case '40000-75000': return '₹40,000 - ₹75,000';
+      case 'over-75000': return 'Above ₹75,000';
+      // Diamonds
+      case 'under-25000': return 'Under ₹25,000';
+      case '25000-50000': return '₹25,000 - ₹50,000';
+      case '50000-100000': return '₹50,000 - ₹1,00,000';
+      case 'over-100000': return 'Above ₹1,00,000';
       default: return priceKey;
     }
   };

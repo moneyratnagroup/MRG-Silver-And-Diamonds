@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sparkles, ShoppingCart } from 'lucide-react';
-import { useShop } from '../context/ShopContext';
+import { useShop, formatProductTitle } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 import './ProductsGallery.css'; // Reusing the exact same styling as requested
 import braceletImg from '../assets/silver_charm_bracelet.webp';
@@ -69,7 +69,7 @@ const FeaturedCollection = () => {
             </div>
             <div className="pg-details">
               <div className="pg-info-left">
-                <h3 className="pg-item-name">{product.name}</h3>
+                <h3 className="pg-item-name">{formatProductTitle(product.name)}</h3>
                 <div className="pg-price-container">
                   <div className="pg-price-wrapper">
                     <p className="pg-item-price">{product.price}</p>

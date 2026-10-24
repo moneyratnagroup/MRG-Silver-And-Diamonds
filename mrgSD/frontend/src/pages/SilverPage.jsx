@@ -136,14 +136,16 @@ const SilverPage = () => {
           {/* Hero Section */}
           <section className="ivory-hero">
             <div className="ivory-hero-content">
-              <span className="hero-subtitle">THE SILVER COLLECTION</span>
-              <h1 className="ivory-title">Silver,<br /><span className="ivory-cursive">reimagined.</span></h1>
+              <span className="hero-subtitle" style={{ letterSpacing: '2.5px', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: '0.6rem', display: 'block' }}>THE EIRA COLLECTION</span>
+              <h1 className="ivory-title" style={{ textTransform: 'uppercase', marginBottom: '0.2rem', fontFamily: '"Cormorant Upright", serif', fontWeight: '400' }}>EIRA</h1>
+              <span className="hero-subtitle" style={{ fontStyle: 'italic', textTransform: 'uppercase', letterSpacing: '1.5px', fontFamily: '"Cormorant Upright", serif', fontSize: '1.2rem', marginBottom: '1.2rem', display: 'block' }}>SILVER, REIMAGINED.</span>
               <p className="hero-desc">
-                Modern heirlooms in timeless designs,<br />
-                crafted to make everyday feel extraordinary.
+                Crafted in luminous 925 sterling silver.<br />
+                Modern heirlooms designed to make<br />
+                every day feel extraordinary.
               </p>
               <div className="hero-buttons">
-                <button className="ivory-btn-solid">EXPLORE SILVER &rarr;</button>
+                <button className="ivory-btn-solid">DISCOVER EIRA &rarr;</button>
                 <button className="ivory-btn-outline">FIND MY STYLE</button>
               </div>
             </div>
@@ -156,7 +158,7 @@ const SilverPage = () => {
       )}
 
       {/* Collection Grid */}
-      <section id="silver-collection-start" className="container" style={{ maxWidth: '1400px', margin: '0 auto', padding: '1rem 2rem 0' }}>
+      <section id="silver-collection-start" className="container" style={{ maxWidth: '1400px', margin: '0 auto', padding: '1rem 0 0' }}>
 
         <ProductsGallery
           title=""
@@ -168,7 +170,7 @@ const SilverPage = () => {
             <div className="ivory-main-content-top">
               <div className="ivory-gallery-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0 1rem', marginBottom: '1rem' }}>
                 <div className="ivory-header-left" style={{ flex: '1.2' }}>
-                  <span className="hero-subtitle" style={{ color: '#650018', fontSize: '0.75rem', letterSpacing: '2px', marginBottom: '0.5rem', display: 'block' }}>THE SILVER COLLECTION</span>
+                  <span className="hero-subtitle" style={{ color: '#650018', fontSize: '0.75rem', letterSpacing: '2px', marginBottom: '0.5rem', display: 'block' }}>The Eira Collection: </span>
                   <h2 className="ivory-gallery-title" style={{ fontFamily: '"Cormorant Upright", serif', fontSize: '3.5rem', color: '#302A2A', fontWeight: '400', margin: '0', lineHeight: '1.1' }}>Made to catch the light.</h2>
                 </div>
                 <div className="ivory-header-right" style={{ flex: '1', display: 'flex', justifyContent: 'flex-end' }}>
@@ -178,10 +180,10 @@ const SilverPage = () => {
 
               <div className="ivory-toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '2rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                  <button className="silver-filter-btn" onClick={() => setIsFilterOpen(true)} style={{ margin: 0, display: isFilterOpen ? 'none' : 'flex' }}>
-                    <Filter size={14} />
-                    <span>REFINE BY</span>
-                    {activeFiltersCount > 0 && <span className="filter-count-badge">({activeFiltersCount})</span>}
+                  <button className="silver-filter-btn" onClick={() => setIsFilterOpen(true)} style={{ margin: 0, display: isFilterOpen ? 'none' : 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: '#02275a' }}>
+                    <Filter size={18} strokeWidth={1.5} color="#02275a" />
+                    <span style={{ fontFamily: '"Cormorant Upright", serif', fontSize: '1.2rem', fontWeight: '500', letterSpacing: '1.5px', textTransform: 'uppercase' }}>FILTER</span>
+                    {activeFiltersCount > 0 && <span className="filter-count-badge" style={{ marginLeft: '4px' }}>({activeFiltersCount})</span>}
                   </button>
                   <span className="showing-pieces-text" style={{ fontSize: '0.85rem', color: '#6d5b53', fontWeight: '500' }}>
                     Showing {displayProducts.length} {displayProducts.length === 1 ? 'piece' : 'pieces'}
@@ -228,12 +230,12 @@ const SilverPage = () => {
             isFilterOpen ? (
               <div className="desktop-only collection-sidebar-content">
                 <div className="sidebar-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                  <h3 className="sidebar-title" style={{ margin: 0, borderBottom: 'none' }}>REFINE BY</h3>
+                  <h3 className="sidebar-title" style={{ margin: 0, borderBottom: 'none' }}>Filter By</h3>
                   <button onClick={() => setIsFilterOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666' }}>
                     <X size={20} />
                   </button>
                 </div>
-                <FilterSidebarContent />
+                <FilterSidebarContent metal="silver" />
               </div>
             ) : null
           }
@@ -296,7 +298,7 @@ const SilverPage = () => {
       )}
 
       <div className="mobile-only">
-        <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} />
+        <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} metal="silver" />
       </div>
     </div>
   );
