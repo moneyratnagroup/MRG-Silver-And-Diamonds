@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, SearchX, ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
-import { useShop } from '../context/ShopContext';
+import { useShop, formatProductTitle } from '../context/ShopContext';
 import './ProductsGallery.css';
 import { useNavigate } from 'react-router-dom';
 import braceletImg from '../assets/silver_charm_bracelet.webp';
 
-const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null, sidebarComponent = null, activeFiltersComponent = null, enablePagination = false, itemsPerPage = 12, useCartIcon = false }) => {
+const ProductsGallery = ({ title = "Our Collection", tagline, products = [], filterComponent = null, sidebarComponent = null, activeFiltersComponent = null, enablePagination = false, itemsPerPage = 12, useCartIcon = false, showMetalSubtitle = false, customSubtitle = null }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -43,6 +43,31 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
     }
     
     return null;
+  };
+
+  const getMetalSubtitle = (product) => {
+    if (customSubtitle) {
+      return customSubtitle(product);
+    }
+    if (
+      (product.collections && product.collections.some(c => c.name?.toLowerCase() === 'gold')) ||
+      (product.category && product.category.toLowerCase() === 'gold') ||
+      (product.material && product.material.toLowerCase() === 'gold') ||
+      (product.metal && product.metal.toLowerCase().includes('gold')) ||
+      (product.name && product.name.toLowerCase().includes('gold'))
+    ) {
+      return "HALLMARKED GOLD";
+    }
+    if (
+      (product.collections && product.collections.some(c => c.name?.toLowerCase() === 'diamonds')) ||
+      (product.category && product.category.toLowerCase() === 'diamonds') ||
+      (product.material && product.material.toLowerCase() === 'diamond') ||
+      (product.metal && product.metal.toLowerCase().includes('diamond')) ||
+      (product.name && product.name.toLowerCase().includes('diamond'))
+    ) {
+      return "NATURAL DIAMONDS";
+    }
+    return "925 STERLING SILVER";
   };
 
   const handleProductClick = (product) => {
@@ -105,18 +130,20 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                     </button>
                   </div>
                   <div className="pg-details">
-                    {useCartIcon ? (
-                      <>
-                        <div className="pg-info-left">
-                          <h3 className="pg-item-name">{product.name}</h3>
-
-                          <div className="pg-price-container">
-                            <p className="pg-item-price">{product.price}</p>
-                            {product.originalPrice && (
-                              <p className="pg-item-original-price">{product.originalPrice}</p>
-                            )}
-                          </div>
-                        </div>
+                    <div className="pg-info-left">
+                      <h3 className="pg-item-name">{formatProductTitle(product.name)}</h3>
+                      {showMetalSubtitle && (
+                        <span className="pg-item-metal">{getMetalSubtitle(product)}</span>
+                      )}
+                    </div>
+                    <div className="pg-price-row">
+                      <div className="pg-price-container">
+                        <p className="pg-item-price">{product.price}</p>
+                        {product.originalPrice && (
+                          <p className="pg-item-original-price">{product.originalPrice}</p>
+                        )}
+                      </div>
+                      {useCartIcon ? (
                         <button 
                           className="pg-add-to-cart-icon" 
                           onClick={(e) => { 
@@ -127,17 +154,7 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                         >
                           <ShoppingCart size={18} />
                         </button>
-                      </>
-                    ) : (
-                      <>
-                        <h3 className="pg-item-name">{product.name}</h3>
-
-                        <div className="pg-price-container">
-                          <p className="pg-item-price">{product.price}</p>
-                          {product.originalPrice && (
-                            <p className="pg-item-original-price">{product.originalPrice}</p>
-                          )}
-                        </div>
+                      ) : (
                         <button 
                           className="pg-add-to-cart" 
                           onClick={(e) => { 
@@ -147,8 +164,8 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                         >
                           Add to Cart
                         </button>
-                      </>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
               ))

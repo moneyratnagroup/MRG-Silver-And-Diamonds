@@ -244,7 +244,8 @@
 
 .ivory-theme .checkbox-text {
   color: #302A2A !important;
-  font-size: 0.9rem !important;
+  font-size: 1.05rem !important;
+  font-weight: 500 !important;
 }
 
 
@@ -371,11 +372,54 @@
   margin-top: 0.2rem;
 }
 
+/* Silver Page only: EIRA SILVER subtitle */
+.silver-page-wrapper.ivory-theme .pg-item-name::after,
+.silver-page-wrapper .pg-item-name::after {
+  content: "EIRA SILVER" !important;
+}
+
+/* Silver Page only: Product Card Vertical Hierarchy (Price & Cart below EIRA SILVER) */
+.silver-page-wrapper.ivory-theme .pg-details,
+.silver-page-wrapper .pg-details {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  padding: 1rem 0 0 0 !important;
+  width: 100% !important;
+  justify-content: space-between !important;
+}
+
+.silver-page-wrapper.ivory-theme .pg-info-left,
+.silver-page-wrapper .pg-info-left {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  padding-right: 0 !important;
+}
+
+.silver-page-wrapper.ivory-theme .pg-item-name,
+.silver-page-wrapper .pg-item-name {
+  width: 100% !important;
+  margin-bottom: 0 !important;
+}
+
+.silver-page-wrapper.ivory-theme .pg-price-row,
+.silver-page-wrapper .pg-price-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  margin-top: 0.6rem !important;
+  padding-top: 0 !important;
+}
+
 /* Offer Badge Override */
 .ivory-theme .pg-discount-badge {
   background-color: #650018 !important;
   /* Matches cart icon burgundy */
 }
+
+
 
 /* Round Add to Cart Button Trick */
 .ivory-theme .pg-add-to-cart {

@@ -136,11 +136,13 @@ const SilverPage = () => {
           {/* Hero Section */}
           <section className="ivory-hero">
             <div className="ivory-hero-content">
+              <span className="hero-subtitle" style={{ letterSpacing: '2.5px', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: '0.6rem', display: 'block' }}>THE EIRA COLLECTION</span>
               <h1 className="ivory-title" style={{ textTransform: 'uppercase', marginBottom: '0.2rem', fontFamily: '"Cormorant Upright", serif', fontWeight: '400' }}>EIRA</h1>
-              <span className="hero-subtitle" style={{ fontStyle: 'italic', textTransform: 'uppercase', letterSpacing: '1.5px', fontFamily: '"Cormorant Upright", serif', fontSize: '1.2rem' }}>SILVER, REIMAGINED.</span>
+              <span className="hero-subtitle" style={{ fontStyle: 'italic', textTransform: 'uppercase', letterSpacing: '1.5px', fontFamily: '"Cormorant Upright", serif', fontSize: '1.2rem', marginBottom: '1.2rem', display: 'block' }}>SILVER, REIMAGINED.</span>
               <p className="hero-desc">
-                Crafted in luminous 925 sterling silver, <br />
-                Modern heirlooms designed to make every day feel extraordinary.
+                Crafted in luminous 925 sterling silver.<br />
+                Modern heirlooms designed to make<br />
+                every day feel extraordinary.
               </p>
               <div className="hero-buttons">
                 <button className="ivory-btn-solid">DISCOVER EIRA &rarr;</button>
@@ -233,7 +235,7 @@ const SilverPage = () => {
                     <X size={20} />
                   </button>
                 </div>
-                <FilterSidebarContent />
+                <FilterSidebarContent metal="silver" />
               </div>
             ) : null
           }
@@ -296,7 +298,7 @@ const SilverPage = () => {
       )}
 
       <div className="mobile-only">
-        <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} />
+        <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} metal="silver" />
       </div>
     </div>
   );

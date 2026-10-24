@@ -13,6 +13,32 @@ export const useShop = () => {
   return useContext(ShopContext);
 };
 
+// Product Title Capitalization Formatter
+export const formatProductTitle = (name) => {
+  if (!name || typeof name !== 'string') return '';
+  const trimmed = name.trim();
+  const lower = trimmed.toLowerCase();
+
+  // Specific corrections requested
+  if (lower === 'earings' || lower === 'earrings') return "Earrings";
+  if (lower === 'men ring' || lower === "men's ring") return "Men's Ring";
+  if (lower === 'kids bracelets' || lower === "kids' bracelets" || lower === "kid's bracelets") return "Kids' Bracelets";
+  if (lower === 'silver bracelets men') return "Silver Bracelets Men";
+
+  // General Title Case
+  return trimmed
+    .split(' ')
+    .filter(Boolean)
+    .map(word => {
+      const wLower = word.toLowerCase();
+      if (wLower === 'men') return "Men's";
+      if (wLower === 'kids') return "Kids'";
+      if (wLower === 'earings') return "Earrings";
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+};
+
 export const ShopProvider = ({ children }) => {
   const { isAuthenticated, user, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
@@ -33,7 +59,10 @@ export const ShopProvider = ({ children }) => {
           const data = await res.json();
           // The backend returns an array of WishlistItemSchema
           // which has { id, user_id, created_at, product: { ... } }
-          setWishlistItems(data.map(item => item.product));
+          setWishlistItems(data.map(item => item.product ? ({
+            ...item.product,
+            name: formatProductTitle(item.product.name)
+          }) : item.product));
         }
       } catch (err) {
         console.error("Failed to fetch wishlist", err);
@@ -53,7 +82,7 @@ export const ShopProvider = ({ children }) => {
             return {
               id: p.id,
               sku: p.sku,
-              name: p.name,
+              name: formatProductTitle(p.name),
               originalPrice: p.mrp_price ? `₹${p.mrp_price}` : null,
               price: `₹${p.selling_price}`,
               category: p.category?.name || '',
@@ -216,7 +245,7 @@ export const ShopProvider = ({ children }) => {
         const mappedProducts = data.map(p => ({
           id: p.id,
           sku: p.sku,
-          name: p.name,
+          name: formatProductTitle(p.name),
           originalPrice: p.mrp_price ? `₹${p.mrp_price}` : null,
           price: `₹${p.selling_price}`,
           category: p.category?.name || '',
