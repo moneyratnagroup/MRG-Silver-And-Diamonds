@@ -9,9 +9,8 @@ import { useShop } from '../context/ShopContext';
 import './DiamondsPage.css';
 
 // Import images
-import heroDiamondsNecklaceBlue from '../assets/hero_diamonds_necklace_blue.png';
-import heroDiamondsModelSapphire from '../assets/hero_diamonds_model_sapphire.png';
-import pearDiamondRing from '../assets/Pear Diamond Ring on Midnight Silk.webp';
+import neyraHeroCleanBg from '../assets/neyra_hero_clean_bg.jpg';
+import neyraBanner from '../assets/neyra_banner.webp';
 
 const DiamondsPage = () => {
   const { collectionId } = useParams();
@@ -120,15 +119,29 @@ const DiamondsPage = () => {
       {showLanding && (
         <>
           {/* Hero Section */}
-          <section className="gorings-hero">
-            <div className="gorings-hero-left">
-              <img loading="lazy" src={heroDiamondsNecklaceBlue} alt="Diamond Haute Joaillerie Necklace" />
-            </div>
-            <div className="gorings-hero-center">
-              <p className="global-subheading">ETHICALLY SOURCED • FLAWLESS CUT • CERTIFIED</p>
-              <h1 className="gorings-title">Brilliance that lasts<br className="hero-desktop-br" />for generations</h1>
+          <section className="diamond-hero-banner-section">
+            <img 
+              src={neyraHeroCleanBg} 
+              alt="NEYRA - The Diamond Collection" 
+              className="diamond-hero-banner-img"
+            />
+            <div className="diamond-hero-overlay-content">
+              <p className="diamond-hero-eyebrow">ETHICALLY SOURCED • FLAWLESS CUT • CERTIFIED</p>
+              
+              <div className="neyra-brand-header">
+                <span className="neyra-brand-sparkle">✦</span>
+                <span className="neyra-brand-title">N E Y R A</span>
+                <span className="neyra-brand-sparkle">✦</span>
+              </div>
+              
+              <p className="neyra-brand-subtitle">THE DIAMOND COLLECTION</p>
+              
+              <h1 className="diamond-hero-title">
+                Brilliance that lasts<br className="hero-desktop-br" />for generations
+              </h1>
+              
               <button 
-                className="gorings-btn-solid"
+                className="diamond-hero-btn"
                 onClick={() => {
                   const el = document.getElementById('diamonds-collection-start');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -137,9 +150,6 @@ const DiamondsPage = () => {
                 <span>EXPLORE THE COLLECTION</span>
                 <span className="hero-btn-arrow">→</span>
               </button>
-            </div>
-            <div className="gorings-hero-right">
-              <img loading="lazy" src={heroDiamondsModelSapphire} alt="Model wearing exquisite diamond and sapphire jewelry" />
             </div>
           </section>
 
@@ -224,12 +234,55 @@ const DiamondsPage = () => {
       </section>
 
       {showLanding && (
-        <section className="diamond-full-image-section" style={{ width: '100%', height: '80vh', overflow: 'hidden' }}>
+        <section className="diamond-full-image-section">
           <img 
             loading="lazy" 
-            src={pearDiamondRing} 
-            alt="Pear Diamond Ring on Midnight Silk" 
-            style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', objectPosition: 'center' }}
+            src={neyraBanner} 
+            alt="NEYRA The Diamond Collection - Timeless Brilliance" 
+            className="diamond-full-image-bg"
+          />
+
+          {/* Diamond Sparkle Glints */}
+          <div className="diamond-banner-sparkles" aria-hidden="true">
+            <span className="diamond-glint glint-solitaire-main">
+              <span className="diamond-glint-core" />
+              <span className="diamond-glint-ray-v" />
+              <span className="diamond-glint-ray-h" />
+              <span className="diamond-glint-ray-d1" />
+              <span className="diamond-glint-ray-d2" />
+            </span>
+            <span className="diamond-glint glint-solitaire-side">
+              <span className="diamond-glint-core" />
+              <span className="diamond-glint-ray-v" />
+              <span className="diamond-glint-ray-h" />
+            </span>
+            <span className="diamond-glint glint-band-upper">
+              <span className="diamond-glint-core" />
+              <span className="diamond-glint-ray-v" />
+              <span className="diamond-glint-ray-h" />
+              <span className="diamond-glint-ray-d1" />
+            </span>
+            <span className="diamond-glint glint-band-main">
+              <span className="diamond-glint-core" />
+              <span className="diamond-glint-ray-v" />
+              <span className="diamond-glint-ray-h" />
+              <span className="diamond-glint-ray-d1" />
+              <span className="diamond-glint-ray-d2" />
+            </span>
+            <span className="diamond-glint glint-band-side">
+              <span className="diamond-glint-core" />
+              <span className="diamond-glint-ray-v" />
+              <span className="diamond-glint-ray-h" />
+            </span>
+          </div>
+
+          <button 
+            className="neyra-banner-cta-hotspot"
+            aria-label="Explore NEYRA Collection"
+            onClick={() => {
+              const el = document.getElementById('diamonds-collection-start');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
           />
         </section>
       )}

@@ -3,9 +3,7 @@ import { ArrowDown, Crown, Users, Gem, Star, ShieldCheck, Sparkles, HeartHandsha
 import { Link } from 'react-router-dom';
 
 // Asset imports based on listed files
-import heroDiamondsGold from '../assets/hero_diamonds_gold.png';
-import designSketch from '../assets/designsketch.png';
-import designSketchhh from '../assets/designsketchhh.png';
+import aboutUsHero from '../assets/about_us_hero.webp';
 import manikantanImg from '../assets/Manikantansir.webp';
 import sajeshImg from '../assets/sajesh.webp';
 import earringsBg from '../assets/earrings_bg.webp';
@@ -22,8 +20,7 @@ const AboutPage = () => {
       
       {/* 1. Hero Section */}
       <section className="about-hero-section">
-        <div className="hero-bg-overlay"></div>
-        <img loading="lazy" src={heroDiamondsGold} alt="Hero Background" className="hero-bg-image" />
+        <img loading="lazy" src={aboutUsHero} alt="Hero Background" className="hero-bg-image" />
         
         <div className="hero-content">
           <div className="hero-left">
@@ -37,41 +34,44 @@ const AboutPage = () => {
               DISCOVER OUR STORY <ArrowDown size={16} />
             </button>
           </div>
-          
-          <div className="hero-right">
-            <div className="vertical-text">
-              TRADITION<br />MEETS<br />TIMELESS<br />BEAUTY
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* 2. Our Story Section */}
-      <section className="story-section">
-        <div className="story-left">
-          <div className="story-image-collage">
-            <img loading="lazy" src={designSketch} alt="Design Sketch" className="story-img-main" />
-            <img loading="lazy" src={designSketchhh} alt="Ring" className="story-img-sub" />
-          </div>
-        </div>
-        <div className="story-right">
-          <span className="section-eyebrow text-gold">OUR STORY</span>
-          <h2 className="section-title serif-text">More Than Jewellery,<br/>A Story of Trust</h2>
-          <p className="section-text">
-            Moneyratna Jewellery is a proud venture of Moneyratna Groups, built on a legacy of trust and a vision for a brighter, more beautiful tomorrow. We bring together traditional craftsmanship and contemporary designs to create jewellery that celebrates life's most precious moments.
-          </p>
-          <div className="story-stats">
-            <div className="stat-item">
-              <Crown className="stat-icon" size={24} />
-              <span>Years of<br/>Excellence</span>
+      {/* 2. Our Story Section (Heritage Manifesto) */}
+      <section className="story-section story-manifesto-section">
+        <div className="story-manifesto-container">
+          <div className="manifesto-royal-card">
+            {/* Architectural Corner Flourishes */}
+            <span className="card-corner-flourish corner-top-left" aria-hidden="true">✦</span>
+            <span className="card-corner-flourish corner-top-right" aria-hidden="true">✦</span>
+            <span className="card-corner-flourish corner-bottom-left" aria-hidden="true">✦</span>
+            <span className="card-corner-flourish corner-bottom-right" aria-hidden="true">✦</span>
+
+            {/* Subtle Heritage Watermark */}
+            <div className="manifesto-watermark-crest" aria-hidden="true">MRG</div>
+
+            <div className="story-crest-wrap">
+              <span className="story-crest-line"></span>
+              <div className="story-crest-badge">
+                <Sparkles size={14} className="crest-sparkle" />
+                <span>EST. LEGACY</span>
+              </div>
+              <span className="story-crest-line"></span>
             </div>
-            <div className="stat-item">
-              <Users className="stat-icon" size={24} />
-              <span>Happy<br/>Customers</span>
+
+            <span className="story-eyebrow-center">OUR HERITAGE & CRAFT</span>
+
+            <h2 className="story-manifesto-title serif-text">
+              More Than Jewellery,<br />
+              <span className="story-title-accent">A Story of Enduring Trust</span>
+            </h2>
+
+            <div className="story-manifesto-divider">
+              <span className="manifesto-diamond">◆</span>
             </div>
-            <div className="stat-item">
-              <Gem className="stat-icon" size={24} />
-              <span>Exclusive<br/>Designs</span>
+
+            <div className="story-manifesto-quote serif-text">
+              "Jewellery is more than ornament — it is an heirloom of devotion, a legacy of artistry, and a celebration of life’s most precious moments."
             </div>
           </div>
         </div>
@@ -83,8 +83,10 @@ const AboutPage = () => {
           <h3 className="leader-section-title">CHAIRMAN'S MESSAGE</h3>
           <div className="leader-divider"></div>
           <div className="leader-content-row">
-            <div className="leader-photo-wrapper left-side">
-              <img loading="lazy" src={manikantanImg} alt="Chairman" className="leader-photo" />
+            <div className="leader-card-editorial left-card">
+              <div className="editorial-frame">
+                <img loading="lazy" src={manikantanImg} alt="Chairman - Moneyratna Groups" className="editorial-photo" />
+              </div>
             </div>
             <div className="leader-text-wrapper">
               <div className="quote-icon">“</div>
@@ -103,8 +105,10 @@ const AboutPage = () => {
           <h3 className="leader-section-title">DIRECTOR'S MESSAGE</h3>
           <div className="leader-divider"></div>
           <div className="leader-content-row reverse">
-            <div className="leader-photo-wrapper right-side">
-              <img loading="lazy" src={sajeshImg} alt="Director" className="leader-photo" />
+            <div className="leader-card-editorial right-card">
+              <div className="editorial-frame">
+                <img loading="lazy" src={sajeshImg} alt="Director - Moneyratna Groups" className="editorial-photo" />
+              </div>
             </div>
             <div className="leader-text-wrapper">
               <div className="quote-icon">“</div>

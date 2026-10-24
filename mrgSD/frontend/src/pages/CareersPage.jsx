@@ -1,24 +1,43 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import './CareersPage.css';
-import imgcarebg from '../assets/elegant_jewellery_bg.jpg';
+import careerHero1 from '../assets/career_hero1.webp';
 
 const CareersPage = () => {
   return (
     <div className="careers-page-wrapper">
       {/* Hero Banner Section */}
-      <section className="careers-hero">
-        <div className="careers-hero-image">
-          <img loading="lazy" src={imgcarebg} alt="Careers at Moneyratna" />
-        </div>
-        <div className="careers-hero-overlay">
-          <h1 className="careers-title">Join Our Legacy</h1>
-          <p className="careers-subtitle">Craft a brilliant career with Moneyratna Jewellery</p>
+      <section className="careers-hero-banner-section">
+        <img 
+          src={careerHero1} 
+          alt="Artisan handcrafting fine jewellery at Moneyratna" 
+          className="careers-hero-banner-img"
+        />
+        <div className="careers-hero-content-overlay">
+          <div className="careers-hero-left-content">
+            <p className="careers-hero-eyebrow">PEOPLE CRAFTING BRIGHTER TOMORROWS</p>
+            <h1 className="careers-hero-title">
+              Join Our <span className="careers-title-accent">Legacy</span>
+            </h1>
+            <p className="careers-hero-desc">
+              Build a meaningful career with Moneyratna Jewellery, where tradition, talent and innovation come together to create timeless beauty.
+            </p>
+            <button 
+              className="careers-hero-btn"
+              onClick={() => {
+                const el = document.getElementById('careers-why-join');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <span>EXPLORE OPPORTUNITIES</span>
+              <span className="hero-btn-arrow">→</span>
+            </button>
+          </div>
         </div>
       </section>
 
       {/* Why Join Us Section */}
-      <section className="why-join-us">
+      <section id="careers-why-join" className="why-join-us">
         <Container>
           <div className="section-header">
             <h2 className="section-title">Why Moneyratna?</h2>
