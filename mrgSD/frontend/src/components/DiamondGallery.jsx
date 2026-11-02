@@ -4,10 +4,12 @@ import { Heart, ChevronLeft, ChevronRight, SearchX, ShoppingCart } from 'lucide-
 import { useShop } from '../context/ShopContext';
 import './DiamondGallery.css';
 
-const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false, itemsPerPage = 8 }) => {
+const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false, itemsPerPage = 8, theme = 'default' }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const { addToCart, isInWishlist, toggleWishlist, isEcommerceEnabled } = useShop();
+
+  const isGoldTheme = theme === 'gold';
 
   useEffect(() => {
     setCurrentPage(1);
@@ -21,8 +23,18 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
     navigate(`/product/${product.id}`);
   };
 
+  const formatPrice = (price) => {
+    if (price === null || price === undefined) return '';
+    const raw = String(price).replace(/[^\d.]/g, '');
+    const num = parseFloat(raw);
+    if (isNaN(num)) {
+      return String(price).includes('₹') ? String(price) : `₹${price}`;
+    }
+    return `₹${Math.round(num).toLocaleString('en-IN')}`;
+  };
+
   return (
-    <div className="minimal-gallery-wrapper">
+    <div className={`minimal-gallery-wrapper ${isGoldTheme ? 'gold-gallery-theme' : ''}`}>
       <div className="minimal-gallery-header">
         <h2 className="minimal-gallery-title">{title || 'FINE JEWELRY MADE RESPONSIBLY'}</h2>
         {tagline && <p className="minimal-gallery-tagline" style={{ color: '#666', marginTop: '0.5rem', marginBottom: '1.5rem', fontStyle: 'italic' }}>{tagline}</p>}
@@ -57,9 +69,6 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
           <div className="aesthetic-gallery-grid">
             {currentProducts.length > 0 ? (
               currentProducts.map((product, index) => {
-                const styleClass = `style-${index % 6}`;
-                
-                // Subtitles based on index for variety
                 const subtitles = [
                   "Trending Now",
                   "New Arrival",
@@ -68,42 +77,38 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                   "Bestseller",
                   "Elevate Your Everyday"
                 ];
-                
-                // Button texts based on index
-                const buttonTexts = [
-                  "Discover",
-                  "Collect Now",
-                  "Shop Less Is More",
-                  "Discover More",
-                  "Shop The Look",
-                  "Shop The Collection"
-                ];
+
+                const subtitle = subtitles[index % subtitles.length];
 
                 return (
                   <div 
-                    className="product-card" 
+                    className={`product-card ${isGoldTheme ? 'gold-theme-card' : ''}`} 
                     key={product.id}
                     onClick={() => handleProductClick(product)}
                   >
-                    <div className="product-card-header">
-                      <span className="product-card-subtitle">{subtitles[index % 6]}</span>
-                      {isEcommerceEnabled && (
+                    <div className="product-card-image-wrapper">
+                      {subtitle && (
+                        <span className="product-card-floating-badge">{subtitle}</span>
+                      )}
+                      
+                      <button
+                        type="button"
+                        className="product-card-floating-wishlist"
+                        aria-label="Wishlist"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (toggleWishlist) toggleWishlist(product);
+                        }}
+                      >
                         <Heart 
-                          size={18} 
-                          strokeWidth={1.5} 
+                          size={16} 
+                          strokeWidth={1.8} 
                           className="product-card-heart"
                           fill={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "none"}
-                          color={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "currentColor"}
-                          style={{ cursor: 'pointer' }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (toggleWishlist) toggleWishlist(product);
-                          }}
+                          color={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : (isGoldTheme ? "#183728" : "#0E2C58")}
                         />
-                      )}
-                    </div>
-                    
-                    <div className="product-card-image-wrapper">
+                      </button>
+
                       <img loading="lazy" src={product.img} alt={product.name} className={product.hoverImage ? 'primary-img' : ''} />
                       {product.hoverImage && (
                         <img loading="lazy" src={product.hoverImage} alt={`${product.name} hover`} className="hover-img" />
@@ -112,15 +117,19 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                     
                     <div className="product-card-info">
                       <h3 className="product-card-title">{product.name}</h3>
-                      <div className="product-card-price-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginTop: 'auto', paddingBottom: '0.25rem' }}>
-                        <span className="product-card-price" style={{ marginBottom: 0 }}>
-                          {product.price.includes('₹') || product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `₹ ${product.price}`}
+                      <div className="product-card-price-row">
+                        <span className="product-card-price">
+                          {formatPrice(product.price)}
                         </span>
-                        {isEcommerceEnabled && (
-                          <button className="add-to-cart-icon-btn" onClick={(e) => { e.stopPropagation(); addToCart(product); }} title="Add to Cart">
-                            <ShoppingCart size={20} strokeWidth={2} />
-                          </button>
-                        )}
+                        <button 
+                          type="button"
+                          className="add-to-cart-icon-btn" 
+                          onClick={(e) => { e.stopPropagation(); addToCart(product); }} 
+                          title="Add to Cart"
+                          aria-label={`Add ${product.name} to Cart`}
+                        >
+                          <ShoppingCart size={18} strokeWidth={2} />
+                        </button>
                       </div>
                     </div>
                   </div>

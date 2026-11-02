@@ -854,12 +854,7 @@
   margin: 0 auto;
 }
 
-.values-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 3rem;
-  text-align: center;
-}
+/* .values-grid moved to AboutUs.css */
 
 .value-item {
   padding: 2.5rem 2rem;
