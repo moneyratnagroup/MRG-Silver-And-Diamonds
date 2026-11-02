@@ -59,15 +59,16 @@
   text-decoration: none;
   background-color: #f8f6f0;
   border: none;
-  border-radius: 0; /* Straight edges like reference */
-  height: 550px;
-  transition: transform 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
+  border-radius: 18px; /* Elegant curved edges */
+  height: 470px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease;
 }
 
 /* Widths as requested */
 .gold-card, .silver-card, .diamond-card {
   width: 32%;
-  height: 550px;
+  height: 470px;
 }
 
 .editorial-image {
@@ -171,7 +172,8 @@
 
 /* Premium Hover Animation */
 .editorial-card:hover {
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
 }
 
 .editorial-card:hover .editorial-image {
@@ -195,7 +197,7 @@
   .gold-card,
   .diamond-card,
   .silver-card {
-    height: 450px;
+    height: 390px;
   }
 }
 
@@ -234,14 +236,15 @@
 
   .editorial-card {
     flex: 0 0 280px; /* Fixed width for marquee on mobile */
-    height: 400px;
+    height: 350px;
+    border-radius: 14px;
   }
 
   .gold-card,
   .diamond-card,
   .silver-card {
     width: 280px;
-    height: 400px; /* Equal height on mobile to prevent layout jumps */
+    height: 350px; /* Equal height on mobile to prevent layout jumps */
   }
 }
 

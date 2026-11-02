@@ -3,7 +3,7 @@ import { ArrowDown, Crown, Users, Gem, Star, ShieldCheck, Sparkles, HeartHandsha
 import { Link } from 'react-router-dom';
 
 // Asset imports based on listed files
-import aboutUsHero from '../assets/about_us_hero.webp';
+import abtHero2 from '../assets/abt_hero2.webp';
 import manikantanImg from '../assets/Manikantansir.webp';
 import sajeshImg from '../assets/sajesh.webp';
 import earringsBg from '../assets/earrings_bg.webp';
@@ -11,6 +11,7 @@ import presenceBg from '../assets/presence_bg.webp';
 import visionBg from '../assets/vision_bg.webp';
 import catNecklacesLayout from '../assets/cat_necklaces_layout.webp';
 import catBraceletsLayout from '../assets/cat_bracelets_layout.webp';
+import abtImg from '../assets/abt_img.webp';
 
 import './AboutUs.css';
 
@@ -18,139 +19,172 @@ const AboutPage = () => {
   return (
     <div className="about-lumina-container">
       
-      {/* 1. Hero Section */}
-      <section className="about-hero-section">
-        <img loading="lazy" src={aboutUsHero} alt="Hero Background" className="hero-bg-image" />
+      {/* 1. Hero Section (Full-Width Banner with abt_hero2.webp) */}
+      <section className="about-hero-banner-section">
+        <img 
+          loading="eager" 
+          src={abtHero2} 
+          alt="About Us - Moneyratna Jewellery" 
+          className="about-hero-bg-img" 
+        />
+        <div className="about-hero-banner-overlay" aria-hidden="true"></div>
         
-        <div className="hero-content">
-          <div className="hero-left">
-            <h1 className="hero-title serif-text">ABOUT US</h1>
-            <h2 className="hero-subtitle">CRAFTING ELEGANCE. CELEBRATING MOMENTS.</h2>
-            <div className="hero-divider"></div>
-            <p className="hero-description">
+        <div className="about-hero-content-container">
+          <div className="about-hero-text-content">
+            <h1 className="about-hero-heading serif-text">About Us</h1>
+            <p className="about-hero-subheading">CRAFTING ELEGANCE, CELEBRATING MOMENTS</p>
+            <div className="about-hero-separator">
+              <span className="sep-line"></span>
+              <span className="sep-diamond">◇</span>
+              <span className="sep-line"></span>
+            </div>
+            <p className="about-hero-desc">
               At Moneyratna Jewellery, we believe jewellery is more than an accessory — it is a reflection of love, tradition and timeless beauty. Our journey is built on trust, quality and a passion for creating jewellery that becomes part of your story.
             </p>
-            <button className="btn-discover" onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>
-              DISCOVER OUR STORY <ArrowDown size={16} />
+            <button 
+              className="about-hero-pill-btn"
+              onClick={() => {
+                const target = document.getElementById('about-heritage-craft');
+                if (target) {
+                  target.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+                }
+              }}
+            >
+              Discover Our Story <ArrowRight size={16} />
             </button>
           </div>
         </div>
       </section>
 
-      {/* 2. Our Story Section (Heritage Manifesto) */}
-      <section className="story-section story-manifesto-section">
-        <div className="story-manifesto-container">
-          <div className="manifesto-royal-card">
-            {/* Architectural Corner Flourishes */}
-            <span className="card-corner-flourish corner-top-left" aria-hidden="true">✦</span>
-            <span className="card-corner-flourish corner-top-right" aria-hidden="true">✦</span>
-            <span className="card-corner-flourish corner-bottom-left" aria-hidden="true">✦</span>
-            <span className="card-corner-flourish corner-bottom-right" aria-hidden="true">✦</span>
-
-            {/* Subtle Heritage Watermark */}
-            <div className="manifesto-watermark-crest" aria-hidden="true">MRG</div>
-
-            <div className="story-crest-wrap">
-              <span className="story-crest-line"></span>
-              <div className="story-crest-badge">
-                <Sparkles size={14} className="crest-sparkle" />
-                <span>EST. LEGACY</span>
-              </div>
-              <span className="story-crest-line"></span>
-            </div>
-
-            <span className="story-eyebrow-center">OUR HERITAGE & CRAFT</span>
-
-            <h2 className="story-manifesto-title serif-text">
+      {/* 2. Our Story & Craftsmanship Section (Simple Editorial Layout) */}
+      <section className="story-section atelier-heritage-section" id="about-heritage-craft">
+        <div className="atelier-container simple-heritage-container">
+          
+          {/* Section Header */}
+          <div className="atelier-header">
+            <span className="atelier-eyebrow">OUR HERITAGE & CRAFT</span>
+            <h2 className="atelier-title serif-text">
               More Than Jewellery,<br />
-              <span className="story-title-accent">A Story of Enduring Trust</span>
+              <span className="atelier-title-italic">A Story of Enduring Trust</span>
             </h2>
-
-            <div className="story-manifesto-divider">
-              <span className="manifesto-diamond">◆</span>
+            <div className="atelier-header-separator">
+              <span className="sep-line"></span>
+              <span className="sep-diamond">◇</span>
+              <span className="sep-line"></span>
             </div>
+          </div>
 
-            <div className="story-manifesto-quote serif-text">
-              "Jewellery is more than ornament — it is an heirloom of devotion, a legacy of artistry, and a celebration of life’s most precious moments."
+          {/* Central Manifesto Quote Card */}
+          <div className="manifesto-quote-card simple-quote-card">
+            <div className="quote-accent-mark" aria-hidden="true">
+              <Gem size={17} strokeWidth={1.5} />
+            </div>
+            <blockquote className="manifesto-quote-text serif-text">
+              “Jewellery is more than ornament — it is an heirloom of devotion, a legacy of artistry, and a celebration of life's most precious moments.”
+            </blockquote>
+            <div className="manifesto-quote-author">
+              <span className="author-label">THE MONEYRATNA PROMISE</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* 3. Leadership Section */}
-      <section className="leadership-split-section">
-        <div className="leader-box dark-theme">
-          <h3 className="leader-section-title">CHAIRMAN'S MESSAGE</h3>
-          <div className="leader-divider"></div>
-          <div className="leader-content-row">
-            <div className="leader-card-editorial left-card">
-              <div className="editorial-frame">
-                <img loading="lazy" src={manikantanImg} alt="Chairman - Moneyratna Groups" className="editorial-photo" />
-              </div>
-            </div>
-            <div className="leader-text-wrapper">
-              <div className="quote-icon">“</div>
-              <p className="leader-quote">
-                Jewellery is not merely something we wear; it is something we cherish. With our jewellery venture, we aim to create lasting relationships with our customers through quality, authenticity and personalized service.
-              </p>
-              <div className="leader-name">
-                <strong>Chairman</strong><br/>
-                Moneyratna Groups
-              </div>
+      <section className="leadership-section" id="about-leadership">
+        <div className="leadership-container">
+          
+          {/* Section Header */}
+          <div className="leadership-header">
+            <span className="leadership-eyebrow">LEADERSHIP</span>
+            <h2 className="leadership-title serif-text">Words From Our Leadership</h2>
+            <div className="leadership-separator">
+              <span className="sep-line"></span>
+              <span className="sep-diamond">◇</span>
+              <span className="sep-line"></span>
             </div>
           </div>
-        </div>
 
-        <div className="leader-box light-theme">
-          <h3 className="leader-section-title">DIRECTOR'S MESSAGE</h3>
-          <div className="leader-divider"></div>
-          <div className="leader-content-row reverse">
-            <div className="leader-card-editorial right-card">
-              <div className="editorial-frame">
-                <img loading="lazy" src={sajeshImg} alt="Director - Moneyratna Groups" className="editorial-photo" />
+          {/* Dual Leadership Cards */}
+          <div className="leadership-grid">
+            
+            {/* Chairman Card (Dark Navy) */}
+            <div className="leader-card leader-card-dark">
+              <div className="leader-photo-wrapper">
+                <div className="leader-photo-accent-frame" aria-hidden="true"></div>
+                <div className="leader-photo-container">
+                  <img loading="lazy" src={manikantanImg} alt="Chairman - Moneyratna Group" className="leader-photo" />
+                </div>
+              </div>
+              <div className="leader-info-content">
+                <div className="leader-quote-icon" aria-hidden="true">“</div>
+                <blockquote className="leader-quote-text serif-text">
+                  Jewellery is not merely something we wear; it is something we cherish. With our journey since 1999, we are committed to strengthening trust with our customers through quality, authenticity and personalized service.
+                </blockquote>
+                <div className="leader-meta">
+                  <span className="leader-designation">Chairman</span>
+                  <span className="leader-company">Moneyratna Group</span>
+                </div>
               </div>
             </div>
-            <div className="leader-text-wrapper">
-              <div className="quote-icon">“</div>
-              <p className="leader-quote">
-                Our vision is to create a brand that beautifully combines tradition, elegance and modernity. We are committed to offering exquisite jewellery, a memorable shopping experience and a future built on trust, innovation and customer satisfaction.
-              </p>
-              <div className="leader-name">
-                <strong>Director</strong><br/>
-                Moneyratna Groups
+
+            {/* Director Card (Light Cream) */}
+            <div className="leader-card leader-card-light">
+              <div className="leader-photo-wrapper">
+                <div className="leader-photo-accent-frame" aria-hidden="true"></div>
+                <div className="leader-photo-container">
+                  <img loading="lazy" src={sajeshImg} alt="Director - Moneyratna Group" className="leader-photo" />
+                </div>
+              </div>
+              <div className="leader-info-content">
+                <div className="leader-quote-icon" aria-hidden="true">“</div>
+                <blockquote className="leader-quote-text serif-text">
+                  Our vision is to create a brand that beautifully combines tradition, elegance and modernity. We are committed to offering an expansive jewellery shopping experience and a culture built on trust, innovation and customer satisfaction.
+                </blockquote>
+                <div className="leader-meta">
+                  <span className="leader-designation">Director</span>
+                  <span className="leader-company">Moneyratna Group</span>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
       {/* 4. Vision & Mission Section */}
-      <div className="vm-main-header">
-        <h4 className="vm-sub-title">VISION & MISSION</h4>
-        <h2 className="vm-main-title serif-text text-gold">A LEGACY OF ELEGANCE</h2>
-      </div>
-      <section className="vision-mission-section">
-        <div className="vm-container">
-          <div className="vm-box">
-            <div className="watermark-v">V</div>
-            <div className="vm-content-wrapper">
-              <div className="vm-header">
-                <h3 className="serif-text text-gold">OUR VISION</h3>
-              </div>
-              <p>
-                To become a trusted and admired jewellery brand known for quality, elegance, authenticity and exceptional customer experience, while creating timeless jewellery that becomes part of life's most cherished moments.
-              </p>
+      <section className="vision-mission-section" id="about-vision-mission">
+        <div className="watermark-v" aria-hidden="true">V</div>
+        <div className="watermark-m" aria-hidden="true">M</div>
+
+        <div className="vm-container-wrapper">
+          {/* Section Header */}
+          <div className="vm-section-header">
+            <span className="vm-eyebrow">VISION & MISSION</span>
+            <h2 className="vm-title serif-text">A Legacy of Elegance</h2>
+            <div className="vm-separator">
+              <span className="sep-line"></span>
+              <span className="sep-diamond">◇</span>
+              <span className="sep-line"></span>
             </div>
           </div>
-          <div className="vm-separator"></div>
-          <div className="vm-box">
-            <div className="watermark-m">M</div>
-            <div className="vm-content-wrapper">
-              <div className="vm-header">
-                <h3 className="serif-text text-gold">OUR MISSION</h3>
-              </div>
-              <p>
-                To provide high-quality, authentic and beautifully crafted jewellery with transparent pricing and exceptional service. We strive to combine traditional craftsmanship with contemporary designs and build long-lasting relationships through trust and integrity.
+
+          {/* Symmetrical Columns */}
+          <div className="vm-columns-container">
+            <div className="vm-column">
+              <h3 className="vm-column-title serif-text">Our Vision</h3>
+              <p className="vm-column-text">
+                To become a trusted and admired jewellery brand known for quality, elegance, authenticity and exceptional customer experience — while creating timeless jewellery that becomes part of life's most cherished moments.
+              </p>
+            </div>
+            
+            <div className="vm-column-divider" aria-hidden="true"></div>
+
+            <div className="vm-column">
+              <h3 className="vm-column-title serif-text">Our Mission</h3>
+              <p className="vm-column-text">
+                To provide high-quality, authentic and beautifully crafted jewellery that celebrates elegance and exceptional artistry. We strive to combine traditional craftsmanship with contemporary design and build long-lasting relationships through trust and integrity.
               </p>
             </div>
           </div>

@@ -7,7 +7,7 @@
   overflow-x: hidden;
 }
 
-/* Hero Banner Section with Separated Live HTML */
+/* Hero Banner Section with Live HTML Overlay */
 .careers-hero-banner-section {
   position: relative;
   width: 100%;
@@ -20,11 +20,27 @@
 .careers-hero-banner-img {
   width: 100%;
   height: auto;
-  min-height: 480px;
-  max-height: 85vh;
-  object-fit: cover;
-  object-position: center right;
   display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.careers-hero-gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgba(252, 248, 230, 0.95) 0%,
+    rgba(252, 248, 230, 0.90) 34%,
+    rgba(252, 248, 230, 0.52) 55%,
+    rgba(252, 248, 230, 0.15) 75%,
+    transparent 90%
+  );
 }
 
 .careers-hero-content-overlay {
@@ -34,7 +50,6 @@
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 3rem 6%;
   z-index: 3;
@@ -49,17 +64,17 @@
 
 .careers-hero-eyebrow {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(0.7rem, 0.9vw, 0.82rem);
-  letter-spacing: 4px;
+  font-size: clamp(0.72rem, 0.85vw, 0.82rem);
+  letter-spacing: 3.5px;
   font-weight: 600;
-  color: #4a3628;
-  margin: 0 0 1rem 0;
+  color: #876240;
+  margin: 0 0 1.25rem 0;
   text-transform: uppercase;
 }
 
 .careers-hero-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  font-size: clamp(2.8rem, 5.2vw, 4.4rem);
   color: #2b1f17;
   line-height: 1.1;
   margin: 0 0 1.4rem 0;
@@ -79,19 +94,19 @@
 
 .careers-hero-desc {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+  font-size: clamp(0.95rem, 1.15vw, 1.08rem);
   line-height: 1.65;
-  color: #42352c;
+  color: #4a3b32;
   margin: 0 0 2rem 0;
-  max-width: 520px;
+  max-width: 500px;
 }
 
 .careers-hero-btn {
-  background-color: #2b1a11;
+  background-color: #633b1e;
   color: #ffffff;
-  border: 1px solid #c48b52;
-  padding: 0.95rem 2.4rem;
-  font-size: 0.8rem;
+  border: none;
+  padding: 0.95rem 2.2rem;
+  font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -100,16 +115,15 @@
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  border-radius: 4px;
-  box-shadow: 0 6px 20px rgba(43, 26, 17, 0.3);
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(99, 59, 30, 0.35);
 }
 
 .careers-hero-btn:hover {
-  background-color: #a84c19;
-  border-color: #a84c19;
+  background-color: #4a2b15;
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(168, 76, 25, 0.4);
+  box-shadow: 0 8px 25px rgba(74, 43, 21, 0.45);
 }
 
 .hero-btn-arrow {
@@ -122,10 +136,37 @@
   transform: translateX(5px);
 }
 
+@media (max-width: 768px) {
+  .careers-hero-banner-section {
+    min-height: 480px;
+  }
+  .careers-hero-banner-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 80% center;
+  }
+  .careers-hero-gradient-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(252, 248, 230, 0.96) 0%,
+      rgba(252, 248, 230, 0.92) 65%,
+      rgba(252, 248, 230, 0.6) 100%
+    );
+  }
+  .careers-hero-content-overlay {
+    position: relative;
+    padding: 3.5rem 1.5rem;
+  }
+}
+
 /* Why Join Us Section */
 .why-join-us {
-  padding: 6rem 2rem;
-  background-color: #fcfcfc;
+  padding: 2rem 2rem 2rem;
+  background-color: #EFE7DA;
 }
 
 .section-header {
@@ -141,7 +182,7 @@
 }
 
 .section-subtitle {
-  color: #666;
+  color: #554439;
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto;
@@ -157,19 +198,19 @@
 }
 
 .benefit-card {
-  background: #fff;
+  background: #FFFFFF;
   padding: 2.5rem;
   border-radius: 16px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-  border: 1px solid #f0f0f0;
+  box-shadow: 0 10px 30px rgba(74, 50, 30, 0.08);
+  border: 1px solid rgba(184, 145, 70, 0.25);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .benefit-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-  border-color: #e5d3b3;
+  transform: translateY(-8px);
+  box-shadow: 0 18px 36px rgba(74, 50, 30, 0.14);
+  border-color: #c48b52;
 }
 
 .benefit-icon {
@@ -192,19 +233,19 @@
 
 /* Openings Section */
 .openings-section {
-  padding: 6rem 2rem;
-  background-color: #fff;
+  padding: 1.5rem 2rem 5rem;
+  background-color: #EFE7DA;
 }
 
 .empty-state-box {
   max-width: 700px;
   margin: 0 auto;
   padding: 4rem 3rem;
-  background: linear-gradient(145deg, #f8f6f0, #ffffff);
+  background: #FFFFFF;
   border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+  box-shadow: 0 15px 35px rgba(74, 50, 30, 0.09);
   text-align: center;
-  border: 1px solid #f0efe9;
+  border: 1px solid rgba(184, 145, 70, 0.25);
   position: relative;
   overflow: hidden;
 }
@@ -248,57 +289,40 @@
   display: inline-block;
   margin-top: 20px;
   padding: 12px 30px;
-  background-color: #1a1a1a;
+  background-color: #633b1e;
   color: #fff;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: 30px;
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(99, 59, 30, 0.25);
 }
 
 .email-link:hover {
-  background-color: #a84c19;
+  background-color: #4a2b15;
   color: #fff;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(168, 76, 25, 0.25);
+  box-shadow: 0 6px 20px rgba(74, 43, 21, 0.35);
 }
 
 @media (max-width: 992px) {
   .careers-hero-banner-img {
-    min-height: 460px;
-    object-position: 70% center;
-  }
-  .careers-hero-content-overlay {
-    padding: 2.5rem 5%;
-    background: linear-gradient(to right, rgba(247, 243, 238, 0.92) 0%, rgba(247, 243, 238, 0.75) 55%, transparent 100%);
+    min-height: unset;
   }
 }
 
 @media (max-width: 768px) {
-  .why-join-us, .openings-section {
-    padding: 4rem 1.5rem;
+  .why-join-us {
+    padding: 1.75rem 1.5rem 1.5rem;
+  }
+  .openings-section {
+    padding: 1.5rem 1.5rem 3.5rem;
   }
 }
 
 @media (max-width: 600px) {
   .careers-hero-banner-img {
-    min-height: 480px;
-    object-position: 80% center;
-  }
-  .careers-hero-content-overlay {
-    padding: 2rem 1.25rem;
-    background: linear-gradient(to bottom, rgba(247, 243, 238, 0.94) 0%, rgba(247, 243, 238, 0.85) 70%, rgba(247, 243, 238, 0.5) 100%);
-  }
-  .careers-hero-title {
-    margin-bottom: 1rem;
-  }
-  .careers-hero-desc {
-    margin-bottom: 1.5rem;
-  }
-  .careers-hero-btn {
-    width: 100%;
-    justify-content: center;
+    min-height: unset;
   }
 }

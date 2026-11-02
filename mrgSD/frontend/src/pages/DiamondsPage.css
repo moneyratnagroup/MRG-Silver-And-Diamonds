@@ -450,36 +450,157 @@
   accent-color: #1a2c5b !important;
 }
 
-/* Reduce width of the border box (product card) */
+/* Product Card Style matching Image 2 */
 .diamonds-page-wrapper .product-card {
-  padding: 1rem 1rem 0.75rem 1rem;
-  max-width: 280px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 1rem 0 !important;
+  max-width: 100% !important;
   min-height: auto;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+
+.diamonds-page-wrapper .product-card:hover {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: translateY(-3px);
+}
+
+.diamonds-page-wrapper .product-card-header {
+  position: static !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 0.75rem !important;
+  padding: 0 4px !important;
+}
+
+.diamonds-page-wrapper .product-card-subtitle {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  color: #0E2C58 !important;
+  font-weight: 600 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.diamonds-page-wrapper .product-card-heart {
+  color: #0E2C58 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  cursor: pointer !important;
+  transition: fill 0.2s, color 0.2s, transform 0.2s ease !important;
+}
+
+.diamonds-page-wrapper .product-card-heart:hover {
+  color: #153E78 !important;
+  transform: scale(1.1) !important;
 }
 
 .diamonds-page-wrapper .product-card-image-wrapper {
-  margin-bottom: 0.75rem;
-  aspect-ratio: 4 / 3;
-  min-height: auto;
-  max-height: 220px;
-  width: 100%;
+  margin-bottom: 0.75rem !important;
+  aspect-ratio: 4 / 3 !important;
+  min-height: auto !important;
+  max-height: 240px !important;
+  width: 100% !important;
+  background: transparent !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: none !important;
 }
 
 .diamonds-page-wrapper .product-card-image-wrapper img {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 8px;
-  /* Slightly round the images if they don't have built-in borders */
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  border-radius: 10px !important;
+  transition: transform 0.4s ease !important;
 }
 
-/* Slimmer add to cart button */
-.diamonds-page-wrapper .product-card .add-to-cart-btn {
-  padding: 8px 0;
-  font-size: 0.7rem;
+.diamonds-page-wrapper .product-card:hover .product-card-image-wrapper img {
+  transform: scale(1.05) !important;
 }
 
+.diamonds-page-wrapper .product-card-info {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  padding: 0 4px !important;
+}
+
+.diamonds-page-wrapper .product-card-title {
+  font-family: 'Cormorant Upright', serif !important;
+  font-size: 1.35rem !important;
+  color: #09182E !important;
+  margin: 0 0 0.4rem 0 !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  text-align: center !important;
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center !important;
+  min-height: 2.7rem !important;
+}
+
+.diamonds-page-wrapper .product-card-price-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  margin-top: auto !important;
+  padding-bottom: 0.25rem !important;
+}
+
+.diamonds-page-wrapper .product-card-price {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  color: #0A1C36 !important;
+  margin-bottom: 0 !important;
+}
+
+.diamonds-page-wrapper .add-to-cart-icon-btn {
+  background: rgba(14, 44, 88, 0.05) !important;
+  color: #0E2C58 !important;
+  border: none !important;
+  padding: 0.5rem !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.diamonds-page-wrapper .add-to-cart-icon-btn:hover {
+  background: #0E2C58 !important;
+  color: #FAF7F2 !important;
+  transform: scale(1.1) !important;
+}
 
 /* Reduce border box width by displaying 4 items per row */
 .diamonds-page-wrapper .aesthetic-gallery-grid {
@@ -718,3 +839,20 @@
 }
 
 
+
+/* Seamless Product Cards on Diamond Page (Box-Free) */
+.gorings-diamonds-page .product-card,
+.diamonds-page-wrapper .product-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.gorings-diamonds-page .product-card:hover,
+.diamonds-page-wrapper .product-card:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}

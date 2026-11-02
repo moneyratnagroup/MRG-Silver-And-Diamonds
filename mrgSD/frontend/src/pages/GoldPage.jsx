@@ -9,6 +9,7 @@ import { useShop } from '../context/ShopContext';
 import './GoldPage.css';
 
 // Import images
+import goldHero from '../assets/gold_hero2.webp';
 import catRings from '../assets/cat_rings_layout.webp';
 import featuredRing1 from '../assets/featured_ring_1.png';
 import featuredRing2 from '../assets/featured_ring_2.png';
@@ -26,11 +27,10 @@ import featuredItem1 from '../assets/featured_item_1.png';
 import featuredItem2 from '../assets/featured_item_2.png';
 import featuredItem3 from '../assets/featured_item_3.png';
 import featuredItem4 from '../assets/featured_item_4.png';
-import journeyStep1 from '../assets/journey_step_1.jpg';
-import journeyStep2 from '../assets/journey_step_2.jpg';
-import journeyStep3 from '../assets/journey_step_3.jpg';
-import journeyStep4New from '../assets/journey_step_4_new.jpg';
-import journeyStep5 from '../assets/journey_step_5.png';
+import journeyInspiration from '../assets/gold_journey_inspiration.webp';
+import journeyDesign from '../assets/gold_journey_design.webp';
+import journeyCraft from '../assets/gold_journey_craft.webp';
+import journeyFinish from '../assets/gold_journey_finish.webp';
 
 const GoldPage = () => {
   const { collectionId } = useParams();
@@ -172,30 +172,24 @@ const GoldPage = () => {
 
       {showLanding && (
         <>
-          {/* 1. Hero Section - ORO Design */}
-          <section className="new-gold-hero oro-hero">
-            <div className="oro-hero-content">
-              <div className="oro-hero-left">
-                <div className="oro-eyebrow">
-                  <span className="oro-icon">✦</span>
-                  TIMELESS CRAFTSMANSHIP
-                  <span className="oro-line"></span>
-                </div>
-                
-                <h1 className="oro-title">ORO</h1>
-                <h2 className="oro-subtitle">GOLD COLLECTION</h2>
-                
-                <p className="oro-desc">
-                  Personalized service that goes beyond<br />
-                  expectations: together, we'll craft the<br />
-                  ring of your dreams
-                </p>
-                
-                <a href="#gold-collection-start" className="oro-btn" onClick={(e) => { e.preventDefault(); document.getElementById('gold-collection-start').scrollIntoView({ behavior: 'smooth' }); }}>
-                  EXPLORE GOLD COLLECTION &rarr;
-                </a>
-              </div>
-            </div>
+          {/* 1. Hero Section - ORO Banner */}
+          <section className="new-gold-hero oro-hero-banner" id="gold-hero-banner">
+            <a 
+              href="#gold-collection-start" 
+              className="oro-banner-link"
+              onClick={(e) => { 
+                e.preventDefault(); 
+                document.getElementById('gold-collection-start')?.scrollIntoView({ behavior: 'smooth' }); 
+              }}
+              aria-label="Explore ORO Gold Collection"
+            >
+              <img 
+                loading="eager" 
+                src={goldHero} 
+                alt="ORO Gold Collection - Timeless Craftsmanship" 
+                className="oro-hero-banner-img" 
+              />
+            </a>
           </section>
 
           {/* Featured Rings Section */}
@@ -230,44 +224,13 @@ const GoldPage = () => {
              </div>
            </section>
 
-          {/* Golden Journey Section */}
-          <section className="golden-journey-section">
-            <h2 className="golden-journey-title gold-serif">THE GOLDEN JOURNEY</h2>
-            <p className="golden-journey-subtitle">From inspiration to your most cherished moments.</p>
-            
-            <div className="journey-steps">
-              <div className="journey-step">
-                <div className="step-img-wrapper"><img src={journeyStep1} alt="Inspiration" /></div>
-                <span>Inspiration</span>
-              </div>
-              <div className="journey-connector"></div>
-              <div className="journey-step">
-                <div className="step-img-wrapper"><img src={journeyStep2} alt="Design" /></div>
-                <span>Design</span>
-              </div>
-              <div className="journey-connector"></div>
-              <div className="journey-step">
-                <div className="step-img-wrapper"><img src={journeyStep3} alt="Craft" /></div>
-                <span>Craft</span>
-              </div>
-              <div className="journey-connector"></div>
-              <div className="journey-step">
-                <div className="step-img-wrapper"><img src={journeyStep4New} alt="Finish" /></div>
-                <span>Finish</span>
-              </div>
-              <div className="journey-connector"></div>
-              <div className="journey-step">
-                <div className="step-img-wrapper"><img src={journeyStep5} alt="Your Story" /></div>
-                <span>Your Story</span>
-              </div>
-            </div>
-          </section>
         </>
       )}
 
-      {/* Collection Grid */}
+      {/* Collection Grid - Placed above Golden Journey */}
       <section id="gold-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
         <DiamondGallery 
+          theme="gold"
           products={displayProducts} 
           title={displayTitle} 
           tagline={`Explore our exclusive ${baseTitle} jewelry.`}
@@ -328,6 +291,95 @@ const GoldPage = () => {
           }
         />
       </section>
+
+      {showLanding && (
+        <>
+          {/* Golden Journey Section - Live HTML & Separated Images */}
+          <section className="golden-journey-section" id="golden-journey-section">
+            <div className="golden-journey-header">
+              <span className="golden-journey-eyebrow">THE MAKING</span>
+              <h2 className="golden-journey-title gold-serif">The golden journey</h2>
+              <p className="golden-journey-subtitle">
+                From first spark to final polish — four quiet steps behind every piece.
+              </p>
+            </div>
+
+            <div className="golden-journey-grid">
+              {/* Step 1 */}
+              <div className="golden-journey-card">
+                <div className="journey-arch-wrapper">
+                  <img 
+                    src={journeyInspiration} 
+                    alt="Inspiration - Fine jewelry concept" 
+                    loading="lazy" 
+                  />
+                </div>
+                <div className="journey-card-content">
+                  <span className="journey-roman">I</span>
+                  <h3 className="journey-step-title">Inspiration</h3>
+                  <p className="journey-step-desc">
+                    Found in quiet places — old coins, pressed leaves, a line of light at dusk.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="golden-journey-card">
+                <div className="journey-arch-wrapper">
+                  <img 
+                    src={journeyDesign} 
+                    alt="Design - Hand-drawn jewelry sketch" 
+                    loading="lazy" 
+                  />
+                </div>
+                <div className="journey-card-content">
+                  <span className="journey-roman">II</span>
+                  <h3 className="journey-step-title">Design</h3>
+                  <p className="journey-step-desc">
+                    Each piece begins as a pencil drawing, refined until nothing can be removed.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="golden-journey-card">
+                <div className="journey-arch-wrapper">
+                  <img 
+                    src={journeyCraft} 
+                    alt="Craft - Artisan bench goldsmithing" 
+                    loading="lazy" 
+                  />
+                </div>
+                <div className="journey-card-content">
+                  <span className="journey-roman">III</span>
+                  <h3 className="journey-step-title">Craft</h3>
+                  <p className="journey-step-desc">
+                    Cast in solid 18k gold and worked by hand at the bench for hours, not minutes.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 4 */}
+              <div className="golden-journey-card">
+                <div className="journey-arch-wrapper">
+                  <img 
+                    src={journeyFinish} 
+                    alt="Finish - Master polish and setting" 
+                    loading="lazy" 
+                  />
+                </div>
+                <div className="journey-card-content">
+                  <span className="journey-roman">IV</span>
+                  <h3 className="journey-step-title">Finish</h3>
+                  <p className="journey-step-desc">
+                    Polished until it holds light the way silk does — softly, never loudly.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      )}
 
 
 

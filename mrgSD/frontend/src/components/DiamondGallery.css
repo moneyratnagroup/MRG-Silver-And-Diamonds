@@ -243,28 +243,30 @@
 
 /* New Product Card Design */
 .product-card {
-  background: linear-gradient(180deg, #F0F3F6 0%, #E6EAEF 100%);
-  background-color: #EBF0F5;
-  border: 1px solid rgba(14, 44, 88, 0.16);
-  border-radius: 14px;
-  overflow: hidden;
+  background: transparent;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
   display: flex;
   flex-direction: column;
-  padding: 1.25rem 1.25rem 1rem 1.25rem;
+  padding: 0;
   cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   width: 100%;
   max-width: 320px;
-  min-height: 440px;
   box-sizing: border-box;
   margin: 0 auto;
 }
 
 .product-card:hover {
-  background: linear-gradient(180deg, #F4F7FA 0%, #EAEFF4 100%);
-  box-shadow: 0 12px 28px rgba(11, 34, 68, 0.12);
-  border-color: rgba(14, 44, 88, 0.35);
-  transform: translateY(-4px);
+  background: transparent;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  border-color: transparent;
+  transform: translateY(-5px);
 }
 
 .aesthetic-card {
@@ -314,21 +316,82 @@
 }
 
 .product-card-image-wrapper {
-  flex: 1;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: #f7f5f0;
+  border: 1px solid rgba(14, 44, 88, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
-  min-height: 200px;
-  max-height: 210px;
-  position: relative;
+  margin-bottom: 0.85rem;
+  transition: box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.product-card:hover .product-card-image-wrapper {
+  box-shadow: 0 10px 24px rgba(14, 44, 88, 0.1);
+  border-color: rgba(14, 44, 88, 0.18);
 }
 
 .product-card-image-wrapper img {
-  max-width: 100%;
-  max-height: 200px;
-  object-fit: contain;
-  transition: transform 0.4s ease, opacity 0.4s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+/* Floating Subtitle Badge on Top-Left of Image */
+.product-card-floating-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #0E2C58;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+}
+
+/* Floating Wishlist Button on Top-Right of Image */
+.product-card-floating-wishlist {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card-floating-wishlist:hover {
+  transform: scale(1.12);
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .aesthetic-card img {
@@ -416,15 +479,17 @@
 
 .product-card-title {
   font-family: 'Cormorant Upright', serif;
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   color: #09182E;
-  margin: 0 0 0.4rem 0;
+  margin: 0 0 0.5rem 0;
   font-weight: 600;
   line-height: 1.25;
-  min-height: 2.7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 2.6rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: center;
   transition: color 0.2s ease;
 }
 
@@ -432,32 +497,44 @@
   color: #0E2C58;
 }
 
+.product-card-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+  padding: 0 0.2rem;
+}
+
 .product-card-price {
   font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #0A1C36;
-  margin-bottom: 0.85rem;
+  margin: 0;
 }
 
 .product-card .add-to-cart-icon-btn {
-  background: rgba(14, 44, 88, 0.05);
+  background: rgba(14, 44, 88, 0.06);
   color: #0E2C58;
-  border: none;
-  padding: 0.5rem;
+  border: 1px solid rgba(14, 44, 88, 0.12);
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
+  padding: 0;
 }
 
 .product-card .add-to-cart-icon-btn:hover {
   background: #0E2C58;
-  color: #FAF7F2;
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(11, 34, 68, 0.15);
+  color: #ffffff;
+  border-color: #0E2C58;
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(14, 44, 88, 0.25);
 }
 
 @media (max-width: 1100px) {
@@ -540,4 +617,378 @@
 
 .circular-page-btn.arrow-btn {
   color: #555;
+}
+
+/* ==========================================================================
+   Luxury Botanical Wavy Product Card Theme (Gold & Diamond Galleries)
+   ========================================================================== */
+.product-card.gold-luxury-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(184, 145, 70, 0.38) !important;
+  box-shadow: 0 10px 30px -4px rgba(14, 41, 26, 0.12), 
+              0 3px 10px rgba(14, 41, 26, 0.05) !important;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              box-shadow 0.4s ease, 
+              border-color 0.4s ease !important;
+  width: 100% !important;
+  max-width: 320px !important;
+  min-height: 440px !important;
+  box-sizing: border-box !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+}
+
+.product-card.gold-luxury-card:hover {
+  transform: translateY(-7px) !important;
+  border-color: rgba(184, 145, 70, 0.6) !important;
+  box-shadow: 0 20px 42px -6px rgba(14, 41, 26, 0.22), 
+              0 0 22px rgba(184, 145, 70, 0.3) !important;
+}
+
+/* Floating Wishlist Heart Button */
+.gold-card-heart-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(253, 251, 247, 0.94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #273D30;
+  cursor: pointer;
+  z-index: 10;
+  padding: 0;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gold-card-heart-btn:hover {
+  transform: scale(1.12);
+  background: #ffffff;
+  color: #e53e3e;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+}
+
+/* Product Image Section */
+.gold-luxury-card .product-card-image-wrapper {
+  position: relative;
+  width: 100% !important;
+  height: 290px !important;
+  min-height: 290px !important;
+  max-height: 290px !important;
+  aspect-ratio: auto !important;
+  overflow: hidden !important;
+  background-color: #E8E4DD !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 18px 18px 0 0 !important;
+}
+
+.gold-luxury-card .product-card-image-wrapper img {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 0 !important;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.gold-luxury-card:hover .product-card-image-wrapper img {
+  transform: scale(1.06) !important;
+}
+
+/* Wavy Transition Over Image */
+.gold-card-wave-wrapper {
+  position: relative;
+  width: 100%;
+  height: 45px;
+  margin-top: -44px;
+  z-index: 2;
+  pointer-events: none;
+  line-height: 0;
+}
+
+.gold-card-wave-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 -3px 8px rgba(0, 0, 0, 0.09));
+}
+
+.gold-luxury-card .gold-wave-fill {
+  fill: #3A5846 !important;
+}
+
+/* Card Body Section - Darker Forest Green Gradient Shading */
+.gold-luxury-card .gold-card-body {
+  position: relative !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  padding: 0.6rem 1.4rem 1.4rem 1.4rem !important;
+  z-index: 3 !important;
+  margin-top: -1px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  background: linear-gradient(180deg, #3A5846 0%, #274233 50%, #182E22 100%) !important;
+  border-radius: 0 0 18px 18px !important;
+}
+
+/* Corner Botanical Leaf Art */
+.gold-card-botanical {
+  position: absolute;
+  bottom: -4px;
+  left: -2px;
+  width: 82px;
+  height: 105px;
+  pointer-events: none;
+  z-index: 1;
+  transform-origin: bottom left;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  color: #DFC796;
+  opacity: 0.52;
+}
+
+.gold-luxury-card:hover .gold-card-botanical {
+  transform: scale(1.06) rotate(1deg);
+  opacity: 0.75;
+}
+
+/* Eyebrow & Ornament */
+.gold-card-eyebrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 0.35rem;
+  width: 100%;
+  z-index: 2;
+}
+
+.gold-card-eyebrow .product-card-subtitle {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  margin: 0 !important;
+  color: #F0E9D8 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.card-divider-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 110px;
+  color: #DFC796;
+}
+
+.card-divider-ornament .ornament-line {
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.45;
+}
+
+.card-divider-ornament .ornament-diamond {
+  font-size: 0.65rem;
+  line-height: 1;
+  color: currentColor;
+}
+
+/* Title */
+.gold-luxury-card .product-card-title {
+  font-family: 'Playfair Display', 'Cormorant Upright', serif !important;
+  font-size: 1.65rem !important;
+  font-weight: 500 !important;
+  line-height: 1.25 !important;
+  margin: 0.35rem 0 0.85rem 0 !important;
+  letter-spacing: 0.3px !important;
+  z-index: 2 !important;
+  transition: color 0.3s ease !important;
+  color: #FAF8F5 !important;
+  text-align: center !important;
+  justify-content: center !important;
+  min-height: auto !important;
+  display: block !important;
+}
+
+/* Price & Cart Row */
+.gold-luxury-card .product-card-price-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: auto !important;
+  z-index: 2 !important;
+  padding: 0 !important;
+}
+
+.gold-luxury-card .product-card-price {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px !important;
+  margin: 0 !important;
+  color: #FAF8F5 !important;
+}
+
+.gold-luxury-card .add-to-cart-icon-btn {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              box-shadow 0.25s ease, 
+              background 0.25s ease,
+              border-color 0.25s ease !important;
+  box-shadow: 0 4px 12px rgba(14, 41, 26, 0.25) !important;
+  background: #163021 !important;
+  color: #FFFFFF !important;
+}
+
+.gold-luxury-card .add-to-cart-icon-btn:hover {
+  transform: scale(1.1) !important;
+  background: #0E2217 !important;
+  border-color: #DFC796 !important;
+  box-shadow: 0 6px 20px rgba(14, 34, 23, 0.5) !important;
+}
+
+/* ==========================================================================
+   Gold Theme Card Styles (Forest Green & Warm Gold Theme)
+   ========================================================================== */
+.product-card.gold-theme-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+.product-card.gold-theme-card:hover {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: translateY(-5px) !important;
+}
+
+.product-card.gold-theme-card .product-card-image-wrapper {
+  background-color: #f7f5ee !important;
+  border: 1px solid rgba(24, 55, 40, 0.1) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+  aspect-ratio: 1 / 1 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: unset !important;
+  max-height: unset !important;
+  margin-bottom: 0.85rem !important;
+}
+
+.product-card.gold-theme-card:hover .product-card-image-wrapper {
+  box-shadow: 0 10px 24px rgba(24, 55, 40, 0.12) !important;
+  border-color: rgba(184, 145, 70, 0.45) !important;
+}
+
+.product-card.gold-theme-card .product-card-floating-badge {
+  color: #183728 !important;
+  border: 1px solid rgba(184, 145, 70, 0.35) !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+}
+
+.product-card.gold-theme-card .product-card-floating-wishlist {
+  border: 1px solid rgba(184, 145, 70, 0.3) !important;
+  color: #183728 !important;
+}
+
+.product-card.gold-theme-card .product-card-floating-wishlist:hover {
+  background: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(24, 55, 40, 0.15) !important;
+}
+
+.product-card.gold-theme-card .product-card-title {
+  color: #143022 !important;
+  font-family: 'Cormorant Upright', serif !important;
+  font-size: 1.3rem !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  height: 2.6rem !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-align: center !important;
+  margin: 0 0 0.5rem 0 !important;
+  transition: color 0.2s ease !important;
+}
+
+.product-card.gold-theme-card:hover .product-card-title {
+  color: #b89146 !important;
+}
+
+.product-card.gold-theme-card .product-card-price-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: auto !important;
+  padding: 0 0.2rem !important;
+}
+
+.product-card.gold-theme-card .product-card-price {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: #183728 !important;
+  margin: 0 !important;
+}
+
+.product-card.gold-theme-card .add-to-cart-icon-btn {
+  background: rgba(24, 55, 40, 0.08) !important;
+  color: #183728 !important;
+  border: 1px solid rgba(24, 55, 40, 0.16) !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.25s ease !important;
+}
+
+.product-card.gold-theme-card .add-to-cart-icon-btn:hover {
+  background: #183728 !important;
+  color: #ffffff !important;
+  border-color: #183728 !important;
+  transform: scale(1.08) !important;
+  box-shadow: 0 4px 14px rgba(24, 55, 40, 0.3) !important;
 }
