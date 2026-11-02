@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import './CareersPage.css';
-import careerHero1 from '../assets/career_hero1.webp';
+import careerHero3 from '../assets/career_hero3.webp';
 
 const CareersPage = () => {
   return (
@@ -9,13 +9,15 @@ const CareersPage = () => {
       {/* Hero Banner Section */}
       <section className="careers-hero-banner-section">
         <img 
-          src={careerHero1} 
+          loading="eager"
+          src={careerHero3} 
           alt="Artisan handcrafting fine jewellery at Moneyratna" 
           className="careers-hero-banner-img"
         />
+        <div className="careers-hero-gradient-overlay" aria-hidden="true"></div>
         <div className="careers-hero-content-overlay">
           <div className="careers-hero-left-content">
-            <p className="careers-hero-eyebrow">PEOPLE CRAFTING BRIGHTER TOMORROWS</p>
+            <p className="careers-hero-eyebrow">✦ &nbsp;PEOPLE CRAFTING BRIGHTER TOMORROWS</p>
             <h1 className="careers-hero-title">
               Join Our <span className="careers-title-accent">Legacy</span>
             </h1>
