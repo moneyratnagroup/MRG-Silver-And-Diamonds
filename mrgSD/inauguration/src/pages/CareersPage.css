@@ -1,0 +1,328 @@
+/* CareersPage.css */
+
+.careers-page-wrapper {
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  background-color: #fff;
+  overflow-x: hidden;
+}
+
+/* Hero Banner Section with Live HTML Overlay */
+.careers-hero-banner-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #f5efe6;
+  display: flex;
+  align-items: center;
+}
+
+.careers-hero-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.careers-hero-gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgba(252, 248, 230, 0.95) 0%,
+    rgba(252, 248, 230, 0.90) 34%,
+    rgba(252, 248, 230, 0.52) 55%,
+    rgba(252, 248, 230, 0.15) 75%,
+    transparent 90%
+  );
+}
+
+.careers-hero-content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 3rem 6%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.careers-hero-left-content {
+  max-width: 580px;
+  pointer-events: auto;
+  text-align: left;
+}
+
+.careers-hero-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.72rem, 0.85vw, 0.82rem);
+  letter-spacing: 3.5px;
+  font-weight: 600;
+  color: #876240;
+  margin: 0 0 1.25rem 0;
+  text-transform: uppercase;
+}
+
+.careers-hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 5.2vw, 4.4rem);
+  color: #2b1f17;
+  line-height: 1.1;
+  margin: 0 0 1.4rem 0;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.careers-title-accent {
+  display: block;
+  font-style: italic;
+  font-weight: 500;
+  background: linear-gradient(135deg, #a84c19 0%, #c47838 50%, #80340c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.careers-hero-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.95rem, 1.15vw, 1.08rem);
+  line-height: 1.65;
+  color: #4a3b32;
+  margin: 0 0 2rem 0;
+  max-width: 500px;
+}
+
+.careers-hero-btn {
+  background-color: #633b1e;
+  color: #ffffff;
+  border: none;
+  padding: 0.95rem 2.2rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(99, 59, 30, 0.35);
+}
+
+.careers-hero-btn:hover {
+  background-color: #4a2b15;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(74, 43, 21, 0.45);
+}
+
+.hero-btn-arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+.careers-hero-btn:hover .hero-btn-arrow {
+  transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+  .careers-hero-banner-section {
+    min-height: 480px;
+  }
+  .careers-hero-banner-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 80% center;
+  }
+  .careers-hero-gradient-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(252, 248, 230, 0.96) 0%,
+      rgba(252, 248, 230, 0.92) 65%,
+      rgba(252, 248, 230, 0.6) 100%
+    );
+  }
+  .careers-hero-content-overlay {
+    position: relative;
+    padding: 3.5rem 1.5rem;
+  }
+}
+
+/* Why Join Us Section */
+.why-join-us {
+  padding: 2rem 2rem 2rem;
+  background-color: #EFE7DA;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  color: #554439;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.benefit-card {
+  background: #FFFFFF;
+  padding: 2.5rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(74, 50, 30, 0.08);
+  border: 1px solid rgba(184, 145, 70, 0.25);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.benefit-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 36px rgba(74, 50, 30, 0.14);
+  border-color: #c48b52;
+}
+
+.benefit-icon {
+  font-size: 2.5rem;
+  color: #a84c19;
+  margin-bottom: 1.5rem;
+}
+
+.benefit-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.benefit-text {
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Openings Section */
+.openings-section {
+  padding: 1.5rem 2rem 5rem;
+  background-color: #EFE7DA;
+}
+
+.empty-state-box {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 4rem 3rem;
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(74, 50, 30, 0.09);
+  text-align: center;
+  border: 1px solid rgba(184, 145, 70, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.empty-state-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #a84c19, #e5d3b3, #a84c19);
+}
+
+.empty-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #1a1a1a;
+  margin-bottom: 1.5rem;
+}
+
+.empty-desc {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+.contact-hr {
+  width: 50px;
+  height: 2px;
+  background-color: #e0e0e0;
+  margin: 0 auto 2.5rem;
+  border: none;
+}
+
+.resume-prompt {
+  font-size: 1.05rem;
+  color: #555;
+}
+
+.email-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  background-color: #633b1e;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 30px;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(99, 59, 30, 0.25);
+}
+
+.email-link:hover {
+  background-color: #4a2b15;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(74, 43, 21, 0.35);
+}
+
+@media (max-width: 992px) {
+  .careers-hero-banner-img {
+    min-height: unset;
+  }
+}
+
+@media (max-width: 768px) {
+  .why-join-us {
+    padding: 1.75rem 1.5rem 1.5rem;
+  }
+  .openings-section {
+    padding: 1.5rem 1.5rem 3.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .careers-hero-banner-img {
+    min-height: unset;
+  }
+}
