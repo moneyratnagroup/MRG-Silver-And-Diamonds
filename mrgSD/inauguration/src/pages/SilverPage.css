@@ -1,0 +1,867 @@
+/* SilverPage.css - Warm Ivory & Pearl Grey Theme */
+
+.silver-page-wrapper.ivory-theme {
+  background-color: #F7F2EA;
+  /* Warm Ivory for the whole page */
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: #302A2A;
+  /* Charcoal Brown for main text */
+}
+
+/* Hero Section */
+.ivory-theme .ivory-hero {
+  display: flex;
+  align-items: stretch;
+  height: 80vh;
+  background-color: #3B0712;
+  /* Deep Burgundy background */
+  background-image: url('../assets/silverhero.png');
+  background-blend-mode: normal;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ivory-theme .ivory-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right, rgba(45, 4, 9, 0.8) 0%, rgba(59, 7, 18, 0) 60%);
+  z-index: 1;
+}
+
+.ivory-theme .ivory-hero-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 10%;
+  z-index: 2;
+  color: #fff;
+  max-width: 600px;
+}
+
+.ivory-theme .hero-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 500;
+}
+
+.ivory-theme .ivory-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 90px;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+
+.ivory-theme .ivory-cursive {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 82px;
+  line-height: 0.8;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.ivory-theme .hero-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  color: #F7F2EA;
+  max-width: 400px;
+}
+
+.ivory-theme .hero-buttons {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.ivory-theme .ivory-btn-solid {
+  font-family: 'Inter', sans-serif;
+  background-color: #F7F2EA;
+  color: #302A2A;
+  border: 1px solid #F7F2EA;
+  padding: 0.9rem 2rem;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ivory-theme .ivory-btn-solid:hover {
+  background-color: transparent;
+  color: #F7F2EA;
+}
+
+.ivory-theme .ivory-btn-solid.dark-btn {
+  background-color: #650018;
+  /* Primary Burgundy */
+  color: #fff;
+  border-color: #650018;
+}
+
+.ivory-theme .ivory-btn-solid.dark-btn:hover {
+  background-color: transparent;
+  color: #650018;
+}
+
+.ivory-theme .ivory-btn-outline {
+  font-family: 'Inter', sans-serif;
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 0.9rem 2rem;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ivory-theme .ivory-btn-outline:hover {
+  background-color: #fff;
+  color: #302A2A;
+}
+
+.ivory-theme .scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  right: 3rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+}
+
+.ivory-theme .scroll-arrow {
+  margin-top: 0.5rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
+
+
+/* Gallery Header */
+.ivory-theme .ivory-gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 4rem 0 2rem;
+  border-bottom: 1px solid #DCDAD7;
+  /* Platinum Grey divider */
+  margin-bottom: 2rem;
+}
+
+.ivory-theme .ivory-header-left {
+  flex: 1;
+}
+
+.ivory-theme .ivory-header-right {
+  flex: 1;
+  text-align: right;
+  padding-bottom: 0.5rem;
+}
+
+.ivory-theme .ivory-header-right p {
+  font-size: 0.95rem;
+  color: #302A2A;
+  /* Charcoal text */
+  line-height: 1.6;
+  max-width: 400px;
+  margin-left: auto;
+  margin-bottom: 0;
+}
+
+.ivory-theme .ivory-gallery-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 3.5rem;
+  color: #302A2A;
+  /* Charcoal Brown */
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* Sidebar overrides */
+.ivory-theme .sidebar-title,
+.ivory-theme .filter-accordion-title {
+  color: #302A2A !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.ivory-theme .collection-sidebar-content {
+  background: transparent !important;
+  padding-right: 2rem !important;
+}
+
+.ivory-theme .filter-accordion {
+  border-bottom: 1px solid #DCDAD7 !important;
+  /* Platinum Grey divider */
+}
+
+.ivory-theme .custom-checkbox-label .checkmark {
+  border-radius: 0 !important;
+  border: 1px solid #C8C8C5 !important;
+  /* Silver Grey border */
+}
+
+.ivory-theme .custom-checkbox-label input:checked~.checkmark {
+  background-color: #650018 !important;
+  /* Primary Burgundy */
+  border-color: #650018 !important;
+}
+
+.ivory-theme .checkbox-text {
+  color: #302A2A !important;
+  font-size: 1.05rem !important;
+  font-weight: 500 !important;
+}
+
+
+/* Product Cards Overrides */
+@media (min-width: 501px) and (max-width: 991px) {
+  .ivory-theme .pg-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .ivory-theme .pg-image-container {
+    height: 220px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .ivory-theme .pg-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .ivory-theme .pg-image-container {
+    height: 220px !important;
+    /* Specific height requested for desktop */
+  }
+}
+
+.ivory-theme .pg-card {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  box-shadow: none !important;
+  border: none !important;
+  position: relative;
+}
+
+.ivory-theme .pg-image-container {
+  background-color: transparent !important;
+  /* No background card */
+  padding: 0 !important;
+  /* Remove padding to fill space */
+  border-radius: 8px !important;
+  /* Small curve */
+  position: relative;
+  width: 100% !important;
+  /* Override ProductsGallery width */
+  overflow: hidden !important;
+}
+
+/* Restrict hover effects exclusively to the image container */
+.ivory-theme .pg-card:hover .primary-img {
+  opacity: 1 !important;
+}
+
+.ivory-theme .pg-card:hover .hover-img {
+  opacity: 0 !important;
+}
+
+.ivory-theme .pg-card:hover .pg-image {
+  transform: none !important;
+}
+
+.ivory-theme .pg-image-container:hover .primary-img {
+  opacity: 0 !important;
+}
+
+.ivory-theme .pg-image-container:hover .hover-img {
+  opacity: 1 !important;
+}
+
+.ivory-theme .pg-image-container:hover .pg-image {
+  transform: scale(1.05) !important;
+}
+
+.ivory-theme .pg-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  /* Small curve */
+}
+
+.ivory-theme .pg-details {
+  padding: 1.2rem 0 0 0 !important;
+  text-align: left !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  align-items: end !important;
+  row-gap: 0.8rem !important;
+}
+
+.ivory-theme .pg-item-name {
+  grid-column: 1 / -1 !important;
+  color: #302A2A !important;
+  /* Charcoal Brown */
+  font-family: 'Cormorant Upright', serif !important;
+  font-size: 1.3rem !important;
+  font-weight: 500 !important;
+  margin-bottom: 0 !important;
+}
+
+.ivory-theme .pg-item-price {
+  color: #302A2A !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+}
+
+.ivory-theme .pg-price-container {
+  grid-column: 1 / 2 !important;
+  justify-content: flex-start !important;
+  margin: 0 !important;
+  padding-bottom: 2px !important;
+  /* Slight visual alignment tweak */
+}
+
+.ivory-theme .pg-item-name::after {
+  content: "925 STERLING SILVER";
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  color: #B0A299;
+  /* Muted Taupe */
+  margin-top: 0.2rem;
+}
+
+/* Silver Page only: EIRA SILVER subtitle */
+.silver-page-wrapper.ivory-theme .pg-item-name::after,
+.silver-page-wrapper .pg-item-name::after {
+  content: "EIRA SILVER" !important;
+}
+
+/* Silver Page only: Product Card Vertical Hierarchy (Price & Cart below EIRA SILVER) */
+.silver-page-wrapper.ivory-theme .pg-details,
+.silver-page-wrapper .pg-details {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  padding: 1rem 0 0 0 !important;
+  width: 100% !important;
+  justify-content: space-between !important;
+}
+
+.silver-page-wrapper.ivory-theme .pg-info-left,
+.silver-page-wrapper .pg-info-left {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  padding-right: 0 !important;
+}
+
+.silver-page-wrapper.ivory-theme .pg-item-name,
+.silver-page-wrapper .pg-item-name {
+  width: 100% !important;
+  margin-bottom: 0 !important;
+}
+
+.silver-page-wrapper.ivory-theme .pg-price-row,
+.silver-page-wrapper .pg-price-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  margin-top: 0.6rem !important;
+  padding-top: 0 !important;
+}
+
+/* Offer Badge Override */
+.ivory-theme .pg-discount-badge {
+  background-color: #650018 !important;
+  /* Matches cart icon burgundy */
+}
+
+
+
+/* Round Add to Cart Button Trick */
+.ivory-theme .pg-add-to-cart {
+  grid-column: 2 / 3 !important;
+  position: static !important;
+  /* Remove absolute positioning */
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background-color: #650018 !important;
+  /* Primary Burgundy */
+  color: transparent !important;
+  /* Hide text */
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.ivory-theme .pg-add-to-cart::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>');
+  background-size: cover;
+  background-position: center;
+}
+
+.ivory-theme .pg-add-to-cart:hover {
+  background-color: #50101A !important;
+  /* Rich Wine Burgundy */
+  transform: scale(1.05);
+}
+
+.ivory-theme .pg-wishlist-btn {
+  top: 15px !important;
+  right: 15px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Pagination Overrides - Load More style */
+.ivory-theme .gallery-pagination {
+  margin-top: 4rem !important;
+  border-top: 1px solid #DCDAD7;
+  /* Platinum Grey */
+  padding-top: 3rem;
+  justify-content: center !important;
+}
+
+.ivory-theme .gallery-pagination button {
+  background: #F3ECE5 !important;
+  /* Soft Cream */
+  color: #302A2A !important;
+  border-radius: 30px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  font-size: 0.9rem !important;
+}
+
+.ivory-theme .gallery-pagination button[style*="rgb(11, 39, 85)"],
+.ivory-theme .gallery-pagination button[style*="#0B2755"] {
+  background: #E8D3D2 !important;
+  /* Soft Blush */
+  color: #302A2A !important;
+}
+
+/* Complete the look Section */
+.ivory-theme .ivory-complete-look {
+  display: flex;
+  margin-top: 6rem;
+  background-color: #E8D3D2;
+  /* Soft Blush background */
+  padding: 4rem 10%;
+  gap: 2rem;
+}
+
+.ivory-theme .complete-left {
+  flex: 2;
+}
+
+.ivory-theme .complete-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.ivory-theme .complete-center {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 2rem;
+}
+
+.ivory-theme .complete-center h2 {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 3.5rem;
+  color: #302A2A;
+  font-weight: 400;
+  margin: 1rem 0;
+  line-height: 1.1;
+}
+
+.ivory-theme .complete-center p {
+  font-size: 0.95rem;
+  color: #302A2A;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.ivory-theme .complete-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ivory-theme .detail-img-top,
+.ivory-theme .detail-img-bottom {
+  width: 100%;
+  height: calc(50% - 0.5rem);
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* The Craft of Silver Section */
+.silver-craft-section {
+  width: 100%;
+  margin: 5rem 0 3rem;
+  background-color: transparent;
+}
+
+.silver-craft-container {
+  display: flex;
+  min-height: 580px;
+  width: 100%;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* Left Column: Warm Ivory Text */
+.silver-craft-text-col {
+  flex: 1.05;
+  background-color: #F7F2EA;
+  padding: 5rem 6% 5rem 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.silver-craft-title {
+  font-family: 'Cormorant Upright', 'Cormorant Garamond', serif;
+  font-size: 4.2rem;
+  color: #380712;
+  line-height: 1.02;
+  font-weight: 500;
+  margin: 0 0 1.8rem 0;
+  letter-spacing: -0.5px;
+}
+
+.silver-craft-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem;
+  color: #2a1e1b;
+  font-weight: 500;
+  line-height: 1.35;
+  margin: 0 0 1.6rem 0;
+}
+
+.silver-craft-desc {
+  font-family: 'Cormorant Garamond', 'Inter', serif;
+  font-size: 1.25rem;
+  color: #302A2A;
+  line-height: 1.65;
+  max-width: 460px;
+  margin: 0;
+}
+
+/* Right Column: Deep Burgundy Photo Collage */
+.silver-craft-visual-col {
+  flex: 1.25;
+  background-color: #380712;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 3rem;
+  overflow: hidden;
+}
+
+.craft-photo-collage {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+  width: 100%;
+  max-width: 540px;
+  align-items: center;
+}
+
+.craft-photo-card {
+  position: relative;
+  border: 1.5px solid rgba(220, 185, 120, 0.65); /* Champagne gold hairline border */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  background-color: #23040b;
+}
+
+.craft-photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.craft-photo-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Asymmetric Collage Dimensions & Offsets */
+.craft-photo-card.card-top-left {
+  height: 220px;
+  width: 95%;
+  justify-self: end;
+}
+
+.craft-photo-card.card-top-right {
+  height: 240px;
+  width: 95%;
+  margin-top: 1.5rem;
+  justify-self: start;
+}
+
+.craft-photo-card.card-bottom-left {
+  height: 190px;
+  width: 88%;
+  margin-left: auto;
+  margin-top: -10px;
+}
+
+.craft-photo-card.card-bottom-right {
+  height: 215px;
+  width: 95%;
+  margin-top: -5px;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .ivory-theme .ivory-hero {
+    flex-direction: column;
+    height: auto;
+    padding: 4rem 0;
+  }
+
+  .ivory-theme .ivory-complete-look {
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  .silver-craft-container {
+    flex-direction: column;
+  }
+
+  .silver-craft-text-col {
+    padding: 3.5rem 2rem;
+  }
+
+  .silver-craft-title {
+    font-size: 3.2rem;
+  }
+
+  .silver-craft-subtitle {
+    font-size: 1.4rem;
+  }
+
+  .silver-craft-desc {
+    font-size: 1.05rem;
+  }
+
+  .silver-craft-visual-col {
+    padding: 3rem 1.5rem;
+  }
+
+  .craft-photo-collage {
+    gap: 1rem;
+    max-width: 440px;
+  }
+
+  .craft-photo-card.card-top-left,
+  .craft-photo-card.card-top-right,
+  .craft-photo-card.card-bottom-left,
+  .craft-photo-card.card-bottom-right {
+    height: 180px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .ivory-theme .ivory-title {
+    font-size: 3.5rem;
+  }
+
+  .ivory-theme .ivory-gallery-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .ivory-theme .ivory-header-right {
+    text-align: left;
+  }
+
+  .ivory-theme .ivory-header-right p {
+    margin-left: 0;
+  }
+}
+
+/* The Facets of Eira Section */
+.eira-facets-section {
+  width: 100%;
+  padding: 1rem 0 2rem;
+  background-color: transparent;
+}
+
+.eira-facets-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+.eira-facets-title {
+  font-family: 'Cormorant Upright', 'Cormorant Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: #380712;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 0.6rem;
+}
+
+.eira-facets-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  color: #6d5b53;
+  margin: 0 0 2.5rem;
+}
+
+.eira-facets-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+}
+
+.eira-facet-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eira-facet-arch {
+  width: 100%;
+  max-width: 190px;
+  aspect-ratio: 3 / 4;
+  border: 1.5px solid #D4A93C;
+  border-radius: 999px 999px 0 0;
+  overflow: hidden;
+  background-color: #23040b;
+  margin-bottom: 1rem;
+}
+
+.eira-facet-arch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.eira-facet-item:hover .eira-facet-arch img {
+  transform: scale(1.06);
+}
+
+/* Burgundy dot + dashed connector between the first and second facet */
+.eira-facet-dot {
+  position: absolute;
+  top: 46%;
+  left: calc(50% + 95px + 14px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #650018;
+}
+
+.eira-facet-dot::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  width: 3.5rem;
+  border-top: 1.5px dashed #D4A93C;
+}
+
+.eira-facet-name {
+  font-family: 'Cormorant Upright', 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #302A2A;
+  margin: 0 0 0.2rem;
+}
+
+.eira-facet-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: #8c767a;
+  letter-spacing: 0.3px;
+}
+
+@media (max-width: 992px) {
+  .eira-facets-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 1.5rem;
+  }
+
+  .eira-facet-dot {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .eira-facets-title {
+    font-size: 1.9rem;
+  }
+
+  .eira-facet-arch {
+    max-width: 150px;
+  }
+}

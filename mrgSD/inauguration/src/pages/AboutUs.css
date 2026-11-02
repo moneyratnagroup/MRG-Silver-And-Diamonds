@@ -1,0 +1,1017 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+/* Variables and Resets for About Page */
+:root {
+  --about-cream: #F7F3E8;
+  --about-cream-light: #FAF8F5;
+  --about-dark: #0B1B3D;
+  --about-darker: #050D24;
+  --about-gold: #B89146;
+  --about-gold-hover: #9c7b3c;
+  --about-serif: 'Cormorant Garamond', 'Playfair Display', 'Cormorant Upright', Georgia, serif;
+  --about-sans: 'Inter', sans-serif;
+}
+
+.about-lumina-container {
+  font-family: var(--about-sans);
+  background-color: var(--about-cream);
+  color: var(--about-dark);
+  overflow-x: hidden;
+}
+
+/* Typography Utilities */
+.serif-text {
+  font-family: var(--about-serif);
+}
+
+.text-gold {
+  color: var(--about-gold);
+}
+
+/* --- 1. Hero Banner Section (Full-Width with abt_hero2.webp) --- */
+.about-hero-banner-section {
+  position: relative;
+  width: 100%;
+  min-height: 75vh;
+  max-height: 820px;
+  display: flex;
+  align-items: center;
+  background-color: #0C1424;
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .about-hero-banner-section {
+    min-height: 82vh;
+  }
+}
+
+.about-hero-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  z-index: 1;
+}
+
+.about-hero-banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(12, 20, 36, 0.94) 0%, rgba(12, 20, 36, 0.82) 55%, rgba(12, 20, 36, 0.4) 100%);
+}
+
+@media (min-width: 992px) {
+  .about-hero-banner-overlay {
+    background: linear-gradient(
+      to right, 
+      rgba(12, 20, 36, 0.95) 0%, 
+      rgba(12, 20, 36, 0.78) 38%, 
+      rgba(12, 20, 36, 0.2) 65%, 
+      transparent 85%
+    );
+  }
+}
+
+.about-hero-content-container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0;
+  padding: 4.5rem 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .about-hero-content-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 6rem 2rem 6rem clamp(2rem, 4.5vw, 4rem);
+  }
+}
+
+.about-hero-text-content {
+  max-width: 480px;
+}
+
+.about-hero-heading {
+  font-family: var(--about-serif);
+  font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: #FFFFFF;
+  margin: 0 0 0.85rem 0;
+  letter-spacing: 0.5px;
+}
+
+.about-hero-subheading {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  color: #C4A777;
+  margin: 0 0 1.25rem 0;
+  text-transform: uppercase;
+}
+
+.about-hero-separator {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 1.75rem 0;
+  width: 180px;
+}
+
+.about-hero-separator .sep-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, #C4A777, transparent);
+}
+
+.about-hero-separator .sep-diamond {
+  color: #C4A777;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.about-hero-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.02rem;
+  line-height: 1.78;
+  color: #CBD5E1;
+  margin: 0 0 2.5rem 0;
+  letter-spacing: 0.2px;
+}
+
+.about-hero-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #D4AF67 0%, #C4A777 100%);
+  color: #1A1A1A;
+  border: none;
+  padding: 13px 30px;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(196, 167, 119, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.about-hero-pill-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(196, 167, 119, 0.45);
+  background: linear-gradient(135deg, #DEBA76 0%, #CFA96C 100%);
+}
+
+.about-hero-pill-btn:active {
+  transform: translateY(0);
+}
+
+/* --- 2. Our Story Section (Clean Editorial Atelier) --- */
+.atelier-heritage-section {
+  position: relative;
+  padding: 2.5rem 1.5rem 3rem;
+  background-color: #F5EFE6;
+  border-top: 1px solid rgba(184, 145, 70, 0.22);
+  border-bottom: 1px solid rgba(184, 145, 70, 0.22);
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .atelier-heritage-section {
+    padding: 3rem 2.5rem 3.5rem;
+  }
+}
+
+.atelier-container.simple-heritage-container {
+  max-width: 960px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Section Header */
+.atelier-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 2.25rem;
+}
+
+.atelier-eyebrow {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: #7A5F43;
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+}
+
+.atelier-title {
+  font-family: var(--about-serif);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 500;
+  line-height: 1.22;
+  color: #1e2838;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+.atelier-title-italic {
+  font-family: var(--about-serif);
+  font-style: italic;
+  font-weight: 500;
+  color: #B58D48;
+}
+
+.atelier-header-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 1.25rem auto 0;
+  width: 200px;
+}
+
+.atelier-header-separator .sep-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184, 145, 70, 0.45), transparent);
+}
+
+.atelier-header-separator .sep-diamond {
+  color: #B58D48;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* Central Manifesto Quote Card */
+.manifesto-quote-card.simple-quote-card {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  background: #FCFAF7;
+  border: 1px solid #ECE4D6;
+  border-radius: 16px;
+  padding: 3.25rem 2.5rem 2.5rem 2.5rem;
+  box-shadow: 0 10px 30px rgba(60, 42, 28, 0.04),
+              0 2px 8px rgba(60, 42, 28, 0.02);
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+
+.manifesto-quote-card.simple-quote-card .quote-accent-mark {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #FAF7F0;
+  border: 1.5px solid #C4A777;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #A68244;
+  box-shadow: 0 2px 8px rgba(60, 42, 28, 0.06);
+  user-select: none;
+  pointer-events: none;
+}
+
+.manifesto-quote-card.simple-quote-card .manifesto-quote-text {
+  font-family: var(--about-serif);
+  font-size: clamp(1.2rem, 2.15vw, 1.55rem);
+  font-style: italic;
+  font-weight: 400;
+  color: #1e2838;
+  line-height: 1.68;
+  letter-spacing: 0.2px;
+  margin: 0 0 1.75rem 0;
+  text-align: center;
+}
+
+.manifesto-quote-card.simple-quote-card .manifesto-quote-author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manifesto-quote-card.simple-quote-card .manifesto-quote-author .author-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  color: #8E734F;
+  text-transform: uppercase;
+}
+
+/* --- 3. Leadership Section (Dual Luxury Cards) --- */
+.leadership-section {
+  position: relative;
+  padding: 2.5rem 1.5rem 3.5rem;
+  background-color: #F5EFE6;
+  border-top: 1px solid rgba(184, 145, 70, 0.2);
+  border-bottom: 1px solid rgba(184, 145, 70, 0.2);
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .leadership-section {
+    padding: 3rem 2.5rem 4rem;
+  }
+}
+
+.leadership-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Section Header */
+.leadership-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 2.25rem;
+}
+
+.leadership-eyebrow {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: #7A5F43;
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+}
+
+.leadership-title {
+  font-family: var(--about-serif);
+  font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.22;
+  color: #1e2838;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+.leadership-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 1.25rem auto 0;
+  width: 200px;
+}
+
+.leadership-separator .sep-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184, 145, 70, 0.45), transparent);
+}
+
+.leadership-separator .sep-diamond {
+  color: #B58D48;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* Dual Leadership Cards Grid */
+.leadership-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.25rem;
+}
+
+@media (min-width: 992px) {
+  .leadership-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* Individual Leader Card */
+.leader-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 2.75rem 2.25rem;
+  border-radius: 20px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (min-width: 600px) {
+  .leader-card {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2.25rem;
+    padding: 3rem 2.5rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .leader-card {
+    padding: 3.5rem 3rem;
+    gap: 2.5rem;
+    min-height: 340px;
+  }
+}
+
+.leader-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Dark Theme (Chairman) */
+.leader-card-dark {
+  background-color: #14223A;
+  color: #FFFFFF;
+  box-shadow: 0 16px 36px rgba(10, 20, 38, 0.22);
+}
+
+.leader-card-dark:hover {
+  box-shadow: 0 20px 42px rgba(10, 20, 38, 0.3);
+}
+
+/* Light Theme (Director) */
+.leader-card-light {
+  background-color: #FCFAF7;
+  color: #1E2838;
+  border: 1px solid #ECE4D6;
+  box-shadow: 0 10px 30px rgba(60, 42, 28, 0.04),
+              0 2px 8px rgba(60, 42, 28, 0.02);
+}
+
+.leader-card-light:hover {
+  box-shadow: 0 16px 36px rgba(60, 42, 28, 0.08),
+              0 4px 12px rgba(60, 42, 28, 0.04);
+}
+
+/* Leader Photo Framing with Luxury Gold Offset Accent */
+.leader-photo-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 160px;
+  aspect-ratio: 3 / 4;
+  margin-bottom: 2rem;
+  margin-left: 12px;
+  margin-top: 6px;
+}
+
+@media (min-width: 600px) {
+  .leader-photo-wrapper {
+    width: 185px;
+    margin-bottom: 0;
+    margin-left: 14px;
+    margin-top: 4px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .leader-photo-wrapper {
+    width: 215px;
+    margin-left: 16px;
+  }
+}
+
+.leader-photo-accent-frame {
+  position: absolute;
+  top: 10px;
+  left: -12px;
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid #C4A777;
+  border-radius: 20px;
+  z-index: 1;
+  pointer-events: none;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.leader-card-light .leader-photo-accent-frame {
+  border: 1.5px solid #C4A777;
+}
+
+.leader-card:hover .leader-photo-accent-frame {
+  transform: translate(-3px, 3px);
+  border-color: #D4AF67;
+  box-shadow: 0 4px 15px rgba(196, 167, 119, 0.25);
+}
+
+.leader-photo-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.leader-card-dark .leader-photo-container {
+  border: 1px solid rgba(196, 167, 119, 0.2);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+.leader-card-light .leader-photo-container {
+  border: 1px solid rgba(184, 145, 70, 0.25);
+  box-shadow: 0 10px 24px rgba(60, 42, 28, 0.12);
+}
+
+.leader-card:hover .leader-photo-container {
+  transform: translateY(-2px);
+}
+
+.leader-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+}
+
+/* Leader Info Content */
+.leader-info-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.leader-quote-icon {
+  font-family: var(--about-serif);
+  font-size: 2.8rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  user-select: none;
+}
+
+.leader-card-dark .leader-quote-icon {
+  color: #C4A777;
+}
+
+.leader-card-light .leader-quote-icon {
+  color: #B58D48;
+}
+
+.leader-quote-text {
+  font-family: var(--about-serif);
+  font-size: clamp(1.08rem, 1.25vw, 1.2rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.68;
+  margin: 0 0 1.75rem 0;
+  letter-spacing: 0.15px;
+}
+
+.leader-card-dark .leader-quote-text {
+  color: #E2E8F0;
+}
+
+.leader-card-light .leader-quote-text {
+  color: #2D3748;
+}
+
+/* Leader Metadata (Role & Company) */
+.leader-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.leader-designation {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.leader-card-dark .leader-designation {
+  color: #C4A777;
+}
+
+.leader-card-light .leader-designation {
+  color: #8E734F;
+}
+
+.leader-company {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.3px;
+}
+
+.leader-card-dark .leader-company {
+  color: #94A3B8;
+}
+
+.leader-card-light .leader-company {
+  color: #64748B;
+}
+
+/* --- 4. Vision & Mission Section (Luxury Dark Symmetrical) --- */
+.vision-mission-section {
+  position: relative;
+  padding: 3rem 1.5rem 3.5rem;
+  color: #FFFFFF;
+  background-color: #0B1B3D;
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .vision-mission-section {
+    padding: 3.5rem 2.5rem 4.5rem;
+  }
+}
+
+.vm-container-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Integrated Header */
+.vm-section-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 2.5rem;
+}
+
+.vm-eyebrow {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: #C4A777;
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+}
+
+.vm-title {
+  font-family: var(--about-serif);
+  font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.22;
+  color: #E8D4B0;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+.vm-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 1.25rem auto 0;
+  width: 200px;
+}
+
+.vm-separator .sep-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196, 167, 119, 0.5), transparent);
+}
+
+.vm-separator .sep-diamond {
+  color: #C4A777;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* Symmetrical Aligned Columns */
+.vm-columns-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: stretch;
+}
+
+@media (min-width: 768px) {
+  .vm-columns-container {
+    flex-direction: row;
+    gap: 0;
+    align-items: flex-start;
+  }
+}
+
+.vm-column {
+  flex: 1;
+  padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+  .vm-column {
+    padding: 1rem 3.5rem 1rem 1rem;
+  }
+  
+  .vm-column:last-child {
+    padding: 1rem 1rem 1rem 3.5rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .vm-column {
+    padding: 1rem 5rem 1rem 2rem;
+  }
+  
+  .vm-column:last-child {
+    padding: 1rem 2rem 1rem 5rem;
+  }
+}
+
+.vm-column-title {
+  font-family: var(--about-serif);
+  font-size: 1.55rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #E8D4B0;
+  margin: 0 0 1.25rem 0;
+}
+
+.vm-column-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.8;
+  color: #CBD5E1;
+  margin: 0;
+  letter-spacing: 0.15px;
+}
+
+.vm-column-divider {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .vm-column-divider {
+    display: block;
+    width: 1px;
+    align-self: stretch;
+    background: linear-gradient(180deg, transparent 0%, rgba(196, 167, 119, 0.3) 15%, rgba(196, 167, 119, 0.3) 85%, transparent 100%);
+  }
+}
+
+/* Ambient Background Watermarks */
+.watermark-v {
+  position: absolute;
+  top: 50%;
+  left: -2%;
+  transform: translateY(-50%);
+  font-family: var(--about-serif);
+  font-size: 26rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.035);
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.watermark-m {
+  position: absolute;
+  top: 50%;
+  right: -2%;
+  transform: translateY(-50%);
+  font-family: var(--about-serif);
+  font-size: 26rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.035);
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 991px) {
+  .watermark-v,
+  .watermark-m {
+    font-size: 16rem;
+  }
+}
+
+/* --- 5. Our Values Section --- */
+.values-section {
+  padding: 3.25rem 2rem 3.75rem;
+  background-color: var(--about-cream-light);
+  text-align: center;
+}
+
+.values-title {
+  font-size: 1.8rem;
+  margin-bottom: 2.25rem;
+  letter-spacing: 2px;
+}
+
+@media (min-width: 768px) {
+  .values-title {
+    font-size: 2.2rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+.about-lumina-container .values-grid,
+.values-section .values-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 576px) {
+  .about-lumina-container .values-grid,
+  .values-section .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .about-lumina-container .values-grid,
+  .values-section .values-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 1rem;
+  }
+
+  .about-lumina-container .value-item {
+    padding: 2rem 0.75rem;
+  }
+}
+
+.value-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.value-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid var(--about-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--about-gold);
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.value-item:hover .value-icon-wrapper {
+  background-color: var(--about-gold);
+  color: #fff;
+}
+
+.value-item h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+}
+
+.value-item p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+/* --- 6. Gallery / Sparkle Section --- */
+.gallery-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--about-cream);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  .gallery-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.gallery-grid img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  filter: brightness(0.9);
+  transition: filter 0.3s ease;
+}
+
+.gallery-grid img:hover {
+  filter: brightness(1);
+}
+
+.gallery-center-card {
+  position: absolute;
+  bottom: 0;
+  transform: translateY(50%);
+  background-color: var(--about-cream-light);
+  padding: 1.5rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  z-index: 10;
+  width: 85%;
+  max-width: 320px;
+}
+
+.gallery-center-card span {
+  font-size: 1rem;
+  line-height: 1.4;
+  letter-spacing: 2px;
+  color: var(--about-dark);
+}
+
+@media (min-width: 768px) {
+  .gallery-center-card {
+    padding: 2rem 3rem;
+    width: auto;
+    max-width: none;
+  }
+
+  .gallery-center-card span {
+    font-size: 1.2rem;
+  }
+}
+
+.gallery-divider {
+  width: 30px;
+  height: 2px;
+  background-color: var(--about-gold);
+  margin-top: 1rem;
+}
+
+/* --- 7. Final CTA Section --- */
+.final-cta-section {
+  background-color: var(--about-darker);
+  color: #fff;
+  text-align: center;
+  padding: 6rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.final-cta-section h2 {
+  font-size: 2rem;
+  letter-spacing: 3px;
+  margin-bottom: 1rem;
+}
+
+.final-cta-section p {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 2.5rem;
+  max-width: 500px;
+}
+
+.btn-cta-gold {
+  background-color: var(--about-gold);
+  color: #fff;
+  padding: 14px 28px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  border-radius: 2px;
+}
+
+.btn-cta-gold:hover {
+  background-color: var(--about-gold-hover);
+  color: #fff;
+}
+
+.about-footer-spacer {
+  height: 3.5rem;
+  width: 100%;
+  background-color: var(--about-cream);
+}

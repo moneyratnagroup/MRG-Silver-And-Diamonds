@@ -1,0 +1,858 @@
+/* DiamondsPage.css - GoRings Template */
+
+.gorings-diamonds-page {
+  background-color: #fbfbfc;
+  min-height: 100vh;
+  font-family: 'Cormorant Upright', serif;
+  color: #1a2245;
+}
+
+/* Hero Section - NEYRA Banner with Live Overlay */
+.diamond-hero-banner-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #06152b;
+  display: block;
+}
+
+.diamond-hero-banner-img {
+  width: 100%;
+  height: auto;
+  min-height: 440px;
+  max-height: 85vh;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.diamond-hero-overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 3;
+  width: 90%;
+  max-width: 620px;
+  pointer-events: auto;
+}
+
+.diamond-hero-eyebrow {
+  font-family: 'Inter', sans-serif;
+  color: #dfba6f;
+  font-size: clamp(0.68rem, 0.9vw, 0.8rem);
+  letter-spacing: 3.5px;
+  font-weight: 500;
+  margin: 0 0 0.8rem 0;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.neyra-brand-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.neyra-brand-sparkle {
+  color: #dfba6f;
+  font-size: 1.1rem;
+  animation: neyraSparkleGlow 3s ease-in-out infinite alternate;
+}
+
+.neyra-brand-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: 14px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #ffffff 0%, #fff4d4 38%, #dfba6f 70%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: neyraGoldShine 6s linear infinite;
+  filter: drop-shadow(0 0 25px rgba(223, 186, 111, 0.45));
+  margin-right: -14px;
+}
+
+.neyra-brand-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.65rem, 0.85vw, 0.72rem);
+  letter-spacing: 5px;
+  font-weight: 600;
+  color: #dfba6f;
+  text-transform: uppercase;
+  margin: 0 0 1.2rem 0;
+  opacity: 0.95;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.diamond-hero-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: clamp(2.2rem, 3.8vw, 3.6rem);
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0 0 2rem 0;
+  font-weight: 500;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
+}
+
+.diamond-hero-btn {
+  background-color: rgba(6, 21, 43, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #ffffff;
+  border: 1px solid rgba(223, 186, 111, 0.75);
+  padding: 0.85rem 2.2rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 2px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.diamond-hero-btn:hover {
+  background-color: #dfba6f;
+  color: #06152b;
+  border-color: #dfba6f;
+  box-shadow: 0 6px 24px rgba(223, 186, 111, 0.5);
+  transform: translateY(-1px);
+}
+
+.hero-btn-arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+.diamond-hero-btn:hover .hero-btn-arrow {
+  transform: translateX(4px);
+}
+
+@keyframes neyraGoldShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes neyraSparkleGlow {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(223, 186, 111, 0.9));
+  }
+}
+
+/* Marquee */
+.gorings-marquee {
+  background-color: #051327;
+  color: #d2deeb;
+  padding: 0.85rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gorings-marquee-content {
+  display: inline-block;
+  animation: goringsMarquee 25s linear infinite;
+}
+
+.gorings-marquee-content span {
+  margin-right: 2.5rem;
+}
+
+@keyframes goringsMarquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Split Section */
+.gorings-split-section {
+  display: flex;
+  background-color: #fbfbfc;
+}
+
+.gorings-split-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 5rem 10%;
+}
+
+.gorings-split-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 3.5rem;
+  color: #1a2c5b;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.gorings-split-desc {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+.gorings-split-image {
+  flex: 1;
+}
+
+.gorings-split-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 400px;
+}
+
+/* Sparkles Decor */
+.gorings-sparkles-decor {
+  padding: 2rem 10%;
+  display: flex;
+  color: #1a2c5b;
+}
+
+.sparkle.large {
+  font-size: 3rem;
+}
+
+.sparkle.medium {
+  font-size: 2rem;
+  margin-top: 0.5rem;
+}
+
+/* Filter Bar */
+.gorings-filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 5% 0;
+}
+
+.gorings-filter-btn {
+  background: transparent;
+  border: none;
+  color: #1a2c5b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.gorings-sort-select {
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  border: none;
+  color: #1a2c5b;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  appearance: none;
+}
+
+/* Diamond Promise Section Split Layout */
+.diamond-promise-split {
+  display: flex;
+  margin: 3.5rem 0 2rem;
+  background-color: #06152b;
+  min-height: 600px;
+}
+
+.promise-split-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 10%;
+  background: radial-gradient(circle at left, #0a1f3d 0%, #06152b 100%);
+}
+
+.promise-split-text .promise-impact-eyebrow {
+  color: #dfba6f;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 4px;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.promise-split-text .promise-bottom-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 6.5rem;
+  color: #ffffff;
+  line-height: 1.1;
+  margin: 0;
+  font-weight: 400;
+}
+
+.promise-split-text .promise-bottom-title em {
+  color: #dfba6f;
+  font-style: italic;
+}
+
+.promise-split-image.overlapping-composition {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+  background: radial-gradient(circle at center, #1a3c75 0%, #0c1e3e 100%);
+}
+
+.overlapping-img-container {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  height: 650px;
+}
+
+.overlapping-img-container img {
+  position: absolute;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  border: 4px solid #ffffff;
+  object-fit: cover;
+  display: block;
+}
+
+.img-back {
+  width: 70%;
+  height: 75%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.img-front {
+  width: 70%;
+  height: 75%;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+}
+
+@media (max-width: 992px) {
+  .diamond-hero-banner-img {
+    min-height: 400px;
+  }
+
+  .diamond-hero-overlay-content {
+    width: 95%;
+    max-width: 520px;
+  }
+
+  .diamond-promise-split {
+    flex-direction: column;
+  }
+
+  .promise-split-text {
+    padding: 4rem 2rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .promise-split-text .promise-bottom-title {
+    font-size: 3.5rem;
+  }
+
+  .promise-split-text .promise-impact-eyebrow {
+    font-size: 0.8rem;
+  }
+
+  .promise-split-image.overlapping-composition {
+    padding: 2rem 1rem 4rem;
+  }
+
+  .overlapping-img-container {
+    height: 350px;
+    max-width: 320px;
+  }
+}
+
+
+/* Blue Theme for Filter Drawer (Mobile) */
+.diamond-theme {
+  background-color: #fbfbfc !important;
+}
+
+.diamond-theme .drawer-title-custom,
+.diamond-theme .filter-clear-all-btn,
+.diamond-theme .btn-clear-filters,
+.diamond-theme .btn-show-results,
+.diamond-theme .filter-accordion-title,
+.diamond-theme .checkbox-text {
+  color: #1a2c5b !important;
+}
+
+.diamond-theme .custom-checkbox-label input {
+  accent-color: #1a2c5b !important;
+}
+
+/* Blue Theme for Filter Sidebar (Desktop) */
+.diamonds-page-wrapper .collection-sidebar-content .sidebar-title {
+  color: #1a2c5b !important;
+}
+
+.diamonds-page-wrapper .filter-clear-all-btn,
+.diamonds-page-wrapper .filter-accordion-title,
+.diamonds-page-wrapper .checkbox-text {
+  color: #1a2c5b !important;
+}
+
+.diamonds-page-wrapper .custom-checkbox-label input {
+  accent-color: #1a2c5b !important;
+}
+
+/* Product Card Style matching Image 2 */
+.diamonds-page-wrapper .product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 1rem 0 !important;
+  max-width: 100% !important;
+  min-height: auto;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+
+.diamonds-page-wrapper .product-card:hover {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: translateY(-3px);
+}
+
+.diamonds-page-wrapper .product-card-header {
+  position: static !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 0.75rem !important;
+  padding: 0 4px !important;
+}
+
+.diamonds-page-wrapper .product-card-subtitle {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  color: #0E2C58 !important;
+  font-weight: 600 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.diamonds-page-wrapper .product-card-heart {
+  color: #0E2C58 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  cursor: pointer !important;
+  transition: fill 0.2s, color 0.2s, transform 0.2s ease !important;
+}
+
+.diamonds-page-wrapper .product-card-heart:hover {
+  color: #153E78 !important;
+  transform: scale(1.1) !important;
+}
+
+.diamonds-page-wrapper .product-card-image-wrapper {
+  margin-bottom: 0.75rem !important;
+  aspect-ratio: 4 / 3 !important;
+  min-height: auto !important;
+  max-height: 240px !important;
+  width: 100% !important;
+  background: transparent !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: none !important;
+}
+
+.diamonds-page-wrapper .product-card-image-wrapper img {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  border-radius: 10px !important;
+  transition: transform 0.4s ease !important;
+}
+
+.diamonds-page-wrapper .product-card:hover .product-card-image-wrapper img {
+  transform: scale(1.05) !important;
+}
+
+.diamonds-page-wrapper .product-card-info {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  padding: 0 4px !important;
+}
+
+.diamonds-page-wrapper .product-card-title {
+  font-family: 'Cormorant Upright', serif !important;
+  font-size: 1.35rem !important;
+  color: #09182E !important;
+  margin: 0 0 0.4rem 0 !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  text-align: center !important;
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center !important;
+  min-height: 2.7rem !important;
+}
+
+.diamonds-page-wrapper .product-card-price-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  margin-top: auto !important;
+  padding-bottom: 0.25rem !important;
+}
+
+.diamonds-page-wrapper .product-card-price {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  color: #0A1C36 !important;
+  margin-bottom: 0 !important;
+}
+
+.diamonds-page-wrapper .add-to-cart-icon-btn {
+  background: rgba(14, 44, 88, 0.05) !important;
+  color: #0E2C58 !important;
+  border: none !important;
+  padding: 0.5rem !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.diamonds-page-wrapper .add-to-cart-icon-btn:hover {
+  background: #0E2C58 !important;
+  color: #FAF7F2 !important;
+  transform: scale(1.1) !important;
+}
+
+/* Reduce border box width by displaying 4 items per row */
+.diamonds-page-wrapper .aesthetic-gallery-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .diamonds-page-wrapper .aesthetic-gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .diamonds-page-wrapper .aesthetic-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .diamonds-page-wrapper .aesthetic-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+/* Remove scrolling nature from the filter sidebar to view in full length */
+.diamonds-page-wrapper .dg-sidebar {
+  max-height: none !important;
+  overflow-y: visible !important;
+}
+
+/* Diamond Full Image Banner */
+.diamond-full-image-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #06152b;
+  display: block;
+}
+
+.diamond-full-image-bg {
+  width: 100%;
+  height: auto;
+  max-height: 85vh;
+  min-height: 380px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.neyra-banner-cta-hotspot {
+  position: absolute;
+  top: 74%;
+  left: 7%;
+  width: 16%;
+  height: 13%;
+  min-width: 160px;
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 5;
+  outline: none;
+  transition: transform 0.2s ease;
+}
+
+.neyra-banner-cta-hotspot:hover {
+  transform: scale(1.03);
+}
+
+/* Diamond Ring Sparkle Glints Layer */
+.diamond-banner-sparkles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.diamond-glint {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%) scale(0) rotate(0deg);
+  opacity: 0;
+  animation: diamondGlintTwinkle 3.6s ease-in-out infinite;
+}
+
+.diamond-glint-core {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 2px #ffffff, 0 0 16px 5px rgba(223, 186, 111, 0.8), 0 0 24px 8px rgba(255, 255, 255, 0.5);
+  z-index: 3;
+}
+
+.diamond-glint-ray-v {
+  position: absolute;
+  width: 2px;
+  height: 26px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.95) 55%, transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+}
+
+.diamond-glint-ray-h {
+  position: absolute;
+  width: 26px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.95) 45%, rgba(255, 255, 255, 0.95) 55%, transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+}
+
+.diamond-glint-ray-d1 {
+  position: absolute;
+  width: 15px;
+  height: 1.5px;
+  background: linear-gradient(to right, transparent, rgba(255, 245, 220, 0.85) 45%, rgba(255, 245, 220, 0.85) 55%, transparent);
+  transform: rotate(45deg);
+}
+
+.diamond-glint-ray-d2 {
+  position: absolute;
+  width: 15px;
+  height: 1.5px;
+  background: linear-gradient(to right, transparent, rgba(255, 245, 220, 0.85) 45%, rgba(255, 245, 220, 0.85) 55%, transparent);
+  transform: rotate(-45deg);
+}
+
+/* Coordinates & Staggered Cycles for Diamond Facets */
+.glint-solitaire-main {
+  top: 44.5%;
+  left: 66.8%;
+  animation-delay: 0s;
+  animation-duration: 3.2s;
+}
+
+.glint-solitaire-side {
+  top: 49%;
+  left: 62.8%;
+  animation-delay: 1.8s;
+  animation-duration: 3.8s;
+  transform: translate(-50%, -50%) scale(0.85);
+}
+
+.glint-band-upper {
+  top: 50.5%;
+  left: 78.5%;
+  animation-delay: 0.9s;
+  animation-duration: 3.5s;
+}
+
+.glint-band-main {
+  top: 63%;
+  left: 74.2%;
+  animation-delay: 2.3s;
+  animation-duration: 4s;
+}
+
+.glint-band-side {
+  top: 61.5%;
+  left: 84.5%;
+  animation-delay: 1.4s;
+  animation-duration: 3.6s;
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+@keyframes diamondGlintTwinkle {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15) rotate(30deg);
+  }
+  45% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.95) rotate(45deg);
+  }
+  65% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(0.5) rotate(65deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0) rotate(90deg);
+  }
+}
+
+@media (max-width: 992px) {
+  .diamond-full-image-bg {
+    min-height: 300px;
+  }
+  .neyra-banner-cta-hotspot {
+    top: 72%;
+    left: 6%;
+    width: 25%;
+  }
+}
+
+@media (max-width: 600px) {
+  .diamond-hero-banner-img {
+    min-height: 380px;
+  }
+
+  .diamond-hero-overlay-content {
+    width: 92%;
+    padding: 1.5rem 1rem;
+    background: radial-gradient(circle at center, rgba(6, 21, 43, 0.8) 0%, rgba(6, 21, 43, 0.5) 75%, transparent 100%);
+    border-radius: 8px;
+  }
+
+  .diamond-hero-title {
+    margin-bottom: 1.4rem;
+  }
+
+  .diamond-full-image-bg {
+    min-height: 220px;
+  }
+  .neyra-banner-cta-hotspot {
+    top: 70%;
+    left: 5%;
+    width: 35%;
+  }
+}
+
+
+
+/* Seamless Product Cards on Diamond Page (Box-Free) */
+.gorings-diamonds-page .product-card,
+.diamonds-page-wrapper .product-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.gorings-diamonds-page .product-card:hover,
+.diamonds-page-wrapper .product-card:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}

@@ -1,0 +1,5 @@
+@media (max-width: 991px) {
+  .app-container {
+    padding-bottom: 65px; /* Space for the mobile bottom nav */
+  }
+}

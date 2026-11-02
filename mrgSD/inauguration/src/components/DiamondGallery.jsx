@@ -1,0 +1,191 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Heart, ChevronLeft, ChevronRight, SearchX, ShoppingCart } from 'lucide-react';
+import { useShop } from '../context/ShopContext';
+import './DiamondGallery.css';
+
+const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false, itemsPerPage = 8, theme = 'default' }) => {
+  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { addToCart, isInWishlist, toggleWishlist, isEcommerceEnabled } = useShop();
+
+  const isGoldTheme = theme === 'gold';
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [products]);
+
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentProducts = products.slice(startIndex, startIndex + itemsPerPage);
+
+  const handleProductClick = (product) => {
+    navigate(`/product/${product.id}`);
+  };
+
+  const formatPrice = (price) => {
+    if (price === null || price === undefined) return '';
+    const raw = String(price).replace(/[^\d.]/g, '');
+    const num = parseFloat(raw);
+    if (isNaN(num)) {
+      return String(price).includes('₹') ? String(price) : `₹${price}`;
+    }
+    return `₹${Math.round(num).toLocaleString('en-IN')}`;
+  };
+
+  return (
+    <div className={`minimal-gallery-wrapper ${isGoldTheme ? 'gold-gallery-theme' : ''}`}>
+      <div className="minimal-gallery-header">
+        <h2 className="minimal-gallery-title">{title || 'FINE JEWELRY MADE RESPONSIBLY'}</h2>
+        {tagline && <p className="minimal-gallery-tagline" style={{ color: '#666', marginTop: '0.5rem', marginBottom: '1.5rem', fontStyle: 'italic' }}>{tagline}</p>}
+        
+        {!filterComponent && (
+          <div className="minimal-gallery-nav">
+            <button className="minimal-nav-btn"><ChevronLeft size={16} strokeWidth={1} /></button>
+            <button className="minimal-nav-btn"><ChevronRight size={16} strokeWidth={1} /></button>
+          </div>
+        )}
+      </div>
+
+      {filterComponent && (
+        <div className="minimal-gallery-filter-container" style={{ marginBottom: '2rem' }}>
+          {filterComponent}
+        </div>
+      )}
+
+      <div className={`dg-layout-container ${sidebarComponent ? 'with-sidebar' : ''}`}>
+        {sidebarComponent && (
+          <div className="dg-sidebar">
+            {sidebarComponent}
+          </div>
+        )}
+        
+        <div className="dg-grid-wrapper">
+          {activeFiltersComponent && (
+            <div className="dg-active-filters-wrapper" style={{ marginBottom: '1rem' }}>
+              {activeFiltersComponent}
+            </div>
+          )}
+          <div className="aesthetic-gallery-grid">
+            {currentProducts.length > 0 ? (
+              currentProducts.map((product, index) => {
+                const subtitles = [
+                  "Trending Now",
+                  "New Arrival",
+                  "Minimalist",
+                  "Aesthetic",
+                  "Bestseller",
+                  "Elevate Your Everyday"
+                ];
+
+                const subtitle = subtitles[index % subtitles.length];
+
+                return (
+                  <div 
+                    className={`product-card ${isGoldTheme ? 'gold-theme-card' : ''}`} 
+                    key={product.id}
+                    onClick={() => handleProductClick(product)}
+                  >
+                    <div className="product-card-image-wrapper">
+                      {subtitle && (
+                        <span className="product-card-floating-badge">{subtitle}</span>
+                      )}
+                      
+                      <button
+                        type="button"
+                        className="product-card-floating-wishlist"
+                        aria-label="Wishlist"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (toggleWishlist) toggleWishlist(product);
+                        }}
+                      >
+                        <Heart 
+                          size={16} 
+                          strokeWidth={1.8} 
+                          className="product-card-heart"
+                          fill={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "none"}
+                          color={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : (isGoldTheme ? "#183728" : "#0E2C58")}
+                        />
+                      </button>
+
+                      <img loading="lazy" src={product.img} alt={product.name} className={product.hoverImage ? 'primary-img' : ''} />
+                      {product.hoverImage && (
+                        <img loading="lazy" src={product.hoverImage} alt={`${product.name} hover`} className="hover-img" />
+                      )}
+                    </div>
+                    
+                    <div className="product-card-info">
+                      <h3 className="product-card-title">{product.name}</h3>
+                      <div className="product-card-price-row">
+                        <span className="product-card-price">
+                          {formatPrice(product.price)}
+                        </span>
+                        <button 
+                          type="button"
+                          className="add-to-cart-icon-btn" 
+                          onClick={(e) => { e.stopPropagation(); addToCart(product); }} 
+                          title="Add to Cart"
+                          aria-label={`Add ${product.name} to Cart`}
+                        >
+                          <ShoppingCart size={18} strokeWidth={2} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="minimal-empty-state" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '4rem 2rem', color: '#666', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                <SearchX size={48} color="#bdc3c7" strokeWidth={1.5} />
+                <h3 style={{ fontSize: '1.2rem', color: '#333', margin: 0, fontFamily: 'Playfair Display, serif' }}>No Products Found</h3>
+                <p style={{ margin: 0, fontSize: '0.9rem' }}>Sorry, we couldn't find any products matching your current filters.</p>
+              </div>
+            )}
+            
+            {totalPages > 1 && (
+              <div className="gallery-pagination circular-pagination">
+                <button 
+                  className="circular-page-btn arrow-btn" 
+                  disabled={currentPage === 1}
+                  onClick={() => {
+                    setCurrentPage(prev => Math.max(prev - 1, 1));
+                    window.scrollTo({ top: document.getElementById('gorings-collection-start')?.offsetTop || 0, behavior: 'smooth' });
+                  }}
+                >
+                  <ChevronLeft size={18} strokeWidth={1.5} />
+                </button>
+                
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i + 1}
+                    className={`circular-page-btn number-btn ${currentPage === i + 1 ? 'active' : ''}`}
+                    onClick={() => {
+                      setCurrentPage(i + 1);
+                      window.scrollTo({ top: document.getElementById('gorings-collection-start')?.offsetTop || 0, behavior: 'smooth' });
+                    }}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+
+                <button 
+                  className="circular-page-btn arrow-btn" 
+                  disabled={currentPage === totalPages}
+                  onClick={() => {
+                    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                    window.scrollTo({ top: document.getElementById('gorings-collection-start')?.offsetTop || 0, behavior: 'smooth' });
+                  }}
+                >
+                  <ChevronRight size={18} strokeWidth={1.5} />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DiamondGallery;

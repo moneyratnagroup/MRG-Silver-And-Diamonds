@@ -1,0 +1,303 @@
+.modern-hero-container {
+  width: 100%;
+  position: relative;
+  background-color: transparent;
+  overflow: hidden;
+}
+
+.slide-content-wrapper {
+  position: relative;
+  height: 85vh;
+  min-height:400px;
+  /*600px previously*/
+  display: flex;
+  align-items: center;
+}
+
+/* Image Layer */
+.slide-image-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.modern-slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
+  transform: scale(1.02);
+  animation: subtleZoom 25s ease-in-out infinite alternate;
+}
+
+.light-gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: none;
+}
+
+@keyframes subtleZoom {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+/* Text Layer */
+.slide-text-layer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  /* max-width: 1400px; */
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  /* padding: 0 4rem; */
+  padding-inline: 60px;
+  /*32*/
+}
+
+.glass-card {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  max-width: 620px;
+  box-shadow: none;
+}
+
+/* 1. Hide everything by default so it doesn't flash during the crossfade */
+.carousel-item .modern-slide-pretitle,
+.carousel-item .modern-divider,
+.carousel-item .modern-slide-title,
+.carousel-item .modern-slide-text,
+.carousel-item .modern-hero-btn {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.carousel-item .modern-slide-title {
+  filter: blur(3px);
+}
+
+/* 2. Trigger the staggered animations when the slide becomes active */
+.carousel-item.active .modern-slide-pretitle,
+.carousel-item.active .modern-divider,
+.carousel-item.active .modern-slide-title,
+.carousel-item.active .modern-slide-text,
+.carousel-item.active .modern-hero-btn {
+  animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.carousel-item.active .modern-slide-pretitle { animation-delay: 0.1s; }
+.carousel-item.active .modern-divider { animation-delay: 0.25s; }
+.carousel-item.active .modern-slide-title { animation-delay: 0.4s; }
+.carousel-item.active .modern-slide-text { animation-delay: 0.55s; }
+.carousel-item.active .modern-hero-btn { animation-delay: 0.7s; }
+
+.carousel-fade .carousel-item {
+  transition: opacity 900ms ease-in-out;
+}
+
+.modern-divider {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0 0 28px 0;
+  width: fit-content;
+}
+
+.modern-divider::before,
+.modern-divider::after {
+  content: '';
+  height: 1px;
+  background-color: var(--gold);
+  opacity: 0.4;
+  flex: 0 0 80px;
+  /*60px*/
+}
+
+.modern-divider-icon {
+  color: var(--gold);
+}
+
+.modern-slide-pretitle {
+  display: block;
+  font-family: 'Cormorant Upright', serif;
+  font-size: 15px;
+  /*16*/
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: #E8D8BE;
+  margin-bottom: 24px;
+}
+
+.modern-slide-title {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 68px;
+  /*60*/
+  font-weight: 700;
+  line-height: 1.08;
+  color: #E7D4BF;
+  margin-bottom: 28px;
+  letter-spacing: -0.02em;
+  max-width: 560px;
+}
+
+.modern-slide-text {
+  font-family: 'Cormorant Upright', serif;
+  font-size: 18px;
+  /*20*/
+  font-weight: 400;
+  color: #D8C8B2;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  max-width: 480px;
+}
+
+.modern-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #DCC6A8;
+  color: #000000;
+  border: none;
+  padding: 18px 40px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: auto;
+}
+
+.modern-hero-btn:hover {
+  background-color: #C7A66A;
+  color: #000000;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-icon {
+  transition: transform 0.35s ease;
+}
+
+.modern-hero-btn:hover .btn-icon {
+  transform: translateX(6px);
+}
+
+@keyframes slideUpFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Customizing Bootstrap Carousel indicators */
+.carousel-indicators {
+  margin-bottom: 3rem;
+  justify-content: flex-start;
+  margin-left: 4rem;
+  z-index: 3;
+}
+
+.carousel-indicators [data-bs-target] {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-left: 10px;
+  background-color: rgba(230, 210, 181, 0.3);
+  border: 2px solid transparent;
+  transition: all 0.4s ease;
+}
+
+.carousel-indicators .active {
+  background-color: transparent;
+  border-color: #E6D2B5;
+  transform: scale(1.6);
+}
+
+@media (max-width: 991px) {
+  .slide-content-wrapper {
+    height: 70vh;
+  }
+
+  .glass-card {
+    padding: 2rem 0;
+    max-width: 480px;
+  }
+
+  .modern-slide-pretitle {
+    font-size: 15px;
+  }
+
+  .modern-slide-title {
+    font-size: 48px;
+  }
+
+  .modern-slide-text {
+    font-size: 18px;
+  }
+
+  .modern-hero-btn {
+    font-size: 15px;
+    padding: 14px 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .light-gradient-overlay {
+    /* background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0) 100%); */
+  }
+
+  .slide-text-layer {
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    padding-bottom: 4rem;
+  }
+
+  .glass-card {
+    padding: 1rem 0;
+    max-width: 100%;
+    background: transparent;
+  }
+
+  .modern-slide-pretitle {
+    font-size: 13px;
+  }
+
+  .modern-slide-title {
+    font-size: 34px;
+  }
+
+  .modern-slide-text {
+    font-size: 16px;
+  }
+
+  .modern-hero-btn {
+    font-size: 14px;
+    padding: 13px 26px;
+  }
+
+  .carousel-indicators {
+    margin-left: 0;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+}
