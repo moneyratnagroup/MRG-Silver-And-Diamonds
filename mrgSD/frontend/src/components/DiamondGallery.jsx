@@ -7,7 +7,7 @@ import './DiamondGallery.css';
 const DiamondGallery = ({ products = [], title, tagline, filterComponent, sidebarComponent, activeFiltersComponent = null, disableSidebarScroll = false, itemsPerPage = 8 }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const { addToCart, isInWishlist, toggleWishlist } = useShop();
+  const { addToCart, isInWishlist, toggleWishlist, isEcommerceEnabled } = useShop();
 
   useEffect(() => {
     setCurrentPage(1);
@@ -87,18 +87,20 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                   >
                     <div className="product-card-header">
                       <span className="product-card-subtitle">{subtitles[index % 6]}</span>
-                      <Heart 
-                        size={18} 
-                        strokeWidth={1.5} 
-                        className="product-card-heart"
-                        fill={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "none"}
-                        color={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "currentColor"}
-                        style={{ cursor: 'pointer' }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (toggleWishlist) toggleWishlist(product);
-                        }}
-                      />
+                      {isEcommerceEnabled && (
+                        <Heart 
+                          size={18} 
+                          strokeWidth={1.5} 
+                          className="product-card-heart"
+                          fill={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "none"}
+                          color={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "currentColor"}
+                          style={{ cursor: 'pointer' }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (toggleWishlist) toggleWishlist(product);
+                          }}
+                        />
+                      )}
                     </div>
                     
                     <div className="product-card-image-wrapper">
@@ -114,9 +116,11 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                         <span className="product-card-price" style={{ marginBottom: 0 }}>
                           {product.price.includes('₹') || product.price.includes('$') || product.price.includes('€') || product.price.includes('£') ? product.price : `₹ ${product.price}`}
                         </span>
-                        <button className="add-to-cart-icon-btn" onClick={(e) => { e.stopPropagation(); addToCart(product); }} title="Add to Cart">
-                          <ShoppingCart size={20} strokeWidth={2} />
-                        </button>
+                        {isEcommerceEnabled && (
+                          <button className="add-to-cart-icon-btn" onClick={(e) => { e.stopPropagation(); addToCart(product); }} title="Add to Cart">
+                            <ShoppingCart size={20} strokeWidth={2} />
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>

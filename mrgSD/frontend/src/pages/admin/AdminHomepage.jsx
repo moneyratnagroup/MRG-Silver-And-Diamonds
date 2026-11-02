@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useShop } from '../../context/ShopContext';
+import { API_URL } from '../../utils/api';
 import { Plus, Edit2, Trash2, X, Upload } from 'lucide-react';
 import './AdminHomepage.css';
 import './AdminProducts.css';
@@ -53,7 +54,7 @@ const AdminHomepage = () => {
     formDataObj.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/upload/', {
+      const response = await fetch(`${API_URL}/api/v1/upload/`, {
         method: 'POST',
         body: formDataObj,
       });
@@ -61,7 +62,7 @@ const AdminHomepage = () => {
       if (!response.ok) throw new Error('Upload failed');
 
       const data = await response.json();
-      const imageUrl = `http://localhost:8000${data.url}`;
+      const imageUrl = `${API_URL}${data.url}`;
 
       setBannerFormData(prev => ({ ...prev, image: imageUrl }));
     } catch (error) {
@@ -87,14 +88,14 @@ const AdminHomepage = () => {
     e.preventDefault();
     try {
       if (editingBanner && editingBanner.id) {
-        const res = await fetch(`http://localhost:8000/api/v1/banners/${bannerFormData.id}`, {
+        const res = await fetch(`${API_URL}/api/v1/banners/${bannerFormData.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bannerFormData)
         });
         if (!res.ok) throw new Error("Failed to update banner");
       } else {
-        const res = await fetch(`http://localhost:8000/api/v1/banners/`, {
+        const res = await fetch(`${API_URL}/api/v1/banners/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bannerFormData)
@@ -111,7 +112,7 @@ const AdminHomepage = () => {
   const handleDeleteBanner = async (id) => {
     if (window.confirm("Are you sure you want to delete this banner?")) {
       try {
-        const res = await fetch(`http://localhost:8000/api/v1/banners/${id}`, {
+        const res = await fetch(`${API_URL}/api/v1/banners/${id}`, {
           method: 'DELETE'
         });
         if (!res.ok) throw new Error("Failed to delete banner");

@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { ShopProvider } from './context/ShopContext'
+import { ShopProvider, isEcommerceEnabled } from './context/ShopContext'
 import { AuthProvider } from './context/AuthContext'
 import UserLayout from './layouts/UserLayout'
 import AdminLayout from './layouts/AdminLayout'
@@ -28,6 +28,7 @@ const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'))
 const AccountPage = React.lazy(() => import('./pages/AccountPage'))
 // Admin Pages
 const AdminDashboard = React.lazy(() => import('./pages/admin/AdminDashboard'))
+const AdminLogin = React.lazy(() => import('./pages/admin/AdminLogin'))
 const AdminMetalRates = React.lazy(() => import('./pages/admin/AdminMetalRates'))
 const AdminAddMetal = React.lazy(() => import('./pages/admin/AdminAddMetal'))
 const AdminProducts = React.lazy(() => import('./pages/admin/AdminProducts'))
@@ -63,6 +64,9 @@ function App() {
             <ToastContainer position="top-right" autoClose={3000} />
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
+              {/* Admin Login Route */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+
               {/* Admin Routes */}
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
@@ -86,8 +90,19 @@ function App() {
               {/* User Routes */}
               <Route path="/" element={<UserLayout />}>
                 <Route index element={<Home />} />
-                <Route path="cart" element={<CartPage />} />
-                <Route path="wishlist" element={<WishlistPage />} />
+                {isEcommerceEnabled ? (
+                  <>
+                    <Route path="cart" element={<CartPage />} />
+                    <Route path="wishlist" element={<WishlistPage />} />
+                    <Route path="checkout" element={<CheckoutPage />} />
+                  </>
+                ) : (
+                  <>
+                    <Route path="cart" element={<Navigate to="/" replace />} />
+                    <Route path="wishlist" element={<Navigate to="/" replace />} />
+                    <Route path="checkout" element={<Navigate to="/" replace />} />
+                  </>
+                )}
                 <Route path="products" element={<CollectionPage />} />
                 <Route path="silver/:collectionId" element={<SilverPage />} />
                 <Route path="silver" element={<SilverPage />} />
@@ -103,7 +118,6 @@ function App() {
                 <Route path="diamonds" element={<DiamondsPage />} />
                 {/* <Route path="investment" element={<InvestmentPage />} />
                 <Route path="investment/:type" element={<InvestmentPage />} /> */}
-                <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="account" element={<AccountPage />} />
               </Route>
               </Routes>

@@ -9,7 +9,7 @@ import imgbislogo from '../assets/bis_logo.webp';
 const ProductDetailsPage = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const { products, addToCart } = useShop();
+  const { products, addToCart, isEcommerceEnabled } = useShop();
   const [product, setProduct] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showFullDetails, setShowFullDetails] = useState(false);
@@ -241,12 +241,16 @@ const ProductDetailsPage = () => {
             </div>
 
             <div className="pd-actions" style={{ display: 'flex', gap: '10px', width: '100%', flexWrap: 'wrap' }}>
-              <button className="btn-add-cart-large" onClick={() => addToCart(product)} style={{ flex: '1 1 45%' }}>
-                Add to Cart
-              </button>
-              <button className="btn-buy-now-large" onClick={() => addToCart(product)} style={{ flex: '1 1 45%' }}>
-                Buy Now
-              </button>
+              {isEcommerceEnabled && (
+                <>
+                  <button className="btn-add-cart-large" onClick={() => addToCart(product)} style={{ flex: '1 1 45%' }}>
+                    Add to Cart
+                  </button>
+                  <button className="btn-buy-now-large" onClick={() => addToCart(product)} style={{ flex: '1 1 45%' }}>
+                    Buy Now
+                  </button>
+                </>
+              )}
               <button className="btn-buy-now-large" onClick={handleEnquire} style={{ flex: '1 1 100%', backgroundColor: '#25D366', color: 'white', borderColor: '#25D366' }}>
                 Enquire on WhatsApp
               </button>

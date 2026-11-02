@@ -809,7 +809,7 @@
 /* Products Page (http://localhost:5173/products) only: Offer strap colour */
 .collection-page-container.ivory-theme .pg-discount-badge,
 .collection-page-container .pg-discount-badge {
-  background-color: #C8A96A !important;
+  background-color: #442b0a !important;
 }
 
 /* Base Price Row for ProductsGallery */

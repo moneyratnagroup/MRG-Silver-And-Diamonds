@@ -25,8 +25,8 @@ const FilterDrawer = ({ isOpen, setIsOpen, theme, metal: propMetal }) => {
   const currentPath = location.pathname;
   const currentMetal = propMetal || (
     currentPath.startsWith('/silver') ? 'silver' :
-    currentPath.startsWith('/gold') ? 'gold' :
-    currentPath.startsWith('/diamonds') ? 'diamonds' : 'all'
+      currentPath.startsWith('/gold') ? 'gold' :
+        currentPath.startsWith('/diamonds') ? 'diamonds' : 'all'
   );
 
   const typeFilter = searchParams.get('type');
@@ -56,19 +56,19 @@ const FilterDrawer = ({ isOpen, setIsOpen, theme, metal: propMetal }) => {
   );
 
   const isDiamondProduct = (p) => (
-    (p.collections && p.collections.some(c => c.name?.toLowerCase() === 'diamonds')) || 
-    (p.category && p.category.toLowerCase() === 'diamonds') || 
+    (p.collections && p.collections.some(c => c.name?.toLowerCase() === 'diamonds')) ||
+    (p.category && p.category.toLowerCase() === 'diamonds') ||
     (p.material && p.material.toLowerCase() === 'diamond') ||
     (p.metal && p.metal.toLowerCase().includes('diamond')) ||
     (p.name && p.name.toLowerCase().includes('diamond'))
   );
 
   const isSilverProduct = (p) => !isGoldProduct(p) && !isDiamondProduct(p);
-  
+
   // Calculate result count based on metal and current filters
   const filteredProducts = useMemo(() => {
     if (!allProductsContext || allProductsContext.length === 0) return [];
-    
+
     let list = allProductsContext;
     if (currentMetal === 'gold') list = list.filter(isGoldProduct);
     else if (currentMetal === 'diamonds') list = list.filter(isDiamondProduct);
@@ -125,17 +125,17 @@ const FilterDrawer = ({ isOpen, setIsOpen, theme, metal: propMetal }) => {
           <X size={20} />
         </button>
       </div>
-      
+      z
       <div className="drawer-scroll-body">
         <FilterSidebarContent metal={currentMetal} />
       </div>
 
       <div className="drawer-footer-actions">
         <button className="btn-clear-filters" onClick={handleClearAll}>
-          <span>Clear Filters</span> <ChevronRight size={16}/>
+          <span>Clear Filters</span> <ChevronRight size={16} />
         </button>
         <button className="btn-show-results" onClick={handleClose}>
-          <span>Show Result ({filteredProducts.length})</span> <ChevronRight size={16}/>
+          <span>Show Result ({filteredProducts.length})</span> <ChevronRight size={16} />
         </button>
       </div>
     </Offcanvas>

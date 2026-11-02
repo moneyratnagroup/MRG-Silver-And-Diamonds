@@ -14,7 +14,7 @@ const MRGNavbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
-  const { getWishlistCount, setIsWishlistOpen, getCartCount, setIsCartOpen, products } = useShop();
+  const { getWishlistCount, setIsWishlistOpen, getCartCount, setIsCartOpen, products, isEcommerceEnabled } = useShop();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -122,15 +122,19 @@ const MRGNavbar = () => {
                   <Search size={18} strokeWidth={1.5} />
                 </button>
 
-                <button className="utility-btn d-none d-lg-flex" aria-label="Wishlist" onClick={handleWishlistClick}>
-                  <Heart size={18} strokeWidth={1.5} />
-                  {wishlistCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{wishlistCount}</span>}
-                </button>
+                {isEcommerceEnabled && (
+                  <>
+                    <button className="utility-btn d-none d-lg-flex" aria-label="Wishlist" onClick={handleWishlistClick}>
+                      <Heart size={18} strokeWidth={1.5} />
+                      {wishlistCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{wishlistCount}</span>}
+                    </button>
 
-                <button className="utility-btn d-none d-lg-flex" aria-label="Cart" onClick={() => setIsCartOpen(true)}>
-                  <ShoppingCart size={18} strokeWidth={1.5} />
-                  {cartCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{cartCount}</span>}
-                </button>
+                    <button className="utility-btn d-none d-lg-flex" aria-label="Cart" onClick={() => setIsCartOpen(true)}>
+                      <ShoppingCart size={18} strokeWidth={1.5} />
+                      {cartCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{cartCount}</span>}
+                    </button>
+                  </>
+                )}
 
                 {isLoading ? (
                   <div className="utility-btn d-none d-lg-flex" aria-label="Loading Account">
@@ -196,7 +200,9 @@ const MRGNavbar = () => {
                       </div>
                       <div style={{ padding: '0.5rem 0' }}>
                         <Link to="/account" className="dropdown-item-simple" style={{ textAlign: 'left' }} onClick={() => { closeMenu(); setIsProfileMenuOpen(false); }}>My Account</Link>
-                        <Link to="/wishlist" className="dropdown-item-simple" style={{ textAlign: 'left' }} onClick={() => { closeMenu(); setIsProfileMenuOpen(false); }}>My Wishlist</Link>
+                        {isEcommerceEnabled && (
+                          <Link to="/wishlist" className="dropdown-item-simple" style={{ textAlign: 'left' }} onClick={() => { closeMenu(); setIsProfileMenuOpen(false); }}>My Wishlist</Link>
+                        )}
                         <div className="dropdown-item-simple" style={{ cursor: 'pointer', borderTop: '1px solid #eee', marginTop: '0.25rem', paddingTop: '0.75rem', textAlign: 'left' }} onClick={() => { logout(); closeMenu(); setIsProfileMenuOpen(false); }}>
                           Logout
                         </div>

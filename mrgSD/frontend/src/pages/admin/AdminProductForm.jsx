@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
+import { API_URL } from '../../utils/api';
 import { ArrowLeft, Upload } from 'lucide-react';
 import MultiSelectDropdown from '../../components/admin/MultiSelectDropdown';
 import './AdminProductForm.css';
@@ -107,7 +108,7 @@ const AdminProductForm = () => {
     formDataObj.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/upload/', {
+      const response = await fetch(`${API_URL}/api/v1/upload/`, {
         method: 'POST',
         body: formDataObj,
       });
@@ -117,7 +118,7 @@ const AdminProductForm = () => {
       }
 
       const data = await response.json();
-      const imageUrl = `http://localhost:8000${data.url}`;
+      const imageUrl = `${API_URL}${data.url}`;
 
       if (field === 'galleryImages') {
         setFormData(prev => ({
@@ -473,14 +474,14 @@ const AdminProductForm = () => {
 
           <div className="form-row">
             <div className="form-group half">
-              <label>Finish (Optional)</label>
-              <input
-                type="text"
-                name="finish"
-                value={formData.finish}
-                onChange={handleChange}
-                placeholder="e.g. Matte, High Polish, Oxidized"
-              />
+              <label>Colour (Optional)</label>
+              <select name="finish" value={formData.finish} onChange={handleChange}>
+                <option value="">-- Select Colour --</option>
+                <option value="Silver">Silver</option>
+                <option value="Rose Gold">Rose Gold</option>
+                <option value="Yellow Gold">Yellow Gold</option>
+                <option value="Rhodium Plated">Rhodium Plated</option>
+              </select>
             </div>
             <div className="form-group half">
               <label>Hallmarked</label>

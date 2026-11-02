@@ -190,3 +190,21 @@ class AddressResponse(AddressBase):
     updated_at: Optional[datetime] = None
 
     model_config = ConfigDict(from_attributes=True)
+
+class AdminLoginRequest(BaseModel):
+    username: str
+    password: str
+
+class AdminLoginResponse(BaseModel):
+    message: str
+    phone_masked: str
+
+class AdminVerifyOTPRequest(BaseModel):
+    username: str
+    otp: str
+
+class AdminTokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    role: str = "admin"
+

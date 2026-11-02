@@ -17,7 +17,7 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
   const currentProducts = enablePagination 
     ? products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
     : products;
-  const { toggleWishlist, isInWishlist, addToCart, coupons } = useShop();
+  const { toggleWishlist, isInWishlist, addToCart, coupons, isEcommerceEnabled } = useShop();
 
   // Mock array for skeleton placeholders
   const placeholders = [1, 2, 3];
@@ -123,11 +123,13 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                     {product.hoverImage && (
                       <img loading="lazy" src={product.hoverImage} alt={`${product.name} hover`} className="pg-image hover-img" />
                     )}
-                    <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? "#e53e3e" : "none"} stroke={isInWishlist(product.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                      </svg>
-                    </button>
+                    {isEcommerceEnabled && (
+                      <button className="pg-wishlist-btn" aria-label="Add to Wishlist" onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(product.id) ? "#e53e3e" : "none"} stroke={isInWishlist(product.id) ? "#e53e3e" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                      </button>
+                    )}
                   </div>
                   <div className="pg-details">
                     <div className="pg-info-left">
@@ -143,27 +145,29 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                           <p className="pg-item-original-price">{product.originalPrice}</p>
                         )}
                       </div>
-                      {useCartIcon ? (
-                        <button 
-                          className="pg-add-to-cart-icon" 
-                          onClick={(e) => { 
-                            e.stopPropagation(); 
-                            addToCart(product); 
-                          }}
-                          aria-label="Add to Cart"
-                        >
-                          <ShoppingCart size={18} />
-                        </button>
-                      ) : (
-                        <button 
-                          className="pg-add-to-cart" 
-                          onClick={(e) => { 
-                            e.stopPropagation(); 
-                            addToCart(product); 
-                          }}
-                        >
-                          Add to Cart
-                        </button>
+                      {isEcommerceEnabled && (
+                        useCartIcon ? (
+                          <button 
+                            className="pg-add-to-cart-icon" 
+                            onClick={(e) => { 
+                              e.stopPropagation(); 
+                              addToCart(product); 
+                            }}
+                            aria-label="Add to Cart"
+                          >
+                            <ShoppingCart size={18} />
+                          </button>
+                        ) : (
+                          <button 
+                            className="pg-add-to-cart" 
+                            onClick={(e) => { 
+                              e.stopPropagation(); 
+                              addToCart(product); 
+                            }}
+                          >
+                            Add to Cart
+                          </button>
+                        )
                       )}
                     </div>
                   </div>

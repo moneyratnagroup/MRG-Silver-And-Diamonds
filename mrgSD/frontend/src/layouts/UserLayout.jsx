@@ -10,9 +10,12 @@ import MobileBottomNav from '../components/MobileBottomNav';
 import Breadcrumbs from '../components/Breadcrumbs';
 import AuthModal from '../components/AuthModal';
 import { useAuth } from '../context/AuthContext';
+import { useShop } from '../context/ShopContext';
 
 const UserLayout = () => {
   const { isAuthModalOpen, closeAuthModal } = useAuth();
+  const { isEcommerceEnabled } = useShop();
+
   return (
     <>
       <MetalRatesBar />
@@ -23,8 +26,12 @@ const UserLayout = () => {
       </main>
       <Footer />
 
-      <WishlistDrawer />
-      <CartDrawer />
+      {isEcommerceEnabled && (
+        <>
+          <WishlistDrawer />
+          <CartDrawer />
+        </>
+      )}
       <MobileBottomNav />
       <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
     </>

@@ -16,6 +16,11 @@ import silverStoryBanner from '../assets/silver_story_banner.png';
 import silverCompleteMain from '../assets/silver_complete_main.jpg';
 import silverPendantDetail from '../assets/silver_pendant_detail.jpg';
 import silverEarringsDetail from '../assets/silver_earrings_detail.jpg';
+import silverCraftRing from '../assets/silver_craft_ring.jpg';
+import silverCraftGoldModel from '../assets/silver_craft_gold_model.jpg';
+import silverCraftGoldChoker from '../assets/silver_craft_gold_choker.jpg';
+import silverCraftSalemAnklet from '../assets/silver_craft_salem_anklet.jpg';
+import navySilkSilver from '../assets/navy_silk_silver.webp';
 
 const SilverPage = () => {
   const { collectionId } = useParams();
@@ -178,6 +183,47 @@ const SilverPage = () => {
                 </div>
               </div>
 
+              {/* The Facets of Eira Section */}
+              {showLanding && (
+                <section className="eira-facets-section">
+                  <div className="eira-facets-container">
+                    <h2 className="eira-facets-title">The Facets of Eira</h2>
+                    <p className="eira-facets-subtitle">Four timeless expressions of certified 925 sterling silver.</p>
+                    <div className="eira-facets-grid">
+                      <div className="eira-facet-item">
+                        <div className="eira-facet-arch">
+                          <img src={navySilkSilver} alt="925 Hallmark certified silver jewellery" loading="lazy" />
+                        </div>
+                        <span className="eira-facet-dot" aria-hidden="true"></span>
+                        <h3 className="eira-facet-name">925 Hallmark</h3>
+                        <span className="eira-facet-desc">Certified Pure Silver</span>
+                      </div>
+                      <div className="eira-facet-item">
+                        <div className="eira-facet-arch">
+                          <img src={silverCraftRing} alt="Icy Rhodium silver ring" loading="lazy" />
+                        </div>
+                        <h3 className="eira-facet-name">Icy Rhodium</h3>
+                        <span className="eira-facet-desc">Diamond-Sheen Lustre</span>
+                      </div>
+                      <div className="eira-facet-item">
+                        <div className="eira-facet-arch">
+                          <img src={silverCraftGoldChoker} alt="Gold Vermeil silver choker" loading="lazy" />
+                        </div>
+                        <h3 className="eira-facet-name">Gold Vermeil</h3>
+                        <span className="eira-facet-desc">18K Dipped Radiance</span>
+                      </div>
+                      <div className="eira-facet-item">
+                        <div className="eira-facet-arch">
+                          <img src={silverCraftSalemAnklet} alt="Salem Heirloom silver anklet" loading="lazy" />
+                        </div>
+                        <h3 className="eira-facet-name">Salem Heirlooms</h3>
+                        <span className="eira-facet-desc">Handcrafted Bells</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              )}
+
               <div className="ivory-toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '2rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
                   <button className="silver-filter-btn" onClick={() => setIsFilterOpen(true)} style={{ margin: 0, display: isFilterOpen ? 'none' : 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: '#02275a' }}>
@@ -262,36 +308,35 @@ const SilverPage = () => {
         </section>
       )}
 
-      {/* Info Section */}
+      {/* The Craft of Silver Section */}
       {showLanding && (
-        <section className="ivory-info-section container" style={{ maxWidth: '1400px', margin: '4rem auto', padding: '0 2rem' }}>
-          <div className="info-block">
-            <div className="info-icon">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4a3b32" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12l4 6-10 12L2 9l4-6z"></path><path d="M2 9h20"></path><path d="M12 21l-4-12"></path><path d="M12 21l4-12"></path><path d="M6 3l2 6"></path><path d="M18 3l-2 6"></path></svg>
+        <section className="silver-craft-section">
+          <div className="silver-craft-container">
+            {/* Left Column: Warm Ivory Text Side */}
+            <div className="silver-craft-text-col">
+              <h2 className="silver-craft-title">The Craft<br />of Silver</h2>
+              <h3 className="silver-craft-subtitle">One pure metal.<br />Three timeless expressions.</h3>
+              <p className="silver-craft-desc">
+                925 Sterling Silver polished in Rhodium, dipped in 18K Gold Vermeil, and handcrafted by Salem silversmiths.
+              </p>
             </div>
-            <div className="info-text">
-              <h4>925<br />CERTIFIED STERLING SILVER</h4>
-              <p>Authentic. Hallmarked. Trusted.</p>
-            </div>
-          </div>
-          <div className="info-divider"></div>
-          <div className="info-block">
-            <div className="info-icon">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4a3b32" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path><path d="M12 21.23c-1.5 1.5-3 1.5-3 1.5M12 21.23c1.5 1.5 3 1.5 3 1.5"></path></svg>
-            </div>
-            <div className="info-text">
-              <h4>MADE WITH CARE<br />CONSCIOUS CRAFTSMANSHIP</h4>
-              <p>Thoughtful design for a brighter tomorrow.</p>
-            </div>
-          </div>
-          <div className="info-divider"></div>
-          <div className="info-block">
-            <div className="info-icon">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4a3b32" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="8" width="18" height="12" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="20"></line><path d="M19 8V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2"></path><path d="M12 4v4"></path></svg>
-            </div>
-            <div className="info-text">
-              <h4>ALWAYS HERE<br />PERSONAL ASSISTANCE</h4>
-              <p>Styling help, gifting support and more.</p>
+
+            {/* Right Column: Deep Burgundy Photo Collage */}
+            <div className="silver-craft-visual-col">
+              <div className="craft-photo-collage">
+                <div className="craft-photo-card card-top-left">
+                  <img src={silverCraftRing} alt="925 Silver Rhodium Solitaire Ring" loading="lazy" />
+                </div>
+                <div className="craft-photo-card card-top-right">
+                  <img src={silverCraftGoldModel} alt="18K Gold Vermeil Model" loading="lazy" />
+                </div>
+                <div className="craft-photo-card card-bottom-left">
+                  <img src={silverCraftGoldChoker} alt="Gold Plated Silver Choker" loading="lazy" />
+                </div>
+                <div className="craft-photo-card card-bottom-right">
+                  <img src={silverCraftSalemAnklet} alt="Salem Traditional 925 Silver Anklet" loading="lazy" />
+                </div>
+              </div>
             </div>
           </div>
         </section>

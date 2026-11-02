@@ -37,7 +37,7 @@ from app.schemas.metal_rate import MetalRateBatchUpdate
 def update_metal_rate(db: Session, rate_id: int, rate_update: MetalRateUpdate):
     # Modified to be append-only history tracking
     db_rate = get_metal_rate(db, rate_id)
-    if not db_rate or not db_rate.is_active:
+    if not db_rate:
         return None
     
     update_data = rate_update.model_dump(exclude_unset=True)
@@ -48,6 +48,8 @@ def update_metal_rate(db: Session, rate_id: int, rate_update: MetalRateUpdate):
     for ar in active_rates:
         ar.is_active = False
     
+    target_is_active = update_data.get('is_active', True)
+    
     # Create new rate based on old + updates
     new_rate = MetalRate(
         metal_name=target_metal_name,
@@ -55,7 +57,7 @@ def update_metal_rate(db: Session, rate_id: int, rate_update: MetalRateUpdate):
         purity=update_data.get('purity', db_rate.purity),
         unit=update_data.get('unit', db_rate.unit),
         rate=update_data.get('rate', db_rate.rate),
-        is_active=True
+        is_active=target_is_active
     )
     db.add(new_rate)
     db.commit()

@@ -262,8 +262,183 @@
 
 
 
+/* Configured Metals Management Styles */
+.metals-tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.metals-tab-header h3 {
+  margin: 0 0 0.25rem 0;
+  font-family: 'Playfair Display', serif;
+  color: #1a1a1a;
+  font-size: 1.25rem;
+}
+
+.metals-tab-header p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.metals-table th,
+.metals-table td {
+  text-align: left;
+  padding: 0.85rem 1rem;
+}
+
+.metals-table code {
+  background-color: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: #555;
+  font-family: monospace;
+}
+
+/* Visibility Pill Button */
+.metal-visibility-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.metal-visibility-btn.active {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-color: #c8e6c9;
+}
+
+.metal-visibility-btn.active:hover {
+  background-color: #c8e6c9;
+}
+
+.metal-visibility-btn.inactive {
+  background-color: #f5f5f5;
+  color: #757575;
+  border-color: #e0e0e0;
+}
+
+.metal-visibility-btn.inactive:hover {
+  background-color: #eeeeee;
+  color: #424242;
+}
+
+/* Action Icon Buttons */
+.metal-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.metal-action-btn.edit {
+  color: #1976d2;
+}
+
+.metal-action-btn.edit:hover {
+  background-color: #e3f2fd;
+  border-color: #90caf9;
+}
+
+.metal-action-btn.delete {
+  color: #d32f2f;
+}
+
+.metal-action-btn.delete:hover {
+  background-color: #ffebee;
+  border-color: #ef9a9a;
+}
+
+/* Edit Metal Modal */
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+  padding: 1rem;
+}
+
+.admin-modal-content {
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.admin-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+.admin-modal-header h3 {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #1a1a1a;
+}
+
+.btn-close-modal {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.btn-close-modal:hover {
+  color: #111;
+  background-color: #f0f0f0;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .header-actions { flex-direction: column; align-items: stretch; gap: 1rem; }
   .admin-rates-table-container { overflow-x: auto; }
+  .metals-tab-header { flex-direction: column; align-items: stretch; }
 }
