@@ -17,6 +17,11 @@ class Settings(BaseSettings):
     # Environment
     ENVIRONMENT: str = "development"
 
+    # Admin Configuration
+    ADMIN_USERNAME: str = "admin"
+    ADMIN_PASSWORD: str = "MRGadmin@2026"
+    ADMIN_PHONE_NUMBER: str = "+919400800843"
+
     class Config:
         env_file = ".env"
 

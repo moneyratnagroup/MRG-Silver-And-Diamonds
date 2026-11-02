@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useShop } from '../../context/ShopContext';
+import { API_URL } from '../../utils/api';
 import { X, Upload } from 'lucide-react';
 import MultiSelectDropdown from './MultiSelectDropdown';
 import './ProductFormModal.css';
@@ -71,7 +72,7 @@ const ProductFormModal = ({ isOpen, onClose, productToEdit }) => {
     formDataObj.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/upload/', {
+      const response = await fetch(`${API_URL}/api/v1/upload/`, {
         method: 'POST',
         body: formDataObj,
       });
@@ -81,7 +82,7 @@ const ProductFormModal = ({ isOpen, onClose, productToEdit }) => {
       }
 
       const data = await response.json();
-      const imageUrl = `http://localhost:8000${data.url}`;
+      const imageUrl = `${API_URL}${data.url}`;
 
       setFormData(prev => ({ ...prev, [field]: imageUrl }));
     } catch (error) {

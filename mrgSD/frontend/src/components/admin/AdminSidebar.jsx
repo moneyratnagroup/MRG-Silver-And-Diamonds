@@ -82,7 +82,7 @@ const AdminSidebar = ({ onMobileClose }) => {
                 Add Metal Type
               </NavLink>
               <NavLink to="/admin/rates" end className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
-                Manage Rates
+                Manage Rates / Metals
               </NavLink>
             </div>
           )}
@@ -131,7 +131,13 @@ const AdminSidebar = ({ onMobileClose }) => {
       </nav>
 
       <div className="admin-logout">
-        <button className="btn-logout">
+        <button 
+          className="btn-logout" 
+          onClick={() => {
+            localStorage.removeItem('mrg_admin_token');
+            window.location.href = '/admin/login';
+          }}
+        >
           <LogOut size={20} />
           <span>Logout</span>
         </button>

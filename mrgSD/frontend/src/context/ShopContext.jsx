@@ -1,12 +1,15 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
-import { fetchWithAuth } from '../utils/api';
+import { fetchWithAuth, API_URL } from '../utils/api';
 import imgBanner11 from '../assets/Banner1.png';
 import imgbanner12 from '../assets/banner12.webp';
 import imgbanner3 from '../assets/banner3.webp';
 
 // Create Context
 const ShopContext = createContext();
+
+// Check if online e-commerce features (Cart, Wishlist, Checkout) are enabled
+export const isEcommerceEnabled = import.meta.env.VITE_ENABLE_ECOMMERCE !== 'false';
 
 // Custom hook to use the context
 export const useShop = () => {
@@ -152,18 +155,20 @@ export const ShopProvider = ({ children }) => {
 
   // Metal Rates (Global State for Admin & Frontend)
   const [activeMetals, setActiveMetals] = useState([]);
+  const [allCreatedMetals, setAllCreatedMetals] = useState([]);
   const [lastUpdated, setLastUpdated] = useState("");
   const [metalRateHistory, setMetalRateHistory] = useState([]);
 
   const fetchRates = useCallback(async () => {
     try {
-      const activeRes = await fetch("http://localhost:8000/api/v1/metal-rates/active");
+      let activeData = [];
+      const activeRes = await fetch(`${API_URL}/api/v1/metal-rates/active`);
       if (activeRes.ok) {
-        const data = await activeRes.json();
-        setActiveMetals(data);
+        activeData = await activeRes.json();
+        setActiveMetals(activeData);
         
         let lastUpdatedTime = "";
-        data.forEach(item => {
+        activeData.forEach(item => {
            if (!lastUpdatedTime || new Date(item.created_at) > new Date(lastUpdatedTime)) {
               lastUpdatedTime = item.created_at;
            }
@@ -171,7 +176,7 @@ export const ShopProvider = ({ children }) => {
         setLastUpdated(lastUpdatedTime ? new Date(lastUpdatedTime).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : "");
       }
 
-      const historyRes = await fetch("http://localhost:8000/api/v1/metal-rates/");
+      const historyRes = await fetch(`${API_URL}/api/v1/metal-rates/`);
       if (historyRes.ok) {
         const historyData = await historyRes.json();
         const groupedByDate = {};
@@ -189,6 +194,25 @@ export const ShopProvider = ({ children }) => {
         
         const historyArr = Object.values(groupedByDate).sort((a, b) => new Date(a.date) - new Date(b.date));
         setMetalRateHistory(historyArr);
+
+        // Derive unique created metals with their latest status and details
+        const latestBySlug = {};
+        historyData.forEach(item => {
+          const slug = (item.metal_name || '').toLowerCase();
+          if (slug) {
+            if (!latestBySlug[slug] || new Date(item.created_at) >= new Date(latestBySlug[slug].created_at)) {
+              latestBySlug[slug] = item;
+            }
+          }
+        });
+        // Override with active list (ensuring is_active is synced)
+        activeData.forEach(activeItem => {
+          const slug = (activeItem.metal_name || '').toLowerCase();
+          if (slug) {
+            latestBySlug[slug] = { ...latestBySlug[slug], ...activeItem, is_active: true };
+          }
+        });
+        setAllCreatedMetals(Object.values(latestBySlug));
       }
     } catch (err) {
       console.error("Failed to fetch metal rates", err);
@@ -197,14 +221,14 @@ export const ShopProvider = ({ children }) => {
 
   const fetchTestimonials = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/testimonials/");
+      const res = await fetch(`${API_URL}/api/v1/testimonials/`);
       if (res.ok) {
         const data = await res.json();
         const mappedData = data.map(t => ({
           id: t.id,
           customerName: t.customer_name,
           place: t.location,
-          image: t.image_key ? `http://localhost:8000${t.image_key}` : null,
+          image: t.image_key ? (t.image_key.startsWith('http') ? t.image_key : `${API_URL}${t.image_key}`) : null,
           imageKey: t.image_key,
           rating: t.rating,
           message: t.message,
@@ -221,16 +245,16 @@ export const ShopProvider = ({ children }) => {
 
   const fetchTaxonomies = useCallback(async () => {
     try {
-      const catRes = await fetch("http://localhost:8000/api/v1/products/categories");
+      const catRes = await fetch(`${API_URL}/api/v1/products/categories`);
       if (catRes.ok) setCategories(await catRes.json());
       
-      const metalRes = await fetch("http://localhost:8000/api/v1/products/metals");
+      const metalRes = await fetch(`${API_URL}/api/v1/products/metals`);
       if (metalRes.ok) setMetals(await metalRes.json());
 
-      const colRes = await fetch("http://localhost:8000/api/v1/products/collections");
+      const colRes = await fetch(`${API_URL}/api/v1/products/collections`);
       if (colRes.ok) setCollections(await colRes.json());
 
-      const occRes = await fetch("http://localhost:8000/api/v1/products/occasions");
+      const occRes = await fetch(`${API_URL}/api/v1/products/occasions`);
       if (occRes.ok) setOccasions(await occRes.json());
     } catch (err) {
       console.error("Failed to fetch taxonomies", err);
@@ -239,7 +263,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchProducts = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/products/?include_inactive=true");
+      const res = await fetch(`${API_URL}/api/v1/products/?include_inactive=true`);
       if (res.ok) {
         const data = await res.json();
         const mappedProducts = data.map(p => ({
@@ -274,7 +298,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchAdminProducts = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/products/?status=ALL");
+      const res = await fetch(`${API_URL}/api/v1/products/?status=ALL`);
       if (res.ok) {
         const data = await res.json();
         const mappedProducts = data.map(p => ({
@@ -307,7 +331,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchCoupons = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/coupons/");
+      const res = await fetch(`${API_URL}/api/v1/coupons/`);
       if (res.ok) {
         const data = await res.json();
         const mappedCoupons = data.map(c => ({
@@ -348,7 +372,7 @@ export const ShopProvider = ({ children }) => {
     }
 
     try {
-        const res = await fetch("http://localhost:8000/api/v1/metal-rates/batch", {
+        const res = await fetch(`${API_URL}/api/v1/metal-rates/batch`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ rates: cleanRates })
@@ -363,7 +387,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteMetalRatesHistory = async (ids) => {
     try {
-        const res = await fetch("http://localhost:8000/api/v1/metal-rates/batch-delete", {
+        const res = await fetch(`${API_URL}/api/v1/metal-rates/batch-delete`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(ids)
@@ -378,16 +402,91 @@ export const ShopProvider = ({ children }) => {
 
   const addNewMetalType = async (newMetal) => {
     try {
-        const res = await fetch("http://localhost:8000/api/v1/metal-rates", {
+        const res = await fetch(`${API_URL}/api/v1/metal-rates`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newMetal)
         });
         if (res.ok) {
             await fetchRates();
+            return { success: true };
         }
+        return { success: false };
     } catch (err) {
         console.error("Failed to add new metal type", err);
+        return { success: false, error: err.message };
+    }
+  };
+
+  const updateMetalType = async (id, updatedMetal) => {
+    try {
+      const res = await fetch(`${API_URL}/api/v1/metal-rates/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedMetal)
+      });
+      if (res.ok) {
+        await fetchRates();
+        return { success: true };
+      }
+      const data = await res.json().catch(() => ({}));
+      return { success: false, error: data.detail || "Failed to update metal" };
+    } catch (err) {
+      console.error("Failed to update metal", err);
+      return { success: false, error: err.message };
+    }
+  };
+
+  const deleteMetalType = async (id, metalName) => {
+    try {
+      const historyRes = await fetch(`${API_URL}/api/v1/metal-rates/`);
+      let idsToDelete = [id];
+      if (historyRes.ok) {
+        const allHistory = await historyRes.json();
+        const matching = allHistory.filter(r => r.metal_name?.toLowerCase() === metalName?.toLowerCase());
+        if (matching.length > 0) {
+          idsToDelete = matching.map(r => r.id);
+        }
+      }
+      const res = await fetch(`${API_URL}/api/v1/metal-rates/batch-delete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(idsToDelete)
+      });
+      if (res.ok) {
+        await fetchRates();
+        return { success: true };
+      }
+      return { success: false };
+    } catch (err) {
+      console.error("Failed to delete metal type", err);
+      return { success: false, error: err.message };
+    }
+  };
+
+  const toggleMetalVisibility = async (metal) => {
+    try {
+      const newActive = !metal.is_active;
+      const res = await fetch(`${API_URL}/api/v1/metal-rates/${metal.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          metal_name: metal.metal_name,
+          metal_type: metal.metal_type,
+          purity: metal.purity,
+          unit: metal.unit,
+          rate: parseFloat(metal.rate),
+          is_active: newActive
+        })
+      });
+      if (res.ok) {
+        await fetchRates();
+        return { success: true };
+      }
+      return { success: false };
+    } catch (err) {
+      console.error("Failed to toggle metal visibility", err);
+      return { success: false, error: err.message };
     }
   };
 
@@ -398,7 +497,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchBanners = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/banners/");
+      const res = await fetch(`${API_URL}/api/v1/banners/`);
       if (res.ok) {
         const data = await res.json();
         setHeroBanners(data);
@@ -436,7 +535,7 @@ export const ShopProvider = ({ children }) => {
         admin_notes: newTestimonial.adminNotes
       };
       
-      const res = await fetch("http://localhost:8000/api/v1/testimonials/", {
+      const res = await fetch(`${API_URL}/api/v1/testimonials/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -465,7 +564,7 @@ export const ShopProvider = ({ children }) => {
         admin_notes: updatedTestimonial.adminNotes
       };
       
-      const res = await fetch(`http://localhost:8000/api/v1/testimonials/${updatedTestimonial.id}`, {
+      const res = await fetch(`${API_URL}/api/v1/testimonials/${updatedTestimonial.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -483,7 +582,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteTestimonial = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/testimonials/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/testimonials/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -498,7 +597,7 @@ export const ShopProvider = ({ children }) => {
 
   const addCategory = async (name) => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/products/categories", {
+      const res = await fetch(`${API_URL}/api/v1/products/categories`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name })
@@ -514,7 +613,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteCategory = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/products/categories/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/products/categories/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) setCategories(prev => prev.filter(c => c.id !== id));
@@ -525,7 +624,7 @@ export const ShopProvider = ({ children }) => {
 
   const addCollection = async (name, displayName, categoryIds = []) => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/products/collections", {
+      const res = await fetch(`${API_URL}/api/v1/products/collections`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: displayName || name, category_ids: categoryIds })
@@ -541,7 +640,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteCollection = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/products/collections/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/products/collections/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) setCollections(prev => prev.filter(c => c.id !== id));
@@ -552,7 +651,7 @@ export const ShopProvider = ({ children }) => {
 
   const updateCollection = async (id, name, displayName, categoryIds = []) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/products/collections/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/products/collections/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: displayName || name, category_ids: categoryIds })
@@ -579,7 +678,7 @@ export const ShopProvider = ({ children }) => {
         expiry_date: newCoupon.expiryDate || null,
         is_active: newCoupon.isActive !== undefined ? newCoupon.isActive : true
       };
-      const res = await fetch("http://localhost:8000/api/v1/coupons/", {
+      const res = await fetch(`${API_URL}/api/v1/coupons/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -602,7 +701,7 @@ export const ShopProvider = ({ children }) => {
         expiry_date: updatedCoupon.expiryDate || null,
         is_active: updatedCoupon.isActive
       };
-      const res = await fetch(`http://localhost:8000/api/v1/coupons/${updatedCoupon.id}`, {
+      const res = await fetch(`${API_URL}/api/v1/coupons/${updatedCoupon.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -617,7 +716,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteCoupon = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/coupons/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/coupons/${id}`, {
         method: "DELETE"
       });
       if (res.ok) {
@@ -630,7 +729,7 @@ export const ShopProvider = ({ children }) => {
 
   const toggleCouponStatus = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/coupons/${id}/toggle`, {
+      const res = await fetch(`${API_URL}/api/v1/coupons/${id}/toggle`, {
         method: "PATCH"
       });
       if (res.ok) {
@@ -763,7 +862,7 @@ export const ShopProvider = ({ children }) => {
   // Product Management (Admin)
   const addProduct = async (newProduct) => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/products/", {
+      const res = await fetch(`${API_URL}/api/v1/products/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newProduct)
@@ -784,7 +883,7 @@ export const ShopProvider = ({ children }) => {
   const updateProduct = async (updatedProduct) => {
     try {
       const { id, ...payload } = updatedProduct;
-      const res = await fetch(`http://localhost:8000/api/v1/products/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/products/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -804,7 +903,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteProduct = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/products/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/products/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -958,6 +1057,7 @@ export const ShopProvider = ({ children }) => {
   };
 
   const value = {
+    isEcommerceEnabled,
     cartItems,
     wishlistItems,
     addToCart,
@@ -972,8 +1072,12 @@ export const ShopProvider = ({ children }) => {
     isWishlistOpen,
     setIsWishlistOpen,
     activeMetals,
+    allCreatedMetals,
     lastUpdated,
     addNewMetalType,
+    updateMetalType,
+    deleteMetalType,
+    toggleMetalVisibility,
     updateMetalRates,
     metalRateHistory,
     deleteMetalRatesHistory,

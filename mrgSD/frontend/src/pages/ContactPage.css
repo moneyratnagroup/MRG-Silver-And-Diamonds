@@ -1,0 +1,615 @@
+/* =========================================================
+   Luxury Dark Gold Contact Page Styles
+   Scoped strictly to .contact-luxury-page to prevent any bleed
+   ========================================================= */
+
+.contact-luxury-page {
+  background: transparent;
+  color: #2d3748;
+  min-height: 100vh;
+  padding: 1.25rem 1.5rem 4rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  position: relative;
+}
+
+/* Ambient glow disabled when page background is transparent */
+.contact-luxury-page::before {
+  display: none;
+}
+
+.contact-luxury-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------------------------------------------------------
+   Hero Header
+   --------------------------------------------------------- */
+.contact-hero-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 2.25rem;
+}
+
+.contact-pill-tag {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 50px;
+  border: 1px solid rgba(184, 145, 70, 0.45);
+  background-color: rgba(184, 145, 70, 0.08);
+  color: #8e6822;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.contact-hero-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  line-height: 1.2;
+  margin: 0 0 1rem;
+  color: #111827;
+  text-transform: uppercase;
+}
+
+.contact-hero-title .gold-text {
+  background: linear-gradient(135deg, #a87b28 0%, #c89e3a 45%, #88621b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+  font-size: 2.85rem;
+  margin-top: 4px;
+}
+
+.contact-hero-subtitle {
+  color: #4b5563;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0 auto 1.5rem;
+  max-width: 650px;
+}
+
+.contact-divider-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto;
+}
+
+.contact-divider-ornament .ornament-line {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(184, 145, 70, 0.6));
+}
+
+.contact-divider-ornament .ornament-line.right {
+  background: linear-gradient(to left, transparent, rgba(184, 145, 70, 0.6));
+}
+
+.contact-divider-ornament .ornament-diamond {
+  width: 8px;
+  height: 8px;
+  background-color: #b89146;
+  transform: rotate(45deg);
+}
+
+/* ---------------------------------------------------------
+   Two-Column Grid Layout (Form + Direct Concierge)
+   --------------------------------------------------------- */
+.contact-grid-section {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+/* Luxury Cards */
+.luxury-dark-card {
+  background: #ffffff;
+  border: 1px solid rgba(184, 145, 70, 0.25);
+  border-radius: 14px;
+  padding: 2.25rem;
+  box-shadow: 0 12px 35px rgba(184, 145, 70, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+
+.card-title-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #111827;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.card-subtitle-muted {
+  color: #64748b;
+  font-size: 0.86rem;
+  margin-bottom: 1.75rem;
+}
+
+/* ---------------------------------------------------------
+   Form Styling
+   --------------------------------------------------------- */
+.contact-luxury-form .form-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.contact-luxury-form .form-group-custom {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.contact-luxury-form label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.5px;
+}
+
+.contact-luxury-form input,
+.contact-luxury-form select,
+.contact-luxury-form textarea {
+  width: 100%;
+  background-color: #fbf9f5;
+  border: 1px solid #e2dacb;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #1e293b;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.contact-luxury-form input::placeholder,
+.contact-luxury-form textarea::placeholder {
+  color: #94a3b8;
+}
+
+.contact-luxury-form select {
+  color: #1e293b;
+  cursor: pointer;
+}
+
+.contact-luxury-form select option {
+  background-color: #ffffff;
+  color: #1e293b;
+}
+
+.contact-luxury-form input:focus,
+.contact-luxury-form select:focus,
+.contact-luxury-form textarea:focus {
+  border-color: #b89146;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(184, 145, 70, 0.18);
+}
+
+.contact-luxury-form .field-error {
+  color: #dc2626;
+  font-size: 0.75rem;
+  margin-top: 0.35rem;
+}
+
+.btn-luxury-gold {
+  width: 100%;
+  background: linear-gradient(135deg, #dfc07a 0%, #c99f48 50%, #ad822c 100%);
+  color: #1b1711;
+  border: none;
+  border-radius: 8px;
+  padding: 0.95rem 1.5rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(184, 145, 70, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 0.5rem;
+}
+
+.btn-luxury-gold:hover {
+  background: linear-gradient(135deg, #f0d598 0%, #dfc07a 50%, #be9134 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(184, 145, 70, 0.45);
+}
+
+.btn-luxury-gold:active {
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------
+   Right Column (Direct Concierge + BIS Hallmark Card)
+   --------------------------------------------------------- */
+.concierge-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.concierge-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.concierge-icon-gold {
+  color: #b89146;
+}
+
+.concierge-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.concierge-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.concierge-item .item-icon {
+  color: #8e6822;
+  background: rgba(184, 145, 70, 0.1);
+  border: 1px solid rgba(184, 145, 70, 0.3);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.concierge-item-content h5 {
+  font-size: 0.72rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #64748b;
+  margin: 0 0 0.3rem;
+  font-weight: 600;
+}
+
+.concierge-item-content p,
+.concierge-item-content a {
+  font-size: 0.92rem;
+  color: #1f2937;
+  margin: 0;
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.concierge-item-content a:hover {
+  color: #b89146;
+}
+
+.whatsapp-link {
+  color: #16a34a !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.whatsapp-link:hover {
+  text-decoration: underline;
+}
+
+/* BIS Hallmark Guaranteed Card */
+.hallmark-card {
+  text-align: center;
+  padding: 1.75rem 1.5rem;
+  background: linear-gradient(135deg, #fffdf8 0%, #f9f4e8 100%);
+  border: 1px solid rgba(184, 145, 70, 0.3);
+}
+
+.hallmark-badge-gold {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 0.75rem;
+  color: #b89146;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hallmark-title {
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  color: #8e6822;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.hallmark-desc {
+  font-size: 0.78rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------
+   Visit Our Showroom Section
+   --------------------------------------------------------- */
+.showrooms-section {
+  margin-top: 2rem;
+}
+
+.showrooms-header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 2rem;
+}
+
+.showrooms-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #111827;
+  text-transform: uppercase;
+  margin: 0 0 0.75rem;
+}
+
+.showrooms-subtitle {
+  color: #4b5563;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0 auto 1.5rem;
+}
+
+.showroom-pills-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.showroom-pill-btn {
+  background: rgba(184, 145, 70, 0.08);
+  border: 1px solid rgba(184, 145, 70, 0.4);
+  color: #8e6822;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.showroom-pill-btn.active {
+  background: linear-gradient(135deg, #dfc07a 0%, #b89146 100%);
+  color: #060b11;
+  border-color: #dfc07a;
+  box-shadow: 0 4px 15px rgba(184, 145, 70, 0.35);
+}
+
+.showroom-pill-btn:hover:not(.active) {
+  border-color: #8e6822;
+  background-color: rgba(184, 145, 70, 0.14);
+}
+
+/* Split Showroom Card (Details + Map) */
+.showroom-split-card {
+  display: grid;
+  grid-template-columns: 1.15fr 1.35fr;
+  gap: 0;
+  background: #ffffff;
+  border: 1px solid rgba(184, 145, 70, 0.25);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(184, 145, 70, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.showroom-details-pane {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid rgba(184, 145, 70, 0.25);
+}
+
+.showroom-flagship-tag {
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8e6822;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.showroom-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 1.5rem;
+}
+
+.showroom-info-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-bottom: 1.75rem;
+}
+
+.showroom-info-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.showroom-info-item .icon {
+  color: #b89146;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.showroom-info-item p {
+  margin: 0;
+  color: #334155;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Amenity Badges */
+.showroom-amenities-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+
+.amenity-badge {
+  background: rgba(184, 145, 70, 0.08);
+  border: 1px solid rgba(184, 145, 70, 0.25);
+  color: #8e6822;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Showroom Action Buttons */
+.showroom-actions-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-showroom-action {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-showroom-action.primary {
+  background: linear-gradient(135deg, #dfc07a 0%, #b89146 100%);
+  color: #060b11;
+  border: none;
+}
+
+.btn-showroom-action.primary:hover {
+  background: linear-gradient(135deg, #eed597 0%, #ca9f4a 100%);
+  transform: translateY(-2px);
+}
+
+.btn-showroom-action.secondary {
+  background: transparent;
+  color: #dfc07a;
+  border: 1px solid rgba(223, 192, 122, 0.4);
+}
+
+.btn-showroom-action.secondary:hover {
+  background: rgba(223, 192, 122, 0.1);
+  border-color: #dfc07a;
+}
+
+/* Map Pane */
+.showroom-map-pane {
+  position: relative;
+  min-height: 380px;
+  background-color: #f8f6f0;
+}
+
+.showroom-map-pane iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+  border: none;
+  filter: contrast(1.05) saturate(1.1);
+}
+
+/* ---------------------------------------------------------
+   Mobile & Tablet Responsiveness
+   --------------------------------------------------------- */
+@media (max-width: 992px) {
+  .contact-grid-section {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .showroom-split-card {
+    grid-template-columns: 1fr;
+  }
+
+  .showroom-details-pane {
+    border-right: none;
+    border-bottom: 1px solid rgba(184, 145, 70, 0.25);
+  }
+
+  .showroom-map-pane {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-luxury-page {
+    padding: 1rem 1rem 3rem;
+  }
+
+  .contact-hero-title {
+    font-size: 2rem;
+  }
+
+  .contact-hero-title .gold-text {
+    font-size: 2.1rem;
+  }
+
+  .contact-luxury-form .form-row-2col {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .luxury-dark-card {
+    padding: 1.5rem;
+  }
+
+  .showroom-details-pane {
+    padding: 1.5rem;
+  }
+
+  .showroom-actions-row {
+    flex-direction: column;
+  }
+}

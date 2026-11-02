@@ -8,8 +8,9 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 from app.api import metal_rates, testimonials, upload, auth, products, coupons, wishlists, banners, carts
+from app.api.admin import admin_router
 
-app = FastAPI()
+app = FastAPI(title="Moneyratna Jewellers API")
 
 # Ensure uploads directory exists
 os.makedirs("uploads", exist_ok=True)
@@ -23,13 +24,21 @@ app.add_middleware(
         "http://localhost:3000", 
         "http://127.0.0.1:3000",
         "http://localhost:5174",
-        "http://127.0.0.1:5174"
+        "http://127.0.0.1:5174",
+        "https://www.moneyratnajewellery.com",
+        "https://moneyratnajewellery.com",
+        "https://www.moneyratnajewellers.com",
+        "https://moneyratnajewellers.com"
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Dedicated Admin Module Router
+app.include_router(admin_router, prefix="/api/v1/admin")
+
+# Customer / Core Storefront Routers
 app.include_router(metal_rates.router, prefix="/api/v1/metal-rates", tags=["metal_rates"])
 app.include_router(testimonials.router, prefix="/api/v1/testimonials", tags=["testimonials"])
 app.include_router(upload.router, prefix="/api/v1/upload", tags=["upload"])

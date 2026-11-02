@@ -1,12 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
+import { Edit2, Trash2, Eye, EyeOff, X, Plus } from 'lucide-react';
 import './AdminMetalRates.css';
 
 const AdminMetalRates = () => {
-  const { activeMetals, updateMetalRates, metalRateHistory, deleteMetalRatesHistory, lastUpdated } = useShop();
+  const { 
+    activeMetals, 
+    allCreatedMetals, 
+    updateMetalRates, 
+    updateMetalType, 
+    deleteMetalType, 
+    toggleMetalVisibility, 
+    metalRateHistory, 
+    deleteMetalRatesHistory, 
+    lastUpdated 
+  } = useShop();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('update');
+  
+  // Edit Metal State
+  const [editingMetal, setEditingMetal] = useState(null);
+  const [editForm, setEditForm] = useState({
+    metal_type: '',
+    purity: '',
+    unit: 'g',
+    rate: '',
+    is_active: true
+  });
+  const [editError, setEditError] = useState('');
+  const [isSavingEdit, setIsSavingEdit] = useState(false);
   
   // dynamic inputs state: { metal_name: "₹rate" }
   const [inputs, setInputs] = useState({});
@@ -51,6 +74,58 @@ const AdminMetalRates = () => {
     setTimeout(() => setIsSaved(false), 3000);
   };
 
+  const handleOpenEdit = (metal) => {
+    setEditingMetal(metal);
+    setEditForm({
+      metal_type: metal.metal_type || '',
+      purity: metal.purity || '',
+      unit: metal.unit || 'g',
+      rate: metal.rate ? String(metal.rate) : '',
+      is_active: metal.is_active !== undefined ? Boolean(metal.is_active) : true
+    });
+    setEditError('');
+  };
+
+  const handleSaveEdit = async (e) => {
+    e.preventDefault();
+    setIsSavingEdit(true);
+    setEditError('');
+
+    const numRate = parseFloat(String(editForm.rate).replace(/[₹,]/g, ''));
+    if (isNaN(numRate)) {
+      setEditError('Please enter a valid rate number.');
+      setIsSavingEdit(false);
+      return;
+    }
+
+    const payload = {
+      metal_name: editingMetal.metal_name,
+      metal_type: editForm.metal_type,
+      purity: editForm.purity,
+      unit: editForm.unit,
+      rate: numRate,
+      is_active: editForm.is_active
+    };
+
+    const res = await updateMetalType(editingMetal.id, payload);
+    setIsSavingEdit(false);
+    if (res?.success) {
+      setEditingMetal(null);
+    } else {
+      setEditError(res?.error || 'Failed to update metal');
+    }
+  };
+
+  const handleDeleteMetal = async (metal) => {
+    const confirmMsg = `Are you sure you want to delete "${metal.purity} ${metal.metal_type}" (${metal.metal_name})?\nThis will remove it from configured metals.`;
+    if (window.confirm(confirmMsg)) {
+      await deleteMetalType(metal.id, metal.metal_name);
+    }
+  };
+
+  const handleToggleVisibility = async (metal) => {
+    await toggleMetalVisibility(metal);
+  };
 
   // Distinct metal types for filtering
   const distinctTypes = activeMetals && activeMetals.length > 0 
@@ -77,6 +152,12 @@ const AdminMetalRates = () => {
           onClick={() => setActiveTab('update')}
         >
           Update Current Rates
+        </button>
+        <button 
+          className={`admin-tab ${activeTab === 'metals' ? 'active' : ''}`}
+          onClick={() => setActiveTab('metals')}
+        >
+          Configured Metals ({allCreatedMetals?.length || activeMetals?.length || 0})
         </button>
         <button 
           className={`admin-tab ${activeTab === 'history' ? 'active' : ''}`}
@@ -132,6 +213,94 @@ const AdminMetalRates = () => {
               </>
             )}
           </form>
+        )}
+
+        {/* Configured Metals Management Tab */}
+        {activeTab === 'metals' && (
+          <div className="configured-metals-container">
+            <div className="metals-tab-header">
+              <div>
+                <h3>All Configured Metals ({allCreatedMetals?.length || 0})</h3>
+                <p>View created metals, modify specifications, toggle display visibility on the rates bar, or delete them.</p>
+              </div>
+            </div>
+
+            {(!allCreatedMetals || allCreatedMetals.length === 0) ? (
+              <div style={{ textAlign: 'center', padding: '3rem 1rem', color: '#666' }}>
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🪙</div>
+                <h3 style={{ marginBottom: '0.5rem', color: '#333' }}>No Metals Found</h3>
+                <p style={{ marginBottom: '1.5rem' }}>No metal types configured yet.</p>
+                <button type="button" className="btn-save-rates" onClick={() => navigate('/admin/rates/new')}>
+                  Add Your First Metal Type
+                </button>
+              </div>
+            ) : (
+              <div className="history-table-container">
+                <table className="history-table metals-table">
+                  <thead>
+                    <tr>
+                      <th>Metal Type</th>
+                      <th>Purity</th>
+                      <th>ID (Slug)</th>
+                      <th>Unit</th>
+                      <th>Current Rate</th>
+                      <th style={{ textAlign: 'center' }}>Show on Rates Bar</th>
+                      <th style={{ textAlign: 'center' }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allCreatedMetals.map((metal) => (
+                      <tr key={metal.id || metal.metal_name}>
+                        <td style={{ fontWeight: '600' }}>{metal.metal_type}</td>
+                        <td>{metal.purity}</td>
+                        <td><code>{metal.metal_name}</code></td>
+                        <td>{metal.unit}</td>
+                        <td style={{ fontWeight: '600' }}>₹{metal.rate}</td>
+                        <td style={{ textAlign: 'center' }}>
+                          <button
+                            type="button"
+                            className={`metal-visibility-btn ${metal.is_active ? 'active' : 'inactive'}`}
+                            onClick={() => handleToggleVisibility(metal)}
+                            title={metal.is_active ? "Showing on website. Click to hide." : "Hidden from website. Click to show."}
+                          >
+                            {metal.is_active ? (
+                              <>
+                                <Eye size={14} /> Showing
+                              </>
+                            ) : (
+                              <>
+                                <EyeOff size={14} /> Hidden
+                              </>
+                            )}
+                          </button>
+                        </td>
+                        <td style={{ textAlign: 'center' }}>
+                          <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                            <button
+                              type="button"
+                              className="metal-action-btn edit"
+                              onClick={() => handleOpenEdit(metal)}
+                              title="Edit metal details"
+                            >
+                              <Edit2 size={16} />
+                            </button>
+                            <button
+                              type="button"
+                              className="metal-action-btn delete"
+                              onClick={() => handleDeleteMetal(metal)}
+                              title="Delete metal type"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         )}
 
         {activeTab === 'history' && (
@@ -257,6 +426,119 @@ const AdminMetalRates = () => {
           </div>
         )}
       </div>
+
+      {/* Edit Metal Modal */}
+      {editingMetal && (
+        <div className="admin-modal-overlay" onClick={() => setEditingMetal(null)}>
+          <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-header">
+              <h3>Edit Metal: {editingMetal.purity} {editingMetal.metal_type}</h3>
+              <button type="button" className="btn-close-modal" onClick={() => setEditingMetal(null)}>
+                <X size={20} />
+              </button>
+            </div>
+            <form onSubmit={handleSaveEdit}>
+              <div className="form-group">
+                <label>Metal ID (Slug)</label>
+                <input
+                  type="text"
+                  disabled
+                  value={editingMetal.metal_name}
+                  style={{ width: '100%', padding: '0.75rem', backgroundColor: '#f5f5f5', border: '1px solid #ddd', borderRadius: '6px' }}
+                />
+                <small style={{ color: '#777', display: 'block', marginTop: '4px' }}>Internal database identifier cannot be changed.</small>
+              </div>
+
+              <div className="form-group">
+                <label>Base Metal Type</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Gold, Silver, Platinum"
+                  value={editForm.metal_type}
+                  onChange={(e) => setEditForm({ ...editForm, metal_type: e.target.value })}
+                  style={{ width: '100%', padding: '0.75rem', border: '1px solid #ccc', borderRadius: '6px' }}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Purity</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. 24K, 22K, 925, Bullion"
+                  value={editForm.purity}
+                  onChange={(e) => setEditForm({ ...editForm, purity: e.target.value })}
+                  style={{ width: '100%', padding: '0.75rem', border: '1px solid #ccc', borderRadius: '6px' }}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Unit</label>
+                <select
+                  value={editForm.unit}
+                  onChange={(e) => setEditForm({ ...editForm, unit: e.target.value })}
+                  style={{ width: '100%', padding: '0.75rem', border: '1px solid #ccc', borderRadius: '6px', backgroundColor: 'white' }}
+                >
+                  <option value="g">Gram (g)</option>
+                  <option value="kg">Kilogram (kg)</option>
+                  <option value="oz">Ounce (oz)</option>
+                  <option value="tola">Tola</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Rate (₹)</label>
+                <div className="input-with-prefix">
+                  <span className="currency-prefix">₹</span>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. 7450"
+                    value={editForm.rate}
+                    onChange={(e) => setEditForm({ ...editForm, rate: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '1.25rem', padding: '0.75rem', backgroundColor: '#f8f9fa', borderRadius: '6px' }}>
+                <input
+                  type="checkbox"
+                  id="edit_metal_is_active"
+                  checked={editForm.is_active}
+                  onChange={(e) => setEditForm({ ...editForm, is_active: e.target.checked })}
+                  style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                />
+                <label htmlFor="edit_metal_is_active" style={{ marginBottom: 0, cursor: 'pointer', fontWeight: '500' }}>
+                  Show on Frontend Metal Rate Bar (Active)
+                </label>
+              </div>
+
+              {editError && (
+                <p style={{ color: '#dc3545', fontSize: '0.9rem', marginTop: '0.5rem' }}>{editError}</p>
+              )}
+
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
+                <button
+                  type="button"
+                  onClick={() => setEditingMetal(null)}
+                  style={{ flex: 1, padding: '0.75rem', border: '1px solid #ccc', background: 'white', borderRadius: '6px', cursor: 'pointer' }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-save-rates"
+                  disabled={isSavingEdit}
+                  style={{ flex: 1 }}
+                >
+                  {isSavingEdit ? 'Saving...' : 'Save Changes'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
