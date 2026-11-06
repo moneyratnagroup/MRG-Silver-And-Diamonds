@@ -1,9 +1,7 @@
+import { hardcodedSilverProducts } from '../data/silverProducts';
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { fetchWithAuth, API_URL } from '../utils/api';
-import imgBanner11 from '../assets/Banner1.png';
-import imgbanner12 from '../assets/banner12.webp';
-import imgbanner3 from '../assets/banner3.webp';
 
 // Create Context
 const ShopContext = createContext();
@@ -46,11 +44,18 @@ export const ShopProvider = ({ children }) => {
   const { isAuthenticated, user, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [adminProducts, setAdminProducts] = useState([]);
+  const [products, setProducts] = useState(hardcodedSilverProducts);
+  const [adminProducts, setAdminProducts] = useState(hardcodedSilverProducts);
   const [categories, setCategories] = useState([]);
   const [metals, setMetals] = useState([]);
-  const [collections, setCollections] = useState([]);
+  const [collections, setCollections] = useState([
+    { id: 'all', name: 'All' },
+    { id: 'women', name: "Women's Collection" },
+    { id: 'men', name: "Men's Collection" },
+    { id: 'kids', name: "Kids Collection" },
+    { id: 'religious', name: "Religious Collection" },
+    { id: 'special', name: "Special Collection" }
+  ]);
   const [occasions, setOccasions] = useState([]);
   
   // Fetch Wishlist from Backend

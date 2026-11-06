@@ -4,7 +4,6 @@ import CareCategoryNav from '../components/CareGuide/CareCategoryNav';
 import GoldenRules from '../components/CareGuide/GoldenRules';
 import JewelleryCareSection from '../components/CareGuide/JewelleryCareSection';
 import GemstoneCareGrid from '../components/CareGuide/GemstoneCareGrid';
-// import DosDonts from '../components/CareGuide/DosDonts';
 import StorageGuide from '../components/CareGuide/StorageGuide';
 import CleaningRitual from '../components/CareGuide/CleaningRitual';
 import ProfessionalCare from '../components/CareGuide/ProfessionalCare';
@@ -90,7 +89,6 @@ const JewelleryCarePage = () => {
       />
 
       <GemstoneCareGrid />
-      {/* <DosDonts /> */}
       <StorageGuide />
       <CleaningRitual />
       <ProfessionalCare />
