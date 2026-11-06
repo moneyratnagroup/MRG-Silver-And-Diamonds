@@ -663,7 +663,39 @@
 }
 
 .gold-page-wrapper .aesthetic-gallery-grid {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .gold-page-wrapper .aesthetic-gallery-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 991px) {
+  .gold-page-wrapper .aesthetic-gallery-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #gold-collection-start {
+    padding: 0 1.25rem !important;
+  }
+}
+
+@media (max-width: 500px) {
+  #gold-collection-start {
+    padding: 0 0.75rem !important;
+  }
+
+  .gold-page-wrapper .aesthetic-gallery-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
 }
 
 /* Forest Theme for Filter Sidebar (Desktop) */

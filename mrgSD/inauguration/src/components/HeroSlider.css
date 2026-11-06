@@ -7,30 +7,29 @@
 
 .slide-content-wrapper {
   position: relative;
-  height: 85vh;
-  min-height:400px;
-  /*600px previously*/
-  display: flex;
-  align-items: center;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  display: block;
 }
 
 /* Image Layer */
 .slide-image-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: auto;
+  line-height: 0;
   z-index: 1;
 }
 
 .modern-slide-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center right;
-  transform: scale(1.02);
-  animation: subtleZoom 25s ease-in-out infinite alternate;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  transform: none;
+  animation: none;
 }
 
 .light-gradient-overlay {
@@ -233,7 +232,7 @@
 
 @media (max-width: 991px) {
   .slide-content-wrapper {
-    height: 70vh;
+    height: auto;
   }
 
   .glass-card {

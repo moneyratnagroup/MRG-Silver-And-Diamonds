@@ -60,7 +60,7 @@ const SilverPage = () => {
     return !isGold && !isDiamond;
   });
 
-  let silverProducts = filteredFromContext.length > 0 ? filteredFromContext : hardcodedSilverProducts;
+  let silverProducts = [...hardcodedSilverProducts];
 
   let products = (collectionId && collectionId !== 'all')
     ? silverProducts.filter(p => p.collections && p.collections.some(c => matchCollection(c, collectionId)))

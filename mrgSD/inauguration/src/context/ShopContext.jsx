@@ -5,6 +5,9 @@ import { fetchWithAuth, API_URL } from '../utils/api';
 import imgBanner11 from '../assets/Banner1.png';
 import imgbanner12 from '../assets/banner12.webp';
 import imgbanner3 from '../assets/banner3.webp';
+import homeBanner1 from '../assets/home1.webp';
+import homeBanner2 from '../assets/home2(2).webp';
+import homeBanner3 from '../assets/home3(1).webp';
 import goldBangle1 from '../assets/gold bangle1.webp';
 import goldBracelet1 from '../assets/gold bracelet1.webp';
 import goldBracelet2 from '../assets/gold bracelet2.webp';
@@ -221,8 +224,8 @@ export const ShopProvider = ({ children }) => {
   const { isAuthenticated, user, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  const [products, setProducts] = useState(CURATED_GOLD_PRODUCTS);
-  const [adminProducts, setAdminProducts] = useState([]);
+  const [products, setProducts] = useState([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts]);
+  const [adminProducts, setAdminProducts] = useState([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts]);
   const [categories, setCategories] = useState([]);
   const [metals, setMetals] = useState([]);
   const [collections, setCollections] = useState([
@@ -470,8 +473,8 @@ export const ShopProvider = ({ children }) => {
           offerCouponCode: p.offer_coupon_code,
           isActive: p.status === 'PUBLISHED'
         }));
-        setAdminProducts(mappedProducts);
-        setProducts([...CURATED_GOLD_PRODUCTS, ...mappedProducts.filter(p => p.isActive)]);
+        setAdminProducts([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts, ...mappedProducts]);
+        setProducts([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts]);
       }
     } catch (err) {
       console.error("Failed to fetch products", err);
@@ -675,18 +678,35 @@ export const ShopProvider = ({ children }) => {
   // Homepage Content (Admin)
   const [announcementText, setAnnouncementText] = useState('<span>FREE SHIPPING OVER ₹5000</span> &nbsp;&nbsp;|&nbsp;&nbsp; <span style="color: #C7A66A">USE CODE WELCOME10</span>');
   
-  const [heroBanners, setHeroBanners] = useState([]);
+  const [heroBanners, setHeroBanners] = useState([
+    {
+      id: 1,
+      image: homeBanner1,
+      title: '',
+      subtitle: '',
+      buttonText: '',
+      status: 'publish'
+    },
+    {
+      id: 2,
+      image: homeBanner2,
+      title: '',
+      subtitle: '',
+      buttonText: '',
+      status: 'publish'
+    },
+    {
+      id: 3,
+      image: homeBanner3,
+      title: '',
+      subtitle: '',
+      buttonText: '',
+      status: 'publish'
+    }
+  ]);
 
   const fetchBanners = useCallback(async () => {
-    try {
-      const res = await fetch(`${API_URL}/api/v1/banners/`);
-      if (res.ok) {
-        const data = await res.json();
-        setHeroBanners(data);
-      }
-    } catch (err) {
-      console.error("Failed to fetch banners", err);
-    }
+    // Using curated static banners (home1.webp, home2.webp, home3.webp)
   }, []);
 
   useEffect(() => {
