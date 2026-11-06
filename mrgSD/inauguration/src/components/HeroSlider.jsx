@@ -31,36 +31,42 @@ const HeroSlider = () => {
                 <img
                   className="modern-slide-image"
                   src={banner.image}
-                  alt={banner.title.replace(/<[^>]*>?/gm, ' ')}
+                  alt={(banner.title || `Home Banner ${index + 1}`).replace(/<[^>]*>?/gm, ' ')}
                   fetchPriority={index === 0 ? "high" : "auto"}
                   loading={index === 0 ? "eager" : "lazy"}
                 />
                 <div className="light-gradient-overlay"></div>
               </div>
               
-              <div className="slide-text-layer">
-                <div className="glass-card">
-                  {(banner.badge || banner.preTitle) && <span className="modern-slide-pretitle">{banner.badge || banner.preTitle}</span>}
-                  <div className="modern-divider">
-                    <CustomDiamond size={20} className="modern-divider-icon" />
+              {(banner.badge || banner.preTitle || banner.title || banner.subtitle || banner.buttonText) && (
+                <div className="slide-text-layer">
+                  <div className="glass-card">
+                    {(banner.badge || banner.preTitle) && <span className="modern-slide-pretitle">{banner.badge || banner.preTitle}</span>}
+                    <div className="modern-divider">
+                      <CustomDiamond size={20} className="modern-divider-icon" />
+                    </div>
+                    {banner.title && (
+                      <h2 
+                        className="modern-slide-title" 
+                        style={{ color: 'black' }}
+                        dangerouslySetInnerHTML={{ 
+                          __html: banner.title.replace(/things/gi, '<span style="color: red;">$&</span>') 
+                        }}
+                      ></h2>
+                    )}
+                    {banner.subtitle && (
+                      <p className="modern-slide-text" style={{ color: 'black' }}>
+                        {banner.subtitle}
+                      </p>
+                    )}
+                    {banner.buttonText && (
+                      <button className="modern-hero-btn">
+                        {banner.buttonText} <ArrowRight size={18} className="btn-icon" />
+                      </button>
+                    )}
                   </div>
-                  <h2 
-                    className="modern-slide-title" 
-                    style={{ color: 'black' }}
-                    dangerouslySetInnerHTML={{ 
-                      __html: banner.title ? banner.title.replace(/things/gi, '<span style="color: red;">$&</span>') : '' 
-                    }}
-                  ></h2>
-                  {banner.subtitle && (
-                    <p className="modern-slide-text" style={{ color: 'black' }}>
-                      {banner.subtitle}
-                    </p>
-                  )}
-                  <button className="modern-hero-btn">
-                    {banner.buttonText} <ArrowRight size={18} className="btn-icon" />
-                  </button>
                 </div>
-              </div>
+              )}
             </div>
           </Carousel.Item>
         ))}
