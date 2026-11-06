@@ -2,6 +2,18 @@ import { hardcodedSilverProducts } from '../data/silverProducts';
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { fetchWithAuth, API_URL } from '../utils/api';
+import imgBanner11 from '../assets/Banner1.png';
+import imgbanner12 from '../assets/banner12.webp';
+import imgbanner3 from '../assets/banner3.webp';
+import goldBangle1 from '../assets/gold bangle1.webp';
+import goldBracelet1 from '../assets/gold bracelet1.webp';
+import goldBracelet2 from '../assets/gold bracelet2.webp';
+import goldBracelet3 from '../assets/gold bracelet3.webp';
+import goldChain1 from '../assets/gold chain1.webp';
+import goldNecklace2 from '../assets/gold necklace2.webp';
+import goldRing1 from '../assets/gold ring1.webp';
+import goldBng2 from '../assets/gold_bng2.webp';
+import goldNecklace1 from '../assets/gold_necklace1.webp';
 
 // Create Context
 const ShopContext = createContext();
@@ -40,12 +52,177 @@ export const formatProductTitle = (name) => {
     .join(' ');
 };
 
+export const CURATED_GOLD_PRODUCTS = [
+  {
+    id: 'gold-bangle-1',
+    sku: 'MRG-GLD-BNG-001',
+    name: 'Spiral Fluted Gold Bangle',
+    category: 'Bangles',
+    collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Gold',
+    purity: '22K',
+    badge: 'TRENDING NOW',
+    img: goldBangle1,
+    hoverImage: goldBangle1,
+    images: [goldBangle1],
+    desc: 'Sculptural 22K yellow gold bangle with diagonal spiral fluting and exquisite textured craftsmanship.',
+    stockQuantity: 8,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'gold-bracelet-1',
+    sku: 'MRG-GLD-BRC-001',
+    name: 'Two-Tone Beaded Charm Gold Bracelet',
+    category: 'Bracelets',
+    collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Gold',
+    purity: '22K',
+    badge: 'NEW ARRIVAL',
+    img: goldBracelet1,
+    hoverImage: goldBracelet1,
+    images: [goldBracelet1],
+    desc: 'Dainty 22K gold chain bracelet featuring alternating textured fluted gold and shimmering rhodium-accented beads.',
+    stockQuantity: 10,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'gold-bracelet-2',
+    sku: 'MRG-GLD-BRC-002',
+    name: 'Celestial Charms Gold Bracelet',
+    category: 'Bracelets',
+    collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Gold',
+    purity: '22K',
+    badge: 'MINIMALIST',
+    img: goldBracelet2,
+    hoverImage: goldBracelet2,
+    images: [goldBracelet2],
+    desc: 'Playful 22K yellow gold link bracelet adorned with dangling stars, blooming flora, and textured two-tone disc charms.',
+    stockQuantity: 10,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'gold-bracelet-3',
+    sku: 'MRG-GLD-BRC-003',
+    name: 'Royal Sapphire Station Gold Bracelet',
+    category: 'Bracelets',
+    collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Gold',
+    purity: '22K',
+    badge: 'AESTHETIC',
+    img: goldBracelet3,
+    hoverImage: goldBracelet3,
+    images: [goldBracelet3],
+    desc: 'Refined 22K gold link bracelet set with vibrant emerald-cut royal blue sapphire stations.',
+    stockQuantity: 8,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'gold-chain-1',
+    sku: 'MRG-GLD-CHN-001',
+    name: 'Onyx & Pearl Delicate Gold Chain',
+    category: 'Chains',
+    collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Gold',
+    purity: '22K',
+    badge: 'BESTSELLER',
+    img: goldChain1,
+    hoverImage: goldChain1,
+    images: [goldChain1],
+    desc: 'Delicate 22K gold chain adorned with bezel-set black onyx stones and luminous freshwater pearl accents.',
+    stockQuantity: 10,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'gold-necklace-2',
+    sku: 'MRG-GLD-NCK-002',
+    name: 'Royal Heritage Filigree Gold Necklace',
+    category: 'Chains',
+    collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'bridal', name: 'Bridal' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Gold',
+    purity: '22K',
+    badge: 'ELEVATE YOUR EVERYDAY',
+    img: goldNecklace2,
+    hoverImage: goldNecklace2,
+    images: [goldNecklace2],
+    desc: 'Majestic 22K yellow gold necklace handcrafted with articulated links, ornate filigree drops, and tiered geometric charms.',
+    stockQuantity: 6,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'gold-ring-1',
+    sku: 'MRG-GLD-RNG-001',
+    name: 'Pavé Diamond Swirl Gold Ring',
+    category: 'Rings',
+    collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Gold',
+    purity: '18K',
+    badge: 'TRENDING NOW',
+    img: goldRing1,
+    hoverImage: goldRing1,
+    images: [goldRing1],
+    desc: 'Graceful 18K gold ring featuring an intertwined double-scroll motif encrusted with shimmering pavé diamonds.',
+    stockQuantity: 12,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'gold-bng-2',
+    sku: 'MRG-GLD-BNG-002',
+    name: 'Filigree Wave Engraved Gold Bangle',
+    category: 'Bangles',
+    collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Gold',
+    purity: '22K',
+    badge: 'NEW ARRIVAL',
+    img: goldBng2,
+    hoverImage: goldBng2,
+    images: [goldBng2],
+    desc: 'Artisanal 22K yellow gold bangle detailed with flowing wave engravings and fine milgrain bordering.',
+    stockQuantity: 8,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'gold-necklace-1',
+    sku: 'MRG-GLD-NCK-001',
+    name: 'Botanical Crest Filigree Gold Necklace',
+    category: 'Chains',
+    collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'bridal', name: 'Bridal' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Gold',
+    purity: '22K',
+    badge: 'MINIMALIST',
+    img: goldNecklace1,
+    hoverImage: goldNecklace1,
+    images: [goldNecklace1],
+    desc: 'Intricately embossed 22K gold leaf-link necklace centered with a floral crest medallion and dangling droplet.',
+    stockQuantity: 6,
+    status: 'PUBLISHED',
+    isActive: true
+  }
+];
+
 export const ShopProvider = ({ children }) => {
   const { isAuthenticated, user, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  const [products, setProducts] = useState(hardcodedSilverProducts);
-  const [adminProducts, setAdminProducts] = useState(hardcodedSilverProducts);
+  const [products, setProducts] = useState(CURATED_GOLD_PRODUCTS);
+  const [adminProducts, setAdminProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [metals, setMetals] = useState([]);
   const [collections, setCollections] = useState([
@@ -294,7 +471,7 @@ export const ShopProvider = ({ children }) => {
           isActive: p.status === 'PUBLISHED'
         }));
         setAdminProducts(mappedProducts);
-        setProducts(mappedProducts.filter(p => p.isActive));
+        setProducts([...CURATED_GOLD_PRODUCTS, ...mappedProducts.filter(p => p.isActive)]);
       }
     } catch (err) {
       console.error("Failed to fetch products", err);

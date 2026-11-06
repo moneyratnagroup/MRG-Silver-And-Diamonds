@@ -941,18 +941,19 @@
   font-size: 1.3rem !important;
   font-weight: 600 !important;
   line-height: 1.25 !important;
-  height: 2.6rem !important;
+  height: auto !important;
+  min-height: 2.6rem !important;
   display: -webkit-box !important;
   -webkit-line-clamp: 2 !important;
   -webkit-box-orient: vertical !important;
   overflow: hidden !important;
   text-align: center !important;
-  margin: 0 0 0.5rem 0 !important;
+  margin: 0 !important;
   transition: color 0.2s ease !important;
 }
 
 .product-card.gold-theme-card:hover .product-card-title {
-  color: #b89146 !important;
+  color: #0e291a !important;
 }
 
 .product-card.gold-theme-card .product-card-price-row {
