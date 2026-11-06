@@ -1,11 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
-import { Filter, ChevronDown, ChevronRight, ChevronLeft, X } from 'lucide-react';
 import ProductsGallery from '../components/ProductsGallery';
-import FilterDrawer from '../components/FilterDrawer';
-import FilterSidebarContent from '../components/FilterSidebarContent';
-import SidebarFilter from '../components/SidebarFilter';
-import ActiveFilters from '../components/ActiveFilters';
 import { useShop } from '../context/ShopContext';
 import './Pages.css';
 import './SilverPage.css';
@@ -23,7 +18,6 @@ const CollectionPage = () => {
       scrollContainerRef.current.scrollLeft += scrollOffset;
     }
   };
-  const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
   const typeFilter = searchParams.get('type');
   const typeFiltersArray = typeFilter ? typeFilter.split(',') : [];
@@ -157,9 +151,7 @@ const CollectionPage = () => {
     navigate(`${window.location.pathname}?${newParams.toString()}`);
   };
 
-  const activeFiltersCount = (collectionId && collectionId !== 'all' ? 1 : 0) + (typeFiltersArray.length > 0 ? 1 : 0) + (occasionFilter ? 1 : 0) + (metalFilter && metalFilter !== 'all' ? 1 : 0);
 
-  const activeMetalProp = metalFilter === 'diamond' ? 'diamonds' : (metalFilter && metalFilter !== 'all' ? metalFilter : 'all');
 
   const getCollectionBrandName = (product) => {
     const isGold = (product.collections && product.collections.some(c => c.name?.toLowerCase() === 'gold')) ||
@@ -196,32 +188,13 @@ const CollectionPage = () => {
                   Showing {displayProducts.length} {displayProducts.length === 1 ? 'piece' : 'pieces'}
                 </span>
               </div>
-              <ActiveFilters />
+
             </div>
           }
-          sidebarComponent={
-            isFilterOpen ? (
-              <div className="desktop-only collection-sidebar-content">
-                <div className="sidebar-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                  <h3 className="sidebar-title" style={{ margin: 0, borderBottom: 'none' }}>Filter By</h3>
-                  <button onClick={() => setIsFilterOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666' }}>
-                    <X size={20} />
-                  </button>
-                </div>
-                <FilterSidebarContent metal={activeMetalProp} />
-              </div>
-            ) : null
-          }
+          sidebarComponent={null}
           filterComponent={
             <div className="collection-toolbar-row">
-              <div className="toolbar-left-col">
-                <button className="pill-filter-btn" onClick={() => setIsFilterOpen(true)} style={{ margin: 0, display: isFilterOpen ? 'none' : 'flex' }}>
-                  <Filter size={16} />
-                  <span>Filter By</span>
-                  {activeFiltersCount > 0 && <span className="filter-count-badge">{activeFiltersCount}</span>}
-                  <ChevronDown size={16} />
-                </button>
-              </div>
+              <div className="toolbar-left-col"></div>
 
               {/* Segmented Metal Capsule Switcher - Center Aligned */}
               <div className="toolbar-center-col">
@@ -258,47 +231,13 @@ const CollectionPage = () => {
               </div>
 
               <div className="toolbar-right-col">
-                <div className="sort-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '1rem', color: '#555', fontWeight: '500' }} className="d-none d-sm-inline">Sort by:</span>
-                  <select
-                    className="custom-sort-select"
-                    value={sortOption}
-                    onChange={(e) => setSortOption(e.target.value)}
-                    style={{
-                      padding: '0.5rem 2.2rem 0.5rem 1rem',
-                      borderRadius: '50px',
-                      border: '1px solid #e0e0e0',
-                      backgroundColor: '#f8f6f0',
-                      fontSize: '1rem',
-                      fontFamily: '"Inter", sans-serif',
-                      color: '#333',
-                      outline: 'none',
-                      cursor: 'pointer',
-                      appearance: 'none',
-                      WebkitAppearance: 'none',
-                      backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23333%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'right 0.75rem center',
-                      backgroundSize: '14px',
-                      minWidth: '160px'
-                    }}
-                  >
-                    <option value="default">Featured</option>
-                    <option value="a-z">Alphabetically, A-Z</option>
-                    <option value="z-a">Alphabetically, Z-A</option>
-                    <option value="price-low-high">Price, low to high</option>
-                    <option value="price-high-low">Price, high to low</option>
-                  </select>
-                </div>
+                
               </div>
             </div>
           }
         />
       </div>
 
-      <div className="mobile-only">
-        <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} metal={activeMetalProp} />
-      </div>
     </div>
   );
 };

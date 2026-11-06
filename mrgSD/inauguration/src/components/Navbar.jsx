@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Search, User, Heart, ShoppingCart, ChevronDown, Sparkles, Watch, Baby, Sun, Coins, Crown, LayoutGrid, X } from 'lucide-react';
+import { Search, User, X } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
@@ -14,7 +14,7 @@ const MRGNavbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
-  const { getWishlistCount, setIsWishlistOpen, getCartCount, setIsCartOpen, products, isEcommerceEnabled } = useShop();
+  const { products } = useShop();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,8 +33,8 @@ const MRGNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
-  const wishlistCount = getWishlistCount();
-  const cartCount = getCartCount();
+
+
 
   const getFirstName = () => {
     return user?.full_name ? user.full_name.split(' ')[0] : 'User';
@@ -79,13 +79,7 @@ const MRGNavbar = () => {
     setSearchResults(results.slice(0, 10));
   }, [searchQuery, products]);
 
-  const handleWishlistClick = () => {
-    if (window.innerWidth < 992) {
-      setIsWishlistOpen(true);
-    } else {
-      navigate('/wishlist');
-    }
-  };
+
 
   const [forceClose, setForceClose] = useState(false);
 
@@ -122,19 +116,7 @@ const MRGNavbar = () => {
                   <Search size={18} strokeWidth={1.5} />
                 </button>
 
-                {isEcommerceEnabled && (
-                  <>
-                    <button className="utility-btn d-none d-lg-flex" aria-label="Wishlist" onClick={handleWishlistClick}>
-                      <Heart size={18} strokeWidth={1.5} />
-                      {wishlistCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{wishlistCount}</span>}
-                    </button>
 
-                    <button className="utility-btn d-none d-lg-flex" aria-label="Cart" onClick={() => setIsCartOpen(true)}>
-                      <ShoppingCart size={18} strokeWidth={1.5} />
-                      {cartCount > 0 && <span className="cart-badge" style={{ backgroundColor: '#1a1a1a' }}>{cartCount}</span>}
-                    </button>
-                  </>
-                )}
 
                 {isLoading ? (
                   <div className="utility-btn d-none d-lg-flex" aria-label="Loading Account">
@@ -200,9 +182,7 @@ const MRGNavbar = () => {
                       </div>
                       <div style={{ padding: '0.5rem 0' }}>
                         <Link to="/account" className="dropdown-item-simple" style={{ textAlign: 'left' }} onClick={() => { closeMenu(); setIsProfileMenuOpen(false); }}>My Account</Link>
-                        {isEcommerceEnabled && (
-                          <Link to="/wishlist" className="dropdown-item-simple" style={{ textAlign: 'left' }} onClick={() => { closeMenu(); setIsProfileMenuOpen(false); }}>My Wishlist</Link>
-                        )}
+
                         <div className="dropdown-item-simple" style={{ cursor: 'pointer', borderTop: '1px solid #eee', marginTop: '0.25rem', paddingTop: '0.75rem', textAlign: 'left' }} onClick={() => { logout(); closeMenu(); setIsProfileMenuOpen(false); }}>
                           Logout
                         </div>
@@ -241,111 +221,9 @@ const MRGNavbar = () => {
 
               <Nav.Link as={Link} to="/gold" className={`nav-link-custom ${currentPath.startsWith('/gold') ? 'active' : ''}`} onClick={closeMenu}>GOLD</Nav.Link>
 
-              <div className="nav-item-dropdown">
-                <div className={`nav-link-custom ${currentPath.startsWith('/diamonds') ? 'active-dropdown' : ''}`}>
-                  DIAMOND <ChevronDown size={14} className="ms-1" />
-                </div>
-                <div className={`dropdown-mega-menu ${forceClose ? 'd-none' : ''}`}>
-                  <Link to="/diamonds/all" className="dropdown-item-mega" onClick={closeMenu}>
-                    <div className="mega-icon-wrapper">
-                      <LayoutGrid size={20} />
-                    </div>
-                    <div className="mega-text-content">
-                      <span className="mega-title">ALL COLLECTIONS</span>
-                      <span className="mega-subtitle">View Everything</span>
-                    </div>
-                  </Link>
-                  <Link to="/diamonds/women" className="dropdown-item-mega" onClick={closeMenu}>
-                    <div className="mega-icon-wrapper">
-                      <Sparkles size={20} />
-                    </div>
-                    <div className="mega-text-content">
-                      <span className="mega-title">WOMEN</span>
-                      <span className="mega-subtitle">Rings, Earrings, Necklaces</span>
-                    </div>
-                  </Link>
-                  <Link to="/diamonds/men" className="dropdown-item-mega" onClick={closeMenu}>
-                    <div className="mega-icon-wrapper">
-                      <Watch size={20} />
-                    </div>
-                    <div className="mega-text-content">
-                      <span className="mega-title">MEN</span>
-                      <span className="mega-subtitle">Chains, Bracelets, Rings</span>
-                    </div>
-                  </Link>
-                  <Link to="/diamonds/kids" className="dropdown-item-mega" onClick={closeMenu}>
-                    <div className="mega-icon-wrapper">
-                      <Baby size={20} />
-                    </div>
-                    <div className="mega-text-content">
-                      <span className="mega-title">KIDS</span>
-                      <span className="mega-subtitle">Anklets, Tiny Studs</span>
-                    </div>
-                  </Link>
-                </div>
-              </div>
+              <Nav.Link as={Link} to="/diamonds" className={`nav-link-custom ${currentPath.startsWith('/diamonds') ? 'active' : ''}`} onClick={closeMenu}>DIAMOND</Nav.Link>
 
-              <div className="nav-item-dropdown">
-                <div className={`nav-link-custom ${currentPath.startsWith('/silver') ? 'active-dropdown' : ''}`}>
-                  SILVER <ChevronDown size={14} className="ms-1" />
-                </div>
-                <div className={`dropdown-mega-menu ${forceClose ? 'd-none' : ''}`}>
-                  <Link to="/silver/all" className="dropdown-item-mega" onClick={closeMenu}>
-                    <div className="mega-icon-wrapper">
-                      <LayoutGrid size={20} />
-                    </div>
-                    <div className="mega-text-content">
-                      <span className="mega-title">ALL COLLECTIONS</span>
-                      <span className="mega-subtitle">View Everything</span>
-                    </div>
-                  </Link>
-                  <Link to="/silver/women" className="dropdown-item-mega" onClick={closeMenu}>
-                    <div className="mega-icon-wrapper">
-                      <Sparkles size={20} />
-                    </div>
-                    <div className="mega-text-content">
-                      <span className="mega-title">WOMEN</span>
-                      <span className="mega-subtitle">Rings, Earrings, Necklaces</span>
-                    </div>
-                  </Link>
-                  <Link to="/silver/men" className="dropdown-item-mega" onClick={closeMenu}>
-                    <div className="mega-icon-wrapper">
-                      <Watch size={20} />
-                    </div>
-                    <div className="mega-text-content">
-                      <span className="mega-title">MEN</span>
-                      <span className="mega-subtitle">Chains, Bracelets, Rings</span>
-                    </div>
-                  </Link>
-                  <Link to="/silver/kids" className="dropdown-item-mega" onClick={closeMenu}>
-                    <div className="mega-icon-wrapper">
-                      <Baby size={20} />
-                    </div>
-                    <div className="mega-text-content">
-                      <span className="mega-title">KIDS</span>
-                      <span className="mega-subtitle">Anklets, Tiny Studs</span>
-                    </div>
-                  </Link>
-                  <Link to="/silver/religious" className="dropdown-item-mega" onClick={closeMenu}>
-                    <div className="mega-icon-wrapper">
-                      <Sun size={20} />
-                    </div>
-                    <div className="mega-text-content">
-                      <span className="mega-title">RELIGIOUS</span>
-                      <span className="mega-subtitle">Idols, Pooja Thalis, Coins</span>
-                    </div>
-                  </Link>
-                  <Link to="/silver/special" className="dropdown-item-mega" onClick={closeMenu}>
-                    <div className="mega-icon-wrapper">
-                      <Crown size={20} />
-                    </div>
-                    <div className="mega-text-content">
-                      <span className="mega-title">SPECIAL</span>
-                      <span className="mega-subtitle">Diamond Accents, Bridal</span>
-                    </div>
-                  </Link>
-                </div>
-              </div>
+              <Nav.Link as={Link} to="/silver" className={`nav-link-custom ${currentPath.startsWith('/silver') ? 'active' : ''}`} onClick={closeMenu}>SILVER</Nav.Link>
               {/* 
             <div className="nav-item-dropdown">
               <div className={`nav-link-custom ${currentPath.startsWith('/coins-and-bars') || currentPath.startsWith('/investment') ? 'active-dropdown' : ''}`}>
