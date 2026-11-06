@@ -86,26 +86,6 @@ const SilverPage = () => {
     });
   }
 
-  // Sort products
-  let displayProducts = [...products];
-  if (sortOption === 'a-z') {
-    displayProducts.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (sortOption === 'z-a') {
-    displayProducts.sort((a, b) => b.name.localeCompare(a.name));
-  } else if (sortOption === 'price-low-high') {
-    displayProducts.sort((a, b) => {
-      const priceA = parseFloat((a.price || "0").replace(/[^\d.]/g, '')) || 0;
-      const priceB = parseFloat((b.price || "0").replace(/[^\d.]/g, '')) || 0;
-      return priceA - priceB;
-    });
-  } else if (sortOption === 'price-high-low') {
-    displayProducts.sort((a, b) => {
-      const priceA = parseFloat((a.price || "0").replace(/[^\d.]/g, '')) || 0;
-      const priceB = parseFloat((b.price || "0").replace(/[^\d.]/g, '')) || 0;
-      return priceB - priceA;
-    });
-  }
-
 
   const isAll = collectionId === 'all' || !collectionId;
   const showLanding = isAll && !typeFilter && !occasionFilter && !priceFilter;

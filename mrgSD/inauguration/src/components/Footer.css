@@ -63,13 +63,14 @@
   animation-direction: reverse;
 }
 
-/* TOP SECTION: 5 Columns */
+/* TOP SECTION: Brand Left + Links & Trust Bar Right */
 .footer-top {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 70px;
+  align-items: stretch;
+  gap: 40px;
+  margin-bottom: 50px;
 }
 
 .footer-col-brand {
@@ -77,13 +78,27 @@
   max-width: 320px;
 }
 
+.footer-right-section {
+  flex: 1 1 620px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.footer-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 24px;
+}
+
 .footer-col-links {
   flex: 1 1 145px;
 }
 
 .footer-col-subscribe {
-  flex: 1.2 1 290px;
-  max-width: 360px;
+  flex: 1.1 1 200px;
+  max-width: 260px;
 }
 
 /* Brand Column */
@@ -424,22 +439,24 @@
   font-style: italic;
 }
 
-/* BOTTOM TRUST BAR: Features */
+/* TRUST BAR IN RIGHT SECTION: Aligned with Email row */
 .footer-trust-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 42px 0;
+  margin-top: auto;
+  margin-bottom: 14px;
+  padding: 26px 0;
   border-top: 1px solid rgba(200, 169, 106, 0.15);
   border-bottom: 1px solid rgba(200, 169, 106, 0.15);
   flex-wrap: wrap;
-  gap: 25px;
+  gap: 16px;
 }
 
 .trust-item {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   flex: 1 1 auto;
 }
 
@@ -455,6 +472,7 @@
 .trust-icon-wrapper {
   color: #C8A96A;
   filter: drop-shadow(0 2px 6px rgba(200, 169, 106, 0.2));
+  flex-shrink: 0;
 }
 
 .trust-text {
@@ -465,23 +483,25 @@
 .trust-title {
   color: #F7F2EA;
   font-family: 'Playfair Display', serif;
-  font-size: 1.05rem;
+  font-size: 0.96rem;
   font-weight: 600;
   letter-spacing: 0.3px;
 }
 
 .trust-subtitle {
   color: #B8B3AD;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   margin-top: 2px;
 }
 
 /* BOTTOM BAR: Copyright & Payments */
 .footer-bottom-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  text-align: center;
   padding-top: 36px;
+  border-top: 1px solid rgba(200, 169, 106, 0.15);
   flex-wrap: wrap;
   gap: 24px;
 }
@@ -528,7 +548,8 @@
 .footer-legal-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  width: 100%;
   gap: 10px;
 }
 
@@ -563,6 +584,7 @@
 @media (max-width: 1024px) {
   .footer-trust-bar {
     justify-content: flex-start;
+    margin-top: 32px;
   }
   .trust-item {
     border-bottom: 1px solid rgba(200, 169, 106, 0.1);
@@ -581,11 +603,11 @@
   }
   .footer-bottom-row {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
   }
   .footer-legal-section {
-    align-items: flex-start;
+    align-items: center;
   }
   .footer-legal-links {
     flex-wrap: wrap;
@@ -598,4 +620,3 @@
     padding: 0 24px;
   }
 }
-
