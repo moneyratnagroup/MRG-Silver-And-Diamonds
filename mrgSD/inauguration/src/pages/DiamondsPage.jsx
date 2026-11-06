@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Filter, X } from 'lucide-react';
+
 import DiamondGallery from '../components/DiamondGallery';
-import FilterDrawer from '../components/FilterDrawer';
-import FilterSidebarContent from '../components/FilterSidebarContent';
-import ActiveFilters from '../components/ActiveFilters';
 import { useShop } from '../context/ShopContext';
 import './DiamondsPage.css';
 
@@ -16,7 +13,6 @@ const DiamondsPage = () => {
   const { collectionId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const { products: allProductsContext, collections } = useShop();
-  const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
   
   const typeFilter = searchParams.get('type');
@@ -93,7 +89,6 @@ const DiamondsPage = () => {
     });
   }
 
-  const activeFiltersCount = (typeFiltersArray.length > 0 ? 1 : 0) + (occasionFilter ? 1 : 0);
 
   const isAll = collectionId === 'all' || !collectionId;
   const showLanding = isAll && !typeFilter && !occasionFilter && !priceFilter;
@@ -181,60 +176,9 @@ const DiamondsPage = () => {
           title={displayTitle} 
           tagline={`Explore our exclusive ${baseTitle} jewelry.`}
           disableSidebarScroll={true}
-          activeFiltersComponent={<ActiveFilters />}
-          sidebarComponent={
-            isFilterOpen ? (
-              <div className="desktop-only collection-sidebar-content">
-                <div className="sidebar-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem'}}>
-                  <h3 className="sidebar-title" style={{margin: 0, borderBottom: 'none'}}>Filter By</h3>
-                  <button onClick={() => setIsFilterOpen(false)} style={{background: 'none', border: 'none', cursor: 'pointer', color: '#666'}}>
-                    <X size={20} />
-                  </button>
-                </div>
-                <FilterSidebarContent metal="diamonds" />
-              </div>
-            ) : null
-          }
-          filterComponent={
-            <div className="gorings-filter-bar" style={{ display: isFilterOpen ? 'none' : 'flex' }}>
-              <button className="gorings-filter-btn" onClick={() => setIsFilterOpen(true)}>
-                <Filter size={14} />
-                <span>Filter</span>
-                {activeFiltersCount > 0 && <strong>({activeFiltersCount})</strong>}
-              </button>
-              
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '1rem', color: '#555', fontWeight: '500' }} className="d-none d-sm-inline">Sort by:</span>
-                <select 
-                  className="custom-sort-select"
-                  value={sortOption} 
-                  onChange={(e) => setSortOption(e.target.value)}
-                  style={{
-                    padding: '0.5rem 2.2rem 0.5rem 1rem',
-                    borderRadius: '50px',
-                    border: '1px solid #e0e0e0',
-                    backgroundColor: '#fff',
-                    fontSize: '1rem',
-                    fontFamily: '"Inter", sans-serif',
-                    color: '#333',
-                    outline: 'none',
-                    cursor: 'pointer',
-                    appearance: 'none',
-                    WebkitAppearance: 'none',
-                    backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23333%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'right 0.75rem center',
-                    backgroundSize: '14px',
-                    minWidth: '160px'
-                  }}
-                >
-                <option value="default">Featured</option>
-                <option value="price-low-high">Price, low to high</option>
-                <option value="price-high-low">Price, high to low</option>
-              </select>
-              </div>
-            </div>
-          }
+          activeFiltersComponent={null}
+          sidebarComponent={null}
+          filterComponent={null}
         />
       </section>
 
@@ -292,8 +236,7 @@ const DiamondsPage = () => {
         </section>
       )}
 
-      <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} theme="diamond" metal="diamonds" />
-    </div>
+          </div>
   );
 };
 

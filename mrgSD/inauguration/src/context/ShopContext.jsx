@@ -1,3 +1,4 @@
+import { hardcodedSilverProducts } from '../data/silverProducts';
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { fetchWithAuth, API_URL } from '../utils/api';
@@ -224,7 +225,14 @@ export const ShopProvider = ({ children }) => {
   const [adminProducts, setAdminProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [metals, setMetals] = useState([]);
-  const [collections, setCollections] = useState([]);
+  const [collections, setCollections] = useState([
+    { id: 'all', name: 'All' },
+    { id: 'women', name: "Women's Collection" },
+    { id: 'men', name: "Men's Collection" },
+    { id: 'kids', name: "Kids Collection" },
+    { id: 'religious', name: "Religious Collection" },
+    { id: 'special', name: "Special Collection" }
+  ]);
   const [occasions, setOccasions] = useState([]);
   
   // Fetch Wishlist from Backend

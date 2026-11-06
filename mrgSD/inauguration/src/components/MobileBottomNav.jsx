@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, LayoutGrid, User, Heart, ShoppingCart, Phone } from 'lucide-react';
+import { Home, LayoutGrid, User, Phone } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
 import './MobileBottomNav.css';
@@ -12,8 +12,7 @@ const MobileBottomNav = () => {
   const { getWishlistCount, getCartCount, setIsWishlistOpen, setIsCartOpen, isEcommerceEnabled } = useShop();
   const menuRef = useRef(null);
 
-  const wishlistCount = getWishlistCount();
-  const cartCount = getCartCount();
+
 
   const getFirstName = () => {
     if (user && user.full_name) {
@@ -53,30 +52,10 @@ const MobileBottomNav = () => {
           <span>Collection</span>
         </Link>
 
-        {isEcommerceEnabled ? (
-          <>
-            <button className="bottom-nav-item" onClick={() => { setIsWishlistOpen(true); setShowMenu(false); }}>
-              <div className="bottom-cart-wrapper">
-                <Heart size={22} className="bottom-nav-icon" strokeWidth={1.5} />
-                {wishlistCount > 0 && <span className="bottom-cart-badge">{wishlistCount}</span>}
-              </div>
-              <span>Wishlist</span>
-            </button>
-
-            <button className="bottom-nav-item" onClick={() => { setIsCartOpen(true); setShowMenu(false); }}>
-              <div className="bottom-cart-wrapper">
-                <ShoppingCart size={22} className="bottom-nav-icon" strokeWidth={1.5} />
-                {cartCount > 0 && <span className="bottom-cart-badge">{cartCount}</span>}
-              </div>
-              <span>Cart</span>
-            </button>
-          </>
-        ) : (
-          <Link to="/contact" className={`bottom-nav-item ${location.pathname === '/contact' ? 'active' : ''}`} onClick={() => setShowMenu(false)}>
-            <Phone size={22} className="bottom-nav-icon" strokeWidth={1.5} />
-            <span>Contact</span>
-          </Link>
-        )}
+        <Link to="/contact" className={`bottom-nav-item ${location.pathname === '/contact' ? 'active' : ''}`} onClick={() => setShowMenu(false)}>
+          <Phone size={22} className="bottom-nav-icon" strokeWidth={1.5} />
+          <span>Contact</span>
+        </Link>
 
         <div style={{ flex: 1, position: 'relative', display: 'flex', justifyContent: 'center' }} ref={menuRef}>
           <button

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, ChevronLeft, ChevronRight, SearchX, ShoppingCart } from 'lucide-react';
+import { ChevronLeft, ChevronRight, SearchX } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import './DiamondGallery.css';
 
@@ -91,23 +91,7 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                         <span className="product-card-floating-badge">{subtitle}</span>
                       )}
                       
-                      <button
-                        type="button"
-                        className="product-card-floating-wishlist"
-                        aria-label="Wishlist"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (toggleWishlist) toggleWishlist(product);
-                        }}
-                      >
-                        <Heart 
-                          size={16} 
-                          strokeWidth={1.8} 
-                          className="product-card-heart"
-                          fill={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : "none"}
-                          color={isInWishlist && isInWishlist(product.id) ? "#e53e3e" : (isGoldTheme ? "#183728" : "#0E2C58")}
-                        />
-                      </button>
+
 
                       <img loading="lazy" src={product.img} alt={product.name} className={product.hoverImage ? 'primary-img' : ''} />
                       {product.hoverImage && (
@@ -117,22 +101,12 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                     
                     <div className="product-card-info">
                       <h3 className="product-card-title">{product.name}</h3>
-                      {!isGoldTheme && (
-                        <div className="product-card-price-row">
-                          <span className="product-card-price">
-                            {formatPrice(product.price)}
-                          </span>
-                          <button 
-                            type="button"
-                            className="add-to-cart-icon-btn" 
-                            onClick={(e) => { e.stopPropagation(); addToCart(product); }} 
-                            title="Add to Cart"
-                            aria-label={`Add ${product.name} to Cart`}
-                          >
-                            <ShoppingCart size={18} strokeWidth={2} />
-                          </button>
-                        </div>
-                      )}
+                      <div className="product-card-price-row">
+                        <span className="product-card-price">
+                          {formatPrice(product.price)}
+                        </span>
+
+                      </div>
                     </div>
                   </div>
                 );

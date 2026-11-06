@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
-import { ChevronLeft, X, Star } from 'lucide-react';
-import ProductsGallery from '../components/ProductsGallery';
+import { ChevronLeft, X } from 'lucide-react';
 import './ProductDetails.css';
 import imgbislogo from '../assets/bis_logo.webp';
 
@@ -12,54 +11,11 @@ const ProductDetailsPage = () => {
   const { products, addToCart, isEcommerceEnabled } = useShop();
   const [product, setProduct] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [showFullDetails, setShowFullDetails] = useState(false);
-  const [showPriceBreakup, setShowPriceBreakup] = useState(false);
   const [showAppModal, setShowAppModal] = useState(false);
-  const [showReviewForm, setShowReviewForm] = useState(false);
   const [isDescExpanded, setIsDescExpanded] = useState(false);
-  const [reviewRating, setReviewRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
-  const [reviewTitle, setReviewTitle] = useState("");
-  const [reviewText, setReviewText] = useState("");
-  const [reviewImage, setReviewImage] = useState(null);
-  const [reviewError, setReviewError] = useState("");
-  const [reviewSuccess, setReviewSuccess] = useState(false);
-
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setReviewImage(URL.createObjectURL(e.target.files[0]));
-    }
-  };
-
-  const handleSubmitReview = () => {
-    setReviewError("");
-    setReviewSuccess(false);
-
-    const missingFields = [];
-    if (reviewRating === 0) missingFields.push("Rating");
-    if (!reviewText.trim()) missingFields.push("Write a review");
-    if (!reviewTitle.trim()) missingFields.push("Title your review");
-
-    if (missingFields.length > 0) {
-      setReviewError(`Please fill in the following required fields: ${missingFields.join(", ")}`);
-      return;
-    }
-
-    setReviewSuccess(true);
-    setReviewRating(0);
-    setReviewTitle("");
-    setReviewText("");
-    setReviewImage(null);
-
-    // Automatically close the form after a short delay so the user sees the success message
-    setTimeout(() => {
-      setShowReviewForm(false);
-      setReviewSuccess(false);
-    }, 2500);
-  };
 
   const handleEnquire = () => {
-    const phoneNumber = '+919876543210'; // Default number as per plan
+    const phoneNumber = '+91'; // Default number as per plan
     const message = `Hi, I would like to know more about ${product.name} (Price: ${product.price}) that I saw on your website.`;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -83,17 +39,6 @@ const ProductDetailsPage = () => {
         </button>
       </div>
     );
-  }
-
-  // Determine similar products
-  let similarProducts = [];
-  if (product && products) {
-    similarProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
-    // If not enough similar products in the same category, fill with others
-    if (similarProducts.length < 4) {
-      const moreProducts = products.filter(p => p.id !== product.id && !similarProducts.find(s => s.id === p.id));
-      similarProducts = [...similarProducts, ...moreProducts].slice(0, 4);
-    }
   }
 
   return (
@@ -138,21 +83,6 @@ const ProductDetailsPage = () => {
               <span className="pd-category-label">Category:</span> {product.category || 'Jewelry'}
             </div>
             <h1 className="pd-product-name">{product.name}</h1>
-            {product.isOfferAvailable && product.offerCouponCode && (
-              <div className="pd-item-coupon" style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.85rem",
-                color: "#a84c19",
-                backgroundColor: "rgba(168, 76, 25, 0.1)",
-                padding: "4px 10px",
-                borderRadius: "4px",
-                display: "inline-block",
-                marginBottom: "1rem",
-                fontWeight: "600"
-              }}>
-                Use Code: <strong>{product.offerCouponCode}</strong>
-              </div>
-            )}
             <div className="pd-price-wrapper">
               <div className="pd-price-container">
                 <p className="pd-product-price">{product.price}</p>
@@ -160,52 +90,15 @@ const ProductDetailsPage = () => {
                   <p className="pd-product-original-price">{product.originalPrice}</p>
                 )}
               </div>
-              <button
-                className="btn-price-breakup"
-                onClick={() => setShowPriceBreakup(!showPriceBreakup)}
-              >
-                {showPriceBreakup ? 'Hide Price Breakup' : 'View Price Breakup'}
-              </button>
-
-              {showPriceBreakup && (
-                <div className="pd-price-breakup-table">
-                  <div className="pd-breakup-row">
-                    <span>Silver Weight & Rate</span>
-                    <span>₹1,200</span>
-                  </div>
-                  <div className="pd-breakup-row">
-                    <span>Stone / Diamond Value</span>
-                    <span>₹800</span>
-                  </div>
-                  <div className="pd-breakup-row">
-                    <span>Making Charges</span>
-                    <span>₹450</span>
-                  </div>
-                  <div className="pd-breakup-row">
-                    <span>GST (3%)</span>
-                    <span>₹75</span>
-                  </div>
-                  <div className="pd-breakup-row total-row">
-                    <span>Total</span>
-                    <span>{product.price}</span>
-                  </div>
-                </div>
-              )}
             </div>
 
             <div className="pd-description">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <h3 style={{ margin: 0 }}>Description</h3>
-                <button
-                  onClick={() => setShowFullDetails(!showFullDetails)}
-                  style={{ background: 'none', border: 'none', color: '#B89146', textDecoration: 'underline', cursor: 'pointer', padding: 0, fontSize: '0.9rem', fontWeight: '500' }}
-                >
-                  {showFullDetails ? 'Hide Details' : 'View Full Details'}
-                </button>
               </div>
-              
+
               <div style={{ marginBottom: '15px' }}>
-                <p 
+                <p
                   className={`pd-desc-text ${!isDescExpanded ? 'pd-desc-clamped' : ''}`}
                   onClick={() => !isDescExpanded && setIsDescExpanded(true)}
                   title={!isDescExpanded ? "Click to expand" : ""}
@@ -213,7 +106,7 @@ const ProductDetailsPage = () => {
                   {product.desc || 'An exquisite piece crafted with precision and care, perfect for elevating any occasion. We have meticulously designed this piece to offer timeless elegance and superior comfort.'}
                 </p>
                 {isDescExpanded && (
-                  <button 
+                  <button
                     onClick={() => setIsDescExpanded(false)}
                     style={{ background: 'none', border: 'none', color: '#B89146', textDecoration: 'underline', cursor: 'pointer', padding: '0', fontSize: '0.85rem', fontWeight: '600', marginTop: '5px' }}
                   >
@@ -221,36 +114,10 @@ const ProductDetailsPage = () => {
                   </button>
                 )}
               </div>
-
-              {showFullDetails && (
-                <div className="pd-expanded-details">
-                  <div className="pd-specs-list">
-                    <div className="pd-spec-item"><span className="pd-spec-label">Material:</span> <span className="pd-spec-value">Premium 92.5 Sterling Silver</span></div>
-                    <div className="pd-spec-item"><span className="pd-spec-label">Finish:</span> <span className="pd-spec-value">High Polish Anti-Tarnish Rhodium</span></div>
-                    <div className="pd-spec-item"><span className="pd-spec-label">Weight:</span> <span className="pd-spec-value">{product.weight || 'Approx 15g'}</span></div>
-                    <div className="pd-spec-item"><span className="pd-spec-label">Dimensions:</span> <span className="pd-spec-value">{product.dimensions || 'Standard Fit'}</span></div>
-                    <div className="pd-spec-item"><span className="pd-spec-label">Purity:</span> <span className="pd-spec-value">Certified 925 Silver</span></div>
-                    <div className="pd-spec-item"><span className="pd-spec-label">Packaging:</span> <span className="pd-spec-value">Signature Moneyratna Velvet Box</span></div>
-                  </div>
-                  <div className="pd-story-section">
-                    <h4>The Story</h4>
-                    <p>Every piece in our collection is thoughtfully designed to blend traditional elegance with contemporary style. Handcrafted by master artisans, this piece undergoes rigorous quality checks to ensure aesthetic perfection and durability.</p>
-                  </div>
-                </div>
-              )}
             </div>
 
             <div className="pd-actions" style={{ display: 'flex', gap: '10px', width: '100%', flexWrap: 'wrap' }}>
-              {isEcommerceEnabled && (
-                <>
-                  <button className="btn-add-cart-large" onClick={() => addToCart(product)} style={{ flex: '1 1 45%' }}>
-                    Add to Cart
-                  </button>
-                  <button className="btn-buy-now-large" onClick={() => addToCart(product)} style={{ flex: '1 1 45%' }}>
-                    Buy Now
-                  </button>
-                </>
-              )}
+
               <button className="btn-buy-now-large" onClick={handleEnquire} style={{ flex: '1 1 100%', backgroundColor: '#25D366', color: 'white', borderColor: '#25D366' }}>
                 Enquire on WhatsApp
               </button>
@@ -273,10 +140,7 @@ const ProductDetailsPage = () => {
             </div>
 
             <div className="pd-additional-info" style={{ marginTop: '20px' }}>
-              <div className="pd-info-block">
-                <h4>Shipping & Returns</h4>
-                <p>Free standard shipping on all orders over ₹2000. Returns accepted within 14 days of delivery.</p>
-              </div>
+
               <div className="pd-info-block">
                 <h4>Material & Care</h4>
                 <p>Keep away from moisture and harsh chemicals. Store in the provided box when not in use to prevent tarnishing.</p>
@@ -285,121 +149,6 @@ const ProductDetailsPage = () => {
           </div>
         </div>
       </div>
-      {/* Product Reviews Section */}
-      <div className="pd-reviews-section">
-        <h2 className="pd-reviews-title">Customer Reviews</h2>
-        
-        <div className="pd-reviews-container">
-          <div className="pd-reviews-summary">
-            <div className="pd-rating-big">4.8</div>
-            <div className="pd-stars">
-              <Star fill="#B89146" color="#B89146" size={20} />
-              <Star fill="#B89146" color="#B89146" size={20} />
-              <Star fill="#B89146" color="#B89146" size={20} />
-              <Star fill="#B89146" color="#B89146" size={20} />
-              <Star color="#B89146" size={20} />
-            </div>
-            <p>Based on 12 reviews</p>
-            <button className="pd-write-review-btn" onClick={() => setShowReviewForm(!showReviewForm)}>
-              {showReviewForm ? 'Cancel' : 'Write a Review'}
-            </button>
-          </div>
-
-          <div className="pd-reviews-list">
-             {showReviewForm && (
-               <div className="pd-review-form-container">
-                 <h3>Write a Review</h3>
-                 <form className="pd-review-form">
-                   <div className="pd-form-group">
-                     <label>Rating <span style={{color: 'red'}}>*</span></label>
-                     <div className="pd-form-stars" onMouseLeave={() => setHoverRating(0)}>
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star 
-                            key={star} 
-                            color={star <= (hoverRating || reviewRating) ? "#B89146" : "#ccc"} 
-                            fill={star <= (hoverRating || reviewRating) ? "#B89146" : "transparent"}
-                            size={24} 
-                            style={{ cursor: 'pointer', transition: 'all 0.2s ease' }} 
-                            onMouseEnter={() => setHoverRating(star)}
-                            onClick={() => setReviewRating(star)}
-                          />
-                        ))}
-                     </div>
-                   </div>
-                   <div className="pd-form-group">
-                     <label>Write a review <span style={{color: 'red'}}>*</span></label>
-                     <textarea rows="4" placeholder="Write your comments here" value={reviewText} onChange={(e) => setReviewText(e.target.value)}></textarea>
-                   </div>
-                   <div className="pd-form-group">
-                     <label>Title your review <span style={{color: 'red'}}>*</span></label>
-                     <input type="text" placeholder="Give your review a title" value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)} />
-                   </div>
-                   
-                   <div className="pd-form-group">
-                     <label>Share a photo (Optional)</label>
-                     <input type="file" accept="image/*" onChange={handleImageChange} style={{ border: 'none', padding: '0' }} />
-                     {reviewImage && (
-                       <div style={{ position: 'relative', display: 'inline-block', marginTop: '10px' }}>
-                         <img src={reviewImage} alt="Preview" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ccc' }} />
-                         <button type="button" onClick={() => setReviewImage(null)} style={{ position: 'absolute', top: '-5px', right: '-5px', background: 'red', color: 'white', borderRadius: '50%', width: '20px', height: '20px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>X</button>
-                       </div>
-                     )}
-                   </div>
-                   
-                   {reviewError && <div style={{color: 'red', marginBottom: '15px', fontSize: '0.9rem'}}>{reviewError}</div>}
-                   {reviewSuccess && <div style={{color: 'green', marginBottom: '15px', fontSize: '0.9rem'}}>Thank you for the review and welcome again!</div>}
-                   
-                   <button type="button" className="pd-submit-review-btn" onClick={handleSubmitReview}>Submit Review</button>
-                 </form>
-               </div>
-             )}
-             
-             {/* Mock Review */}
-             <div className="pd-review-item">
-               <div className="pd-review-header">
-                 <div className="pd-stars">
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                 </div>
-                 <span className="pd-review-date">Oct 12, 2025</span>
-               </div>
-               <h4 className="pd-review-title">Absolutely Beautiful!</h4>
-               <p className="pd-review-text">I bought this for my anniversary and my wife loved it. The quality is amazing and it sparkles beautifully in the light.</p>
-               <span className="pd-review-author">- John D.</span>
-             </div>
-             
-             <div className="pd-review-item">
-               <div className="pd-review-header">
-                 <div className="pd-stars">
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star color="#B89146" size={16} />
-                 </div>
-                 <span className="pd-review-date">Sep 05, 2025</span>
-               </div>
-               <h4 className="pd-review-title">Great design, good fit</h4>
-               <p className="pd-review-text">The design is very elegant and the finishing is top-notch. Shipping was fast too!</p>
-               <span className="pd-review-author">- Priya S.</span>
-             </div>
-          </div>
-        </div>
-      </div>
-
-      {similarProducts.length > 0 && (
-        <div className="pd-similar-wrapper">
-          <ProductsGallery
-            title="Similar Products"
-            tagline="You may also like these exquisite pieces from our collection."
-            products={similarProducts}
-            useCartIcon={true}
-          />
-        </div>
-      )}
 
       {showAppModal && (
         <div className="product-modal-overlay" onClick={() => setShowAppModal(false)} style={{ zIndex: 9999 }}>

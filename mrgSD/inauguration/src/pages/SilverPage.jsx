@@ -1,10 +1,8 @@
+import { hardcodedSilverProducts } from '../data/silverProducts';
 import React, { useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Filter, X } from 'lucide-react';
+
 import ProductsGallery from '../components/ProductsGallery';
-import FilterDrawer from '../components/FilterDrawer';
-import FilterSidebarContent from '../components/FilterSidebarContent';
-import ActiveFilters from '../components/ActiveFilters';
 import { useShop } from '../context/ShopContext';
 import './SilverPage.css';
 
@@ -27,7 +25,6 @@ const SilverPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { products: allProductsContext, collections } = useShop();
   // Open by default on desktop if on 'all' collection
-  const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
 
   const typeFilter = searchParams.get('type');
@@ -47,22 +44,23 @@ const SilverPage = () => {
     return false;
   };
 
-  // Filter specifically for silver
-  let silverProducts = allProductsContext.filter(p => {
+  // Filter specifically for silver (hardcoded products prioritized when backend not used)
+  const filteredFromContext = allProductsContext.filter(p => {
+    if (p.metal && p.metal.toLowerCase() === 'silver') return true;
     const isGold = (p.collections && p.collections.some(c => c.name.toLowerCase() === 'gold')) ||
       (p.category && p.category.toLowerCase() === 'gold') ||
       (p.material && p.material.toLowerCase() === 'gold') ||
       (p.metal && p.metal.toLowerCase().includes('gold')) ||
-      (p.name && p.name.toLowerCase().includes('gold'));
-
+      (p.name && p.name.toLowerCase().includes('gold') && !p.name.toLowerCase().includes('silver') && !p.name.toLowerCase().includes('plated'));
     const isDiamond = (p.collections && p.collections.some(c => c.name.toLowerCase() === 'diamonds')) ||
       (p.category && p.category.toLowerCase() === 'diamonds') ||
-      (p.material && p.material.toLowerCase().includes('diamond')) ||
+      (p.material && p.material.toLowerCase() === 'diamond') ||
       (p.metal && p.metal.toLowerCase().includes('diamond')) ||
       (p.name && p.name.toLowerCase().includes('diamond'));
-
     return !isGold && !isDiamond;
   });
+
+  let silverProducts = filteredFromContext.length > 0 ? filteredFromContext : hardcodedSilverProducts;
 
   let products = (collectionId && collectionId !== 'all')
     ? silverProducts.filter(p => p.collections && p.collections.some(c => matchCollection(c, collectionId)))
@@ -108,7 +106,6 @@ const SilverPage = () => {
     });
   }
 
-  const activeFiltersCount = (typeFiltersArray.length > 0 ? 1 : 0) + (occasionFilter ? 1 : 0);
 
   const isAll = collectionId === 'all' || !collectionId;
   const showLanding = isAll && !typeFilter && !occasionFilter && !priceFilter;
@@ -226,87 +223,22 @@ const SilverPage = () => {
 
               <div className="ivory-toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '2rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                  <button className="silver-filter-btn" onClick={() => setIsFilterOpen(true)} style={{ margin: 0, display: isFilterOpen ? 'none' : 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: '#02275a' }}>
-                    <Filter size={18} strokeWidth={1.5} color="#02275a" />
-                    <span style={{ fontFamily: '"Cormorant Upright", serif', fontSize: '1.2rem', fontWeight: '500', letterSpacing: '1.5px', textTransform: 'uppercase' }}>FILTER</span>
-                    {activeFiltersCount > 0 && <span className="filter-count-badge" style={{ marginLeft: '4px' }}>({activeFiltersCount})</span>}
-                  </button>
+
                   <span className="showing-pieces-text" style={{ fontSize: '0.85rem', color: '#6d5b53', fontWeight: '500' }}>
                     Showing {displayProducts.length} {displayProducts.length === 1 ? 'piece' : 'pieces'}
                   </span>
                 </div>
 
-                <div className="sort-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '0.9rem', color: '#4a3b32', fontWeight: '500' }} className="d-none d-sm-inline">Sort by</span>
-                  <select
-                    className="custom-sort-select"
-                    value={sortOption}
-                    onChange={(e) => setSortOption(e.target.value)}
-                    style={{
-                      padding: '0.2rem 1.5rem 0.2rem 0.5rem',
-                      border: 'none',
-                      borderBottom: '1px solid #ccc',
-                      backgroundColor: 'transparent',
-                      fontSize: '0.9rem',
-                      fontFamily: '"Inter", sans-serif',
-                      color: '#4a3b32',
-                      outline: 'none',
-                      cursor: 'pointer',
-                      appearance: 'none',
-                      WebkitAppearance: 'none',
-                      backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%234a3b32%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")',
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'right 0 center',
-                      backgroundSize: '12px',
-                      minWidth: '100px'
-                    }}
-                  >
-                    <option value="default">Featured</option>
-                    <option value="a-z">Alphabetically, A-Z</option>
-                    <option value="z-a">Alphabetically, Z-A</option>
-                    <option value="price-low-high">Price, low to high</option>
-                    <option value="price-high-low">Price, high to low</option>
-                  </select>
-                </div>
+
               </div>
-              <ActiveFilters />
             </div>
           }
-          sidebarComponent={
-            isFilterOpen ? (
-              <div className="desktop-only collection-sidebar-content">
-                <div className="sidebar-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                  <h3 className="sidebar-title" style={{ margin: 0, borderBottom: 'none' }}>Filter By</h3>
-                  <button onClick={() => setIsFilterOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666' }}>
-                    <X size={20} />
-                  </button>
-                </div>
-                <FilterSidebarContent metal="silver" />
-              </div>
-            ) : null
-          }
+          sidebarComponent={null}
           filterComponent={null}
         />
       </section>
 
-      {/* Complete the look Section */}
-      {showLanding && (
-        <section className="ivory-complete-look">
-          <div className="complete-left">
-            <img src={silverCompleteMain} alt="Complete the look" loading="lazy" />
-          </div>
-          <div className="complete-center">
-            <span className="hero-subtitle" style={{ color: '#8c767a', fontSize: '0.75rem', letterSpacing: '2px' }}>CURATED TOGETHER</span>
-            <h2>Complete<br />the look.</h2>
-            <p>Pieces designed to work beautifully together,<br />while letting each one shine on its own.</p>
-            <button className="ivory-btn-solid dark-btn">DISCOVER THE SET &rarr;</button>
-          </div>
-          <div className="complete-right">
-            <img src={silverPendantDetail} alt="Silver Pendant" loading="lazy" className="detail-img-top" />
-            <img src={silverEarringsDetail} alt="Silver Earrings" loading="lazy" className="detail-img-bottom" />
-          </div>
-        </section>
-      )}
+
 
       {/* The Craft of Silver Section */}
       {showLanding && (
@@ -342,9 +274,6 @@ const SilverPage = () => {
         </section>
       )}
 
-      <div className="mobile-only">
-        <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} metal="silver" />
-      </div>
     </div>
   );
 };
