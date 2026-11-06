@@ -32,28 +32,27 @@
 .about-hero-banner-section {
   position: relative;
   width: 100%;
-  min-height: 75vh;
-  max-height: 820px;
-  display: flex;
-  align-items: center;
-  background-color: #0C1424;
+  display: block;
+  line-height: 0;
+  background-color: #f7f5ee;
   overflow: hidden;
 }
 
-@media (min-width: 992px) {
-  .about-hero-banner-section {
-    min-height: 82vh;
-  }
+.about-hero-banner-link {
+  display: block;
+  width: 100%;
+  line-height: 0;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .about-hero-bg-img {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: auto;
+  display: block;
   object-fit: cover;
-  object-position: right center;
+  object-position: center;
   z-index: 1;
 }
 
@@ -1014,4 +1013,20 @@
   height: 3.5rem;
   width: 100%;
   background-color: var(--about-cream);
+}
+/* Completely hide visible scrollbar on About Us page */
+body.about-hide-scrollbar,
+body.about-hide-scrollbar html,
+html:has(body.about-hide-scrollbar),
+.about-lumina-container {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+body.about-hide-scrollbar::-webkit-scrollbar,
+html:has(body.about-hide-scrollbar)::-webkit-scrollbar,
+.about-lumina-container::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }

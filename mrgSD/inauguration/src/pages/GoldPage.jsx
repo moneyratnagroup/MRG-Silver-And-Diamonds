@@ -11,10 +11,10 @@ import './GoldPage.css';
 // Import images
 import goldHero from '../assets/gold_hero2.webp';
 import catRings from '../assets/cat_rings_layout.webp';
-import featuredRing1 from '../assets/featured_ring_1.png';
-import featuredRing2 from '../assets/featured_ring_2.png';
-import featuredRing3 from '../assets/featured_ring_3.png';
-import featuredRing4 from '../assets/featured_ring_4.png';
+import featuredRing1 from '../assets/bng.webp';
+import featuredRing2 from '../assets/chn.webp';
+import featuredRing3 from '../assets/rng.webp';
+import featuredRing4 from '../assets/br.webp';
 import saleItem1 from '../assets/sale_item_1.png';
 import saleItem2 from '../assets/sale_item_2.jpg';
 import saleItem3 from '../assets/sale_item_3.jpg';
@@ -31,6 +31,15 @@ import journeyInspiration from '../assets/gold_journey_inspiration.webp';
 import journeyDesign from '../assets/gold_journey_design.webp';
 import journeyCraft from '../assets/gold_journey_craft.webp';
 import journeyFinish from '../assets/gold_journey_finish.webp';
+import goldBangle1 from '../assets/gold bangle1.webp';
+import goldBracelet1 from '../assets/gold bracelet1.webp';
+import goldBracelet2 from '../assets/gold bracelet2.webp';
+import goldBracelet3 from '../assets/gold bracelet3.webp';
+import goldChain1 from '../assets/gold chain1.webp';
+import goldNecklace2 from '../assets/gold necklace2.webp';
+import goldRing1 from '../assets/gold ring1.webp';
+import goldBng2 from '../assets/gold_bng2.webp';
+import goldNecklace1 from '../assets/gold_necklace1.webp';
 
 const GoldPage = () => {
   const { collectionId } = useParams();
@@ -42,25 +51,25 @@ const GoldPage = () => {
 
   const featuredData = {
     'Top Seller': [
-      { img: featuredRing1, title: 'THE AUTUMN EQUINOX', isHighlight: true },
+      { img: featuredRing1, title: 'THE AUTUMN EQUINOX' },
       { img: featuredRing2, title: 'Ring 2' },
       { img: featuredRing3, title: 'Ring 3' },
       { img: featuredRing4, title: 'Ring 4' }
     ],
     'Sale': [
-      { img: saleItem1, title: 'ANTIQUE JHUMKA SET', isHighlight: true },
+      { img: saleItem1, title: 'ANTIQUE JHUMKA SET' },
       { img: saleItem2, title: 'PEACOCK CHOKER' },
       { img: saleItem3, title: 'GOLDEN CRESCENT' },
       { img: saleItem4, title: 'FLORAL ELEGANCE' }
     ],
     'Top Rated': [
-      { img: topRatedItem1, title: 'ROYAL EMERALD DROP', isHighlight: true },
+      { img: topRatedItem1, title: 'ROYAL EMERALD DROP' },
       { img: topRatedItem2, title: 'DIAMOND LEAF CASCADE' },
       { img: topRatedItem3, title: 'GEOMETRIC CHOKER' },
       { img: topRatedItem4, title: 'CLUSTER DIAMOND BANGLES' }
     ],
     'Featured': [
-      { img: featuredItem1, title: 'POLKI DELIGHT', isHighlight: true },
+      { img: featuredItem1, title: 'POLKI DELIGHT' },
       { img: featuredItem2, title: 'ELEGANT GREEN DROP' },
       { img: featuredItem3, title: 'TEMPLE HERITAGE' },
       { img: featuredItem4, title: 'KUNDAN BRIDAL SET' }
@@ -84,14 +93,173 @@ const GoldPage = () => {
     return false;
   };
 
-  // Filter specifically for gold
-  let goldProducts = allProductsContext.filter(p =>
-    (p.collections && p.collections.some(c => c.name.toLowerCase() === 'gold')) ||
-    (p.category && p.category.toLowerCase() === 'gold') ||
-    (p.material && p.material.toLowerCase() === 'gold') ||
-    (p.metal && p.metal.toLowerCase().includes('gold')) ||
-    (p.name && p.name.toLowerCase().includes('gold'))
-  );
+  const staticGoldProducts = [
+    {
+      id: 'gold-bangle-1',
+      sku: 'MRG-GLD-BNG-001',
+      name: 'Spiral Fluted Gold Bangle',
+      category: 'Bangles',
+      collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+      occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+      metal: 'Gold',
+      purity: '22K',
+      badge: 'TRENDING NOW',
+      img: goldBangle1,
+      hoverImage: goldBangle1,
+      images: [goldBangle1],
+      desc: 'Sculptural 22K yellow gold bangle with diagonal spiral fluting and exquisite textured craftsmanship.',
+      stockQuantity: 8,
+      status: 'PUBLISHED',
+      isActive: true
+    },
+    {
+      id: 'gold-bracelet-1',
+      sku: 'MRG-GLD-BRC-001',
+      name: 'Two-Tone Beaded Charm Gold Bracelet',
+      category: 'Bracelets',
+      collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+      occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+      metal: 'Gold',
+      purity: '22K',
+      badge: 'NEW ARRIVAL',
+      img: goldBracelet1,
+      hoverImage: goldBracelet1,
+      images: [goldBracelet1],
+      desc: 'Dainty 22K gold chain bracelet featuring alternating textured fluted gold and shimmering rhodium-accented beads.',
+      stockQuantity: 10,
+      status: 'PUBLISHED',
+      isActive: true
+    },
+    {
+      id: 'gold-bracelet-2',
+      sku: 'MRG-GLD-BRC-002',
+      name: 'Celestial Charms Gold Bracelet',
+      category: 'Bracelets',
+      collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+      occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+      metal: 'Gold',
+      purity: '22K',
+      badge: 'MINIMALIST',
+      img: goldBracelet2,
+      hoverImage: goldBracelet2,
+      images: [goldBracelet2],
+      desc: 'Playful 22K yellow gold link bracelet adorned with dangling stars, blooming flora, and textured two-tone disc charms.',
+      stockQuantity: 10,
+      status: 'PUBLISHED',
+      isActive: true
+    },
+    {
+      id: 'gold-bracelet-3',
+      sku: 'MRG-GLD-BRC-003',
+      name: 'Royal Sapphire Station Gold Bracelet',
+      category: 'Bracelets',
+      collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+      occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+      metal: 'Gold',
+      purity: '22K',
+      badge: 'AESTHETIC',
+      img: goldBracelet3,
+      hoverImage: goldBracelet3,
+      images: [goldBracelet3],
+      desc: 'Refined 22K gold link bracelet set with vibrant emerald-cut royal blue sapphire stations.',
+      stockQuantity: 8,
+      status: 'PUBLISHED',
+      isActive: true
+    },
+    {
+      id: 'gold-chain-1',
+      sku: 'MRG-GLD-CHN-001',
+      name: 'Onyx & Pearl Delicate Gold Chain',
+      category: 'Chains',
+      collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+      occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+      metal: 'Gold',
+      purity: '22K',
+      badge: 'BESTSELLER',
+      img: goldChain1,
+      hoverImage: goldChain1,
+      images: [goldChain1],
+      desc: 'Delicate 22K gold chain adorned with bezel-set black onyx stones and luminous freshwater pearl accents.',
+      stockQuantity: 10,
+      status: 'PUBLISHED',
+      isActive: true
+    },
+    {
+      id: 'gold-necklace-2',
+      sku: 'MRG-GLD-NCK-002',
+      name: 'Royal Heritage Filigree Gold Necklace',
+      category: 'Chains',
+      collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+      occasions: [{ id: 'bridal', name: 'Bridal' }, { id: 'festive', name: 'Festive' }],
+      metal: 'Gold',
+      purity: '22K',
+      badge: 'ELEVATE YOUR EVERYDAY',
+      img: goldNecklace2,
+      hoverImage: goldNecklace2,
+      images: [goldNecklace2],
+      desc: 'Majestic 22K yellow gold necklace handcrafted with articulated links, ornate filigree drops, and tiered geometric charms.',
+      stockQuantity: 6,
+      status: 'PUBLISHED',
+      isActive: true
+    },
+    {
+      id: 'gold-ring-1',
+      sku: 'MRG-GLD-RNG-001',
+      name: 'Pavé Diamond Swirl Gold Ring',
+      category: 'Rings',
+      collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+      occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+      metal: 'Gold',
+      purity: '18K',
+      badge: 'TRENDING NOW',
+      img: goldRing1,
+      hoverImage: goldRing1,
+      images: [goldRing1],
+      desc: 'Graceful 18K gold ring featuring an intertwined double-scroll motif encrusted with shimmering pavé diamonds.',
+      stockQuantity: 12,
+      status: 'PUBLISHED',
+      isActive: true
+    },
+    {
+      id: 'gold-bng-2',
+      sku: 'MRG-GLD-BNG-002',
+      name: 'Filigree Wave Engraved Gold Bangle',
+      category: 'Bangles',
+      collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+      occasions: [{ id: 'daily', name: 'Daily Wear' }, { id: 'festive', name: 'Festive' }],
+      metal: 'Gold',
+      purity: '22K',
+      badge: 'NEW ARRIVAL',
+      img: goldBng2,
+      hoverImage: goldBng2,
+      images: [goldBng2],
+      desc: 'Artisanal 22K yellow gold bangle detailed with flowing wave engravings and fine milgrain bordering.',
+      stockQuantity: 8,
+      status: 'PUBLISHED',
+      isActive: true
+    },
+    {
+      id: 'gold-necklace-1',
+      sku: 'MRG-GLD-NCK-001',
+      name: 'Botanical Crest Filigree Gold Necklace',
+      category: 'Chains',
+      collections: [{ id: 1, name: 'Gold' }, { id: 'women', name: "Women's Collection" }],
+      occasions: [{ id: 'bridal', name: 'Bridal' }, { id: 'festive', name: 'Festive' }],
+      metal: 'Gold',
+      purity: '22K',
+      badge: 'MINIMALIST',
+      img: goldNecklace1,
+      hoverImage: goldNecklace1,
+      images: [goldNecklace1],
+      desc: 'Intricately embossed 22K gold leaf-link necklace centered with a floral crest medallion and dangling droplet.',
+      stockQuantity: 6,
+      status: 'PUBLISHED',
+      isActive: true
+    }
+  ];
+
+  // Curated gold products (excluding database items as requested)
+  let goldProducts = [...staticGoldProducts];
 
   let products = (collectionId && collectionId !== 'all')
     ? goldProducts.filter(p => p.collections && p.collections.some(c => matchCollection(c, collectionId)))
@@ -192,33 +360,16 @@ const GoldPage = () => {
             </a>
           </section>
 
-          {/* Featured Rings Section */}
+                    {/* Featured Rings Section */}
           <section className="jared-featured">
              <div className="jared-featured-content">
                <h2 className="jared-featured-title">Find your perfect piece</h2>
-               <div className="jared-featured-tabs">
-                 {['Top Seller', 'Sale', 'Top Rated', 'Featured'].map(tab => (
-                   <button 
-                     key={tab}
-                     className={activeFeaturedTab === tab ? 'active' : ''}
-                     onClick={() => setActiveFeaturedTab(tab)}
-                   >
-                     {tab}
-                   </button>
-                 ))}
-               </div>
                
-               <div className="jared-featured-grid">
+<div className="jared-featured-grid">
                  {featuredData[activeFeaturedTab].map((item, index) => (
-                   <div key={index} className={`jared-featured-card ${item.isHighlight ? 'highlight' : ''}`}>
+                   <div key={index} className="jared-featured-card">
                      <img loading="lazy" src={item.img} alt={item.title || `Ring ${index + 1}`} />
-                     {item.isHighlight && (
-                       <div className="jared-card-info">
-                         <h3>{item.title}</h3>
-                         <a href="#gold-collection-start" onClick={(e) => { e.preventDefault(); document.getElementById('gold-collection-start').scrollIntoView({ behavior: 'smooth' }); }}>SHOP NOW &rarr;</a>
-                       </div>
-                     )}
-                   </div>
+</div>
                  ))}
                </div>
              </div>
@@ -229,8 +380,9 @@ const GoldPage = () => {
 
       {/* Collection Grid - Placed above Golden Journey */}
       <section id="gold-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
-        <DiamondGallery 
+          <DiamondGallery 
           theme="gold"
+          itemsPerPage={12}
           products={displayProducts} 
           title={displayTitle} 
           tagline={`Explore our exclusive ${baseTitle} jewelry.`}

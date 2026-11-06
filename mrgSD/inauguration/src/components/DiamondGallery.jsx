@@ -117,20 +117,22 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                     
                     <div className="product-card-info">
                       <h3 className="product-card-title">{product.name}</h3>
-                      <div className="product-card-price-row">
-                        <span className="product-card-price">
-                          {formatPrice(product.price)}
-                        </span>
-                        <button 
-                          type="button"
-                          className="add-to-cart-icon-btn" 
-                          onClick={(e) => { e.stopPropagation(); addToCart(product); }} 
-                          title="Add to Cart"
-                          aria-label={`Add ${product.name} to Cart`}
-                        >
-                          <ShoppingCart size={18} strokeWidth={2} />
-                        </button>
-                      </div>
+                      {!isGoldTheme && (
+                        <div className="product-card-price-row">
+                          <span className="product-card-price">
+                            {formatPrice(product.price)}
+                          </span>
+                          <button 
+                            type="button"
+                            className="add-to-cart-icon-btn" 
+                            onClick={(e) => { e.stopPropagation(); addToCart(product); }} 
+                            title="Add to Cart"
+                            aria-label={`Add ${product.name} to Cart`}
+                          >
+                            <ShoppingCart size={18} strokeWidth={2} />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

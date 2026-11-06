@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArrowDown, Crown, Users, Gem, Star, ShieldCheck, Sparkles, HeartHandshake, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // Asset imports based on listed files
-import abtHero2 from '../assets/abt_hero2.webp';
+import abtHero5 from '../assets/abt_hero5.webp';
 import manikantanImg from '../assets/Manikantansir.webp';
 import sajeshImg from '../assets/sajesh.webp';
 import earringsBg from '../assets/earrings_bg.webp';
@@ -16,46 +16,39 @@ import abtImg from '../assets/abt_img.webp';
 import './AboutUs.css';
 
 const AboutPage = () => {
+  useEffect(() => {
+    document.body.classList.add('about-hide-scrollbar');
+    return () => {
+      document.body.classList.remove('about-hide-scrollbar');
+    };
+  }, []);
+
   return (
     <div className="about-lumina-container">
       
-      {/* 1. Hero Section (Full-Width Banner with abt_hero2.webp) */}
+      {/* 1. Hero Section (Full-Width Banner with abt_hero4.webp) */}
       <section className="about-hero-banner-section">
-        <img 
-          loading="eager" 
-          src={abtHero2} 
-          alt="About Us - Moneyratna Jewellery" 
-          className="about-hero-bg-img" 
-        />
-        <div className="about-hero-banner-overlay" aria-hidden="true"></div>
-        
-        <div className="about-hero-content-container">
-          <div className="about-hero-text-content">
-            <h1 className="about-hero-heading serif-text">About Us</h1>
-            <p className="about-hero-subheading">CRAFTING ELEGANCE, CELEBRATING MOMENTS</p>
-            <div className="about-hero-separator">
-              <span className="sep-line"></span>
-              <span className="sep-diamond">◇</span>
-              <span className="sep-line"></span>
-            </div>
-            <p className="about-hero-desc">
-              At Moneyratna Jewellery, we believe jewellery is more than an accessory — it is a reflection of love, tradition and timeless beauty. Our journey is built on trust, quality and a passion for creating jewellery that becomes part of your story.
-            </p>
-            <button 
-              className="about-hero-pill-btn"
-              onClick={() => {
-                const target = document.getElementById('about-heritage-craft');
-                if (target) {
-                  target.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-                }
-              }}
-            >
-              Discover Our Story <ArrowRight size={16} />
-            </button>
-          </div>
-        </div>
+        <a 
+          href="#about-heritage-craft"
+          className="about-hero-banner-link"
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.getElementById('about-heritage-craft');
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth' });
+            } else {
+              window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+            }
+          }}
+          aria-label="Discover Our Story"
+        >
+          <img 
+            loading="eager" 
+            src={abtHero5} 
+            alt="About Us - Moneyratna Jewellery" 
+            className="about-hero-bg-img" 
+          />
+        </a>
       </section>
 
       {/* 2. Our Story & Craftsmanship Section (Simple Editorial Layout) */}
