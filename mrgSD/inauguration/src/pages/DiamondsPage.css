@@ -513,13 +513,15 @@
 }
 
 .diamonds-page-wrapper .product-card-image-wrapper {
-  margin-bottom: 0.75rem !important;
-  aspect-ratio: 4 / 3 !important;
+  margin-bottom: 0 !important;
+  aspect-ratio: auto !important;
+  height: 220px !important;
   min-height: auto !important;
-  max-height: 240px !important;
+  max-height: none !important;
   width: 100% !important;
   background: transparent !important;
-  border-radius: 10px !important;
+  border: none !important;
+  border-radius: 8px !important;
   overflow: hidden !important;
   display: flex !important;
   align-items: center !important;
@@ -531,9 +533,9 @@
   width: 100% !important;
   height: 100% !important;
   max-height: 100% !important;
-  object-fit: contain !important;
-  border-radius: 10px !important;
-  transition: transform 0.4s ease !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  transition: transform 0.5s ease !important;
 }
 
 .diamonds-page-wrapper .product-card:hover .product-card-image-wrapper img {
@@ -543,24 +545,35 @@
 .diamonds-page-wrapper .product-card-info {
   display: flex !important;
   flex-direction: column !important;
-  align-items: center !important;
-  text-align: center !important;
+  align-items: flex-start !important;
+  text-align: left !important;
   width: 100% !important;
-  padding: 0 4px !important;
+  padding: 1rem 0 0 0 !important;
 }
 
 .diamonds-page-wrapper .product-card-title {
   font-family: 'Cormorant Upright', serif !important;
-  font-size: 1.35rem !important;
+  font-size: 1.3rem !important;
   color: #09182E !important;
-  margin: 0 0 0.4rem 0 !important;
-  font-weight: 600 !important;
-  line-height: 1.25 !important;
-  text-align: center !important;
-  justify-content: center !important;
-  display: flex !important;
-  align-items: center !important;
-  min-height: 2.7rem !important;
+  margin: 0 !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  display: block !important;
+  width: 100% !important;
+  min-height: auto !important;
+  height: auto !important;
+}
+
+.diamonds-page-wrapper .product-card-title::after {
+  content: "NEYRA DIAMONDS";
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  color: #8C7B70;
+  margin-top: 0.2rem;
 }
 
 .diamonds-page-wrapper .product-card-price-row {
@@ -568,7 +581,7 @@
   align-items: center !important;
   justify-content: space-between !important;
   width: 100% !important;
-  margin-top: auto !important;
+  margin-top: 0.6rem !important;
   padding-bottom: 0.25rem !important;
 }
 
@@ -602,28 +615,50 @@
   transform: scale(1.1) !important;
 }
 
-/* Reduce border box width by displaying 4 items per row */
+/* Responsive Grid matching Silver Page (4 cols desktop, 3 cols tablet, 2 cols mobile) */
 .diamonds-page-wrapper .aesthetic-gallery-grid {
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
 }
 
-@media (max-width: 1200px) {
+@media (min-width: 992px) {
   .diamonds-page-wrapper .aesthetic-gallery-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .diamonds-page-wrapper .product-card-image-wrapper {
+    height: 220px !important;
   }
 }
 
-@media (max-width: 992px) {
+@media (min-width: 501px) and (max-width: 991px) {
   .diamonds-page-wrapper .aesthetic-gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .diamonds-page-wrapper .product-card-image-wrapper {
+    height: 220px !important;
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 500px) {
   .diamonds-page-wrapper .aesthetic-gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  .diamonds-page-wrapper .product-card-image-wrapper {
+    height: 160px !important;
+  }
+
+  .diamonds-page-wrapper .product-card-info {
+    padding: 0.75rem 0 0 0 !important;
+  }
+
+  .diamonds-page-wrapper .product-card-title {
+    font-size: 0.95rem !important;
   }
 }
 
@@ -631,6 +666,259 @@
 .diamonds-page-wrapper .dg-sidebar {
   max-height: none !important;
   overflow-y: visible !important;
+}
+
+/* ==========================================================================
+   NEYRA Signature Solitaire Story Section - Deep Midnight Blue & Champagne Gold
+   ========================================================================== */
+.neyra-solitaire-story-section {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(135deg, #030a14 0%, #06152b 50%, #0a1c36 100%);
+  border-top: 1px solid rgba(223, 186, 111, 0.22);
+  border-bottom: 1px solid rgba(223, 186, 111, 0.22);
+  padding: 5.5rem 0;
+  overflow: hidden;
+  color: #ffffff;
+  display: block;
+}
+
+.neyra-solitaire-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.neyra-solitaire-text-col {
+  flex: 1 1 520px;
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  z-index: 2;
+}
+
+.neyra-solitaire-eyebrow {
+  font-family: 'Inter', sans-serif;
+  color: #dfba6f;
+  font-size: clamp(0.72rem, 0.85vw, 0.82rem);
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 1.1rem;
+}
+
+.neyra-solitaire-headline {
+  font-family: 'Cormorant Upright', serif;
+  font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: #ffffff;
+  margin: 0 0 1.25rem 0;
+  letter-spacing: 0.5px;
+}
+
+.neyra-solitaire-headline-italic {
+  font-style: italic;
+  font-weight: 600;
+  background: linear-gradient(135deg, #ffffff 0%, #fff3d1 40%, #dfba6f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.neyra-solitaire-description {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.96rem;
+  line-height: 1.8;
+  color: #b5c7d8;
+  margin: 0 0 2rem 0;
+  max-width: 520px;
+  font-weight: 350;
+}
+
+/* Solitaire Craft Highlight Items */
+.neyra-solitaire-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.solitaire-feature-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.feature-text strong {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #f1f6fb;
+  letter-spacing: 0.4px;
+}
+
+.feature-text span {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.84rem;
+  color: #9cb5ca;
+  line-height: 1.5;
+}
+
+/* Luxury Solitaire CTA Button */
+.neyra-solitaire-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 13px 34px;
+  background: linear-gradient(135deg, rgba(223, 186, 111, 0.16) 0%, rgba(223, 186, 111, 0.05) 100%);
+  border: 1px solid #dfba6f;
+  border-radius: 40px;
+  color: #dfba6f;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.neyra-solitaire-cta-btn:hover {
+  background: #dfba6f;
+  color: #06152b;
+  box-shadow: 0 8px 30px rgba(223, 186, 111, 0.35);
+  transform: translateY(-2px);
+}
+
+.solitaire-btn-arrow {
+  transition: transform 0.3s ease;
+}
+
+.neyra-solitaire-cta-btn:hover .solitaire-btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Right Column: Visual Solitaire Showcase */
+.neyra-solitaire-visual-col {
+  flex: 1 1 540px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.neyra-solitaire-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(223, 186, 111, 0.28);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 35px rgba(6, 21, 43, 0.7);
+  background-color: #06152b;
+}
+
+.neyra-solitaire-main-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neyra-solitaire-image-wrapper:hover .neyra-solitaire-main-img {
+  transform: scale(1.02);
+}
+
+.neyra-solitaire-glints {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Diamond Showcase Sparkle Coordinates on Solitaire Pendant & Stud Earring */
+.glint-solitaire-crown {
+  top: 63%;
+  left: 41%;
+  animation-delay: 0.4s;
+  animation-duration: 3.2s;
+}
+
+.glint-solitaire-side-gem {
+  top: 58%;
+  left: 73%;
+  animation-delay: 1.9s;
+  animation-duration: 3.8s;
+  transform: translate(-50%, -50%) scale(0.85);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .neyra-solitaire-story-section {
+    padding: 4rem 0;
+  }
+
+  .neyra-solitaire-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 3rem;
+    padding: 0 1.5rem;
+  }
+
+  .neyra-solitaire-text-col {
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .neyra-solitaire-features {
+    align-items: center;
+    text-align: left;
+  }
+
+  .solitaire-feature-item {
+    max-width: 480px;
+  }
+
+  .neyra-solitaire-image-wrapper {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .neyra-solitaire-story-section {
+    padding: 3rem 0;
+  }
+
+  .neyra-solitaire-headline {
+    font-size: 2.2rem;
+  }
+
+  .neyra-solitaire-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* Diamond Full Image Banner */

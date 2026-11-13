@@ -63,18 +63,34 @@
   animation-direction: reverse;
 }
 
-/* TOP SECTION: 5 Columns */
+/* TOP SECTION: Brand Left + Right Links & Trust Bar */
 .footer-top {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 70px;
+  align-items: stretch;
+  gap: 55px;
+  margin-bottom: 42px;
 }
 
 .footer-col-brand {
-  flex: 1.1 1 270px;
-  max-width: 320px;
+  flex: 0 0 310px;
+  max-width: 310px;
+}
+
+.footer-right-content {
+  flex: 1 1 600px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.footer-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 24px;
 }
 
 .footer-col-links {
@@ -82,8 +98,8 @@
 }
 
 .footer-col-subscribe {
-  flex: 1.2 1 290px;
-  max-width: 360px;
+  flex: 1.1 1 200px;
+  max-width: 280px;
 }
 
 /* Brand Column */
@@ -92,6 +108,15 @@
   align-items: center;
   gap: 16px;
   margin-bottom: 24px;
+}
+
+.footer-champagne-logo {
+  width: 240px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 10px rgba(200, 169, 106, 0.25));
 }
 
 .footer-diamond-logo {
@@ -429,17 +454,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 42px 0;
+  padding: 28px 0;
+  margin-top: auto;
+  margin-bottom: 18px;
   border-top: 1px solid rgba(200, 169, 106, 0.15);
   border-bottom: 1px solid rgba(200, 169, 106, 0.15);
   flex-wrap: wrap;
-  gap: 25px;
+  gap: 20px;
 }
 
 .trust-item {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   flex: 1 1 auto;
 }
 
@@ -465,23 +492,24 @@
 .trust-title {
   color: #F7F2EA;
   font-family: 'Playfair Display', serif;
-  font-size: 1.05rem;
+  font-size: 0.98rem;
   font-weight: 600;
   letter-spacing: 0.3px;
 }
 
 .trust-subtitle {
   color: #B8B3AD;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   margin-top: 2px;
 }
 
 /* BOTTOM BAR: Copyright & Payments */
 .footer-bottom-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(200, 169, 106, 0.15);
   flex-wrap: wrap;
   gap: 24px;
 }
@@ -528,7 +556,8 @@
 .footer-legal-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  text-align: center;
   gap: 10px;
 }
 
@@ -561,8 +590,13 @@
 
 /* RESPONSIVE DESIGN */
 @media (max-width: 1024px) {
+  .footer-right-content {
+    flex: 1 1 100%;
+    gap: 36px;
+  }
   .footer-trust-bar {
     justify-content: flex-start;
+    margin-bottom: 0;
   }
   .trust-item {
     border-bottom: 1px solid rgba(200, 169, 106, 0.1);
@@ -577,21 +611,22 @@
   }
   .footer-top {
     gap: 36px;
-    margin-bottom: 50px;
+    margin-bottom: 36px;
   }
   .footer-bottom-row {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
   }
   .footer-legal-section {
-    align-items: flex-start;
+    align-items: center;
   }
   .footer-legal-links {
     flex-wrap: wrap;
     gap: 10px;
   }
   .footer-col-brand, .footer-col-subscribe {
+    flex: 1 1 100%;
     max-width: 100%;
   }
   .footer-container {

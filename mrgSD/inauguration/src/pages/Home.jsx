@@ -7,7 +7,6 @@ import ProductsGallery from '../components/ProductsGallery';
 import OurPromises from '../components/OurPromises';
 import FeaturedCollection from '../components/FeaturedCollection';
 import SplitGateway from '../components/SplitGateway';
-import AnnouncementBar from '../components/AnnouncementBar';
 import { useShop } from '../context/ShopContext';
 import './Home.css';
 import imgeditorialimg from '../assets/Golden Family Jewellery Celebration.webp';
@@ -23,7 +22,6 @@ const Home = () => {
   return (
     <>
       <HeroSlider />
-      <AnnouncementBar />
       <ShopByCategory />
       <section className="home-editorial-section-new">
         <div className="editorial-new-content">

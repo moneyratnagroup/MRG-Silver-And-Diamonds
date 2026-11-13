@@ -11,10 +11,10 @@ import './GoldPage.css';
 // Import images
 import goldHero from '../assets/gold_hero2.webp';
 import catRings from '../assets/cat_rings_layout.webp';
-import featuredRing1 from '../assets/featured_ring_1.png';
-import featuredRing2 from '../assets/featured_ring_2.png';
-import featuredRing3 from '../assets/featured_ring_3.png';
-import featuredRing4 from '../assets/featured_ring_4.png';
+import featuredRing1 from '../assets/bng.webp';
+import featuredRing2 from '../assets/chn.webp';
+import featuredRing3 from '../assets/rng.webp';
+import featuredRing4 from '../assets/br.webp';
 import saleItem1 from '../assets/sale_item_1.png';
 import saleItem2 from '../assets/sale_item_2.jpg';
 import saleItem3 from '../assets/sale_item_3.jpg';
@@ -27,10 +27,7 @@ import featuredItem1 from '../assets/featured_item_1.png';
 import featuredItem2 from '../assets/featured_item_2.png';
 import featuredItem3 from '../assets/featured_item_3.png';
 import featuredItem4 from '../assets/featured_item_4.png';
-import journeyInspiration from '../assets/gold_journey_inspiration.webp';
-import journeyDesign from '../assets/gold_journey_design.webp';
-import journeyCraft from '../assets/gold_journey_craft.webp';
-import journeyFinish from '../assets/gold_journey_finish.webp';
+import goldHeritageShowcase from '../assets/gold_heritage_showcase.webp';
 
 const GoldPage = () => {
   const { collectionId } = useParams();
@@ -42,25 +39,25 @@ const GoldPage = () => {
 
   const featuredData = {
     'Top Seller': [
-      { img: featuredRing1, title: 'THE AUTUMN EQUINOX', isHighlight: true },
+      { img: featuredRing1, title: 'THE AUTUMN EQUINOX' },
       { img: featuredRing2, title: 'Ring 2' },
       { img: featuredRing3, title: 'Ring 3' },
       { img: featuredRing4, title: 'Ring 4' }
     ],
     'Sale': [
-      { img: saleItem1, title: 'ANTIQUE JHUMKA SET', isHighlight: true },
+      { img: saleItem1, title: 'ANTIQUE JHUMKA SET' },
       { img: saleItem2, title: 'PEACOCK CHOKER' },
       { img: saleItem3, title: 'GOLDEN CRESCENT' },
       { img: saleItem4, title: 'FLORAL ELEGANCE' }
     ],
     'Top Rated': [
-      { img: topRatedItem1, title: 'ROYAL EMERALD DROP', isHighlight: true },
+      { img: topRatedItem1, title: 'ROYAL EMERALD DROP' },
       { img: topRatedItem2, title: 'DIAMOND LEAF CASCADE' },
       { img: topRatedItem3, title: 'GEOMETRIC CHOKER' },
       { img: topRatedItem4, title: 'CLUSTER DIAMOND BANGLES' }
     ],
     'Featured': [
-      { img: featuredItem1, title: 'POLKI DELIGHT', isHighlight: true },
+      { img: featuredItem1, title: 'POLKI DELIGHT' },
       { img: featuredItem2, title: 'ELEGANT GREEN DROP' },
       { img: featuredItem3, title: 'TEMPLE HERITAGE' },
       { img: featuredItem4, title: 'KUNDAN BRIDAL SET' }
@@ -84,16 +81,12 @@ const GoldPage = () => {
     return false;
   };
 
-  // Filter specifically for gold
-  let goldProducts = allProductsContext.filter(p =>
-    (p.collections && p.collections.some(c => c.name.toLowerCase() === 'gold')) ||
-    (p.category && p.category.toLowerCase() === 'gold') ||
-    (p.material && p.material.toLowerCase() === 'gold') ||
-    (p.metal && p.metal.toLowerCase().includes('gold')) ||
-    (p.name && p.name.toLowerCase().includes('gold'))
-  );
+    const staticGoldProducts = [];
 
-  let products = (collectionId && collectionId !== 'all')
+  // Curated gold products (excluding database items as requested)
+  let goldProducts = [...staticGoldProducts];
+
+let products = (collectionId && collectionId !== 'all')
     ? goldProducts.filter(p => p.collections && p.collections.some(c => matchCollection(c, collectionId)))
     : goldProducts;
 
@@ -192,33 +185,16 @@ const GoldPage = () => {
             </a>
           </section>
 
-          {/* Featured Rings Section */}
+                    {/* Featured Rings Section */}
           <section className="jared-featured">
              <div className="jared-featured-content">
                <h2 className="jared-featured-title">Find your perfect piece</h2>
-               <div className="jared-featured-tabs">
-                 {['Top Seller', 'Sale', 'Top Rated', 'Featured'].map(tab => (
-                   <button 
-                     key={tab}
-                     className={activeFeaturedTab === tab ? 'active' : ''}
-                     onClick={() => setActiveFeaturedTab(tab)}
-                   >
-                     {tab}
-                   </button>
-                 ))}
-               </div>
                
-               <div className="jared-featured-grid">
+<div className="jared-featured-grid">
                  {featuredData[activeFeaturedTab].map((item, index) => (
-                   <div key={index} className={`jared-featured-card ${item.isHighlight ? 'highlight' : ''}`}>
+                   <div key={index} className="jared-featured-card">
                      <img loading="lazy" src={item.img} alt={item.title || `Ring ${index + 1}`} />
-                     {item.isHighlight && (
-                       <div className="jared-card-info">
-                         <h3>{item.title}</h3>
-                         <a href="#gold-collection-start" onClick={(e) => { e.preventDefault(); document.getElementById('gold-collection-start').scrollIntoView({ behavior: 'smooth' }); }}>SHOP NOW &rarr;</a>
-                       </div>
-                     )}
-                   </div>
+</div>
                  ))}
                </div>
              </div>
@@ -229,7 +205,7 @@ const GoldPage = () => {
 
       {/* Collection Grid - Placed above Golden Journey */}
       <section id="gold-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
-        <DiamondGallery 
+          <DiamondGallery 
           theme="gold"
           products={displayProducts} 
           title={displayTitle} 
@@ -294,86 +270,56 @@ const GoldPage = () => {
 
       {showLanding && (
         <>
-          {/* Golden Journey Section - Live HTML & Separated Images */}
-          <section className="golden-journey-section" id="golden-journey-section">
-            <div className="golden-journey-header">
-              <span className="golden-journey-eyebrow">THE MAKING</span>
-              <h2 className="golden-journey-title gold-serif">The golden journey</h2>
-              <p className="golden-journey-subtitle">
-                From first spark to final polish — four quiet steps behind every piece.
-              </p>
-            </div>
-
-            <div className="golden-journey-grid">
-              {/* Step 1 */}
-              <div className="golden-journey-card">
-                <div className="journey-arch-wrapper">
-                  <img 
-                    src={journeyInspiration} 
-                    alt="Inspiration - Fine jewelry concept" 
-                    loading="lazy" 
-                  />
+          {/* Golden Heritage Editorial Story Section */}
+          <section className="mrg-gold-heritage-section" id="golden-heritage-section">
+            <div className="mrg-gold-heritage-container">
+              {/* Left Column: Gold Heritage Narrative & Trust Pillars */}
+              <div className="mrg-gold-heritage-text-col">
+                <div className="mrg-gold-heritage-eyebrow">
+                  <span>THE GOLDEN HERITAGE</span>
                 </div>
-                <div className="journey-card-content">
-                  <span className="journey-roman">I</span>
-                  <h3 className="journey-step-title">Inspiration</h3>
-                  <p className="journey-step-desc">
-                    Found in quiet places — old coins, pressed leaves, a line of light at dusk.
-                  </p>
+
+                <h2 className="mrg-gold-heritage-headline">
+                  A Legacy of Pure Gold<br />
+                  <span className="mrg-gold-heritage-headline-italic">Woven into Eternity</span>
+                </h2>
+
+                <p className="mrg-gold-heritage-description">
+                  Every MRG gold creation is forged in certified BIS 916 hallmarked pure gold, celebrating generations of Indian heritage. Handcrafted by master karigars to hold auspicious warmth and grace for life’s most cherished beginnings.
+                </p>
+
+                {/* Craft Pillars */}
+                <div className="mrg-gold-heritage-features">
+                  <div className="gold-feature-item">
+                    <div className="gold-feature-text">
+                      <strong>BIS 916 Hallmarked Purity</strong>
+                      <span>Guaranteed 22K &amp; 18K pure gold with laser-engraved HUID verification</span>
+                    </div>
+                  </div>
+                  <div className="gold-feature-item">
+                    <div className="gold-feature-text">
+                      <strong>Master Goldsmith Artistry</strong>
+                      <span>Intricate filigree, nakshi, and temple motifs crafted with time-honored bench techniques</span>
+                    </div>
+                  </div>
+                  <div className="gold-feature-item">
+                    <div className="gold-feature-text">
+                      <strong>Zero Wastage Promise &amp; Lifetime Care</strong>
+                      <span>100% transparent value assurance, lifetime buyback, and complimentary polishing</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Step 2 */}
-              <div className="golden-journey-card">
-                <div className="journey-arch-wrapper">
+              {/* Right Column: Visual Showcase */}
+              <div className="mrg-gold-heritage-visual-col">
+                <div className="mrg-gold-heritage-image-wrapper">
                   <img 
-                    src={journeyDesign} 
-                    alt="Design - Hand-drawn jewelry sketch" 
-                    loading="lazy" 
+                    src={goldHeritageShowcase} 
+                    alt="MRG Fine 22K Gold Jewellery Suite on Emerald Silk" 
+                    className="mrg-gold-heritage-main-img"
+                    loading="lazy"
                   />
-                </div>
-                <div className="journey-card-content">
-                  <span className="journey-roman">II</span>
-                  <h3 className="journey-step-title">Design</h3>
-                  <p className="journey-step-desc">
-                    Each piece begins as a pencil drawing, refined until nothing can be removed.
-                  </p>
-                </div>
-              </div>
-
-              {/* Step 3 */}
-              <div className="golden-journey-card">
-                <div className="journey-arch-wrapper">
-                  <img 
-                    src={journeyCraft} 
-                    alt="Craft - Artisan bench goldsmithing" 
-                    loading="lazy" 
-                  />
-                </div>
-                <div className="journey-card-content">
-                  <span className="journey-roman">III</span>
-                  <h3 className="journey-step-title">Craft</h3>
-                  <p className="journey-step-desc">
-                    Cast in solid 18k gold and worked by hand at the bench for hours, not minutes.
-                  </p>
-                </div>
-              </div>
-
-              {/* Step 4 */}
-              <div className="golden-journey-card">
-                <div className="journey-arch-wrapper">
-                  <img 
-                    src={journeyFinish} 
-                    alt="Finish - Master polish and setting" 
-                    loading="lazy" 
-                  />
-                </div>
-                <div className="journey-card-content">
-                  <span className="journey-roman">IV</span>
-                  <h3 className="journey-step-title">Finish</h3>
-                  <p className="journey-step-desc">
-                    Polished until it holds light the way silk does — softly, never loudly.
-                  </p>
                 </div>
               </div>
             </div>

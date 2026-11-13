@@ -10,7 +10,7 @@ import './DiamondsPage.css';
 
 // Import images
 import neyraHeroCleanBg from '../assets/neyra_hero_clean_bg.jpg';
-import neyraBanner from '../assets/neyra_banner.webp';
+import simpleDiamondShowcase from '../assets/simple_diamond_jewellery_showcase.webp';
 
 const DiamondsPage = () => {
   const { collectionId } = useParams();
@@ -239,56 +239,62 @@ const DiamondsPage = () => {
       </section>
 
       {showLanding && (
-        <section className="diamond-full-image-section">
-          <img 
-            loading="lazy" 
-            src={neyraBanner} 
-            alt="NEYRA The Diamond Collection - Timeless Brilliance" 
-            className="diamond-full-image-bg"
-          />
+        <section className="neyra-solitaire-story-section">
+          <div className="neyra-solitaire-container">
+            {/* Left Column: Solitaire Narrative & Craft Features */}
+            <div className="neyra-solitaire-text-col">
+              <div className="neyra-solitaire-eyebrow">
+                <span>THE NEYRA SIGNATURE</span>
+              </div>
 
-          {/* Diamond Sparkle Glints */}
-          <div className="diamond-banner-sparkles" aria-hidden="true">
-            <span className="diamond-glint glint-solitaire-main">
-              <span className="diamond-glint-core" />
-              <span className="diamond-glint-ray-v" />
-              <span className="diamond-glint-ray-h" />
-              <span className="diamond-glint-ray-d1" />
-              <span className="diamond-glint-ray-d2" />
-            </span>
-            <span className="diamond-glint glint-solitaire-side">
-              <span className="diamond-glint-core" />
-              <span className="diamond-glint-ray-v" />
-              <span className="diamond-glint-ray-h" />
-            </span>
-            <span className="diamond-glint glint-band-upper">
-              <span className="diamond-glint-core" />
-              <span className="diamond-glint-ray-v" />
-              <span className="diamond-glint-ray-h" />
-              <span className="diamond-glint-ray-d1" />
-            </span>
-            <span className="diamond-glint glint-band-main">
-              <span className="diamond-glint-core" />
-              <span className="diamond-glint-ray-v" />
-              <span className="diamond-glint-ray-h" />
-              <span className="diamond-glint-ray-d1" />
-              <span className="diamond-glint-ray-d2" />
-            </span>
-            <span className="diamond-glint glint-band-side">
-              <span className="diamond-glint-core" />
-              <span className="diamond-glint-ray-v" />
-              <span className="diamond-glint-ray-h" />
-            </span>
+              <h2 className="neyra-solitaire-headline">
+                The Solitaire Story<br />
+                <span className="neyra-solitaire-headline-italic">A Lifetime of Radiance</span>
+              </h2>
+
+              <p className="neyra-solitaire-description">
+                Hand-selected for unmatched clarity and fire, each NEYRA solitaire diamond is custom-set in hallmarked gold and platinum. A timeless emblem of commitment, designed to illuminate life’s defining moments.
+              </p>
+
+              {/* Solitaire Craft Highlights */}
+              <div className="neyra-solitaire-features">
+                <div className="solitaire-feature-item">
+                  <div className="feature-text">
+                    <strong>100% Certified Natural</strong>
+                    <span>Individually certified by world-recognized gemological laboratories</span>
+                  </div>
+                </div>
+                <div className="solitaire-feature-item">
+                  <div className="feature-text">
+                    <strong>Precision Cut &amp; Proportions</strong>
+                    <span>Expertly faceted to maximize brilliance, scintillation, and fire</span>
+                  </div>
+                </div>
+                <div className="solitaire-feature-item">
+                  <div className="feature-text">
+                    <strong>Lifetime Buyback &amp; Care</strong>
+                    <span>Complimentary prong inspection, ultrasonic cleaning, and full exchange guarantee</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Visual Solitaire Showcase */}
+            <div className="neyra-solitaire-visual-col">
+              <div className="neyra-solitaire-image-wrapper">
+                <img 
+                  src={simpleDiamondShowcase} 
+                  alt="NEYRA Solitaire Diamond Pendant & Stud Earrings on Midnight Silk" 
+                  className="neyra-solitaire-main-img"
+                  loading="lazy"
+                />
+                <div className="neyra-solitaire-glints" aria-hidden="true">
+                  <span className="diamond-glint glint-solitaire-crown"><span className="diamond-glint-core" /></span>
+                  <span className="diamond-glint glint-solitaire-side-gem"><span className="diamond-glint-core" /></span>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <button 
-            className="neyra-banner-cta-hotspot"
-            aria-label="Explore NEYRA Collection"
-            onClick={() => {
-              const el = document.getElementById('diamonds-collection-start');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
-          />
         </section>
       )}
 

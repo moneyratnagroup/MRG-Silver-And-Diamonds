@@ -51,7 +51,7 @@ const CareReference = () => {
               </tr>
               <tr>
                 <td className="type-cell">Pearl</td>
-                <td><strong>Do not submerge</strong></td>
+                <td>Do not submerge</td>
                 <td>Strictly avoid</td>
                 <td>Dry soft cloth only</td>
                 <td>Separate / lay flat</td>

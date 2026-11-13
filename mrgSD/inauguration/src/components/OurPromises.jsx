@@ -23,7 +23,7 @@ const promises = [
     )
   },
   {
-    title: "15 Days Exchange",
+    title: "7 Days Exchange",
     desc: "Easy & hassle-free",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -36,8 +36,8 @@ const promises = [
     )
   },
   {
-    title: "6 Month Warranty",
-    desc: "Against manufacturing defects",
+    title: "Certified Diamonds",
+    desc: "GIA Certified",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -51,19 +51,8 @@ const promises = [
     icon: (
       <img loading="lazy" src={imgbislogo} alt="BIS Hallmark" style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
     )
-  },
-  {
-    title: "Free Shipping",
-    desc: "On all orders across India",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="1" y="3" width="15" height="13"></rect>
-        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-        <circle cx="5.5" cy="18.5" r="2.5"></circle>
-        <circle cx="18.5" cy="18.5" r="2.5"></circle>
-      </svg>
-    )
   }
+
 ];
 
 const OurPromises = () => {

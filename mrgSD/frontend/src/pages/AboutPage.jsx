@@ -1,9 +1,9 @@
-import React from 'react';
-import { ArrowDown, Crown, Users, Gem, Star, ShieldCheck, Sparkles, HeartHandshake, ArrowRight } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { Crown, Users, Gem, Star, ShieldCheck, Sparkles, HeartHandshake, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // Asset imports based on listed files
-import abtHero2 from '../assets/abt_hero2.webp';
+import aboutHeroClean from '../assets/about_hero_clean.webp';
 import manikantanImg from '../assets/Manikantansir.webp';
 import sajeshImg from '../assets/sajesh.webp';
 import earringsBg from '../assets/earrings_bg.webp';
@@ -16,44 +16,49 @@ import abtImg from '../assets/abt_img.webp';
 import './AboutUs.css';
 
 const AboutPage = () => {
+  useEffect(() => {
+    document.body.classList.add('about-hide-scrollbar');
+    return () => {
+      document.body.classList.remove('about-hide-scrollbar');
+    };
+  }, []);
+
   return (
     <div className="about-lumina-container">
-      
-      {/* 1. Hero Section (Full-Width Banner with abt_hero2.webp) */}
+
+      {/* 1. Hero Section (Editorial Luxury Banner with Live Typography) */}
       <section className="about-hero-banner-section">
-        <img 
-          loading="eager" 
-          src={abtHero2} 
-          alt="About Us - Moneyratna Jewellery" 
-          className="about-hero-bg-img" 
-        />
-        <div className="about-hero-banner-overlay" aria-hidden="true"></div>
-        
-        <div className="about-hero-content-container">
-          <div className="about-hero-text-content">
-            <h1 className="about-hero-heading serif-text">About Us</h1>
-            <p className="about-hero-subheading">CRAFTING ELEGANCE, CELEBRATING MOMENTS</p>
-            <div className="about-hero-separator">
-              <span className="sep-line"></span>
-              <span className="sep-diamond">◇</span>
-              <span className="sep-line"></span>
+        <div className="about-hero-backdrop-wrap">
+          <img
+            loading="eager"
+            src={aboutHeroClean}
+            alt="About Us - Moneyratna Jewellery"
+            className="about-hero-bg-img"
+          />
+        </div>
+
+        <div className="about-hero-editorial-overlay">
+          <div className="about-hero-editorial-content">
+            {/* Main Headline with Serif Grace & Italic Gold Accent */}
+            <h1 className="about-hero-title">
+              A Legacy of Trust &amp; <br />
+              <span className="about-hero-title-accent">Timeless Beauty</span>
+            </h1>
+
+            {/* Bespoke Jewellery Hairline Divider */}
+            <div className="about-hero-divider">
+              <span className="about-divider-line"></span>
+              <span className="about-divider-diamond">✦</span>
+              <span className="about-divider-line"></span>
             </div>
-            <p className="about-hero-desc">
-              At Moneyratna Jewellery, we believe jewellery is more than an accessory — it is a reflection of love, tradition and timeless beauty. Our journey is built on trust, quality and a passion for creating jewellery that becomes part of your story.
+
+            {/* Refined Narrative Prose */}
+            <p className="about-hero-prose">
+              At Moneyratna Jewellery, we believe jewellery is more than an accessory —
+              it is an enduring reflection of love, devotion, and sacred milestones.
+              Handcrafted with generational mastery, every creation is designed to become
+              a treasured part of your life&apos;s story.
             </p>
-            <button 
-              className="about-hero-pill-btn"
-              onClick={() => {
-                const target = document.getElementById('about-heritage-craft');
-                if (target) {
-                  target.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-                }
-              }}
-            >
-              Discover Our Story <ArrowRight size={16} />
-            </button>
           </div>
         </div>
       </section>
@@ -61,7 +66,7 @@ const AboutPage = () => {
       {/* 2. Our Story & Craftsmanship Section (Simple Editorial Layout) */}
       <section className="story-section atelier-heritage-section" id="about-heritage-craft">
         <div className="atelier-container simple-heritage-container">
-          
+
           {/* Section Header */}
           <div className="atelier-header">
             <span className="atelier-eyebrow">OUR HERITAGE & CRAFT</span>
@@ -82,7 +87,11 @@ const AboutPage = () => {
               <Gem size={17} strokeWidth={1.5} />
             </div>
             <blockquote className="manifesto-quote-text serif-text">
-              “Jewellery is more than ornament — it is an heirloom of devotion, a legacy of artistry, and a celebration of life's most precious moments.”
+              “At Moneyratna Jewellery, we believe jewellery is more than an ornament — it is an expression of love, a celebration of life's precious moments, and a legacy passed through generations.
+
+              As part of the Moneyratna Group, established in 2022, we bring together the values of trust, transparency, quality, and customer commitment to create a jewellery experience that is both meaningful and memorable.
+
+              Blending timeless traditions with contemporary elegance, our thoughtfully curated collections celebrate individuality, craftsmanship, and the beauty of every occasion.”
             </blockquote>
             <div className="manifesto-quote-author">
               <span className="author-label">THE MONEYRATNA PROMISE</span>
@@ -94,7 +103,7 @@ const AboutPage = () => {
       {/* 3. Leadership Section */}
       <section className="leadership-section" id="about-leadership">
         <div className="leadership-container">
-          
+
           {/* Section Header */}
           <div className="leadership-header">
             <span className="leadership-eyebrow">LEADERSHIP</span>
@@ -108,7 +117,7 @@ const AboutPage = () => {
 
           {/* Dual Leadership Cards */}
           <div className="leadership-grid">
-            
+
             {/* Chairman Card (Dark Navy) */}
             <div className="leader-card leader-card-dark">
               <div className="leader-photo-wrapper">
@@ -178,7 +187,7 @@ const AboutPage = () => {
                 To become a trusted and admired jewellery brand known for quality, elegance, authenticity and exceptional customer experience — while creating timeless jewellery that becomes part of life's most cherished moments.
               </p>
             </div>
-            
+
             <div className="vm-column-divider" aria-hidden="true"></div>
 
             <div className="vm-column">
@@ -242,7 +251,7 @@ const AboutPage = () => {
           <img loading="lazy" src={visionBg} alt="Jewellery 4" />
         </div>
         <div className="gallery-center-card">
-          <span className="serif-text">EVERY OCCASION<br/>DESERVES A LITTLE<br/>SPARKLE</span>
+          <span className="serif-text">EVERY OCCASION<br />DESERVES A LITTLE<br />SPARKLE</span>
           <div className="gallery-divider"></div>
         </div>
       </section>

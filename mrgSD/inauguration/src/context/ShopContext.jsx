@@ -2,7 +2,6 @@ import { hardcodedSilverProducts } from '../data/silverProducts';
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { fetchWithAuth, API_URL } from '../utils/api';
-import imgBanner11 from '../assets/Banner1.png';
 import imgbanner12 from '../assets/banner12.webp';
 import imgbanner3 from '../assets/banner3.webp';
 import homeBanner1 from '../assets/home1.webp';
@@ -17,6 +16,10 @@ import goldNecklace2 from '../assets/gold necklace2.webp';
 import goldRing1 from '../assets/gold ring1.webp';
 import goldBng2 from '../assets/gold_bng2.webp';
 import goldNecklace1 from '../assets/gold_necklace1.webp';
+import diamond1Img from '../assets/Diamond1.png';
+import diamond2Img from '../assets/diamond2.png';
+import diamond3Img from '../assets/diamond3.png';
+import diamond4Img from '../assets/diamond4.png';
 
 // Create Context
 const ShopContext = createContext();
@@ -220,12 +223,83 @@ export const CURATED_GOLD_PRODUCTS = [
   }
 ];
 
+export const CURATED_DIAMOND_PRODUCTS = [
+  {
+    id: 'diamond-1',
+    sku: 'MRG-DMD-NCK-001',
+    name: 'Double Halo Lattice Diamond Layered Necklace',
+    category: 'Necklaces',
+    collections: [{ id: 'diamonds', name: 'Diamonds' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'bridal', name: 'Bridal' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Diamond',
+    purity: '18K',
+    img: diamond1Img,
+    hoverImage: diamond1Img,
+    images: [diamond1Img],
+    desc: 'Double-layered 18K white gold diamond necklace featuring dual circular pavé halos enclosing geometric diamond lattice clusters.',
+    stockQuantity: 6,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'diamond-2',
+    sku: 'MRG-DMD-NCK-002',
+    name: 'Graduated Solitaire Y-Drop Diamond Necklace',
+    category: 'Necklaces',
+    collections: [{ id: 'diamonds', name: 'Diamonds' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'bridal', name: 'Bridal' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Diamond',
+    purity: '18K',
+    img: diamond2Img,
+    hoverImage: diamond2Img,
+    images: [diamond2Img],
+    desc: 'Radiant 18K gold diamond tennis Y-necklace set with brilliant-cut diamonds cascading into a graduated solitaire drop pendant.',
+    stockQuantity: 5,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'diamond-3',
+    sku: 'MRG-DMD-NCK-003',
+    name: 'Crimson Ruby & Diamond Floral Drop Necklace',
+    category: 'Necklaces',
+    collections: [{ id: 'diamonds', name: 'Diamonds' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'bridal', name: 'Bridal' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Diamond',
+    purity: '18K',
+    img: diamond3Img,
+    hoverImage: diamond3Img,
+    images: [diamond3Img],
+    desc: 'Regal 18K gold diamond station necklace adorned with pavé floral blossoms and a kite-cut crimson ruby centerpiece drop.',
+    stockQuantity: 4,
+    status: 'PUBLISHED',
+    isActive: true
+  },
+  {
+    id: 'diamond-4',
+    sku: 'MRG-DMD-NCK-004',
+    name: 'Marquise Leaf Openwork Diamond Necklace',
+    category: 'Necklaces',
+    collections: [{ id: 'diamonds', name: 'Diamonds' }, { id: 'women', name: "Women's Collection" }],
+    occasions: [{ id: 'bridal', name: 'Bridal' }, { id: 'festive', name: 'Festive' }],
+    metal: 'Diamond',
+    purity: '18K',
+    img: diamond4Img,
+    hoverImage: diamond4Img,
+    images: [diamond4Img],
+    desc: 'Graceful 18K gold and diamond collar necklace crafted with alternating marquise leaf trios and pavé-set open teardrop links.',
+    stockQuantity: 6,
+    status: 'PUBLISHED',
+    isActive: true
+  }
+];
+
 export const ShopProvider = ({ children }) => {
   const { isAuthenticated, user, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  const [products, setProducts] = useState([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts]);
-  const [adminProducts, setAdminProducts] = useState([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts]);
+  const [products, setProducts] = useState([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts, ...CURATED_DIAMOND_PRODUCTS]);
+  const [adminProducts, setAdminProducts] = useState([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts, ...CURATED_DIAMOND_PRODUCTS]);
   const [categories, setCategories] = useState([]);
   const [metals, setMetals] = useState([]);
   const [collections, setCollections] = useState([
@@ -473,8 +547,8 @@ export const ShopProvider = ({ children }) => {
           offerCouponCode: p.offer_coupon_code,
           isActive: p.status === 'PUBLISHED'
         }));
-        setAdminProducts([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts, ...mappedProducts]);
-        setProducts([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts]);
+        setAdminProducts([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts, ...CURATED_DIAMOND_PRODUCTS, ...mappedProducts]);
+        setProducts([...CURATED_GOLD_PRODUCTS, ...hardcodedSilverProducts, ...CURATED_DIAMOND_PRODUCTS]);
       }
     } catch (err) {
       console.error("Failed to fetch products", err);

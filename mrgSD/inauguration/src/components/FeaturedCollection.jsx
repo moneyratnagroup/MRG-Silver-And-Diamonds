@@ -9,12 +9,20 @@ const FeaturedCollection = () => {
   const navigate = useNavigate();
   const { products, toggleWishlist, isInWishlist, addToCart, isEcommerceEnabled } = useShop();
 
-  const featuredProducts = products.filter(p => 
-    p.collections && p.collections.some(c => 
-      c.name.toLowerCase() === 'featured' || 
-      c.name.toLowerCase() === 'featured collection'
-    )
-  ).slice(0, 8);
+  const featuredIds = [
+    'gold-necklace-2',
+    'diamond-1',
+    'silver-5',
+    'gold-bangle-1',
+    'diamond-3',
+    'silver-2',
+    'gold-ring-1',
+    'diamond-4'
+  ];
+
+  const featuredProducts = featuredIds
+    .map(id => products.find(p => p.id === id))
+    .filter(Boolean);
 
 
 
@@ -66,14 +74,16 @@ const FeaturedCollection = () => {
             <div className="pg-details">
               <div className="pg-info-left">
                 <h3 className="pg-item-name">{formatProductTitle(product.name)}</h3>
-                <div className="pg-price-container">
-                  <div className="pg-price-wrapper">
-                    <p className="pg-item-price">{product.price}</p>
-                    {product.originalPrice && (
-                      <p className="pg-item-original-price">{product.originalPrice}</p>
-                    )}
+                {product.price && (
+                  <div className="pg-price-container">
+                    <div className="pg-price-wrapper">
+                      <p className="pg-item-price">{product.price}</p>
+                      {product.originalPrice && (
+                        <p className="pg-item-original-price">{product.originalPrice}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
             </div>
