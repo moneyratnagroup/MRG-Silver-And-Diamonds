@@ -19,6 +19,20 @@
   overflow-x: hidden;
 }
 
+/* Hide the visible scrollbar only while the About Us page is mounted.
+   Wheel, touch, and keyboard scrolling remain available. */
+html:has(.about-lumina-container),
+body:has(.about-lumina-container),
+.about-lumina-container {
+  scrollbar-width: none;
+}
+
+html:has(.about-lumina-container)::-webkit-scrollbar,
+body:has(.about-lumina-container)::-webkit-scrollbar,
+.about-lumina-container::-webkit-scrollbar {
+  display: none;
+}
+
 /* Typography Utilities */
 .serif-text {
   font-family: var(--about-serif);

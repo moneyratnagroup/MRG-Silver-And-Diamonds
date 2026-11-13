@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import AdminSidebar from '../components/admin/AdminSidebar';
 import { Menu } from 'lucide-react';
-import { ADMIN_IDLE_TIMEOUT_MS, isTokenExpired, logoutAdmin } from '../utils/api';
+import { ADMIN_IDLE_TIMEOUT_MS, isTokenExpired, logoutAdmin, fetchWithAuth } from '../utils/api';
 import './AdminLayout.css';
+import { AdminAccessContext, adminModuleForPath } from '../context/AdminAccessContext';
 
 const ACTIVITY_THROTTLE_MS = 10 * 1000; // Update activity timestamp at most every 10 seconds
 const SESSION_CHECK_INTERVAL_MS = 15 * 1000; // Check session validity every 15 seconds
 
 const AdminLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [account, setAccount] = useState(null);
+  const [accessError, setAccessError] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -44,6 +47,21 @@ const AdminLayout = () => {
     },
     [navigate]
   );
+
+  useEffect(() => {
+    let active = true;
+    setAccount(null);
+    fetchWithAuth('/api/v1/admin/settings/me').then(async response => {
+      if (!response.ok) throw new Error('Unable to verify your admin access. Please sign in again.');
+      const data = await response.json();
+      if (active) {
+        setAccount(data);
+        setAccessError('');
+        window.dispatchEvent(new Event('admin-access-ready'));
+      }
+    }).catch(error => { if (active) setAccessError(error.message); });
+    return () => { active = false; };
+  }, [location.pathname]);
 
   // Check session on initial load and route transitions
   useEffect(() => {
@@ -116,7 +134,16 @@ const AdminLayout = () => {
     return null;
   }
 
+  if (!account) return <div role="status">{accessError || 'Checking access...'}{accessError && <button onClick={() => { logoutAdmin(); navigate('/admin/login'); }}>Sign in again</button>}</div>;
+  const canAccess = module => module === 'settings' || account.is_owner || account.permissions.includes(module);
+  const routeModule = adminModuleForPath(location.pathname);
+  if (!canAccess(routeModule)) {
+    const first = account.permissions[0];
+    return <Navigate replace to={first ? (first === 'dashboard' ? '/admin' : `/admin/${first}`) : '/admin/settings'} />;
+  }
+
   return (
+    <AdminAccessContext.Provider value={{ account, canAccess }}>
     <div className="admin-layout-container">
       {/* Mobile Header (visible only on small screens) */}
       <div className="admin-mobile-header">
@@ -142,6 +169,7 @@ const AdminLayout = () => {
         </main>
       </div>
     </div>
+    </AdminAccessContext.Provider>
   );
 };
 

@@ -143,12 +143,12 @@ const MRGNavbar = () => {
                 ) : isAuthenticated ? (
                   <div className="d-none d-lg-flex align-items-center h-100" style={{ position: 'relative' }} ref={profileMenuRef}>
                     <div
-                      className="d-flex align-items-center utility-btn px-2"
+                      className="d-flex align-items-center justify-content-center utility-btn"
                       aria-label="User Account"
                       onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                       style={{ cursor: 'pointer' }}
                     >
-                      <div className="profile-avatar-btn" style={{ border: '1px solid #111' }}>
+                      <div className="profile-avatar-btn">
                         {getFirstName().charAt(0)}
                       </div>
                     </div>
@@ -171,17 +171,17 @@ const MRGNavbar = () => {
                     >
                       <div style={{ padding: '16px', borderBottom: '1px solid #eee', display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <div style={{
-                          width: '40px',
-                          height: '40px',
+                          width: '42px',
+                          height: '42px',
                           borderRadius: '50%',
-                          backgroundColor: '#ffd6d6',
-                          border: '1px solid #111',
+                          backgroundColor: '#F3E8D2',
+                          border: '1.5px solid #B89146',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           color: '#111',
                           fontWeight: '600',
-                          fontSize: '1.2rem',
+                          fontSize: '1.25rem',
                           textTransform: 'uppercase',
                           flexShrink: 0
                         }}>

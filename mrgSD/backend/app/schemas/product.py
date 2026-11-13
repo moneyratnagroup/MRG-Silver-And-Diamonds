@@ -104,6 +104,8 @@ class ProductImage(ProductImageBase):
 # -------------------------
 
 class ProductBase(BaseModel):
+    stock_quantity: int = Field(default=10, ge=0)
+    low_stock_threshold: int = Field(default=5, ge=0)
     sku: str
     name: str
     description: Optional[str] = None

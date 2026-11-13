@@ -1,3 +1,5 @@
+import StockBadge from './StockBadge';
+import { isOutOfStock } from '../utils/stock';
 import React, { useState, useEffect } from 'react';
 import { Sparkles, SearchX, ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
 import { useShop, formatProductTitle } from '../context/ShopContext';
@@ -137,6 +139,7 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                       {showMetalSubtitle && (
                         <span className="pg-item-metal">{getMetalSubtitle(product)}</span>
                       )}
+                      <StockBadge product={product} />
                     </div>
                     <div className="pg-price-row">
                       <div className="pg-price-container">
@@ -148,24 +151,26 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                       {isEcommerceEnabled && (
                         useCartIcon ? (
                           <button 
-                            className="pg-add-to-cart-icon" 
+                            className="pg-add-to-cart-icon"
+                            disabled={isOutOfStock(product)}
                             onClick={(e) => { 
                               e.stopPropagation(); 
                               addToCart(product); 
                             }}
-                            aria-label="Add to Cart"
+                            aria-label={isOutOfStock(product) ? "Out of Stock" : "Add to Cart"}
                           >
                             <ShoppingCart size={18} />
                           </button>
                         ) : (
                           <button 
-                            className="pg-add-to-cart" 
+                            className="pg-add-to-cart"
+                            disabled={isOutOfStock(product)}
                             onClick={(e) => { 
                               e.stopPropagation(); 
                               addToCart(product); 
                             }}
                           >
-                            Add to Cart
+                            {isOutOfStock(product) ? "Out of Stock" : "Add to Cart"}
                           </button>
                         )
                       )}

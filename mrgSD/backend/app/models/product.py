@@ -107,6 +107,9 @@ class ProductImage(Base):
 class Product(Base):
     __tablename__ = "products"
 
+    stock_quantity = Column(Integer, nullable=False, default=10, server_default="10")
+    low_stock_threshold = Column(Integer, nullable=False, default=5, server_default="5")
+
     id = Column(Integer, primary_key=True, index=True)
     sku = Column(String(50), unique=True, index=True, nullable=False)
     name = Column(String(255), index=True, nullable=False)

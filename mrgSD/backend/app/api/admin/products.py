@@ -32,6 +32,8 @@ def create_product(product_in: schemas.ProductCreate, db: Session = Depends(get_
     Create a new product with taxonomy relationships and images.
     """
     db_product = models.Product(
+        stock_quantity=product_in.stock_quantity,
+        low_stock_threshold=product_in.low_stock_threshold,
         sku=product_in.sku,
         name=product_in.name,
         description=product_in.description,

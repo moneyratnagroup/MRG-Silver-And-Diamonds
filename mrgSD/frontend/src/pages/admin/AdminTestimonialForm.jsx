@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
-import { API_URL } from '../../utils/api';
+import { API_URL, fetchWithAuth } from '../../utils/api';
 import './AdminTestimonials.css';
 
 const AdminTestimonialForm = () => {
@@ -72,7 +72,7 @@ const AdminTestimonialForm = () => {
       uploadData.append('file', formData.image);
       
       try {
-        const res = await fetch(`${API_URL}/api/v1/upload/`, {
+        const res = await fetchWithAuth(`/api/v1/upload/`, {
           method: 'POST',
           body: uploadData
         });

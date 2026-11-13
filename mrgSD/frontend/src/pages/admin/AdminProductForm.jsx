@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
-import { API_URL } from '../../utils/api';
+import { API_URL, fetchWithAuth } from '../../utils/api';
 import { ArrowLeft, Upload } from 'lucide-react';
 import MultiSelectDropdown from '../../components/admin/MultiSelectDropdown';
 import './AdminProductForm.css';
@@ -108,7 +108,7 @@ const AdminProductForm = () => {
     formDataObj.append('file', file);
 
     try {
-      const response = await fetch(`${API_URL}/api/v1/upload/`, {
+      const response = await fetchWithAuth(`/api/v1/upload/`, {
         method: 'POST',
         body: formDataObj,
       });

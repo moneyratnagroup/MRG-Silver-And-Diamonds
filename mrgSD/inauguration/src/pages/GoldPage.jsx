@@ -104,8 +104,7 @@ const GoldPage = () => {
       hoverImage: goldBangle1,
       images: [goldBangle1],
       desc: 'Sculptural 22K yellow gold bangle with diagonal spiral fluting and exquisite textured craftsmanship.',
-      stockQuantity: 8,
-      status: 'PUBLISHED',
+
       isActive: true
     },
     {
@@ -122,8 +121,7 @@ const GoldPage = () => {
       hoverImage: goldBracelet1,
       images: [goldBracelet1],
       desc: 'Dainty 22K gold chain bracelet featuring alternating textured fluted gold and shimmering rhodium-accented beads.',
-      stockQuantity: 10,
-      status: 'PUBLISHED',
+
       isActive: true
     },
     {
@@ -140,8 +138,7 @@ const GoldPage = () => {
       hoverImage: goldBracelet2,
       images: [goldBracelet2],
       desc: 'Playful 22K yellow gold link bracelet adorned with dangling stars, blooming flora, and textured two-tone disc charms.',
-      stockQuantity: 10,
-      status: 'PUBLISHED',
+
       isActive: true
     },
     {
@@ -158,8 +155,7 @@ const GoldPage = () => {
       hoverImage: goldBracelet3,
       images: [goldBracelet3],
       desc: 'Refined 22K gold link bracelet set with vibrant emerald-cut royal blue sapphire stations.',
-      stockQuantity: 8,
-      status: 'PUBLISHED',
+
       isActive: true
     },
     {
@@ -176,8 +172,7 @@ const GoldPage = () => {
       hoverImage: goldChain1,
       images: [goldChain1],
       desc: 'Delicate 22K gold chain adorned with bezel-set black onyx stones and luminous freshwater pearl accents.',
-      stockQuantity: 10,
-      status: 'PUBLISHED',
+
       isActive: true
     },
     {
@@ -194,8 +189,7 @@ const GoldPage = () => {
       hoverImage: goldNecklace2,
       images: [goldNecklace2],
       desc: 'Majestic 22K yellow gold necklace handcrafted with articulated links, ornate filigree drops, and tiered geometric charms.',
-      stockQuantity: 6,
-      status: 'PUBLISHED',
+
       isActive: true
     },
     {
@@ -212,8 +206,7 @@ const GoldPage = () => {
       hoverImage: goldRing1,
       images: [goldRing1],
       desc: 'Graceful 18K gold ring featuring an intertwined double-scroll motif encrusted with shimmering pavé diamonds.',
-      stockQuantity: 12,
-      status: 'PUBLISHED',
+
       isActive: true
     },
     {
@@ -230,8 +223,7 @@ const GoldPage = () => {
       hoverImage: goldBng2,
       images: [goldBng2],
       desc: 'Artisanal 22K yellow gold bangle detailed with flowing wave engravings and fine milgrain bordering.',
-      stockQuantity: 8,
-      status: 'PUBLISHED',
+
       isActive: true
     },
     {
@@ -248,8 +240,7 @@ const GoldPage = () => {
       hoverImage: goldNecklace1,
       images: [goldNecklace1],
       desc: 'Intricately embossed 22K gold leaf-link necklace centered with a floral crest medallion and dangling droplet.',
-      stockQuantity: 6,
-      status: 'PUBLISHED',
+
       isActive: true
     }
   ];
@@ -337,49 +328,49 @@ const GoldPage = () => {
         <>
           {/* 1. Hero Section - ORO Banner */}
           <section className="new-gold-hero oro-hero-banner" id="gold-hero-banner">
-            <a 
-              href="#gold-collection-start" 
+            <a
+              href="#gold-collection-start"
               className="oro-banner-link"
-              onClick={(e) => { 
-                e.preventDefault(); 
-                document.getElementById('gold-collection-start')?.scrollIntoView({ behavior: 'smooth' }); 
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('gold-collection-start')?.scrollIntoView({ behavior: 'smooth' });
               }}
               aria-label="Explore ORO Gold Collection"
             >
-              <img 
-                loading="eager" 
-                src={goldHero} 
-                alt="ORO Gold Collection - Timeless Craftsmanship" 
-                className="oro-hero-banner-img" 
+              <img
+                loading="eager"
+                src={goldHero}
+                alt="ORO Gold Collection - Timeless Craftsmanship"
+                className="oro-hero-banner-img"
               />
             </a>
           </section>
 
-                    {/* Featured Rings Section */}
+          {/* Featured Rings Section */}
           <section className="jared-featured">
-             <div className="jared-featured-content">
-               <h2 className="jared-featured-title">Find your perfect piece</h2>
-               
-<div className="jared-featured-grid">
-                 {featuredData[activeFeaturedTab].map((item, index) => (
-                   <div key={index} className="jared-featured-card">
-                     <img loading="lazy" src={item.img} alt={item.title || `Ring ${index + 1}`} />
-</div>
-                 ))}
-               </div>
-             </div>
-           </section>
+            <div className="jared-featured-content">
+              <h2 className="jared-featured-title">Find your perfect piece</h2>
+
+              <div className="jared-featured-grid">
+                {featuredData[activeFeaturedTab].map((item, index) => (
+                  <div key={index} className="jared-featured-card">
+                    <img loading="lazy" src={item.img} alt={item.title || `Ring ${index + 1}`} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
 
         </>
       )}
 
       {/* Collection Grid - Placed above Golden Journey */}
-      <section id="gold-collection-start" className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '0 2rem'}}>
-          <DiamondGallery 
+      <section id="gold-collection-start" className="container" style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
+        <DiamondGallery
           theme="gold"
           itemsPerPage={12}
-          products={displayProducts} 
-          title={displayTitle} 
+          products={displayProducts}
+          title={displayTitle}
           tagline={`Explore our exclusive ${baseTitle} jewelry.`}
           disableSidebarScroll={true}
           activeFiltersComponent={null}
@@ -404,10 +395,10 @@ const GoldPage = () => {
               {/* Step 1 */}
               <div className="golden-journey-card">
                 <div className="journey-arch-wrapper">
-                  <img 
-                    src={journeyInspiration} 
-                    alt="Inspiration - Fine jewelry concept" 
-                    loading="lazy" 
+                  <img
+                    src={journeyInspiration}
+                    alt="Inspiration - Fine jewelry concept"
+                    loading="lazy"
                   />
                 </div>
                 <div className="journey-card-content">
@@ -422,10 +413,10 @@ const GoldPage = () => {
               {/* Step 2 */}
               <div className="golden-journey-card">
                 <div className="journey-arch-wrapper">
-                  <img 
-                    src={journeyDesign} 
-                    alt="Design - Hand-drawn jewelry sketch" 
-                    loading="lazy" 
+                  <img
+                    src={journeyDesign}
+                    alt="Design - Hand-drawn jewelry sketch"
+                    loading="lazy"
                   />
                 </div>
                 <div className="journey-card-content">
@@ -440,10 +431,10 @@ const GoldPage = () => {
               {/* Step 3 */}
               <div className="golden-journey-card">
                 <div className="journey-arch-wrapper">
-                  <img 
-                    src={journeyCraft} 
-                    alt="Craft - Artisan bench goldsmithing" 
-                    loading="lazy" 
+                  <img
+                    src={journeyCraft}
+                    alt="Craft - Artisan bench goldsmithing"
+                    loading="lazy"
                   />
                 </div>
                 <div className="journey-card-content">
@@ -458,10 +449,10 @@ const GoldPage = () => {
               {/* Step 4 */}
               <div className="golden-journey-card">
                 <div className="journey-arch-wrapper">
-                  <img 
-                    src={journeyFinish} 
-                    alt="Finish - Master polish and setting" 
-                    loading="lazy" 
+                  <img
+                    src={journeyFinish}
+                    alt="Finish - Master polish and setting"
+                    loading="lazy"
                   />
                 </div>
                 <div className="journey-card-content">
@@ -479,7 +470,7 @@ const GoldPage = () => {
 
 
 
-          </div>
+    </div>
   );
 };
 

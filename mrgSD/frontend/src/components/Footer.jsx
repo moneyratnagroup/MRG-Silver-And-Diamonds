@@ -49,7 +49,7 @@ const Footer = () => {
                 <div className="footer-contact-icon-box">
                   <MapPin className="footer-contact-icon" size={16} strokeWidth={1.8} />
                 </div>
-                <span>Store Address<br />Anakkara, Idukki,<br />Kerala - 673001, India</span>
+                <span>Registered Address:<br />Moneyratna Gold and Jewellery Pvt Ltd<br />Door No. 27/79 B, Baburaj Trading Centre<br />Thiruvamady PO, Alappuzha 688002</span>
               </li>
               <li className="footer-contact-item">
                 <div className="footer-contact-icon-box">
@@ -109,8 +109,6 @@ const Footer = () => {
             <ul className="footer-links-list">
               <li><Link to="/about"><ChevronRight size={14} className="chevron-icon" /> About Us</Link></li>
               <li><Link to="/about#story"><ChevronRight size={14} className="chevron-icon" /> Our Story</Link></li>
-              <li><Link to="/craftsmanship"><ChevronRight size={14} className="chevron-icon" /> Craftsmanship</Link></li>
-              <li><Link to="/blogs"><ChevronRight size={14} className="chevron-icon" /> Blogs</Link></li>
               {/* <li><Link to="/testimonials"><ChevronRight size={14} className="chevron-icon" /> Testimonials</Link></li> */}
               <li><Link to="/careers"><ChevronRight size={14} className="chevron-icon" /> Careers</Link></li>
               <li><Link to="/privacy"><ChevronRight size={14} className="chevron-icon" /> Privacy Policy</Link></li>

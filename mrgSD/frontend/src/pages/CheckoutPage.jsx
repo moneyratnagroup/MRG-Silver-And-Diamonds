@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
 import { fetchWithAuth } from '../utils/api';
@@ -7,12 +8,12 @@ import './CheckoutPage.css';
 import imgmrgicon from '../assets/mrgicon.webp';
 
 const INDIAN_STATES = [
-  "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", 
-  "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", 
-  "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", 
-  "Jharkhand", "Karnataka", "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", 
-  "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", 
-  "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", 
+  "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam",
+  "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir",
+  "Jharkhand", "Karnataka", "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh",
+  "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha",
+  "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
   "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
 
@@ -27,7 +28,7 @@ const CheckoutPage = () => {
         firstName: prev.firstName || user.full_name?.split(' ')[0] || '',
         lastName: prev.lastName || user.full_name?.split(' ').slice(1).join(' ') || '',
         email: prev.email || user.email || '',
-        phone: prev.phone || user.phone_number || '',
+        phone: prev.phone || (user.phone_number ? user.phone_number.replace(/^\+91/, '').replace(/\D/g, '') : ''),
         panNumber: prev.panNumber || user.pan_number || '',
         aadharNumber: prev.aadharNumber || user.aadhar_number || '',
         kycType: prev.kycType || (user.pan_number ? 'pan' : (user.aadhar_number ? 'aadhar' : 'pan'))
@@ -67,7 +68,7 @@ const CheckoutPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (errors[name]) {
       setErrors({ ...errors, [name]: '' });
     }
@@ -85,7 +86,10 @@ const CheckoutPage = () => {
       if (/[a-zA-Z]/.test(value)) {
         showWarning(name, "Phone number cannot include letters");
       }
-      const sanitized = value.replace(/\D/g, '');
+      let sanitized = value.replace(/\D/g, '');
+      if (sanitized.length > 10 && sanitized.startsWith('91')) {
+        sanitized = sanitized.slice(2);
+      }
       if (sanitized.length > 10) return;
       if (sanitized.startsWith('0')) {
         showWarning(name, "Phone number cannot start with 0");
@@ -93,8 +97,8 @@ const CheckoutPage = () => {
       }
       setFormData({ ...formData, [name]: sanitized });
       return;
-    } 
-    
+    }
+
     if (name === 'zip' || name === 'billingZip') {
       if (/[a-zA-Z]/.test(value)) {
         showWarning(name, "Pincode cannot include letters");
@@ -115,14 +119,14 @@ const CheckoutPage = () => {
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === 'firstName' && !value.trim()) setErrors(prev => ({ ...prev, firstName: "First name is required" }));
     if (name === 'lastName' && !value.trim()) setErrors(prev => ({ ...prev, lastName: "Last name is required" }));
-    
+
     if (name === 'addressLine1' && !value.trim()) setErrors(prev => ({ ...prev, addressLine1: "Address Line 1 is required" }));
     if (name === 'city' && !value.trim()) setErrors(prev => ({ ...prev, city: "City is required" }));
     if (name === 'state' && !value.trim()) setErrors(prev => ({ ...prev, state: "State is required" }));
-    
+
     if (!formData.billingSameAsShipping) {
       if (name === 'billingAddressLine1' && !value.trim()) setErrors(prev => ({ ...prev, billingAddressLine1: "Billing Address Line 1 is required" }));
       if (name === 'billingCity' && !value.trim()) setErrors(prev => ({ ...prev, billingCity: "Billing City is required" }));
@@ -136,7 +140,7 @@ const CheckoutPage = () => {
         setErrors(prev => ({ ...prev, email: "Invalid email format" }));
       }
     }
-    
+
     if (name === 'phone') {
       if (!value) {
         setErrors(prev => ({ ...prev, phone: "Phone number is required" }));
@@ -144,7 +148,7 @@ const CheckoutPage = () => {
         setErrors(prev => ({ ...prev, phone: "Phone number must be exactly 10 digits" }));
       }
     }
-    
+
     if (name === 'zip') {
       if (!value) {
         setErrors(prev => ({ ...prev, zip: "Pincode is required" }));
@@ -183,13 +187,13 @@ const CheckoutPage = () => {
     const newErrors = {};
     if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
     if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
-    
+
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Invalid email format";
     }
-    
+
     if (!formData.phone) {
       newErrors.phone = "Phone number is required";
     } else if (formData.phone.length !== 10) {
@@ -199,7 +203,7 @@ const CheckoutPage = () => {
     if (!formData.addressLine1.trim()) newErrors.addressLine1 = "Address Line 1 is required";
     if (!formData.city.trim()) newErrors.city = "City is required";
     if (!formData.state) newErrors.state = "State is required";
-    
+
     if (!formData.zip) {
       newErrors.zip = "Pincode is required";
     } else if (formData.zip.length !== 6) {
@@ -210,7 +214,7 @@ const CheckoutPage = () => {
       if (!formData.billingAddressLine1.trim()) newErrors.billingAddressLine1 = "Billing Address Line 1 is required";
       if (!formData.billingCity.trim()) newErrors.billingCity = "Billing City is required";
       if (!formData.billingState) newErrors.billingState = "Billing State is required";
-      
+
       if (!formData.billingZip) {
         newErrors.billingZip = "Pincode is required";
       } else if (formData.billingZip.length !== 6) {
@@ -243,14 +247,34 @@ const CheckoutPage = () => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+
+    const errorKeys = Object.keys(newErrors);
+    if (errorKeys.length > 0) {
+      setTimeout(() => {
+        const fieldOrder = [
+          'firstName', 'lastName', 'email', 'phone',
+          'addressLine1', 'addressLine2', 'city', 'state', 'zip',
+          'billingAddressLine1', 'billingAddressLine2', 'billingCity', 'billingState', 'billingZip',
+          'panNumber', 'aadharNumber'
+        ];
+        const firstField = fieldOrder.find(f => newErrors[f]) || errorKeys[0];
+        const el = document.querySelector(`[name="${firstField}"]`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.focus();
+        }
+      }, 50);
+      return false;
+    }
+
+    return true;
   };
 
   const handlePayment = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
-      alert("Please fix the errors in the form before proceeding.");
+      toast.warning("Please fill in all required fields to proceed.", { toastId: 'checkout-validation-error' });
       return;
     }
 
@@ -288,7 +312,7 @@ const CheckoutPage = () => {
       image: imgmrgicon,
       handler: function (response) {
         alert('Payment Successful! Payment ID: ' + response.razorpay_payment_id);
-        if(clearCart) clearCart();
+        if (clearCart) clearCart();
         navigate('/');
       },
       prefill: {
@@ -314,8 +338,8 @@ const CheckoutPage = () => {
     };
 
     const paymentObject = new window.Razorpay(options);
-    paymentObject.on('payment.failed', function (response){
-        alert("Payment Failed. Reason: " + response.error.description);
+    paymentObject.on('payment.failed', function (response) {
+      alert("Payment Failed. Reason: " + response.error.description);
     });
     paymentObject.open();
   };
@@ -349,7 +373,7 @@ const CheckoutPage = () => {
                 {warnings.lastName && !errors.lastName && <span className="warning-text">{warnings.lastName}</span>}
               </div>
             </div>
-            
+
             <div className="form-row">
               <div className="form-group">
                 <label>Email Address *</label>
@@ -359,13 +383,27 @@ const CheckoutPage = () => {
               </div>
               <div className="form-group">
                 <label>Phone Number *</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} onBlur={handleBlur} className={errors.phone ? 'error-input' : ''} />
+                <div className={`phone-input-wrapper ${errors.phone ? 'error-input' : ''}`}>
+                  <div className="phone-country-code">
+                    <span className="phone-country-flag" role="img" aria-label="India Flag">🇮🇳</span>
+                    <span>+91</span>
+                  </div>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="10-digit mobile number"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    maxLength="10"
+                  />
+                </div>
                 {errors.phone && <span className="error-text">{errors.phone}</span>}
                 {warnings.phone && !errors.phone && <span className="warning-text">{warnings.phone}</span>}
               </div>
             </div>
 
-                <h3 className="global-subheading mt-4">DELIVERY ADDRESS</h3>
+            <h3 className="global-subheading mt-4">DELIVERY ADDRESS</h3>
             <div className="form-group">
               <label>Address Line 1 *</label>
               <input type="text" name="addressLine1" placeholder="House / Flat No., Building Name, Street" value={formData.addressLine1} onChange={handleInputChange} onBlur={handleBlur} className={errors.addressLine1 ? 'error-input' : ''} maxLength={150} />
@@ -401,7 +439,7 @@ const CheckoutPage = () => {
                 {errors.state && <span className="error-text">{errors.state}</span>}
               </div>
             </div>
-            
+
             <div className="form-row">
               <div className="form-group">
                 <label>Postcode / ZIP *</label>
@@ -418,25 +456,25 @@ const CheckoutPage = () => {
 
             <h3 className="global-subheading mt-4">KYC DETAILS</h3>
             {total > 200000 ? (
-              <div className="kyc-notice warning-notice mb-3" style={{fontSize: '0.9rem', color: '#856404', backgroundColor: '#fff3cd', padding: '10px', borderRadius: '4px'}}>
+              <div className="kyc-notice warning-notice mb-3" style={{ fontSize: '0.9rem', color: '#856404', backgroundColor: '#fff3cd', padding: '10px', borderRadius: '4px' }}>
                 As per Govt. regulations, a valid PAN card is mandatory for purchases exceeding ₹2 Lakhs.
               </div>
             ) : (
               <div className="form-group mb-3">
                 <label>Select ID Proof (Mandatory)</label>
-                <div className="d-flex" style={{gap: '15px'}}>
-                  <label style={{fontWeight: 'normal', display: 'flex', alignItems: 'center', gap: '5px', whiteSpace: 'nowrap'}}>
+                <div className="d-flex" style={{ gap: '15px' }}>
+                  <label style={{ fontWeight: 'normal', display: 'flex', alignItems: 'center', gap: '5px', whiteSpace: 'nowrap' }}>
                     <input type="radio" name="kycType" value="pan" checked={formData.kycType === 'pan'} onChange={handleInputChange} />
                     PAN Card
                   </label>
-                  <label style={{fontWeight: 'normal', display: 'flex', alignItems: 'center', gap: '5px', whiteSpace: 'nowrap'}}>
+                  <label style={{ fontWeight: 'normal', display: 'flex', alignItems: 'center', gap: '5px', whiteSpace: 'nowrap' }}>
                     <input type="radio" name="kycType" value="aadhar" checked={formData.kycType === 'aadhar'} onChange={handleInputChange} />
                     Aadhar Card
                   </label>
                 </div>
               </div>
             )}
-            
+
             {(total > 200000 || formData.kycType === 'pan') && (
               <div className="form-group">
                 <label>PAN Number {total > 200000 ? '*' : ''}</label>
@@ -444,7 +482,7 @@ const CheckoutPage = () => {
                 {errors.panNumber && <span className="error-text">{errors.panNumber}</span>}
               </div>
             )}
-            
+
             {total <= 200000 && formData.kycType === 'aadhar' && (
               <div className="form-group">
                 <label>Aadhar Number</label>
@@ -499,7 +537,7 @@ const CheckoutPage = () => {
                     {errors.billingState && <span className="error-text">{errors.billingState}</span>}
                   </div>
                 </div>
-                
+
                 <div className="form-row">
                   <div className="form-group">
                     <label>Postcode / ZIP *</label>
@@ -524,8 +562,9 @@ const CheckoutPage = () => {
                 </label>
               </div>
             )}
-            
-            <button type="submit" className="btn-primary w-100 mt-4 d-none d-md-block">Pay Now (₹{total.toLocaleString('en-IN')})</button>
+            <div className="checkout-btn-wrapper d-none d-md-flex">
+              <button type="submit" className="btn-primary">Pay Now (₹{total.toLocaleString('en-IN')})</button>
+            </div>
           </form>
         </div>
 
@@ -545,7 +584,7 @@ const CheckoutPage = () => {
               </div>
             ))}
           </div>
-          
+
           <div className="checkout-totals">
             <div className="totals-row">
               <span>Subtotal</span>
@@ -560,13 +599,15 @@ const CheckoutPage = () => {
               <span>₹{total.toLocaleString('en-IN')}</span>
             </div>
           </div>
-          
+
           <div className="payment-method-info">
             <p><strong>Secure Online Payment</strong></p>
             <p className="small-text">Pay securely via UPI, Credit/Debit Card, or Netbanking using Razorpay.</p>
           </div>
-          
-          <button type="button" onClick={handlePayment} className="btn-primary w-100 mt-4 d-md-none">Pay Now (₹{total.toLocaleString('en-IN')})</button>
+
+          <div className="checkout-btn-wrapper d-md-none">
+            <button type="button" onClick={handlePayment} className="btn-primary">Pay Now (₹{total.toLocaleString('en-IN')})</button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+import { isOutOfStock } from '../utils/stock';
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { fetchWithAuth, API_URL } from '../utils/api';
@@ -97,8 +99,8 @@ export const ShopProvider = ({ children }) => {
               img: p.images && p.images.length > 0 ? p.images[0].image_url : '',
               hoverImage: p.images && p.images.length > 1 ? p.images[1].image_url : null,
               images: p.images ? p.images.map(img => img.image_url) : [],
-              stockQuantity: 10,
-              lowStockThreshold: 5,
+              stockQuantity: p.stock_quantity,
+              lowStockThreshold: p.low_stock_threshold ?? 5,
               status: p.status,
               isOfferAvailable: p.is_offer_available,
               offerCouponCode: p.offer_coupon_code,
@@ -162,7 +164,7 @@ export const ShopProvider = ({ children }) => {
   const fetchRates = useCallback(async () => {
     try {
       let activeData = [];
-      const activeRes = await fetch(`${API_URL}/api/v1/metal-rates/active`);
+      const activeRes = await fetchWithAuth(`/api/v1/metal-rates/active`);
       if (activeRes.ok) {
         activeData = await activeRes.json();
         setActiveMetals(activeData);
@@ -176,7 +178,7 @@ export const ShopProvider = ({ children }) => {
         setLastUpdated(lastUpdatedTime ? new Date(lastUpdatedTime).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : "");
       }
 
-      const historyRes = await fetch(`${API_URL}/api/v1/metal-rates/`);
+      const historyRes = await fetchWithAuth(`/api/v1/metal-rates/`);
       if (historyRes.ok) {
         const historyData = await historyRes.json();
         const groupedByDate = {};
@@ -221,7 +223,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchTestimonials = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/testimonials/`);
+      const res = await fetchWithAuth(`/api/v1/testimonials/`);
       if (res.ok) {
         const data = await res.json();
         const mappedData = data.map(t => ({
@@ -245,16 +247,16 @@ export const ShopProvider = ({ children }) => {
 
   const fetchTaxonomies = useCallback(async () => {
     try {
-      const catRes = await fetch(`${API_URL}/api/v1/products/categories`);
+      const catRes = await fetchWithAuth(`/api/v1/products/categories`);
       if (catRes.ok) setCategories(await catRes.json());
       
-      const metalRes = await fetch(`${API_URL}/api/v1/products/metals`);
+      const metalRes = await fetchWithAuth(`/api/v1/products/metals`);
       if (metalRes.ok) setMetals(await metalRes.json());
 
-      const colRes = await fetch(`${API_URL}/api/v1/products/collections`);
+      const colRes = await fetchWithAuth(`/api/v1/products/collections`);
       if (colRes.ok) setCollections(await colRes.json());
 
-      const occRes = await fetch(`${API_URL}/api/v1/products/occasions`);
+      const occRes = await fetchWithAuth(`/api/v1/products/occasions`);
       if (occRes.ok) setOccasions(await occRes.json());
     } catch (err) {
       console.error("Failed to fetch taxonomies", err);
@@ -263,7 +265,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchProducts = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/products/?include_inactive=true`);
+      const res = await fetchWithAuth('/api/v1/products/');
       if (res.ok) {
         const data = await res.json();
         const mappedProducts = data.map(p => ({
@@ -281,8 +283,8 @@ export const ShopProvider = ({ children }) => {
           img: p.images.length > 0 ? p.images[0].image_url : '',
           hoverImage: p.images.length > 1 ? p.images[1].image_url : null,
           images: p.images.map(img => img.image_url),
-          stockQuantity: 10, // Mocking inventory for now
-          lowStockThreshold: 5,
+          stockQuantity: p.stock_quantity,
+          lowStockThreshold: p.low_stock_threshold ?? 5,
           status: p.status,
           isOfferAvailable: p.is_offer_available,
           offerCouponCode: p.offer_coupon_code,
@@ -298,7 +300,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchAdminProducts = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/products/?status=ALL`);
+      const res = await fetchWithAuth(window.location.pathname.startsWith('/admin') ? '/api/v1/products/?status=ALL' : '/api/v1/products/');
       if (res.ok) {
         const data = await res.json();
         const mappedProducts = data.map(p => ({
@@ -316,8 +318,8 @@ export const ShopProvider = ({ children }) => {
           img: p.images.length > 0 ? p.images[0].image_url : '',
           hoverImage: p.images.length > 1 ? p.images[1].image_url : null,
           images: p.images.map(img => img.image_url),
-          stockQuantity: 10, // Mocking inventory for now
-          lowStockThreshold: 5,
+          stockQuantity: p.stock_quantity,
+          lowStockThreshold: p.low_stock_threshold ?? 5,
           status: p.status,
           isOfferAvailable: p.is_offer_available,
           offerCouponCode: p.offer_coupon_code
@@ -331,7 +333,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchCoupons = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/coupons/`);
+      const res = await fetchWithAuth(`/api/v1/coupons/`);
       if (res.ok) {
         const data = await res.json();
         const mappedCoupons = data.map(c => ({
@@ -357,6 +359,12 @@ export const ShopProvider = ({ children }) => {
     fetchProducts();
     fetchAdminProducts();
     fetchCoupons();
+    const refreshAdminData = () => {
+      fetchAdminProducts();
+      fetchCoupons();
+    };
+    window.addEventListener('admin-access-ready', refreshAdminData);
+    return () => window.removeEventListener('admin-access-ready', refreshAdminData);
   }, [fetchRates, fetchTestimonials, fetchTaxonomies, fetchProducts, fetchAdminProducts, fetchCoupons]);
 
   const updateMetalRates = async (newRates) => {
@@ -372,7 +380,7 @@ export const ShopProvider = ({ children }) => {
     }
 
     try {
-        const res = await fetch(`${API_URL}/api/v1/metal-rates/batch`, {
+        const res = await fetchWithAuth(`/api/v1/metal-rates/batch`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ rates: cleanRates })
@@ -387,7 +395,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteMetalRatesHistory = async (ids) => {
     try {
-        const res = await fetch(`${API_URL}/api/v1/metal-rates/batch-delete`, {
+        const res = await fetchWithAuth(`/api/v1/metal-rates/batch-delete`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(ids)
@@ -402,7 +410,7 @@ export const ShopProvider = ({ children }) => {
 
   const addNewMetalType = async (newMetal) => {
     try {
-        const res = await fetch(`${API_URL}/api/v1/metal-rates`, {
+        const res = await fetchWithAuth(`/api/v1/metal-rates`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newMetal)
@@ -420,7 +428,7 @@ export const ShopProvider = ({ children }) => {
 
   const updateMetalType = async (id, updatedMetal) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/metal-rates/${id}`, {
+      const res = await fetchWithAuth(`/api/v1/metal-rates/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedMetal)
@@ -439,7 +447,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteMetalType = async (id, metalName) => {
     try {
-      const historyRes = await fetch(`${API_URL}/api/v1/metal-rates/`);
+      const historyRes = await fetchWithAuth(`/api/v1/metal-rates/`);
       let idsToDelete = [id];
       if (historyRes.ok) {
         const allHistory = await historyRes.json();
@@ -448,7 +456,7 @@ export const ShopProvider = ({ children }) => {
           idsToDelete = matching.map(r => r.id);
         }
       }
-      const res = await fetch(`${API_URL}/api/v1/metal-rates/batch-delete`, {
+      const res = await fetchWithAuth(`/api/v1/metal-rates/batch-delete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(idsToDelete)
@@ -467,7 +475,7 @@ export const ShopProvider = ({ children }) => {
   const toggleMetalVisibility = async (metal) => {
     try {
       const newActive = !metal.is_active;
-      const res = await fetch(`${API_URL}/api/v1/metal-rates/${metal.id}`, {
+      const res = await fetchWithAuth(`/api/v1/metal-rates/${metal.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -497,7 +505,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchBanners = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/banners/`);
+      const res = await fetchWithAuth(`/api/v1/banners/`);
       if (res.ok) {
         const data = await res.json();
         setHeroBanners(data);
@@ -535,7 +543,7 @@ export const ShopProvider = ({ children }) => {
         admin_notes: newTestimonial.adminNotes
       };
       
-      const res = await fetch(`${API_URL}/api/v1/testimonials/`, {
+      const res = await fetchWithAuth(`/api/v1/testimonials/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -564,7 +572,7 @@ export const ShopProvider = ({ children }) => {
         admin_notes: updatedTestimonial.adminNotes
       };
       
-      const res = await fetch(`${API_URL}/api/v1/testimonials/${updatedTestimonial.id}`, {
+      const res = await fetchWithAuth(`/api/v1/testimonials/${updatedTestimonial.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -582,7 +590,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteTestimonial = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/testimonials/${id}`, {
+      const res = await fetchWithAuth(`/api/v1/testimonials/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -597,7 +605,7 @@ export const ShopProvider = ({ children }) => {
 
   const addCategory = async (name) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/products/categories`, {
+      const res = await fetchWithAuth(`/api/v1/products/categories`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name })
@@ -613,7 +621,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteCategory = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/products/categories/${id}`, {
+      const res = await fetchWithAuth(`/api/v1/products/categories/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) setCategories(prev => prev.filter(c => c.id !== id));
@@ -624,7 +632,7 @@ export const ShopProvider = ({ children }) => {
 
   const addCollection = async (name, displayName, categoryIds = []) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/products/collections`, {
+      const res = await fetchWithAuth(`/api/v1/products/collections`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: displayName || name, category_ids: categoryIds })
@@ -640,7 +648,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteCollection = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/products/collections/${id}`, {
+      const res = await fetchWithAuth(`/api/v1/products/collections/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) setCollections(prev => prev.filter(c => c.id !== id));
@@ -651,7 +659,7 @@ export const ShopProvider = ({ children }) => {
 
   const updateCollection = async (id, name, displayName, categoryIds = []) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/products/collections/${id}`, {
+      const res = await fetchWithAuth(`/api/v1/products/collections/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: displayName || name, category_ids: categoryIds })
@@ -678,7 +686,7 @@ export const ShopProvider = ({ children }) => {
         expiry_date: newCoupon.expiryDate || null,
         is_active: newCoupon.isActive !== undefined ? newCoupon.isActive : true
       };
-      const res = await fetch(`${API_URL}/api/v1/coupons/`, {
+      const res = await fetchWithAuth(`/api/v1/coupons/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -701,7 +709,7 @@ export const ShopProvider = ({ children }) => {
         expiry_date: updatedCoupon.expiryDate || null,
         is_active: updatedCoupon.isActive
       };
-      const res = await fetch(`${API_URL}/api/v1/coupons/${updatedCoupon.id}`, {
+      const res = await fetchWithAuth(`/api/v1/coupons/${updatedCoupon.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -716,7 +724,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteCoupon = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/coupons/${id}`, {
+      const res = await fetchWithAuth(`/api/v1/coupons/${id}`, {
         method: "DELETE"
       });
       if (res.ok) {
@@ -729,7 +737,7 @@ export const ShopProvider = ({ children }) => {
 
   const toggleCouponStatus = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/coupons/${id}/toggle`, {
+      const res = await fetchWithAuth(`/api/v1/coupons/${id}/toggle`, {
         method: "PATCH"
       });
       if (res.ok) {
@@ -862,7 +870,7 @@ export const ShopProvider = ({ children }) => {
   // Product Management (Admin)
   const addProduct = async (newProduct) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/products/`, {
+      const res = await fetchWithAuth(`/api/v1/products/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newProduct)
@@ -883,7 +891,7 @@ export const ShopProvider = ({ children }) => {
   const updateProduct = async (updatedProduct) => {
     try {
       const { id, ...payload } = updatedProduct;
-      const res = await fetch(`${API_URL}/api/v1/products/${id}`, {
+      const res = await fetchWithAuth(`/api/v1/products/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -903,7 +911,7 @@ export const ShopProvider = ({ children }) => {
 
   const deleteProduct = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/products/${id}`, {
+      const res = await fetchWithAuth(`/api/v1/products/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -933,44 +941,40 @@ export const ShopProvider = ({ children }) => {
     }
   ]);
 
-  const updateInventory = (productId, adjustment) => {
-    // adjustment is an object: { type: 'add'|'remove', quantity: number, reason: string, reference: string, notes: string }
-    const qty = parseInt(adjustment.quantity, 10);
-    if (isNaN(qty) || qty <= 0) return;
-
-    const updater = p => {
-      if (p.id === productId) {
-        let newStock = p.stockQuantity;
-        if (adjustment.type === 'add') newStock += qty;
-        else if (adjustment.type === 'remove') newStock = Math.max(0, newStock - qty);
-        
-        // Log movement
-        const newMovement = {
-          id: Date.now(),
-          date: new Date().toISOString(),
-          productId: p.id,
-          productName: p.name,
-          type: adjustment.type,
-          quantity: qty,
-          reason: adjustment.reason,
-          reference: adjustment.reference,
-          notes: adjustment.notes
-        };
-        setInventoryMovements(prev => [newMovement, ...prev]);
-
-        return { ...p, stockQuantity: newStock };
+  const updateInventory = async (productId, adjustment) => {
+    try {
+      const res = await fetchWithAuth(`/api/v1/admin/inventory/${productId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ type: adjustment.type, quantity: Number(adjustment.quantity) })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.detail || 'Failed to update stock.');
+        return false;
       }
-      return p;
-    };
-
-    setAdminProducts(prevProducts => prevProducts.map(updater));
-    setProducts(prevProducts => prevProducts.map(updater));
+      const update = p => p.id === productId ? { ...p, stockQuantity: data.stock_quantity, lowStockThreshold: data.low_stock_threshold } : p;
+      setAdminProducts(prev => prev.map(update));
+      setProducts(prev => prev.map(update));
+      setInventoryMovements(prev => [{
+        id: Date.now(), date: new Date().toISOString(), productId,
+        productName: data.name, ...adjustment, quantity: Number(adjustment.quantity)
+      }, ...prev]);
+      toast.success('Stock updated.');
+      return true;
+    } catch {
+      toast.error('Unable to update stock. Please try again.');
+      return false;
+    }
   };
 
   // Add to cart
-  const addToCart = async (product) => {
+  const addToCart = async (product, authMessage = "Please sign in or create an account to add items to your cart.") => {
+    if (isOutOfStock(product)) {
+      toast.info('This product is currently out of stock.');
+      return;
+    }
     if (!isAuthenticated) {
-      openAuthModal("Please sign in or create an account to add items to your cart.");
+      openAuthModal(authMessage);
       return;
     }
 
@@ -983,6 +987,9 @@ export const ShopProvider = ({ children }) => {
       if (res.ok) {
         fetchCart();
         setIsCartOpen(true);
+      } else {
+        const data = await res.json();
+        toast.error(data.detail || 'Unable to add this product to your cart.');
       }
     } catch (e) { console.error(e); }
   };
@@ -1014,6 +1021,10 @@ export const ShopProvider = ({ children }) => {
         body: JSON.stringify({ quantity: newQuantity })
       });
       if (res.ok) fetchCart();
+      else {
+        const data = await res.json();
+        toast.error(data.detail || 'Unable to update cart quantity.');
+      }
     } catch (e) { console.error(e); }
   };
 

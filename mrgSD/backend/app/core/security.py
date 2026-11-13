@@ -11,7 +11,7 @@ from app.models.user import User
 
 security_scheme = HTTPBearer()
 
-def create_access_token(subject: str, expires_delta: Optional[timedelta] = None, token_type: str = "access") -> str:
+def create_access_token(subject: str, expires_delta: Optional[timedelta] = None, token_type: str = "access", extra_claims: Optional[dict] = None) -> str:
     """
     Creates a JWT token encoding the user's ID as the subject, along with expiration and type.
     """
@@ -27,6 +27,9 @@ def create_access_token(subject: str, expires_delta: Optional[timedelta] = None,
         "type": token_type
     }
     
+    if extra_claims:
+        to_encode.update(extra_claims)
+
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encoded_jwt
 

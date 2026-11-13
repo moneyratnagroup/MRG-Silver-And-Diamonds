@@ -15,6 +15,7 @@ const AdminInventory = () => {
   // Adjust Stock Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [savingStock, setSavingStock] = useState(false);
   const [adjustForm, setAdjustForm] = useState({
     type: 'add',
     quantity: '',
@@ -58,11 +59,15 @@ const AdminInventory = () => {
     });
   }, [products, searchQuery, filterCategory, filterStock]);
 
-  const handleAdjustStock = (e) => {
+  const handleAdjustStock = async (e) => {
     e.preventDefault();
     if (!selectedProduct || !adjustForm.quantity) return;
     
-    updateInventory(selectedProduct.id, adjustForm);
+    if (savingStock) return;
+    setSavingStock(true);
+    const saved = await updateInventory(selectedProduct.id, adjustForm);
+    setSavingStock(false);
+    if (!saved) return;
     setIsModalOpen(false);
     setAdjustForm({ type: 'add', quantity: '', reason: 'New Arrival', reference: '', notes: '' });
   };
@@ -387,8 +392,8 @@ const AdminInventory = () => {
               </div>
 
               <div className="inv-modal-actions">
-                <button type="button" className="btn-cancel" onClick={() => setIsModalOpen(false)}>Cancel</button>
-                <button type="submit" className="btn-confirm">Update Stock</button>
+                <button type="button" className="btn-cancel" disabled={savingStock} onClick={() => setIsModalOpen(false)}>Cancel</button>
+                <button type="submit" className="btn-confirm" disabled={savingStock}>{savingStock ? "Updating..." : "Update Stock"}</button>
               </div>
             </form>
           </div>

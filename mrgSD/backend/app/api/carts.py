@@ -35,6 +35,12 @@ def add_to_cart(item: CartItemCreate, db: Session = Depends(get_db), current_use
         CartItem.product_id == item.product_id
     ).first()
 
+    requested_quantity = (existing_item.quantity if existing_item else 0) + item.quantity
+    if item.quantity <= 0:
+        raise HTTPException(422, "Quantity must be positive")
+    if requested_quantity > product.stock_quantity:
+        raise HTTPException(409, "Out of stock" if product.stock_quantity == 0 else "Requested quantity exceeds available stock")
+
     if existing_item:
         existing_item.quantity += item.quantity
         db.commit()
@@ -70,6 +76,9 @@ def update_cart_quantity(product_id: int, item: CartItemUpdate, db: Session = De
         db.commit()
         raise HTTPException(status_code=204, detail="Item removed")
 
+    product = db.get(Product, product_id)
+    if not product or item.quantity > product.stock_quantity:
+        raise HTTPException(409, "Requested quantity exceeds available stock")
     cart_item.quantity = item.quantity
     db.commit()
     db.refresh(cart_item)

@@ -1,16 +1,34 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from app.database.database import get_db
+from app.database.database import get_db, Base, engine, SessionLocal
+from app.core.admin_access import bootstrap_owner, enforce_admin_access
+import app.models.admin_account
+import app.models.review
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
 
-from app.api import metal_rates, testimonials, upload, auth, products, coupons, wishlists, banners, carts
+from app.api import metal_rates, testimonials, upload, auth, products, coupons, wishlists, banners, carts, reviews
 from app.api.admin import admin_router
 
-app = FastAPI(title="Moneyratna Jewellers API")
+# Auto-create tables on startup (if not already existing)
+try:
+    Base.metadata.create_all(bind=engine)
+    with SessionLocal() as admin_db:
+        bootstrap_owner(admin_db)
+    with engine.connect() as conn:
+        conn.execute(text("ALTER TABLE products ADD COLUMN IF NOT EXISTS stock_quantity INTEGER NOT NULL DEFAULT 10;"))
+        conn.execute(text("ALTER TABLE products ADD COLUMN IF NOT EXISTS low_stock_threshold INTEGER NOT NULL DEFAULT 5;"))
+        conn.execute(text("ALTER TABLE reviews ADD COLUMN IF NOT EXISTS admin_reply TEXT;"))
+        conn.execute(text("ALTER TABLE reviews ADD COLUMN IF NOT EXISTS admin_reply_hidden BOOLEAN NOT NULL DEFAULT FALSE;"))
+        conn.execute(text("ALTER TABLE reviews ADD COLUMN IF NOT EXISTS admin_replied_at TIMESTAMP WITH TIME ZONE;"))
+        conn.commit()
+except Exception as e:
+    print(f"Notice: Table creation / column migration skipped or pending connection: {e}")
+
+app = FastAPI(title="Moneyratna Jewellers API", dependencies=[Depends(enforce_admin_access)])
 
 # Ensure uploads directory exists
 os.makedirs("uploads", exist_ok=True)
@@ -48,6 +66,7 @@ app.include_router(coupons.router, prefix="/api/v1/coupons", tags=["coupons"])
 app.include_router(wishlists.router, prefix="/api/v1/wishlists", tags=["wishlists"])
 app.include_router(banners.router, prefix="/api/v1/banners", tags=["banners"])
 app.include_router(carts.router, prefix="/api/v1/carts", tags=["carts"])
+app.include_router(reviews.router, prefix="/api/v1/reviews", tags=["reviews"])
 
 @app.get("/")
 def root():
