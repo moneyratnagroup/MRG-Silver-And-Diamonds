@@ -44,11 +44,13 @@ export const formatProductTitle = (name) => {
     .join(' ');
 };
 
+export const CURATED_GOLD_PRODUCTS = [];
+
 export const ShopProvider = ({ children }) => {
   const { isAuthenticated, user, openAuthModal } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(CURATED_GOLD_PRODUCTS);
   const [adminProducts, setAdminProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [metals, setMetals] = useState([]);
@@ -291,7 +293,7 @@ export const ShopProvider = ({ children }) => {
           isActive: p.status === 'PUBLISHED'
         }));
         setAdminProducts(mappedProducts);
-        setProducts(mappedProducts.filter(p => p.isActive));
+        setProducts([...CURATED_GOLD_PRODUCTS, ...mappedProducts.filter(p => p.isActive)]);
       }
     } catch (err) {
       console.error("Failed to fetch products", err);

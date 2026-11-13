@@ -18,7 +18,7 @@ const ContactPage = () => {
     name: '',
     email: '',
     mobile: '',
-    category: 'Bridal & Fine Jewellery',
+    category: '',
     subject: '',
     message: ''
   });
@@ -70,7 +70,7 @@ const ContactPage = () => {
           name: '',
           email: '',
           mobile: '',
-          category: 'Bridal & Fine Jewellery',
+          category: '',
           subject: '',
           message: ''
         });
@@ -158,6 +158,7 @@ const ContactPage = () => {
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   >
+                    <option value="" disabled>Select</option>
                     <option value="Bridal & Fine Jewellery">Bridal & Fine Jewellery</option>
                     <option value="Certified Diamonds">Certified Diamonds</option>
                     <option value="925 Silver Collection">925 Silver Collection</option>

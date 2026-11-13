@@ -87,12 +87,6 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                     onClick={() => handleProductClick(product)}
                   >
                     <div className="product-card-image-wrapper">
-                      {subtitle && (
-                        <span className="product-card-floating-badge">{subtitle}</span>
-                      )}
-                      
-
-
                       <img loading="lazy" src={product.img} alt={product.name} className={product.hoverImage ? 'primary-img' : ''} />
                       {product.hoverImage && (
                         <img loading="lazy" src={product.hoverImage} alt={`${product.name} hover`} className="hover-img" />
@@ -101,12 +95,13 @@ const DiamondGallery = ({ products = [], title, tagline, filterComponent, sideba
                     
                     <div className="product-card-info">
                       <h3 className="product-card-title">{product.name}</h3>
-                      <div className="product-card-price-row">
-                        <span className="product-card-price">
-                          {formatPrice(product.price)}
-                        </span>
-
-                      </div>
+                      {product.price && (
+                        <div className="product-card-price-row">
+                          <span className="product-card-price">
+                            {formatPrice(product.price)}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

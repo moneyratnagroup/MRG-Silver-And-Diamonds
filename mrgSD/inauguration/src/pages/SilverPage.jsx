@@ -1,114 +1,18 @@
 import { hardcodedSilverProducts } from '../data/silverProducts';
-import React, { useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import React from 'react';
 
 import ProductsGallery from '../components/ProductsGallery';
-import { useShop } from '../context/ShopContext';
 import './SilverPage.css';
 
-// Import images (using placeholders for now, can be updated later)
-import catRings from '../assets/cat_rings_layout.webp';
-import imgsilvermodel from '../assets/silvermodel.webp';
-import silverImg from '../assets/silverimg.webp';
-import silverStoryBanner from '../assets/silver_story_banner.png';
-import silverCompleteMain from '../assets/silver_complete_main.jpg';
-import silverPendantDetail from '../assets/silver_pendant_detail.jpg';
-import silverEarringsDetail from '../assets/silver_earrings_detail.jpg';
+// Import images
 import silverCraftRing from '../assets/silver_craft_ring.jpg';
 import silverCraftGoldModel from '../assets/silver_craft_gold_model.jpg';
 import silverCraftGoldChoker from '../assets/silver_craft_gold_choker.jpg';
 import silverCraftSalemAnklet from '../assets/silver_craft_salem_anklet.jpg';
-import navySilkSilver from '../assets/navy_silk_silver.webp';
 
 const SilverPage = () => {
-  const { collectionId } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { products: allProductsContext, collections } = useShop();
-  // Open by default on desktop if on 'all' collection
-  const [sortOption, setSortOption] = useState('default');
-
-  const typeFilter = searchParams.get('type');
-  const typeFiltersArray = typeFilter ? typeFilter.split(',') : [];
-  const occasionFilter = searchParams.get('occasion');
-
-  const matchCollection = (c, searchParam) => {
-    if (!searchParam) return false;
-    const sp = searchParam.toLowerCase();
-    if (c.id.toString() === sp) return true;
-    if (sp === 'women' && c.name.toLowerCase().includes("women")) return true;
-    if (sp === 'men' && c.name.toLowerCase() === "men's collection") return true;
-    if (sp === 'kids' && c.name.toLowerCase().includes("kids")) return true;
-    if (sp === 'religious' && c.name.toLowerCase().includes("religious")) return true;
-    if (sp === 'special' && c.name.toLowerCase().includes("special")) return true;
-    if (c.name.toLowerCase() === sp) return true;
-    return false;
-  };
-
-  // Filter specifically for silver (hardcoded products prioritized when backend not used)
-  const filteredFromContext = allProductsContext.filter(p => {
-    if (p.metal && p.metal.toLowerCase() === 'silver') return true;
-    const isGold = (p.collections && p.collections.some(c => c.name.toLowerCase() === 'gold')) ||
-      (p.category && p.category.toLowerCase() === 'gold') ||
-      (p.material && p.material.toLowerCase() === 'gold') ||
-      (p.metal && p.metal.toLowerCase().includes('gold')) ||
-      (p.name && p.name.toLowerCase().includes('gold') && !p.name.toLowerCase().includes('silver') && !p.name.toLowerCase().includes('plated'));
-    const isDiamond = (p.collections && p.collections.some(c => c.name.toLowerCase() === 'diamonds')) ||
-      (p.category && p.category.toLowerCase() === 'diamonds') ||
-      (p.material && p.material.toLowerCase() === 'diamond') ||
-      (p.metal && p.metal.toLowerCase().includes('diamond')) ||
-      (p.name && p.name.toLowerCase().includes('diamond'));
-    return !isGold && !isDiamond;
-  });
-
-  let silverProducts = [...hardcodedSilverProducts];
-
-  let products = (collectionId && collectionId !== 'all')
-    ? silverProducts.filter(p => p.collections && p.collections.some(c => matchCollection(c, collectionId)))
-    : silverProducts;
-
-  if (typeFiltersArray.length > 0) {
-    products = products.filter(p => p.category && typeFiltersArray.map(t => t.toUpperCase()).includes(p.category.toUpperCase()));
-  }
-
-  if (occasionFilter) {
-    products = products.filter(p => p.occasions && p.occasions.some(o => o.id.toString() === occasionFilter));
-  }
-
-  const priceFilter = searchParams.get('price');
-  if (priceFilter) {
-    products = products.filter(p => {
-      const val = parseFloat((p.price || "0").replace(/[^\d.]/g, '')) || 0;
-      if (priceFilter === 'under-2000') return val < 2000;
-      if (priceFilter === '2000-5000') return val >= 2000 && val <= 5000;
-      if (priceFilter === '5000-10000') return val > 5000 && val <= 10000;
-      if (priceFilter === 'over-10000') return val > 10000;
-      return true;
-    });
-  }
-
-
-  const isAll = collectionId === 'all' || !collectionId;
-  const showLanding = isAll && !typeFilter && !occasionFilter && !priceFilter;
-  const getCollectionName = (id) => {
-    if (!id || id === 'all') return "All Silver";
-    if (id.toLowerCase() === 'women') return "Women's";
-    if (id.toLowerCase() === 'men') return "Men's";
-    if (id.toLowerCase() === 'kids') return "Kids";
-    if (id.toLowerCase() === 'religious') return "Religious";
-    if (id.toLowerCase() === 'special') return "Special";
-    if (collections && collections.length > 0) {
-      const found = collections.find(c => c.id.toString() === id.toString() || c.name.toLowerCase() === id.toLowerCase());
-      if (found) return found.name.replace(/ collection$/i, '').trim();
-    }
-    return id.charAt(0).toUpperCase() + id.slice(1);
-  };
-  const baseTitle = getCollectionName(collectionId);
-  let displayTitle = isAll ? "All Silver Products" : `${baseTitle} Collection`;
-  if (typeFiltersArray.length === 1) {
-    displayTitle = typeFiltersArray[0].charAt(0).toUpperCase() + typeFiltersArray[0].slice(1).toLowerCase();
-  } else if (typeFiltersArray.length > 1) {
-    displayTitle = `${typeFiltersArray.length} Selected Types`;
-  }
+  const displayProducts = hardcodedSilverProducts;
+  const showLanding = true;
 
   return (
     <div className="silver-page-wrapper ivory-theme">
@@ -118,13 +22,11 @@ const SilverPage = () => {
           {/* Hero Section */}
           <section className="ivory-hero">
             <div className="ivory-hero-content">
-              <span className="hero-subtitle" style={{ letterSpacing: '2.5px', textTransform: 'uppercase', fontSize: '0.75rem', marginBottom: '0.6rem', display: 'block' }}>THE EIRA COLLECTION</span>
-              <h1 className="ivory-title" style={{ textTransform: 'uppercase', marginBottom: '0.2rem', fontFamily: '"Cormorant Upright", serif', fontWeight: '400' }}>EIRA</h1>
-              <span className="hero-subtitle" style={{ fontStyle: 'italic', textTransform: 'uppercase', letterSpacing: '1.5px', fontFamily: '"Cormorant Upright", serif', fontSize: '1.2rem', marginBottom: '1.2rem', display: 'block' }}>SILVER, REIMAGINED.</span>
+              <span className="hero-subtitle hero-eyebrow">THE EIRA COLLECTION</span>
+              <h1 className="ivory-title">EIRA</h1>
+              <span className="hero-subtitle hero-tagline">SILVER, REIMAGINED.</span>
               <p className="hero-desc">
-                Crafted in luminous 925 sterling silver.<br />
-                Modern heirlooms designed to make<br />
-                every day feel extraordinary.
+                Crafted in luminous 925 sterling silver. Modern heirlooms designed to make every day feel extraordinary.
               </p>
               <div className="hero-buttons">
                 <button className="ivory-btn-solid">DISCOVER EIRA &rarr;</button>
@@ -160,47 +62,6 @@ const SilverPage = () => {
                 </div>
               </div>
 
-              {/* The Facets of Eira Section */}
-              {showLanding && (
-                <section className="eira-facets-section">
-                  <div className="eira-facets-container">
-                    <h2 className="eira-facets-title">The Facets of Eira</h2>
-                    <p className="eira-facets-subtitle">Four timeless expressions of certified 925 sterling silver.</p>
-                    <div className="eira-facets-grid">
-                      <div className="eira-facet-item">
-                        <div className="eira-facet-arch">
-                          <img src={navySilkSilver} alt="925 Hallmark certified silver jewellery" loading="lazy" />
-                        </div>
-                        <span className="eira-facet-dot" aria-hidden="true"></span>
-                        <h3 className="eira-facet-name">925 Hallmark</h3>
-                        <span className="eira-facet-desc">Certified Pure Silver</span>
-                      </div>
-                      <div className="eira-facet-item">
-                        <div className="eira-facet-arch">
-                          <img src={silverCraftRing} alt="Icy Rhodium silver ring" loading="lazy" />
-                        </div>
-                        <h3 className="eira-facet-name">Icy Rhodium</h3>
-                        <span className="eira-facet-desc">Diamond-Sheen Lustre</span>
-                      </div>
-                      <div className="eira-facet-item">
-                        <div className="eira-facet-arch">
-                          <img src={silverCraftGoldChoker} alt="Gold Vermeil silver choker" loading="lazy" />
-                        </div>
-                        <h3 className="eira-facet-name">Gold Vermeil</h3>
-                        <span className="eira-facet-desc">18K Dipped Radiance</span>
-                      </div>
-                      <div className="eira-facet-item">
-                        <div className="eira-facet-arch">
-                          <img src={silverCraftSalemAnklet} alt="Salem Heirloom silver anklet" loading="lazy" />
-                        </div>
-                        <h3 className="eira-facet-name">Salem Heirlooms</h3>
-                        <span className="eira-facet-desc">Handcrafted Bells</span>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              )}
-
               <div className="ivory-toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '2rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
 
@@ -213,8 +74,6 @@ const SilverPage = () => {
               </div>
             </div>
           }
-          sidebarComponent={null}
-          filterComponent={null}
         />
       </section>
 

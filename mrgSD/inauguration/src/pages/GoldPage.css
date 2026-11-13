@@ -305,181 +305,230 @@
   }
 }
 
-/* Golden Journey Section - Live Typography & Separated Arch Cards */
-.golden-journey-section {
+/* ==========================================================================
+   MRG Golden Heritage Story Section - Deep Imperial Emerald & Warm Gold Theme
+   ========================================================================== */
+.mrg-gold-heritage-section {
   position: relative;
   width: 100%;
+  background: linear-gradient(135deg, #020b06 0%, #071911 50%, #0d2c1d 100%);
+  border-top: 1px solid rgba(223, 193, 129, 0.25);
+  border-bottom: 1px solid rgba(223, 193, 129, 0.25);
+  padding: 5.5rem 0;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 15%, #0e291a 0%, #071911 65%, #030e07 100%);
-  padding: 3rem 2rem 4rem;
-  margin-top: 1rem;
-  margin-bottom: 0;
-  border-top: 1px solid rgba(184, 145, 70, 0.3);
-  border-bottom: none;
-  color: #fff;
-  text-align: center;
+  color: #ffffff;
+  display: block;
 }
 
-.golden-journey-header {
-  max-width: 760px;
-  margin: 0 auto 3.75rem;
-}
-
-.golden-journey-eyebrow {
-  display: inline-block;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 5px;
-  color: #dfc181;
-  margin-bottom: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.golden-journey-title {
-  font-family: 'Cormorant Upright', serif;
-  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
-  font-weight: 500;
-  color: #fdfaf3;
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.5px;
-  line-height: 1.15;
-}
-
-.golden-journey-subtitle {
-  font-family: 'Cormorant Upright', serif;
-  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
-  font-style: italic;
-  color: #b6c5b9;
-  line-height: 1.5;
+.mrg-gold-heritage-container {
+  max-width: 1360px;
   margin: 0 auto;
-  max-width: 650px;
-}
-
-.golden-journey-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.75rem;
-  max-width: 1240px;
-  margin: 0 auto;
-  align-items: start;
-  position: relative;
-}
-
-.golden-journey-grid::before {
-  content: '';
-  position: absolute;
-  top: 155px;
-  left: 8%;
-  right: 8%;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(223, 193, 129, 0.05) 0%, rgba(223, 193, 129, 0.4) 50%, rgba(223, 193, 129, 0.05) 100%);
-  z-index: 1;
-  pointer-events: none;
-}
-
-.golden-journey-card {
+  padding: 0 2.5rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: space-between;
+  gap: 4.5rem;
   position: relative;
   z-index: 2;
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.golden-journey-card:hover {
-  transform: translateY(-8px);
-}
-
-.journey-arch-wrapper {
-  width: 100%;
-  max-width: 240px;
-  aspect-ratio: 230 / 310;
-  border-radius: 115px 115px 0 0;
-  overflow: hidden;
-  position: relative;
-  background: transparent;
-  box-shadow: none;
-  margin-bottom: 1.75rem;
-  transition: transform 0.4s ease;
-}
-
-.golden-journey-card:hover .journey-arch-wrapper {
-  box-shadow: none;
-}
-
-.journey-arch-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.golden-journey-card:hover .journey-arch-wrapper img {
-  transform: scale(1.04);
-}
-
-.journey-card-content {
+.mrg-gold-heritage-text-col {
+  flex: 1 1 520px;
+  max-width: 580px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  max-width: 250px;
+  align-items: flex-start;
+  text-align: left;
+  z-index: 2;
 }
 
-.journey-roman {
-  font-family: 'Cormorant Upright', serif;
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: #dfc181;
-  margin-bottom: 0.35rem;
-  letter-spacing: 2px;
-}
-
-.journey-step-title {
-  font-family: 'Cormorant Upright', serif;
-  font-size: 1.65rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 0.6rem;
-  letter-spacing: 1px;
-}
-
-.journey-step-desc {
+.mrg-gold-heritage-eyebrow {
   font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
-  color: #a4b4a7;
-  line-height: 1.55;
-  font-weight: 300;
-  margin: 0;
+  color: #dfc181;
+  font-size: clamp(0.72rem, 0.85vw, 0.82rem);
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 1.1rem;
 }
 
+.mrg-gold-heritage-headline {
+  font-family: 'Cormorant Upright', serif;
+  font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: #ffffff;
+  margin: 0 0 1.25rem 0;
+  letter-spacing: 0.5px;
+}
+
+.mrg-gold-heritage-headline-italic {
+  font-style: italic;
+  font-weight: 600;
+  background: linear-gradient(135deg, #ffffff 0%, #fff1c2 40%, #dfc181 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mrg-gold-heritage-description {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.96rem;
+  line-height: 1.8;
+  color: #b8c8bc;
+  margin: 0 0 2rem 0;
+  max-width: 520px;
+  font-weight: 350;
+}
+
+/* Gold Craft Highlight Items */
+.mrg-gold-heritage-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
+}
+
+.gold-feature-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.gold-feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.gold-feature-text strong {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #f3faf5;
+  letter-spacing: 0.4px;
+}
+
+.gold-feature-text span {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.84rem;
+  color: #9cb3a2;
+  line-height: 1.5;
+}
+
+/* Luxury Gold CTA Button */
+.mrg-gold-heritage-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 13px 34px;
+  background: linear-gradient(135deg, rgba(223, 193, 129, 0.16) 0%, rgba(223, 193, 129, 0.05) 100%);
+  border: 1px solid #dfc181;
+  border-radius: 40px;
+  color: #dfc181;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.mrg-gold-heritage-cta-btn:hover {
+  background: #dfc181;
+  color: #071911;
+  box-shadow: 0 8px 30px rgba(223, 193, 129, 0.35);
+  transform: translateY(-2px);
+}
+
+.gold-btn-arrow {
+  transition: transform 0.3s ease;
+}
+
+.mrg-gold-heritage-cta-btn:hover .gold-btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Right Column: Visual Showcase */
+.mrg-gold-heritage-visual-col {
+  flex: 1 1 540px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.mrg-gold-heritage-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(223, 193, 129, 0.28);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 35px rgba(7, 25, 17, 0.7);
+  background-color: #071911;
+}
+
+.mrg-gold-heritage-main-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mrg-gold-heritage-image-wrapper:hover .mrg-gold-heritage-main-img {
+  transform: scale(1.02);
+}
+
+/* Responsive Styles for Gold Heritage */
 @media (max-width: 992px) {
-  .golden-journey-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3rem 1.5rem;
+  .mrg-gold-heritage-section {
+    padding: 4rem 0;
   }
-  .golden-journey-grid::before {
-    display: none;
+
+  .mrg-gold-heritage-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 3rem;
+    padding: 0 1.5rem;
   }
-  .journey-arch-wrapper {
-    max-width: 220px;
+
+  .mrg-gold-heritage-text-col {
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .mrg-gold-heritage-features {
+    align-items: center;
+    text-align: left;
+  }
+
+  .gold-feature-item {
+    max-width: 480px;
+  }
+
+  .mrg-gold-heritage-image-wrapper {
+    max-width: 100%;
   }
 }
 
-@media (max-width: 576px) {
-  .golden-journey-section {
-    padding: 2.5rem 1.25rem 2.5rem;
-    margin-top: 1rem;
-    margin-bottom: 0;
+@media (max-width: 600px) {
+  .mrg-gold-heritage-section {
+    padding: 3rem 0;
   }
-  .golden-journey-grid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
+
+  .mrg-gold-heritage-headline {
+    font-size: 2.2rem;
   }
-  .journey-arch-wrapper {
-    max-width: 200px;
+
+  .mrg-gold-heritage-cta-btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
