@@ -1,6 +1,10 @@
+import StockBadge from '../components/StockBadge';
+import { isOutOfStock } from '../utils/stock';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
+import { useAuth } from '../context/AuthContext';
+import { fetchWithAuth, API_URL } from '../utils/api';
 import { ChevronLeft, X, Star } from 'lucide-react';
 import ProductsGallery from '../components/ProductsGallery';
 import './ProductDetails.css';
@@ -10,6 +14,7 @@ const ProductDetailsPage = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const { products, addToCart, isEcommerceEnabled } = useShop();
+  const { isAuthenticated, openAuthModal } = useAuth();
   const [product, setProduct] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showFullDetails, setShowFullDetails] = useState(false);
@@ -22,18 +27,55 @@ const ProductDetailsPage = () => {
   const [reviewTitle, setReviewTitle] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reviewImage, setReviewImage] = useState(null);
+  const [reviewFile, setReviewFile] = useState(null);
   const [reviewError, setReviewError] = useState("");
   const [reviewSuccess, setReviewSuccess] = useState(false);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [reviewsList, setReviewsList] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
+  const [isLoadingReviews, setIsLoadingReviews] = useState(false);
 
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setReviewImage(URL.createObjectURL(e.target.files[0]));
+  const fetchReviews = async (pId) => {
+    if (!pId) return;
+    setIsLoadingReviews(true);
+    try {
+      const res = await fetchWithAuth(`/api/v1/reviews/product/${pId}`);
+      if (res.ok) {
+        const data = await res.json();
+        setReviewsList(data.reviews || []);
+        setAverageRating(data.average_rating || 0);
+        setTotalReviews(data.total_reviews || 0);
+      }
+    } catch (err) {
+      console.error("Failed to fetch reviews:", err);
+    } finally {
+      setIsLoadingReviews(false);
     }
   };
 
-  const handleSubmitReview = () => {
+  useEffect(() => {
+    if (product?.id) {
+      fetchReviews(product.id);
+    }
+  }, [product?.id]);
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setReviewFile(file);
+      setReviewImage(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmitReview = async () => {
     setReviewError("");
     setReviewSuccess(false);
+
+    if (!isAuthenticated) {
+      openAuthModal("Please sign in or create an account to leave a review.");
+      return;
+    }
 
     const missingFields = [];
     if (reviewRating === 0) missingFields.push("Rating");
@@ -45,21 +87,71 @@ const ProductDetailsPage = () => {
       return;
     }
 
-    setReviewSuccess(true);
-    setReviewRating(0);
-    setReviewTitle("");
-    setReviewText("");
-    setReviewImage(null);
+    setIsSubmittingReview(true);
+    try {
+      let uploadedImageUrl = null;
+      if (reviewFile) {
+        const formData = new FormData();
+        formData.append('file', reviewFile);
+        const uploadRes = await fetchWithAuth('/api/v1/upload/', {
+          method: 'POST',
+          body: formData
+        });
+        if (uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          uploadedImageUrl = uploadData.url;
+        }
+      }
 
-    // Automatically close the form after a short delay so the user sees the success message
-    setTimeout(() => {
-      setShowReviewForm(false);
-      setReviewSuccess(false);
-    }, 2500);
+      const payload = {
+        product_id: product.id,
+        rating: reviewRating,
+        title: reviewTitle.trim(),
+        comment: reviewText.trim(),
+        image_url: uploadedImageUrl
+      };
+
+      const res = await fetchWithAuth('/api/v1/reviews/', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        const newReview = await res.json();
+        setReviewSuccess(true);
+        setReviewRating(0);
+        setReviewTitle("");
+        setReviewText("");
+        setReviewImage(null);
+        setReviewFile(null);
+
+        // Prepend new review and update stats
+        setReviewsList(prev => [newReview, ...prev]);
+        setTotalReviews(prev => prev + 1);
+        setAverageRating(prev => {
+          const newTotal = totalReviews + 1;
+          const newSum = (prev * totalReviews) + newReview.rating;
+          return Math.round((newSum / newTotal) * 10) / 10;
+        });
+
+        // Automatically close the form after a short delay so the user sees the success message
+        setTimeout(() => {
+          setShowReviewForm(false);
+          setReviewSuccess(false);
+        }, 2500);
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        setReviewError(errData.detail || "Failed to submit review. Please try again.");
+      }
+    } catch (err) {
+      setReviewError("An error occurred while submitting your review.");
+    } finally {
+      setIsSubmittingReview(false);
+    }
   };
 
   const handleEnquire = () => {
-    const phoneNumber = '+919876543210'; // Default number as per plan
+    const phoneNumber = '+917025925916'; // Default number as per plan
     const message = `Hi, I would like to know more about ${product.name} (Price: ${product.price}) that I saw on your website.`;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -131,6 +223,34 @@ const ProductDetailsPage = () => {
                 />
               </div>
             </div>
+
+            {/* Trust Badges */}
+            <div className="pd-trust-badges" style={{ display: 'flex', gap: '20px', marginTop: '25px', padding: '15px 0', borderTop: '1px solid #eee', borderBottom: '1px solid #eee', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '600', color: '#333' }}>
+                <img loading="lazy" src={imgbislogo} alt="BIS Hallmark" style={{ width: '32px', height: 'auto', objectFit: 'contain' }} />
+                100% BIS Hallmarked
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '600', color: '#333' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B89146" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="m16 10-4 4-2-2" /></svg>
+                Certified Diamonds
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '600', color: '#333' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B89146" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                Secure Checkout
+              </div>
+            </div>
+            {/*Additional Informations */}
+            <div className="pd-additional-info" style={{ marginTop: '20px' }}>
+              {/* <div className="pd-info-block">
+                <h4>Shipping & Returns</h4>
+                <p>Free standard shipping on all orders over ₹2000. Returns accepted within 14 days of delivery.</p>
+              </div> */}
+              <div className="pd-info-block">
+                <h4>Material & Care</h4>
+                <p>Keep away from moisture and harsh chemicals. Store in the provided box when not in use to prevent tarnishing.</p>
+              </div>
+            </div>
+
           </div>
 
           <div className="product-details-right">
@@ -138,6 +258,7 @@ const ProductDetailsPage = () => {
               <span className="pd-category-label">Category:</span> {product.category || 'Jewelry'}
             </div>
             <h1 className="pd-product-name">{product.name}</h1>
+            <StockBadge product={product} />
             {product.isOfferAvailable && product.offerCouponCode && (
               <div className="pd-item-coupon" style={{
                 fontFamily: "'Inter', sans-serif",
@@ -203,9 +324,9 @@ const ProductDetailsPage = () => {
                   {showFullDetails ? 'Hide Details' : 'View Full Details'}
                 </button>
               </div>
-              
+
               <div style={{ marginBottom: '15px' }}>
-                <p 
+                <p
                   className={`pd-desc-text ${!isDescExpanded ? 'pd-desc-clamped' : ''}`}
                   onClick={() => !isDescExpanded && setIsDescExpanded(true)}
                   title={!isDescExpanded ? "Click to expand" : ""}
@@ -213,7 +334,7 @@ const ProductDetailsPage = () => {
                   {product.desc || 'An exquisite piece crafted with precision and care, perfect for elevating any occasion. We have meticulously designed this piece to offer timeless elegance and superior comfort.'}
                 </p>
                 {isDescExpanded && (
-                  <button 
+                  <button
                     onClick={() => setIsDescExpanded(false)}
                     style={{ background: 'none', border: 'none', color: '#B89146', textDecoration: 'underline', cursor: 'pointer', padding: '0', fontSize: '0.85rem', fontWeight: '600', marginTop: '5px' }}
                   >
@@ -243,10 +364,10 @@ const ProductDetailsPage = () => {
             <div className="pd-actions" style={{ display: 'flex', gap: '10px', width: '100%', flexWrap: 'wrap' }}>
               {isEcommerceEnabled && (
                 <>
-                  <button className="btn-add-cart-large" onClick={() => addToCart(product)} style={{ flex: '1 1 45%' }}>
-                    Add to Cart
+                  <button className="btn-add-cart-large" disabled={isOutOfStock(product)} onClick={() => addToCart(product)} style={{ flex: '1 1 45%' }}>
+                    {isOutOfStock(product) ? "Out of Stock" : "Add to Cart"}
                   </button>
-                  <button className="btn-buy-now-large" onClick={() => addToCart(product)} style={{ flex: '1 1 45%' }}>
+                  <button className="btn-buy-now-large" disabled={isOutOfStock(product)} onClick={() => addToCart(product, "Please sign in or create an account to buy this product.")} style={{ flex: '1 1 45%' }}>
                     Buy Now
                   </button>
                 </>
@@ -256,139 +377,192 @@ const ProductDetailsPage = () => {
               </button>
             </div>
 
-            {/* Trust Badges */}
-            <div style={{ display: 'flex', gap: '15px', marginTop: '20px', padding: '15px 0', borderTop: '1px solid #eee', borderBottom: '1px solid #eee', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '600', color: '#333' }}>
-                <img loading="lazy" src={imgbislogo} alt="BIS Hallmark" style={{ width: '32px', height: 'auto', objectFit: 'contain' }} />
-                100% BIS Hallmarked
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '600', color: '#333' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B89146" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="m16 10-4 4-2-2" /></svg>
-                Certified Diamonds
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '600', color: '#333' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B89146" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-                Secure Checkout
-              </div>
-            </div>
 
-            <div className="pd-additional-info" style={{ marginTop: '20px' }}>
-              <div className="pd-info-block">
-                <h4>Shipping & Returns</h4>
-                <p>Free standard shipping on all orders over ₹2000. Returns accepted within 14 days of delivery.</p>
-              </div>
-              <div className="pd-info-block">
-                <h4>Material & Care</h4>
-                <p>Keep away from moisture and harsh chemicals. Store in the provided box when not in use to prevent tarnishing.</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
       {/* Product Reviews Section */}
-      <div className="pd-reviews-section">
-        <h2 className="pd-reviews-title">Customer Reviews</h2>
-        
-        <div className="pd-reviews-container">
-          <div className="pd-reviews-summary">
-            <div className="pd-rating-big">4.8</div>
-            <div className="pd-stars">
-              <Star fill="#B89146" color="#B89146" size={20} />
-              <Star fill="#B89146" color="#B89146" size={20} />
-              <Star fill="#B89146" color="#B89146" size={20} />
-              <Star fill="#B89146" color="#B89146" size={20} />
-              <Star color="#B89146" size={20} />
-            </div>
-            <p>Based on 12 reviews</p>
-            <button className="pd-write-review-btn" onClick={() => setShowReviewForm(!showReviewForm)}>
-              {showReviewForm ? 'Cancel' : 'Write a Review'}
-            </button>
-          </div>
+      {(() => {
+        const starCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+        reviewsList.forEach((r) => {
+          const star = Math.min(5, Math.max(1, Math.round(r.rating || 0)));
+          starCounts[star] = (starCounts[star] || 0) + 1;
+        });
 
-          <div className="pd-reviews-list">
-             {showReviewForm && (
-               <div className="pd-review-form-container">
-                 <h3>Write a Review</h3>
-                 <form className="pd-review-form">
-                   <div className="pd-form-group">
-                     <label>Rating <span style={{color: 'red'}}>*</span></label>
-                     <div className="pd-form-stars" onMouseLeave={() => setHoverRating(0)}>
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star 
-                            key={star} 
-                            color={star <= (hoverRating || reviewRating) ? "#B89146" : "#ccc"} 
-                            fill={star <= (hoverRating || reviewRating) ? "#B89146" : "transparent"}
-                            size={24} 
-                            style={{ cursor: 'pointer', transition: 'all 0.2s ease' }} 
-                            onMouseEnter={() => setHoverRating(star)}
-                            onClick={() => setReviewRating(star)}
+        const getStarPercentage = (star) => {
+          if (totalReviews === 0) return 0;
+          return Math.round(((starCounts[star] || 0) / totalReviews) * 100);
+        };
+
+        return (
+          <div className="pd-reviews-section">
+            <h2 className="pd-reviews-title">Customer Reviews</h2>
+
+            <div className="pd-reviews-container">
+              <div className="pd-reviews-summary">
+                <div className="pd-rating-header-row">
+                  <div className="pd-stars-row">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        fill={star <= Math.round(totalReviews > 0 ? averageRating : 5) ? "#B89146" : "transparent"}
+                        color="#B89146"
+                        size={20}
+                      />
+                    ))}
+                  </div>
+                  <span className="pd-rating-score-text">
+                    {totalReviews > 0 ? averageRating.toFixed(1) : '5.0'} out of 5
+                  </span>
+                </div>
+                <p className="pd-global-ratings-text">
+                  {totalReviews} {totalReviews === 1 ? 'global rating' : 'global ratings'}
+                </p>
+
+                {/* Star Distribution Progress Bars */}
+                <div className="pd-rating-bars-list">
+                  {[5, 4, 3, 2, 1].map((star) => {
+                    const pct = getStarPercentage(star);
+                    return (
+                      <div key={star} className="pd-rating-bar-row">
+                        <span className="pd-rating-bar-label">{star} star</span>
+                        <div className="pd-rating-bar-track">
+                          <div
+                            className="pd-rating-bar-fill"
+                            style={{ width: `${pct}%` }}
                           />
-                        ))}
-                     </div>
-                   </div>
-                   <div className="pd-form-group">
-                     <label>Write a review <span style={{color: 'red'}}>*</span></label>
-                     <textarea rows="4" placeholder="Write your comments here" value={reviewText} onChange={(e) => setReviewText(e.target.value)}></textarea>
-                   </div>
-                   <div className="pd-form-group">
-                     <label>Title your review <span style={{color: 'red'}}>*</span></label>
-                     <input type="text" placeholder="Give your review a title" value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)} />
-                   </div>
-                   
-                   <div className="pd-form-group">
-                     <label>Share a photo (Optional)</label>
-                     <input type="file" accept="image/*" onChange={handleImageChange} style={{ border: 'none', padding: '0' }} />
-                     {reviewImage && (
-                       <div style={{ position: 'relative', display: 'inline-block', marginTop: '10px' }}>
-                         <img src={reviewImage} alt="Preview" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ccc' }} />
-                         <button type="button" onClick={() => setReviewImage(null)} style={{ position: 'absolute', top: '-5px', right: '-5px', background: 'red', color: 'white', borderRadius: '50%', width: '20px', height: '20px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>X</button>
-                       </div>
-                     )}
-                   </div>
-                   
-                   {reviewError && <div style={{color: 'red', marginBottom: '15px', fontSize: '0.9rem'}}>{reviewError}</div>}
-                   {reviewSuccess && <div style={{color: 'green', marginBottom: '15px', fontSize: '0.9rem'}}>Thank you for the review and welcome again!</div>}
-                   
-                   <button type="button" className="pd-submit-review-btn" onClick={handleSubmitReview}>Submit Review</button>
-                 </form>
-               </div>
-             )}
-             
-             {/* Mock Review */}
-             <div className="pd-review-item">
-               <div className="pd-review-header">
-                 <div className="pd-stars">
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                 </div>
-                 <span className="pd-review-date">Oct 12, 2025</span>
-               </div>
-               <h4 className="pd-review-title">Absolutely Beautiful!</h4>
-               <p className="pd-review-text">I bought this for my anniversary and my wife loved it. The quality is amazing and it sparkles beautifully in the light.</p>
-               <span className="pd-review-author">- John D.</span>
-             </div>
-             
-             <div className="pd-review-item">
-               <div className="pd-review-header">
-                 <div className="pd-stars">
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star fill="#B89146" color="#B89146" size={16} />
-                   <Star color="#B89146" size={16} />
-                 </div>
-                 <span className="pd-review-date">Sep 05, 2025</span>
-               </div>
-               <h4 className="pd-review-title">Great design, good fit</h4>
-               <p className="pd-review-text">The design is very elegant and the finishing is top-notch. Shipping was fast too!</p>
-               <span className="pd-review-author">- Priya S.</span>
-             </div>
+                        </div>
+                        <span className="pd-rating-bar-percent">{pct}%</span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Review This Product Prompt & Button */}
+                <div className="pd-review-prompt-section">
+                  <h4 className="pd-review-prompt-title">Review this product</h4>
+                  <p className="pd-review-prompt-sub">Share your thoughts with other customers</p>
+                  <button
+                    type="button"
+                    className="pd-write-review-btn"
+                    onClick={() => setShowReviewForm(!showReviewForm)}
+                  >
+                    {showReviewForm ? 'Cancel' : 'Write a Review'}
+                  </button>
+                </div>
+              </div>
+
+              <div className="pd-reviews-list">
+            {showReviewForm && (
+              <div className="pd-review-form-container">
+                <h3>Write a Review</h3>
+                <form className="pd-review-form">
+                  <div className="pd-form-group">
+                    <label>Rating <span style={{ color: 'red' }}>*</span></label>
+                    <div className="pd-form-stars" onMouseLeave={() => setHoverRating(0)}>
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          color={star <= (hoverRating || reviewRating) ? "#B89146" : "#ccc"}
+                          fill={star <= (hoverRating || reviewRating) ? "#B89146" : "transparent"}
+                          size={24}
+                          style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
+                          onMouseEnter={() => setHoverRating(star)}
+                          onClick={() => setReviewRating(star)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="pd-form-group">
+                    <label>Write a review <span style={{ color: 'red' }}>*</span></label>
+                    <textarea rows="4" placeholder="Write your comments here" value={reviewText} onChange={(e) => setReviewText(e.target.value)}></textarea>
+                  </div>
+                  <div className="pd-form-group">
+                    <label>Title your review <span style={{ color: 'red' }}>*</span></label>
+                    <input type="text" placeholder="Give your review a title" value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)} />
+                  </div>
+
+                  <div className="pd-form-group">
+                    <label>Share a photo (Optional)</label>
+                    <input type="file" accept="image/*" onChange={handleImageChange} style={{ border: 'none', padding: '0' }} />
+                    {reviewImage && (
+                      <div style={{ position: 'relative', display: 'inline-block', marginTop: '10px' }}>
+                        <img src={reviewImage} alt="Preview" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <button type="button" onClick={() => { setReviewImage(null); setReviewFile(null); }} style={{ position: 'absolute', top: '-5px', right: '-5px', background: 'red', color: 'white', borderRadius: '50%', width: '20px', height: '20px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>X</button>
+                      </div>
+                    )}
+                  </div>
+
+                  {reviewError && <div style={{ color: 'red', marginBottom: '15px', fontSize: '0.9rem' }}>{reviewError}</div>}
+                  {reviewSuccess && <div style={{ color: 'green', marginBottom: '15px', fontSize: '0.9rem' }}>Thank you for the review and welcome again!</div>}
+
+                  <button type="button" className="pd-submit-review-btn" onClick={handleSubmitReview} disabled={isSubmittingReview}>
+                    {isSubmittingReview ? 'Submitting...' : 'Submit Review'}
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* Dynamic Reviews List */}
+            {reviewsList.length > 0 ? (
+              reviewsList.map((rev) => (
+                <div key={rev.id} className="pd-review-item">
+                  <div className="pd-review-header">
+                    <div className="pd-stars">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          fill={star <= rev.rating ? "#B89146" : "transparent"}
+                          color="#B89146"
+                          size={16}
+                        />
+                      ))}
+                    </div>
+                    <span className="pd-review-date">
+                      {rev.created_at ? new Date(rev.created_at).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }) : 'Recent'}
+                    </span>
+                  </div>
+                  <h4 className="pd-review-title">{rev.title}</h4>
+                  <p className="pd-review-text">{rev.comment}</p>
+                  {rev.image_url && (
+                    <div className="pd-review-image-attached" style={{ marginTop: '10px' }}>
+                      <img
+                        src={rev.image_url.startsWith('http') ? rev.image_url : `${API_URL}${rev.image_url}`}
+                        alt="Review attachment"
+                        style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #ddd' }}
+                      />
+                    </div>
+                  )}
+                  <span className="pd-review-author">- {rev.user_name}</span>
+
+                  {rev.admin_reply && (
+                    <div className="pd-review-admin-reply">
+                      <div className="pd-admin-reply-header">
+                        <div className="pd-admin-reply-badge">
+                          <span className="pd-admin-reply-dot"></span>
+                          <span>Official Response — Team Moneyratna</span>
+                        </div>
+                        {rev.admin_replied_at && (
+                          <span className="pd-admin-reply-date">
+                            {new Date(rev.admin_replied_at).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
+                          </span>
+                        )}
+                      </div>
+                      <p className="pd-admin-reply-text">{rev.admin_reply}</p>
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="pd-no-reviews" style={{ padding: '30px 20px', textAlign: 'center', color: '#666', backgroundColor: '#faf8f5', borderRadius: '8px' }}>
+                <p style={{ margin: 0, fontSize: '1rem', fontStyle: 'italic' }}>There are no reviews for this piece yet. Be the first to share your experience!</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
+        );
+      })()}
 
       {similarProducts.length > 0 && (
         <div className="pd-similar-wrapper">

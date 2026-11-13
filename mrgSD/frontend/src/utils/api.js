@@ -38,11 +38,13 @@ export const logoutAdmin = (message) => {
 };
 
 export const fetchWithAuth = async (endpoint, options = {}) => {
-  const adminToken = localStorage.getItem('mrg_admin_token');
-  const token = adminToken || localStorage.getItem('mrg_access_token');
+  const isAdminRequest = endpoint.includes('/admin') || (typeof window !== 'undefined' && window.location.pathname.startsWith('/admin'));
+  const token = isAdminRequest
+    ? localStorage.getItem('mrg_admin_token')
+    : localStorage.getItem('mrg_access_token');
   
   const headers = {
-    'Content-Type': 'application/json',
+    ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
     ...options.headers,
   };
 
@@ -57,7 +59,7 @@ export const fetchWithAuth = async (endpoint, options = {}) => {
     headers,
   });
 
-  if (response.status === 401 && adminToken && window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
+  if (response.status === 401 && isAdminRequest && typeof window !== 'undefined' && window.location.pathname.startsWith('/admin') && window.location.pathname !== '/admin/login') {
     logoutAdmin('Your admin session has expired. Please log in again.');
     window.location.replace('/admin/login');
   }

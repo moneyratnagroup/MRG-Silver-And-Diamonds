@@ -22,6 +22,26 @@ import silverCraftGoldChoker from '../assets/silver_craft_gold_choker.jpg';
 import silverCraftSalemAnklet from '../assets/silver_craft_salem_anklet.jpg';
 import navySilkSilver from '../assets/navy_silk_silver.webp';
 
+// Placeholder images for each category; replace individual entries here later.
+const eiraFacets = [
+  {
+    category: 'Silver Radiance', description: 'Silver-Coated Elegance',
+    images: [navySilkSilver, silverPendantDetail, silverEarringsDetail, silverCompleteMain],
+  },
+  {
+    category: 'Golden Glow', description: 'Gold-Coated Beauty',
+    images: [silverCraftGoldChoker, silverCraftGoldModel, catRings, silverCraftRing],
+  },
+  {
+    category: 'Rhodium Shine', description: 'A Brilliant Rhodium Finish',
+    images: [silverCraftRing, silverEarringsDetail, silverPendantDetail, navySilkSilver],
+  },
+  {
+    category: 'Salem Heritage', description: 'Traditional Salem Designs',
+    images: [silverCraftSalemAnklet, silverCompleteMain, silverPendantDetail, silverEarringsDetail],
+  },
+];
+
 const SilverPage = () => {
   const { collectionId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -29,6 +49,8 @@ const SilverPage = () => {
   // Open by default on desktop if on 'all' collection
   const [isFilterOpen, setIsFilterOpen] = useState((collectionId === 'all' || !collectionId) && window.innerWidth > 992);
   const [sortOption, setSortOption] = useState('default');
+  const [activeFacetCategory, setActiveFacetCategory] = useState('Silver Radiance');
+  const activeFacet = eiraFacets.find(facet => facet.category === activeFacetCategory);
 
   const typeFilter = searchParams.get('type');
   const typeFiltersArray = typeFilter ? typeFilter.split(',') : [];
@@ -162,6 +184,44 @@ const SilverPage = () => {
         </>
       )}
 
+      {/* The Facets of Eira Section */}
+      {showLanding && (
+        <section className="eira-facets-section">
+          <div className="eira-facets-container">
+            <h2 className="eira-facets-title">THE FACETS OF EIRA</h2>
+            <p className="eira-facets-subtitle">Four timeless expressions of certified 925 sterling silver.</p>
+
+            <div className="eira-facets-categories" role="group" aria-label="EIRA highlights">
+              {eiraFacets.map(({ category }) => (
+                <button
+                  key={category}
+                  type="button"
+                  className={`eira-facets-category${activeFacetCategory === category ? ' is-active' : ''}`}
+                  aria-pressed={activeFacetCategory === category}
+                  aria-controls="eira-facet-cards"
+                  onClick={() => setActiveFacetCategory(category)}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            <div id="eira-facet-cards" className="eira-facets-grid" aria-live="polite" aria-atomic="true">
+              {activeFacet.images.map((image, index) => (
+                <article key={`${activeFacetCategory}-${index}`} className="eira-facet-card" aria-label={`${activeFacetCategory} design ${index + 1}`}>
+                  <div className="eira-facet-arch">
+                    <img src={image} alt={`${activeFacetCategory} jewellery inspiration ${index + 1}`} loading="lazy" />
+                  </div>
+                  <div className="eira-facet-content">
+                    <p className="eira-facet-desc">{activeFacet.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Collection Grid */}
       <section id="silver-collection-start" className="container" style={{ maxWidth: '1400px', margin: '0 auto', padding: '1rem 0 0' }}>
 
@@ -173,7 +233,7 @@ const SilverPage = () => {
           itemsPerPage={12}
           activeFiltersComponent={
             <div className="ivory-main-content-top">
-              <div className="ivory-gallery-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0 1rem', marginBottom: '1rem' }}>
+              {/* <div className="ivory-gallery-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0 1rem', marginBottom: '1rem' }}>
                 <div className="ivory-header-left" style={{ flex: '1.2' }}>
                   <span className="hero-subtitle" style={{ color: '#650018', fontSize: '0.75rem', letterSpacing: '2px', marginBottom: '0.5rem', display: 'block' }}>The Eira Collection: </span>
                   <h2 className="ivory-gallery-title" style={{ fontFamily: '"Cormorant Upright", serif', fontSize: '3.5rem', color: '#302A2A', fontWeight: '400', margin: '0', lineHeight: '1.1' }}>Made to catch the light.</h2>
@@ -181,48 +241,7 @@ const SilverPage = () => {
                 <div className="ivory-header-right" style={{ flex: '1', display: 'flex', justifyContent: 'flex-end' }}>
                   <p style={{ fontSize: '0.85rem', color: '#302A2A', lineHeight: '1.6', maxWidth: '450px', textAlign: 'left', marginBottom: '0' }}>From minimal everyday pieces to statement designs, explore our curated collection of 925 sterling silver jewellery.</p>
                 </div>
-              </div>
-
-              {/* The Facets of Eira Section */}
-              {showLanding && (
-                <section className="eira-facets-section">
-                  <div className="eira-facets-container">
-                    <h2 className="eira-facets-title">The Facets of Eira</h2>
-                    <p className="eira-facets-subtitle">Four timeless expressions of certified 925 sterling silver.</p>
-                    <div className="eira-facets-grid">
-                      <div className="eira-facet-item">
-                        <div className="eira-facet-arch">
-                          <img src={navySilkSilver} alt="925 Hallmark certified silver jewellery" loading="lazy" />
-                        </div>
-                        <span className="eira-facet-dot" aria-hidden="true"></span>
-                        <h3 className="eira-facet-name">925 Hallmark</h3>
-                        <span className="eira-facet-desc">Certified Pure Silver</span>
-                      </div>
-                      <div className="eira-facet-item">
-                        <div className="eira-facet-arch">
-                          <img src={silverCraftRing} alt="Icy Rhodium silver ring" loading="lazy" />
-                        </div>
-                        <h3 className="eira-facet-name">Icy Rhodium</h3>
-                        <span className="eira-facet-desc">Diamond-Sheen Lustre</span>
-                      </div>
-                      <div className="eira-facet-item">
-                        <div className="eira-facet-arch">
-                          <img src={silverCraftGoldChoker} alt="Gold Vermeil silver choker" loading="lazy" />
-                        </div>
-                        <h3 className="eira-facet-name">Gold Vermeil</h3>
-                        <span className="eira-facet-desc">18K Dipped Radiance</span>
-                      </div>
-                      <div className="eira-facet-item">
-                        <div className="eira-facet-arch">
-                          <img src={silverCraftSalemAnklet} alt="Salem Heirloom silver anklet" loading="lazy" />
-                        </div>
-                        <h3 className="eira-facet-name">Salem Heirlooms</h3>
-                        <span className="eira-facet-desc">Handcrafted Bells</span>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              )}
+              </div> */}
 
               <div className="ivory-toolbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '2rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
@@ -308,39 +327,7 @@ const SilverPage = () => {
         </section>
       )}
 
-      {/* The Craft of Silver Section */}
-      {showLanding && (
-        <section className="silver-craft-section">
-          <div className="silver-craft-container">
-            {/* Left Column: Warm Ivory Text Side */}
-            <div className="silver-craft-text-col">
-              <h2 className="silver-craft-title">The Craft<br />of Silver</h2>
-              <h3 className="silver-craft-subtitle">One pure metal.<br />Three timeless expressions.</h3>
-              <p className="silver-craft-desc">
-                925 Sterling Silver polished in Rhodium, dipped in 18K Gold Vermeil, and handcrafted by Salem silversmiths.
-              </p>
-            </div>
-
-            {/* Right Column: Deep Burgundy Photo Collage */}
-            <div className="silver-craft-visual-col">
-              <div className="craft-photo-collage">
-                <div className="craft-photo-card card-top-left">
-                  <img src={silverCraftRing} alt="925 Silver Rhodium Solitaire Ring" loading="lazy" />
-                </div>
-                <div className="craft-photo-card card-top-right">
-                  <img src={silverCraftGoldModel} alt="18K Gold Vermeil Model" loading="lazy" />
-                </div>
-                <div className="craft-photo-card card-bottom-left">
-                  <img src={silverCraftGoldChoker} alt="Gold Plated Silver Choker" loading="lazy" />
-                </div>
-                <div className="craft-photo-card card-bottom-right">
-                  <img src={silverCraftSalemAnklet} alt="Salem Traditional 925 Silver Anklet" loading="lazy" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+     
 
       <div className="mobile-only">
         <FilterDrawer isOpen={isFilterOpen} setIsOpen={setIsFilterOpen} metal="silver" />

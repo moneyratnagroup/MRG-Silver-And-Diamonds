@@ -27,6 +27,7 @@ const InvestmentPage = React.lazy(() => import('./pages/InvestmentPage'))
 const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'))
 const AccountPage = React.lazy(() => import('./pages/AccountPage'))
 // Admin Pages
+const AdminSettings = React.lazy(() => import('./pages/admin/AdminSettings'))
 const AdminDashboard = React.lazy(() => import('./pages/admin/AdminDashboard'))
 const AdminLogin = React.lazy(() => import('./pages/admin/AdminLogin'))
 const AdminMetalRates = React.lazy(() => import('./pages/admin/AdminMetalRates'))
@@ -42,6 +43,7 @@ const AdminOrders = React.lazy(() => import('./pages/admin/AdminOrders'))
 const AdminOrderDetails = React.lazy(() => import('./pages/admin/AdminOrderDetails'))
 const AdminInventory = React.lazy(() => import('./pages/admin/AdminInventory'))
 const AdminUsers = React.lazy(() => import('./pages/admin/AdminUsers'))
+const AdminReviews = React.lazy(() => import('./pages/admin/AdminReviews'))
 
 const LoadingSpinner = () => (
   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
@@ -85,6 +87,10 @@ function App() {
                 <Route path="orders/:id" element={<AdminOrderDetails />} />
                 <Route path="inventory" element={<AdminInventory />} />
                 <Route path="users" element={<AdminUsers />} />
+                <Route path="reviews" element={<AdminReviews />} />
+                <Route path="settings" element={<Navigate to="/admin/settings/password" replace />} />
+                <Route path="settings/password" element={<AdminSettings key="password" section="password" />} />
+                <Route path="settings/permissions" element={<AdminSettings key="permissions" section="permissions" />} />
               </Route>
 
               {/* User Routes */}

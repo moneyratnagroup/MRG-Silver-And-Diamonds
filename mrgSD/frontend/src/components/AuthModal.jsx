@@ -7,6 +7,62 @@ import imgmrgicon from '../assets/mrgicon.webp';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://api.moneyratnajewellers.com';
 
+const extractErrorMessage = (detail, fallback = 'An error occurred. Please try again.') => {
+  if (!detail) return fallback;
+  if (typeof detail === 'string') return detail;
+  if (Array.isArray(detail)) {
+    const messages = detail
+      .map((item) => {
+        if (typeof item === 'string') return item;
+        if (item && typeof item === 'object') {
+          const msg = item.msg || item.message;
+          if (msg) return msg.replace(/^Value error,\s*/i, '');
+        }
+        return null;
+      })
+      .filter(Boolean);
+    return messages.length > 0 ? messages.join('. ') : fallback;
+  }
+  if (typeof detail === 'object') {
+    if (detail.message) return detail.message;
+    if (detail.msg) return detail.msg.replace(/^Value error,\s*/i, '');
+    return fallback;
+  }
+  return String(detail);
+};
+
+const validateEmailFormat = (email) => {
+  const trimmed = email.trim();
+  if (!trimmed) {
+    return { valid: true }; // Email is optional
+  }
+  if (trimmed.length > 255) {
+    return { valid: false, message: 'Email must not exceed 255 characters.' };
+  }
+  if (!/^[a-zA-Z]/.test(trimmed)) {
+    return { valid: false, message: 'Email address must start with a letter (A-Z).' };
+  }
+  if (trimmed.includes('..')) {
+    return { valid: false, message: 'Email address cannot contain consecutive dots (..).' };
+  }
+  const parts = trimmed.split('@');
+  if (parts.length !== 2) {
+    return { valid: false, message: 'Email must contain exactly one "@" symbol.' };
+  }
+  const [local, domain] = parts;
+  if (local.endsWith('.')) {
+    return { valid: false, message: 'The part before "@" cannot end with a dot.' };
+  }
+  if (!/^[a-zA-Z0-9._%+-]+$/.test(local)) {
+    return { valid: false, message: 'Email username contains invalid characters.' };
+  }
+  const emailRegex = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(trimmed)) {
+    return { valid: false, message: 'Please enter a valid domain (e.g. gmail.com).' };
+  }
+  return { valid: true };
+};
+
 const AuthModal = ({ isOpen, onClose }) => {
   const { login, authModalMessage } = useAuth();
 
@@ -83,7 +139,7 @@ const AuthModal = ({ isOpen, onClose }) => {
         if (res.status === 429) {
           throw new Error(`Please wait ${data.retry_after || 24} seconds before requesting another OTP.`);
         }
-        throw new Error(data.detail || 'Failed to send OTP. Please try again.');
+        throw new Error(extractErrorMessage(data.detail, 'Failed to send OTP. Please try again.'));
       }
 
       setStep(2);
@@ -117,7 +173,7 @@ const AuthModal = ({ isOpen, onClose }) => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.detail || 'The OTP is incorrect. Please try again.');
+        throw new Error(extractErrorMessage(data.detail, 'The OTP is incorrect. Please try again.'));
       }
 
       if (data.is_new_user) {
@@ -138,6 +194,13 @@ const AuthModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     setError(null);
     setSuccessMsg(null);
+
+    const emailValidation = validateEmailFormat(email);
+    if (!emailValidation.valid) {
+      setError(emailValidation.message);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -158,7 +221,7 @@ const AuthModal = ({ isOpen, onClose }) => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.detail || 'Failed to complete profile. Please try again.');
+        throw new Error(extractErrorMessage(data.detail, 'Failed to complete profile. Please try again.'));
       }
 
       login(data.access_token, data.user);

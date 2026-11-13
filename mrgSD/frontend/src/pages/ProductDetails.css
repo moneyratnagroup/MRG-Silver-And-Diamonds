@@ -94,7 +94,8 @@
   }
 }
 
-.pd-thumbnail-container.active, .pd-thumbnail-container:hover {
+.pd-thumbnail-container.active,
+.pd-thumbnail-container:hover {
   opacity: 1;
   border-color: var(--gold);
 }
@@ -320,8 +321,15 @@
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .pd-specs-list {
@@ -448,6 +456,7 @@
   align-items: center;
   justify-content: center;
 }
+
 @media (min-width: 576px) {
   .pd-actions {
     flex-direction: row;
@@ -522,6 +531,7 @@
   overflow: hidden;
   cursor: pointer;
 }
+
 .pd-expanded-details {
   margin-top: 20px;
   padding-top: 20px;
@@ -530,8 +540,15 @@
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .pd-specs-list {
@@ -693,44 +710,121 @@
 @media (min-width: 768px) {
   .pd-reviews-container {
     flex-direction: row;
+    gap: 40px;
   }
+
   .pd-reviews-summary {
-    flex: 0 0 300px;
+    flex: 0 0 320px;
+    max-width: 340px;
   }
+
   .pd-review-form-container {
     padding: 30px;
   }
 }
 
 .pd-reviews-summary {
-  flex: 1;
   width: 100%;
   box-sizing: border-box;
-  background: #f9f9f9;
-  padding: 20px;
+  background: #ffffff;
+  padding: 24px 20px;
   border-radius: 8px;
-  text-align: center;
+  border: 1px solid #eee;
+  text-align: left;
 }
 
-.pd-rating-big {
-  font-size: 4rem;
-  font-weight: 700;
-  color: var(--heading-color);
-  line-height: 1;
-  margin-bottom: 10px;
-}
-
-.pd-stars {
+.pd-rating-header-row {
   display: flex;
-  justify-content: center;
-  gap: 4px;
-  margin-bottom: 10px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
 }
 
-.pd-reviews-summary p {
+.pd-stars-row {
+  display: flex;
+  gap: 3px;
+}
+
+.pd-rating-score-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.pd-global-ratings-text {
+  font-size: 0.88rem;
   color: #666;
-  font-size: 0.95rem;
-  margin-bottom: 25px;
+  margin: 0 0 20px 0;
+}
+
+/* Star Distribution Progress Bars */
+.pd-rating-bars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.pd-rating-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.88rem;
+}
+
+.pd-rating-bar-label {
+  width: 44px;
+  color: #333;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pd-rating-bar-track {
+  flex: 1;
+  height: 20px;
+  background: #ffffff;
+  border: 1px solid #d5d9d9;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.pd-rating-bar-fill {
+  height: 100%;
+  background: #B89146;
+  border-radius: 3px 0 0 3px;
+  transition: width 0.3s ease;
+}
+
+.pd-rating-bar-percent {
+  width: 38px;
+  text-align: right;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.88rem;
+}
+
+/* Review this product prompt section */
+.pd-review-prompt-section {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  margin-top: 6px;
+}
+
+.pd-review-prompt-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 4px 0;
+}
+
+.pd-review-prompt-sub {
+  font-size: 0.88rem;
+  color: #666;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
 }
 
 .pd-write-review-btn {
@@ -845,4 +939,56 @@
 .pd-review-author {
   font-weight: 600;
   color: #666;
+}
+
+/* Official Admin Response Styling */
+.pd-review-admin-reply {
+  margin-top: 18px;
+  background-color: #faf7f2;
+  border: 1px solid #eadecc;
+  border-left: 4px solid #b89146;
+  border-radius: 6px;
+  padding: 16px 20px;
+}
+
+.pd-admin-reply-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pd-admin-reply-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #8c6d23;
+}
+
+.pd-admin-reply-dot {
+  width: 7px;
+  height: 7px;
+  background-color: #b89146;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.pd-admin-reply-date {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.pd-admin-reply-text {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #333;
+  line-height: 1.6;
+  font-style: italic;
+  font-family: 'Open Sans', sans-serif;
 }
