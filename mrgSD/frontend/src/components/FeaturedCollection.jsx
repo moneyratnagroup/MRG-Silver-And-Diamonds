@@ -1,3 +1,5 @@
+import StockBadge from './StockBadge';
+import { isOutOfStock } from '../utils/stock';
 import React from 'react';
 import { Sparkles, ShoppingCart } from 'lucide-react';
 import { useShop, formatProductTitle } from '../context/ShopContext';
@@ -72,6 +74,7 @@ const FeaturedCollection = () => {
             <div className="pg-details">
               <div className="pg-info-left">
                 <h3 className="pg-item-name">{formatProductTitle(product.name)}</h3>
+                <StockBadge product={product} />
                 <div className="pg-price-container">
                   <div className="pg-price-wrapper">
                     <p className="pg-item-price">{product.price}</p>
@@ -83,8 +86,8 @@ const FeaturedCollection = () => {
               </div>
               {isEcommerceEnabled && (
                 <button 
-                  className="pg-add-to-cart-icon" 
-                  aria-label="Add to Cart"
+                  className="pg-add-to-cart-icon" disabled={isOutOfStock(product)}
+                  aria-label={isOutOfStock(product) ? "Out of Stock" : "Add to Cart"}
                   onClick={(e) => { 
                     e.stopPropagation(); 
                     addToCart(product); 

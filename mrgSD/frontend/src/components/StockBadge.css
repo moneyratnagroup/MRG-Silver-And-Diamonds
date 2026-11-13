@@ -1,0 +1,25 @@
+.product-stock-status {
+  display: inline-block;
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 100%;
+  margin: 6px 0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+.product-stock-status--low { color: #855013; background: #fff1d6; }
+.product-stock-status--out { color: #942c3a; background: #f8e4e7; }
+.pg-add-to-cart:disabled,
+.pg-add-to-cart-icon:disabled,
+.add-to-cart-icon-btn:disabled,
+.btn-add-cart-large:disabled,
+.btn-buy-now-large:disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}

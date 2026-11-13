@@ -22,6 +22,30 @@ def validate_indian_phone(value: str) -> str:
         
     raise ValueError('Invalid Indian phone number format. Must be a 10-digit number.')
 
+def validate_strict_email(v: Optional[str]) -> Optional[str]:
+    if v is None:
+        return v
+    v = v.strip().lower()
+    if v == "":
+        return None
+    if len(v) > 255:
+        raise ValueError('Email must not exceed 255 characters')
+    if not re.match(r"^[a-zA-Z]", v):
+        raise ValueError('Email address must start with a letter (A-Z)')
+    if ".." in v:
+        raise ValueError('Email cannot contain consecutive dots')
+    parts = v.split("@")
+    if len(parts) != 2:
+        raise ValueError('Email must contain exactly one "@" symbol')
+    local, domain = parts
+    if local.endswith("."):
+        raise ValueError('The part before "@" cannot end with a dot')
+    if not re.match(r"^[a-zA-Z0-9._%+-]+$", local):
+        raise ValueError('Email username contains invalid characters')
+    if not re.match(r"^[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$", domain):
+        raise ValueError('Please enter a valid domain (e.g., gmail.com)')
+    return v
+
 class SendOTPRequest(BaseModel):
     phone_number: str
 
@@ -70,16 +94,7 @@ class CompleteProfileRequest(BaseModel):
     @field_validator('email')
     @classmethod
     def validate_email(cls, v: Optional[str]) -> Optional[str]:
-        if v is None:
-            return v
-        v = v.strip().lower()
-        if v == "":
-            return None
-        if len(v) > 255:
-            raise ValueError('Email must not exceed 255 characters')
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", v):
-            raise ValueError('Invalid email format')
-        return v
+        return validate_strict_email(v)
 
 class UserResponse(BaseModel):
     id: int
@@ -158,16 +173,7 @@ class UpdateProfileRequest(BaseModel):
     @field_validator('email')
     @classmethod
     def validate_email(cls, v: Optional[str]) -> Optional[str]:
-        if v is None:
-            return v
-        v = v.strip().lower()
-        if v == "":
-            return None
-        if len(v) > 255:
-            raise ValueError('Email must not exceed 255 characters')
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", v):
-            raise ValueError('Invalid email format')
-        return v
+        return validate_strict_email(v)
 
 class AddressBase(BaseModel):
     title: Optional[str] = "Home"
@@ -196,10 +202,12 @@ class AdminLoginRequest(BaseModel):
     password: str
 
 class AdminLoginResponse(BaseModel):
+    challenge: str
     message: str
     phone_masked: str
 
 class AdminVerifyOTPRequest(BaseModel):
+    challenge: str
     username: str
     otp: str
 

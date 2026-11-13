@@ -7,7 +7,7 @@ from app.models.product import Product
 from app.schemas.wishlist import WishlistItem as WishlistItemSchema
 from app.api.auth import get_current_user
 
-router = APIRouter(prefix="/wishlists", tags=["Wishlist"])
+router = APIRouter(tags=["Wishlist"])
 
 @router.get("/", response_model=List[WishlistItemSchema])
 def get_user_wishlist(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):

@@ -309,22 +309,30 @@
 }
 
 .profile-avatar-btn {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
   border-radius: 50%;
+  border: 1.5px solid #111;
   background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #111;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.15rem;
+  line-height: 1;
   text-transform: uppercase;
-  transition: background-color 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .utility-btn:hover .profile-avatar-btn {
-  background-color: #ffd6d6;
+  background-color: #F3E8D2;
+  border-color: #B89146;
+  color: #111;
 }
 
 @media (max-width: 991px) {

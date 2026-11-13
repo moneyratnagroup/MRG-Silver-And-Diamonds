@@ -210,6 +210,12 @@
 }
 
 /* Sidebar overrides */
+@media (min-width: 769px) {
+  .silver-page-wrapper .products-gallery-section {
+    padding-left: 1rem;
+  }
+}
+
 .ivory-theme .sidebar-title,
 .ivory-theme .filter-accordion-title {
   color: #302A2A !important;
@@ -250,6 +256,25 @@
 
 
 /* Product Cards Overrides */
+@media (max-width: 500px) {
+  .silver-page-wrapper .pg-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .silver-page-wrapper .pg-card {
+    min-width: 0;
+  }
+
+  .silver-page-wrapper .pg-card:hover {
+    transform: none;
+  }
+
+  .silver-page-wrapper .pg-image-container {
+    height: 160px;
+    flex-shrink: 0;
+  }
+}
+
 @media (min-width: 501px) and (max-width: 991px) {
   .ivory-theme .pg-grid {
     grid-template-columns: repeat(3, 1fr) !important;
@@ -262,14 +287,21 @@
 }
 
 @media (min-width: 992px) {
-  .ivory-theme .pg-grid {
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 1.5rem !important;
+  .silver-page-wrapper .products-gallery-section {
+    padding-right: 1rem;
   }
 
-  .ivory-theme .pg-image-container {
-    height: 220px !important;
-    /* Specific height requested for desktop */
+  .silver-page-wrapper .pg-layout-container {
+    gap: 2rem !important;
+  }
+
+  .silver-page-wrapper .pg-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1rem !important;
+  }
+
+  .silver-page-wrapper .pg-image-container {
+    height: 240px !important;
   }
 }
 
@@ -743,125 +775,157 @@
   }
 }
 
-/* The Facets of Eira Section */
-.eira-facets-section {
+/* The Facets of Eira Section ? scoped to the silver landing page. */
+.silver-page-wrapper .eira-facets-section {
   width: 100%;
   padding: 1rem 0 2rem;
-  background-color: transparent;
+  background-color: #EAE7E4;
 }
 
-.eira-facets-container {
-  max-width: 1100px;
+.silver-page-wrapper .eira-facets-container {
+  max-width: 1050px;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 1.25rem;
   text-align: center;
 }
 
-.eira-facets-title {
-  font-family: 'Cormorant Upright', 'Cormorant Garamond', serif;
-  font-size: 2.4rem;
+.silver-page-wrapper .eira-facets-title {
+  font-family: 'Cormorant Garamond', 'Cormorant Upright', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 500;
   color: #380712;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin: 0 0 0.6rem;
+  letter-spacing: 0.045em;
+  margin: 0 0 1rem;
 }
 
-.eira-facets-subtitle {
+.silver-page-wrapper .eira-facets-subtitle {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.15rem;
-  color: #6d5b53;
-  margin: 0 0 2.5rem;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 400;
+  color: #806e63;
+  margin: 0 0 1.15rem;
 }
 
-.eira-facets-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2.5rem;
-}
-
-.eira-facet-item {
-  position: relative;
+.silver-page-wrapper .eira-facets-categories {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 3.2vw, 2.5rem);
+  margin-bottom: 2rem;
 }
 
-.eira-facet-arch {
+.silver-page-wrapper .eira-facets-category {
+  padding: 0.3rem 0.35rem;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  color: #877b76;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.silver-page-wrapper .eira-facets-category.is-active {
+  color: #380712;
+  border-bottom-color: #380712;
+}
+
+.silver-page-wrapper .eira-facets-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.4rem;
+  align-items: start;
+}
+
+.silver-page-wrapper .eira-facet-card {
+  background: #420d1d;
+  border: 1px solid #420d1d;
+  border-radius: 5px;
+  box-shadow: 0 8px 24px rgba(45, 15, 22, 0.12), 0 2px 6px rgba(45, 15, 22, 0.04);
+  padding: 1.35rem 1.4rem 1.5rem;
+  height: auto;
+  min-height: 0;
+  min-width: 0;
+  text-align: center;
+}
+
+.silver-page-wrapper .eira-facet-arch {
   width: 100%;
-  max-width: 190px;
-  aspect-ratio: 3 / 4;
-  border: 1.5px solid #D4A93C;
-  border-radius: 999px 999px 0 0;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
-  background-color: #23040b;
-  margin-bottom: 1rem;
+  border-radius: 3px;
+  background: #2b040d;
 }
 
-.eira-facet-arch img {
+.silver-page-wrapper .eira-facet-arch img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s ease;
+  transition: transform 0.3s ease;
 }
 
-.eira-facet-item:hover .eira-facet-arch img {
-  transform: scale(1.06);
+.silver-page-wrapper .eira-facet-card:hover .eira-facet-arch img {
+  transform: scale(1.04);
 }
 
-/* Burgundy dot + dashed connector between the first and second facet */
-.eira-facet-dot {
-  position: absolute;
-  top: 46%;
-  left: calc(50% + 95px + 14px);
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #650018;
+.silver-page-wrapper .eira-facet-content {
+  padding-top: 0.8rem;
 }
 
-.eira-facet-dot::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 6px;
-  width: 3.5rem;
-  border-top: 1.5px dashed #D4A93C;
-}
-
-.eira-facet-name {
+.silver-page-wrapper .eira-facet-name {
   font-family: 'Cormorant Upright', 'Cormorant Garamond', serif;
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: #302A2A;
+  font-size: clamp(1.1rem, 1.9vw, 1.45rem);
+  line-height: 1.15;
+  font-weight: 500;
+  color: #f5dec1;
+  margin: 0 0 0.15rem;
+}
+
+.silver-page-wrapper .eira-facet-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #fcfcfc;
   margin: 0 0 0.2rem;
 }
 
-.eira-facet-desc {
+.silver-page-wrapper .eira-facet-button {
   font-family: 'Inter', sans-serif;
-  font-size: 0.7rem;
-  color: #8c767a;
-  letter-spacing: 0.3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  color: #dfb96f;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfb96f;
+  padding: 0 0 0.1rem;
+  cursor: pointer;
 }
 
-@media (max-width: 992px) {
-  .eira-facets-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem 1.5rem;
-  }
+.silver-page-wrapper .eira-facet-button:hover {
+  color: #ffe1a6;
+  border-bottom-color: #ffe1a6;
+}
 
-  .eira-facet-dot {
-    display: none;
+.silver-page-wrapper .eira-facets-category:focus-visible,
+.silver-page-wrapper .eira-facet-button:focus-visible {
+  outline: 2px solid #bd9550;
+  outline-offset: 4px;
+}
+
+@media (max-width: 767px) {
+  .silver-page-wrapper .eira-facets-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
   }
 }
 
-@media (max-width: 500px) {
-  .eira-facets-title {
-    font-size: 1.9rem;
+@media (max-width: 400px) {
+  .silver-page-wrapper .eira-facet-card {
+    padding: 0.8rem 0.6rem 0.5rem;
   }
 
-  .eira-facet-arch {
-    max-width: 150px;
+  .silver-page-wrapper .eira-facets-categories {
+    gap: 0.6rem;
   }
-}
+}

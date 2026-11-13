@@ -10,6 +10,7 @@ import './ShopByCategory.css';
 import imgCatRings from '../assets/cat_rings.jpg';
 import imgCatChains from '../assets/cat_chains.jpg';
 import imgCatBangles from '../assets/cat_bangles.jpg';
+import imgCatMingi from '../assets/Salem Mingi.webp';
 
 const categories = [
   { name: 'RINGS', desc: 'Timeless Elegance', img: imgCatRings },
@@ -17,7 +18,7 @@ const categories = [
   { name: 'BANGLES', desc: 'Tradition That Shines', img: imgCatBangles },
   { name: 'BRACELETS', desc: 'Subtle. Stylish. You.', img: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop' },
   { name: 'NECKLACES', desc: 'Make Every Moment Special', img: 'https://images.unsplash.com/photo-1599643477874-c5aaffe71207?q=80&w=600&auto=format&fit=crop' },
-  { name: 'ANKLETS', desc: 'Grace In Every Step', img: 'https://images.unsplash.com/photo-1515562141207-7a8ea3a19b88?q=80&w=600&auto=format&fit=crop' },
+  { name: 'MINGI', desc: 'Grace In Every Step', img: imgCatMingi },
 ];
 
 const ShopByCategory = () => {

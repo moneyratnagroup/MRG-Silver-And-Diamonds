@@ -34,6 +34,7 @@ const AdminLogin = () => {
   // OTP Form State
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [phoneMasked, setPhoneMasked] = useState('');
+  const [challenge, setChallenge] = useState('');
   const [resendCooldown, setResendCooldown] = useState(0);
   
   // Loading & Error States
@@ -69,7 +70,7 @@ const AdminLogin = () => {
         method: 'POST',
         body: JSON.stringify({
           username: username.trim(),
-          password: password.trim()
+          password
         })
       });
 
@@ -80,6 +81,7 @@ const AdminLogin = () => {
       }
 
       // Transition to OTP step
+      setChallenge(data.challenge);
       setPhoneMasked(data.phone_masked || 'your registered number');
       setStage('OTP');
       setResendCooldown(30);
@@ -143,7 +145,8 @@ const AdminLogin = () => {
         method: 'POST',
         body: JSON.stringify({
           username: username.trim(),
-          otp: fullOtp
+          otp: fullOtp,
+          challenge
         })
       });
 
@@ -157,7 +160,7 @@ const AdminLogin = () => {
       if (data.access_token) {
         localStorage.setItem('mrg_admin_token', data.access_token);
         localStorage.setItem('mrg_admin_last_activity', String(Date.now()));
-        navigate('/admin', { replace: true });
+        window.location.replace('/admin');
       } else {
         throw new Error('No authorization token received.');
       }
@@ -179,7 +182,7 @@ const AdminLogin = () => {
         method: 'POST',
         body: JSON.stringify({
           username: username.trim(),
-          password: password.trim()
+          password
         })
       });
 
@@ -188,6 +191,7 @@ const AdminLogin = () => {
         throw new Error(data.detail || 'Failed to resend code.');
       }
 
+      setChallenge(data.challenge);
       setResendCooldown(30);
       setOtp(['', '', '', '', '', '']);
       otpInputRefs.current[0]?.focus();
