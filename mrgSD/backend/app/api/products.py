@@ -7,6 +7,7 @@ from datetime import datetime
 from app.database.database import get_db
 from app.models import product as models
 from app.schemas import product as schemas
+from app.services.product_weights import validate_product_weights
 
 router = APIRouter()
 
@@ -185,7 +186,11 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
 @router.post("/", response_model=schemas.Product)
 def create_product(product_in: schemas.ProductCreate, db: Session = Depends(get_db)):
     # Create main product
+    validate_product_weights(product_in.gross_weight, product_in.stone_weight)
     db_product = models.Product(
+        gross_weight=product_in.gross_weight,
+        stone_weight=product_in.stone_weight,
+        making_charges=product_in.making_charges,
         stock_quantity=product_in.stock_quantity,
         low_stock_threshold=product_in.low_stock_threshold,
         sku=product_in.sku,
@@ -243,6 +248,10 @@ def update_product(product_id: int, product_in: schemas.ProductUpdate, db: Sessi
         raise HTTPException(status_code=404, detail="Product not found")
 
     update_data = product_in.dict(exclude_unset=True)
+    validate_product_weights(
+        update_data.get("gross_weight", db_product.gross_weight),
+        update_data.get("stone_weight", db_product.stone_weight),
+    )
     
     # Extract M2M relationship data and images
     occasion_ids = update_data.pop("occasion_ids", None)

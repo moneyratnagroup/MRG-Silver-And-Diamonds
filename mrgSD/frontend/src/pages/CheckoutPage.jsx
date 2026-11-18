@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
 import { fetchWithAuth } from '../utils/api';
+import { createPaymentSession } from '../utils/paymentSession';
+import { saveCheckoutAddress } from '../utils/checkoutAddress';
 import './CheckoutPage.css';
 import imgmrgicon from '../assets/mrgicon.webp';
 
@@ -18,6 +20,26 @@ const INDIAN_STATES = [
 ];
 
 const CheckoutPage = () => {
+  const paymentSession = useRef(null);
+  const paymentPending = useRef(false);
+  const mounted = useRef(false);
+  const [isPaymentBusy, setIsPaymentBusy] = useState(false);
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      paymentSession.current?.dispose();
+      paymentSession.current = null;
+    };
+  }, []);
+
+  const finishPayment = () => {
+    paymentSession.current?.dispose();
+    paymentSession.current = null;
+    paymentPending.current = false;
+    if (mounted.current) setIsPaymentBusy(false);
+  };
   const { cartItems, clearCart } = useShop(); // clearCart might not exist yet, we'll gracefully handle it
   const { isAuthenticated, user, refreshUser } = useAuth();
 
@@ -174,6 +196,7 @@ const CheckoutPage = () => {
   };
 
   const loadRazorpayScript = () => {
+    if (window.Razorpay) return Promise.resolve(true);
     return new Promise((resolve) => {
       const script = document.createElement('script');
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -272,76 +295,111 @@ const CheckoutPage = () => {
 
   const handlePayment = async (e) => {
     e.preventDefault();
+    if (paymentPending.current) return;
 
     if (!validateForm()) {
       toast.warning("Please fill in all required fields to proceed.", { toastId: 'checkout-validation-error' });
       return;
     }
 
-    const res = await loadRazorpayScript();
-    if (!res) {
-      alert('Razorpay SDK failed to load. Are you online?');
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID?.trim();
+    if (!razorpayKey || razorpayKey.includes('dummy')) {
+      toast.error('Online payment is currently unavailable. Please contact the store for help.', { toastId: 'payment-unavailable' });
       return;
     }
 
-
-    // Save KYC if logged in and data provided
-    if (isAuthenticated && (formData.panNumber || formData.aadharNumber)) {
-      try {
-        await fetchWithAuth('/api/v1/auth/me/kyc', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            pan_number: formData.panNumber || null,
-            aadhar_number: formData.aadharNumber || null
-          })
-        });
-        if (refreshUser) refreshUser();
-      } catch (err) {
-        console.error("Failed to save KYC info:", err);
+    paymentPending.current = true;
+    setIsPaymentBusy(true);
+    try {
+      const res = await loadRazorpayScript();
+      if (!mounted.current) return;
+      if (!res) {
+        finishPayment();
+        toast.error('Unable to load payment checkout. Please try again.');
+        return;
       }
+
+
+      if (isAuthenticated && formData.saveAddress) {
+        await saveCheckoutAddress(formData, fetchWithAuth);
+        if (!mounted.current) return;
+        toast.success('Your delivery address is saved to your account.', { toastId: 'checkout-address-saved' });
+      }
+
+      // Save KYC if logged in and data provided
+      if (isAuthenticated && (formData.panNumber || formData.aadharNumber)) {
+        try {
+          await fetchWithAuth('/api/v1/auth/me/kyc', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              pan_number: formData.panNumber || null,
+              aadhar_number: formData.aadharNumber || null
+            })
+          });
+          if (refreshUser) refreshUser();
+        } catch (err) {
+          console.error("Failed to save KYC info:", err);
+        }
+      }
+
+      if (!mounted.current) return;
+      const session = createPaymentSession();
+      paymentSession.current = session;
+
+      const options = {
+        key: razorpayKey,
+        amount: total * 100, // Amount in paise
+        currency: 'INR',
+        name: 'MRG Silver & Diamonds',
+        description: 'Test Purchase Payment',
+        image: imgmrgicon,
+        modal: {
+          ondismiss: () => {
+            if (paymentSession.current === session) finishPayment();
+          },
+        },
+        handler: function (response) {
+          if (paymentSession.current !== session) return;
+          finishPayment();
+          if (!mounted.current) return;
+          toast.success('Payment Successful! Payment ID: ' + response.razorpay_payment_id);
+          if (clearCart) clearCart();
+          navigate('/');
+        },
+        prefill: {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        notes: {
+          addressLine1: formData.addressLine1,
+          addressLine2: formData.addressLine2,
+          landmark: formData.landmark,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip,
+          billingSameAsShipping: formData.billingSameAsShipping ? 'Yes' : 'No',
+          panNumber: formData.panNumber,
+          aadharNumber: formData.aadharNumber
+        },
+        theme: {
+          color: '#02275a'
+        }
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentSession.current.attach(paymentObject);
+      paymentObject.on('payment.failed', function (response) {
+        if (paymentSession.current !== session) return;
+        finishPayment();
+        if (mounted.current) toast.error(response?.error?.description || 'Payment failed. Please try again.');
+      });
+      paymentObject.open();
+    } catch (error) {
+      finishPayment();
+      if (mounted.current) toast.error(error?.message || 'Unable to open payment checkout. Please try again.');
     }
-
-    // Dummy Razorpay Options (Frontend Only for UI Demonstration)
-    const options = {
-      key: 'rzp_test_dummy_key_do_not_use_in_prod', // Standard test key string (even invalid ones will open the modal in test mode, or throw a gentle warning in modal)
-      amount: total * 100, // Amount in paise
-      currency: 'INR',
-      name: 'MRG Silver & Diamonds',
-      description: 'Test Purchase Payment',
-      image: imgmrgicon,
-      handler: function (response) {
-        alert('Payment Successful! Payment ID: ' + response.razorpay_payment_id);
-        if (clearCart) clearCart();
-        navigate('/');
-      },
-      prefill: {
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        contact: formData.phone,
-      },
-      notes: {
-        addressLine1: formData.addressLine1,
-        addressLine2: formData.addressLine2,
-        landmark: formData.landmark,
-        city: formData.city,
-        state: formData.state,
-        zip: formData.zip,
-        billingSameAsShipping: formData.billingSameAsShipping ? 'Yes' : 'No',
-        saveAddress: formData.saveAddress ? 'Yes' : 'No',
-        panNumber: formData.panNumber,
-        aadharNumber: formData.aadharNumber
-      },
-      theme: {
-        color: '#02275a'
-      }
-    };
-
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.on('payment.failed', function (response) {
-      alert("Payment Failed. Reason: " + response.error.description);
-    });
-    paymentObject.open();
   };
 
   if (cartItems.length === 0) {
@@ -562,8 +620,8 @@ const CheckoutPage = () => {
                 </label>
               </div>
             )}
-            <div className="checkout-btn-wrapper d-none d-md-flex">
-              <button type="submit" className="btn-primary">Pay Now (₹{total.toLocaleString('en-IN')})</button>
+            <div className="checkout-btn-wrapper d-none d-lg-flex">
+              <button type="submit" className="btn-primary" disabled={isPaymentBusy}>Pay Now (₹{total.toLocaleString('en-IN')})</button>
             </div>
           </form>
         </div>
@@ -605,8 +663,8 @@ const CheckoutPage = () => {
             <p className="small-text">Pay securely via UPI, Credit/Debit Card, or Netbanking using Razorpay.</p>
           </div>
 
-          <div className="checkout-btn-wrapper d-md-none">
-            <button type="button" onClick={handlePayment} className="btn-primary">Pay Now (₹{total.toLocaleString('en-IN')})</button>
+            <div className="checkout-btn-wrapper d-lg-none">
+            <button type="button" onClick={handlePayment} className="btn-primary" disabled={isPaymentBusy}>Pay Now (₹{total.toLocaleString('en-IN')})</button>
           </div>
         </div>
       </div>

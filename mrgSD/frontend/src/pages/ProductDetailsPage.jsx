@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { useAuth } from '../context/AuthContext';
 import { fetchWithAuth, API_URL } from '../utils/api';
-import { ChevronLeft, X, Star } from 'lucide-react';
+import { AlertTriangle, ChevronLeft, X, Star } from 'lucide-react';
 import ProductsGallery from '../components/ProductsGallery';
 import './ProductDetails.css';
 import imgbislogo from '../assets/bis_logo.webp';
@@ -239,18 +239,6 @@ const ProductDetailsPage = () => {
                 Secure Checkout
               </div>
             </div>
-            {/*Additional Informations */}
-            <div className="pd-additional-info" style={{ marginTop: '20px' }}>
-              {/* <div className="pd-info-block">
-                <h4>Shipping & Returns</h4>
-                <p>Free standard shipping on all orders over ₹2000. Returns accepted within 14 days of delivery.</p>
-              </div> */}
-              <div className="pd-info-block">
-                <h4>Material & Care</h4>
-                <p>Keep away from moisture and harsh chemicals. Store in the provided box when not in use to prevent tarnishing.</p>
-              </div>
-            </div>
-
           </div>
 
           <div className="product-details-right">
@@ -380,6 +368,14 @@ const ProductDetailsPage = () => {
 
           </div>
         </div>
+
+        <aside className="pd-care-notice" aria-label="Material and care advice">
+          <AlertTriangle className="pd-care-notice-icon" size={22} aria-hidden="true" />
+          <div className="pd-care-notice-content">
+            <h4>Material &amp; Care</h4>
+            <p>Keep away from moisture and harsh chemicals. Store in the provided box when not in use to prevent tarnishing.</p>
+          </div>
+        </aside>
       </div>
       {/* Product Reviews Section */}
       {(() => {
@@ -398,8 +394,9 @@ const ProductDetailsPage = () => {
           <div className="pd-reviews-section">
             <h2 className="pd-reviews-title">Customer Reviews</h2>
 
-            <div className="pd-reviews-container">
-              <div className="pd-reviews-summary">
+            <div className={`pd-reviews-container${totalReviews === 0 ? ' pd-reviews-container-empty' : ''}`}>
+              {totalReviews > 0 && (
+                <div className="pd-reviews-summary">
                 <div className="pd-rating-header-row">
                   <div className="pd-stars-row">
                     {[1, 2, 3, 4, 5].map((star) => (
@@ -450,7 +447,8 @@ const ProductDetailsPage = () => {
                     {showReviewForm ? 'Cancel' : 'Write a Review'}
                   </button>
                 </div>
-              </div>
+                </div>
+              )}
 
               <div className="pd-reviews-list">
             {showReviewForm && (
@@ -554,8 +552,15 @@ const ProductDetailsPage = () => {
                 </div>
               ))
             ) : (
-              <div className="pd-no-reviews" style={{ padding: '30px 20px', textAlign: 'center', color: '#666', backgroundColor: '#faf8f5', borderRadius: '8px' }}>
-                <p style={{ margin: 0, fontSize: '1rem', fontStyle: 'italic' }}>There are no reviews for this piece yet. Be the first to share your experience!</p>
+              <div className="pd-no-reviews">
+                <p>No comments yet. Be the first to share your experience!</p>
+                <button
+                  type="button"
+                  className="pd-write-review-btn pd-empty-review-btn"
+                  onClick={() => setShowReviewForm(!showReviewForm)}
+                >
+                  {showReviewForm ? 'Cancel' : 'Write a Review'}
+                </button>
               </div>
             )}
           </div>

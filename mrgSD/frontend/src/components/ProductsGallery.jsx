@@ -133,7 +133,7 @@ const ProductsGallery = ({ title = "Our Collection", tagline, products = [], fil
                       </button>
                     )}
                   </div>
-                  <div className="pg-details">
+                  <div className="pg-details pg-details-stacked">
                     <div className="pg-info-left">
                       <h3 className="pg-item-name">{formatProductTitle(product.name)}</h3>
                       {showMetalSubtitle && (

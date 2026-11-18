@@ -191,7 +191,7 @@
 
 .benefits-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -287,6 +287,8 @@
 
 .email-link {
   display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   margin-top: 20px;
   padding: 12px 30px;
   background-color: #633b1e;
@@ -322,6 +324,21 @@
 }
 
 @media (max-width: 600px) {
+  .careers-page-wrapper .section-title {
+    font-size: clamp(1.8rem, 7vw, 2.8rem);
+    overflow-wrap: anywhere;
+  }
+
+  .careers-page-wrapper .benefit-card,
+  .careers-page-wrapper .empty-state-box {
+    padding: 2rem 1.25rem;
+  }
+
+  .careers-page-wrapper .email-link {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
   .careers-hero-banner-img {
     min-height: unset;
   }

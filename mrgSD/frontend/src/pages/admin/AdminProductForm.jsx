@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useShop } from '../../context/ShopContext';
 import { API_URL, fetchWithAuth } from '../../utils/api';
-import { ArrowLeft, Upload } from 'lucide-react';
+import { ArrowLeft, Upload, Plus } from 'lucide-react';
 import MultiSelectDropdown from '../../components/admin/MultiSelectDropdown';
 import './AdminProductForm.css';
 
@@ -13,6 +13,62 @@ const AdminProductForm = () => {
   const isEditing = Boolean(id);
   const [errors, setErrors] = useState({});
   const [isUploading, setIsUploading] = useState(false);
+  const [stones, setStones] = useState([]);
+  const [showAddStone, setShowAddStone] = useState(false);
+  const [stoneName, setStoneName] = useState('');
+  const [stoneError, setStoneError] = useState('');
+  const [savingStone, setSavingStone] = useState(false);
+  const [purities, setPurities] = useState([]);
+
+  useEffect(() => {
+    fetchWithAuth('/api/v1/products/purities').then(async response => {
+      if (!response.ok) throw new Error('Unable to load purities. Please reload the page.');
+      setPurities(await response.json());
+    }).catch(error => setStoneError(error.message));
+  }, [isEditing]);
+
+  useEffect(() => {
+    fetchWithAuth('/api/v1/products/stones')
+      .then(async response => {
+        if (!response.ok) throw new Error('Unable to load stones.');
+        setStones(await response.json());
+      })
+      .catch(error => setStoneError(error.message));
+  }, [isEditing]);
+
+  const handleSaveStone = async () => {
+    const name = stoneName.trim();
+    if (!name || name.length > 100 || name.toLowerCase() === 'none') {
+      setStoneError('Enter a stone name of up to 100 characters other than None.');
+      return;
+    }
+    const existing = stones.find(stone => stone.name.toLowerCase() === name.toLowerCase());
+    if (existing) {
+      setFormData(prev => ({ ...prev, stoneType: existing.name }));
+      setShowAddStone(false);
+      setStoneName('');
+      setStoneError('');
+      return;
+    }
+    setSavingStone(true);
+    setStoneError('');
+    try {
+      const response = await fetchWithAuth('/api/v1/products/stones', {
+        method: 'POST',
+        body: JSON.stringify({ name }),
+      });
+      if (!response.ok) throw new Error('Unable to save stone. Please try again.');
+      const stone = await response.json();
+      setStones(prev => [...prev, stone]);
+      setFormData(prev => ({ ...prev, stoneType: stone.name }));
+      setShowAddStone(false);
+      setStoneName('');
+    } catch (error) {
+      setStoneError(error.message);
+    } finally {
+      setSavingStone(false);
+    }
+  };
 
   const [formData, setFormData] = useState({
     name: '',
@@ -32,6 +88,8 @@ const AdminProductForm = () => {
     metal: '',
     purity: '',
     weight: '',
+    grossWeight: '',
+    makingCharges: '',
     finish: '',
     stoneType: 'None',
     stoneWeight: '',
@@ -43,6 +101,14 @@ const AdminProductForm = () => {
     offerCouponCode: '',
     status: 'DRAFT'
   });
+
+  const hasStone = formData.stoneType !== 'None';
+  const grossWeight = Number(formData.grossWeight);
+  const stoneWeight = hasStone ? Number(formData.stoneWeight) : 0;
+  const validWeights = formData.grossWeight !== '' && Number.isFinite(grossWeight) && grossWeight > 0
+    && (!hasStone || formData.stoneWeight !== '') && Number.isFinite(stoneWeight)
+    && stoneWeight >= 0 && stoneWeight <= grossWeight;
+  const netWeight = validWeights ? Number((grossWeight - stoneWeight).toFixed(4)) : '';
 
   useEffect(() => {
     if (isEditing) {
@@ -64,11 +130,13 @@ const AdminProductForm = () => {
           videoUrl: productToEdit.videoUrl || '',
           sku: productToEdit.sku || '',
           metal: productToEdit.metal || '',
-          purity: productToEdit.purity || '',
+          purity: productToEdit.purityId ?? '',
+          grossWeight: productToEdit.grossWeight ?? '',
+          makingCharges: productToEdit.makingCharges ?? '',
           weight: productToEdit.weight ? productToEdit.weight.replace('g', '') : '',
           finish: productToEdit.finish || '',
-          stoneType: productToEdit.stoneType || 'None',
-          stoneWeight: productToEdit.stoneWeight || '',
+          stoneType: productToEdit.stones?.[0]?.name || 'None',
+          stoneWeight: productToEdit.stoneWeight ?? '',
           hallmarked: productToEdit.hallmarked !== false ? 'Yes' : 'No',
           certificate: productToEdit.certificate === true ? 'Yes' : 'No',
           stockQuantity: productToEdit.stockQuantity || 0,
@@ -83,7 +151,12 @@ const AdminProductForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+      ...(name === 'metal' ? { purity: '' } : {}),
+      ...(name === 'stoneType' && value === 'None' ? { stoneWeight: '' } : {}),
+    }));
   };
 
   const handleCheckboxChange = (e, field) => {
@@ -146,6 +219,13 @@ const AdminProductForm = () => {
     if (!formData.img) newErrors.img = true;
     if (!formData.desc) newErrors.desc = true;
     if (!formData.sku) newErrors.sku = true;
+    {
+      if (!formData.purity || !purities.some(purity => purity.id === Number(formData.purity) && purity.metal_id === metals.find(metal => metal.name === formData.metal)?.id)) newErrors.purity = 'Select a purity for the selected metal.';
+      if (!validWeights) newErrors.weights = 'Enter a positive gross weight and a stone weight between zero and gross weight.';
+      if (formData.makingCharges === '' || !Number.isFinite(Number(formData.makingCharges)) || Number(formData.makingCharges) < 0) {
+        newErrors.makingCharges = 'Enter making charges of zero or more.';
+      }
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -170,7 +250,10 @@ const AdminProductForm = () => {
       description: formData.desc,
       category_id: categories.find(c => c.name === formData.category)?.id || null,
       metal_id: metals.find(m => m.name === formData.metal)?.id || null,
-      purity_id: null,
+      purity_id: Number(formData.purity),
+      gross_weight: grossWeight,
+      stone_weight: stoneWeight,
+      making_charges: Number(formData.makingCharges),
       selling_price: parseFloat(formData.price),
       mrp_price: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
       is_new_arrival: false,
@@ -180,7 +263,9 @@ const AdminProductForm = () => {
       offer_coupon_code: formData.isOfferAvailable === 'Yes' && formData.offerCouponCode ? formData.offerCouponCode : null,
       images: finalImages.map((url, idx) => ({ image_url: url, is_primary: idx === 0 })),
       occasion_ids: formData.occasionIds,
-      stone_ids: [],
+      stone_ids: formData.stoneType === 'None'
+        ? []
+        : stones.filter(stone => stone.name === formData.stoneType).map(stone => stone.id),
       collection_ids: formData.collectionIds
     };
 
@@ -453,24 +538,38 @@ const AdminProductForm = () => {
               <label>Purity</label>
               <select name="purity" value={formData.purity} onChange={handleChange}>
                 <option value="">-- Select Purity --</option>
-                <option value="925">925 (Sterling Silver)</option>
-                <option value="999">999 (Pure Silver)</option>
-                <option value="22k">22k Gold</option>
-                <option value="18k">18k Gold</option>
+                {purities.filter(purity => purity.metal_id === metals.find(metal => metal.name === formData.metal)?.id).map(purity => (
+                  <option key={purity.id} value={purity.id}>{purity.name}</option>
+                ))}
               </select>
+              {errors.purity && <p className="error-text" role="alert">{errors.purity}</p>}
             </div>
             <div className="form-group half">
-              <label>Weight (grams)</label>
+              <label>Gross Weight (grams)</label>
               <input
                 type="number"
                 step="0.01"
-                name="weight"
-                value={formData.weight}
+                name="grossWeight"
+                value={formData.grossWeight}
                 onChange={handleChange}
                 placeholder="e.g. 15"
               />
             </div>
           </div>
+
+            <div className="form-row">
+              <div className="form-group half">
+                <label htmlFor="product-net-weight">Net Metal Weight (grams)</label>
+                <input id="product-net-weight" type="number" value={netWeight} readOnly placeholder="Calculated automatically" />
+                <small>Gross weight minus stone weight; both weights are in grams.</small>
+                {errors.weights && <p className="error-text" role="alert">{errors.weights}</p>}
+              </div>
+              <div className="form-group half">
+                <label htmlFor="product-making-charges">Making Charges (INR per product)</label>
+                <input id="product-making-charges" type="number" name="makingCharges" value={formData.makingCharges} min="0" step="0.01" onChange={handleChange} placeholder="e.g. 450" />
+                {errors.makingCharges && <p className="error-text" role="alert">{errors.makingCharges}</p>}
+              </div>
+            </div>
 
           <div className="form-row">
             <div className="form-group half">
@@ -492,26 +591,45 @@ const AdminProductForm = () => {
             </div>
           </div>
 
-          <div className="form-row">
+          <div className="form-row add-product-stone-row">
             <div className="form-group half">
-              <label>Stone Type</label>
-              <select name="stoneType" value={formData.stoneType} onChange={handleChange}>
+              <label htmlFor="product-stone-type">Stone Type</label>
+              <div className="stone-type-control">
+              <select id="product-stone-type" name="stoneType" value={formData.stoneType} onChange={handleChange}>
                 <option value="None">None</option>
-                <option value="Cubic Zirconia">Cubic Zirconia (CZ)</option>
-                <option value="Diamond">Diamond</option>
-                <option value="Gemstone">Other Gemstone</option>
+                {stones.filter(stone => stone.name.toLowerCase() !== 'none').map(stone => (
+                  <option key={stone.id} value={stone.name}>{stone.name}</option>
+                ))}
               </select>
+              {<button type="button" className="stone-add-button" aria-label="Add stone" title="Add stone" aria-expanded={showAddStone} onClick={() => { setShowAddStone(prev => !prev); setStoneError(''); }}><Plus size={18} /></button>}
+              </div>
+              {showAddStone && (
+                <div className="stone-add-panel">
+                  <label htmlFor="new-stone-name">Stone Name (Required)</label>
+                  <input id="new-stone-name" type="text" value={stoneName} maxLength={100} placeholder="e.g. Ruby or Emerald" disabled={savingStone} onChange={e => setStoneName(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (!savingStone) handleSaveStone(); } }} />
+                  <div className="stone-add-actions">
+                    <button type="button" onClick={handleSaveStone} disabled={savingStone}>{savingStone ? 'Saving...' : 'Save stone'}</button>
+                    <button type="button" disabled={savingStone} onClick={() => { setShowAddStone(false); setStoneName(''); setStoneError(''); }}>Cancel</button>
+                  </div>
+                </div>
+              )}
+              {stoneError && <p role="alert">{stoneError}</p>}
             </div>
-            <div className="form-group half">
-              <label>Stone Weight (Optional)</label>
-              <input
-                type="text"
-                name="stoneWeight"
-                value={formData.stoneWeight}
-                onChange={handleChange}
-                placeholder="e.g. 0.5 ct"
-              />
-            </div>
+            {(formData.stoneType !== 'None') && (
+              <div className="form-group half">
+                <label>Stone Weight (grams)</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.0001"
+                  name="stoneWeight"
+                  value={formData.stoneWeight}
+                  onChange={handleChange}
+                  placeholder="e.g. 0.1 g"
+                />
+                {<small>Enter grams: 1 carat = 0.2 grams.</small>}
+              </div>
+            )}
           </div>
 
           <div className="form-row">

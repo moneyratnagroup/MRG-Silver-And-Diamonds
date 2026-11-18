@@ -15,7 +15,7 @@
 
 .account-grid {
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 250px minmax(0, 1fr);
   gap: 30px;
 }
 
@@ -51,6 +51,7 @@
 
 /* Content Area Styling */
 .account-content {
+  min-width: 0;
   background-color: #f8f6f0;
   border-radius: 8px;
   padding: 30px;
@@ -87,6 +88,7 @@
 }
 
 .profile-field p {
+  overflow-wrap: anywhere;
   font-size: 1.1rem;
   color: #333;
   margin: 0;
@@ -141,9 +143,40 @@
 }
 
 /* Responsive */
+.account-page-container .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.account-page-container .form-row > .form-group {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.account-content > .d-flex {
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 575px) {
+  .account-content {
+    padding: 20px;
+  }
+
+  .account-page-container .form-row {
+    flex-direction: column;
+  }
+
+  .account-page-container .form-row > .form-group {
+    flex: none;
+    width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .account-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   
   .account-sidebar {
@@ -173,7 +206,7 @@
 /* Address Cards */
 .addresses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   gap: 20px;
 }
 

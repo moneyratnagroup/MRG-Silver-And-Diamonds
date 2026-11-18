@@ -185,6 +185,10 @@
   cursor: pointer;
 }
 
+.contact-luxury-form select.is-placeholder {
+  color: #94a3b8;
+}
+
 .contact-luxury-form select option {
   background-color: #ffffff;
   color: #1e293b;
