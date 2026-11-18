@@ -65,6 +65,52 @@
   flex: 1;
 }
 
+.add-product-stone-row > .form-group.half {
+  flex: 0 0 calc((100% - 1.5rem) / 2);
+  min-width: 0;
+}
+
+.stone-type-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stone-type-control select {
+  flex: 1;
+  min-width: 0;
+}
+
+.stone-add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.stone-add-panel {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.stone-add-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.stone-add-actions button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
 .form-section-title {
   margin: 2rem 0 1rem 0;
   padding-bottom: 0.5rem;

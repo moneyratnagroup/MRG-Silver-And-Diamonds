@@ -22,7 +22,7 @@
   gap: 40px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .checkout-content {
     flex-direction: row;
     align-items: flex-start;
@@ -31,16 +31,28 @@
 
 .checkout-form-section {
   flex: 1.5;
+  min-width: 0;
 }
 
 .checkout-summary-section {
   flex: 1;
+  min-width: 0;
   background-color: #faf8f5;
   padding: 30px;
   border-radius: 8px;
   border: 1px solid #e8e3dc;
   position: sticky;
   top: 100px;
+}
+
+@media (max-width: 991px) {
+  .checkout-summary-section {
+    position: static;
+  }
+}
+
+.checkout-container .form-group {
+  min-width: 0;
 }
 
 .checkout-form-section h2,

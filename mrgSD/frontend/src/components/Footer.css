@@ -257,6 +257,7 @@
 
 .subscribe-input {
   flex: 1;
+  min-width: 0;
   background: transparent;
   border: none;
   padding: 12px 16px;
@@ -271,6 +272,7 @@
 }
 
 .subscribe-btn {
+  flex-shrink: 0;
   background: linear-gradient(135deg, #C8A96A 0%, #9c8047 100%);
   border: none;
   color: #0B1329;

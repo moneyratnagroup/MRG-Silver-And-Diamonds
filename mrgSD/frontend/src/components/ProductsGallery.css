@@ -16,6 +16,10 @@
   margin-bottom: 1.5rem;
 }
 
+.pg-grid-wrapper {
+  min-width: 0;
+}
+
 .pg-title-with-lines {
   display: flex;
   align-items: center;
@@ -187,10 +191,21 @@
 }
 
 .pg-info-left {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   flex: 1;
   padding-right: 12px;
+}
+
+.pg-details.pg-details-stacked {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+}
+
+.pg-details-stacked .pg-info-left {
+  padding-right: 0;
 }
 
 .pg-item-name {

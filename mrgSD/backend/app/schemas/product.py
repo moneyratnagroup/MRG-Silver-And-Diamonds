@@ -104,6 +104,9 @@ class ProductImage(ProductImageBase):
 # -------------------------
 
 class ProductBase(BaseModel):
+    gross_weight: Optional[float] = Field(default=None, gt=0, allow_inf_nan=False)
+    stone_weight: Optional[float] = Field(default=None, ge=0, allow_inf_nan=False)
+    making_charges: Optional[float] = Field(default=None, ge=0, allow_inf_nan=False)
     stock_quantity: int = Field(default=10, ge=0)
     low_stock_threshold: int = Field(default=5, ge=0)
     sku: str
@@ -127,6 +130,9 @@ class ProductCreate(ProductBase):
     images: List[ProductImageBase] = []
 
 class ProductUpdate(BaseModel):
+    gross_weight: Optional[float] = Field(default=None, gt=0, allow_inf_nan=False)
+    stone_weight: Optional[float] = Field(default=None, ge=0, allow_inf_nan=False)
+    making_charges: Optional[float] = Field(default=None, ge=0, allow_inf_nan=False)
     name: Optional[str] = None
     description: Optional[str] = None
     category_id: Optional[int] = None
@@ -145,6 +151,7 @@ class ProductUpdate(BaseModel):
     images: Optional[List[ProductImageBase]] = None
 
 class Product(ProductBase):
+    net_weight: Optional[float] = None
     id: int
     created_at: datetime
     updated_at: datetime

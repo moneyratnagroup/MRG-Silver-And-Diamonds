@@ -42,6 +42,32 @@ const AdminSidebar = ({ onMobileClose }) => {
         </NavLink>
         )}
 
+        {/* Products Group */}
+        {canAccess('products') && (
+        <div className="admin-nav-group">
+          <div className={`admin-nav-item-header ${(location.pathname.includes('/admin/products') || location.pathname.includes('/admin/categories')) ? 'active' : ''}`} onClick={toggleProducts}>
+            <div className="admin-nav-header-left">
+              <Package size={20} />
+              <span>Products</span>
+            </div>
+            {isProductsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+          </div>
+          {isProductsOpen && (
+            <div className="admin-subnav">
+              <NavLink to="/admin/products" end className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
+                All Products
+              </NavLink>
+              <NavLink to="/admin/products/new" className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
+                Add Product
+              </NavLink>
+              <NavLink to="/admin/categories" className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
+                Categories
+              </NavLink>
+            </div>
+          )}
+        </div>
+        )}
+
         {/* Inventory Group */}
         {canAccess('inventory') && (
         <div className="admin-nav-group">
@@ -71,13 +97,6 @@ const AdminSidebar = ({ onMobileClose }) => {
         </div>
         )}
 
-        {canAccess('homepage') && (
-        <NavLink to="/admin/homepage" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
-          <Home size={20} />
-          <span>Homepage</span>
-        </NavLink>
-        )}
-
         {/* Metal Rates Group */}
         {canAccess('rates') && (
         <div className="admin-nav-group">
@@ -90,37 +109,11 @@ const AdminSidebar = ({ onMobileClose }) => {
           </div>
           {isRatesOpen && (
             <div className="admin-subnav">
-              <NavLink to="/admin/rates/new" className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
-                Add Metal Type
-              </NavLink>
               <NavLink to="/admin/rates" end className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
                 Manage Rates / Metals
               </NavLink>
-            </div>
-          )}
-        </div>
-        )}
-
-        {/* Products Group */}
-        {canAccess('products') && (
-        <div className="admin-nav-group">
-          <div className={`admin-nav-item-header ${(location.pathname.includes('/admin/products') || location.pathname.includes('/admin/categories')) ? 'active' : ''}`} onClick={toggleProducts}>
-            <div className="admin-nav-header-left">
-              <Package size={20} />
-              <span>Products</span>
-            </div>
-            {isProductsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-          </div>
-          {isProductsOpen && (
-            <div className="admin-subnav">
-              <NavLink to="/admin/products" end className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
-                All Products
-              </NavLink>
-              <NavLink to="/admin/products/new" className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
-                Add Product
-              </NavLink>
-              <NavLink to="/admin/categories" className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
-                Categories
+              <NavLink to="/admin/rates/new" className={({ isActive }) => `admin-subnav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
+                Add Metal Type
               </NavLink>
             </div>
           )}
@@ -133,6 +126,19 @@ const AdminSidebar = ({ onMobileClose }) => {
           <span>Users</span>
         </NavLink>
         )}
+        {canAccess('coupons') && (
+        <NavLink to="/admin/coupons" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
+          <Ticket size={20} />
+          <span>Coupons</span>
+        </NavLink>
+        )}
+        {canAccess('homepage') && (
+        <NavLink to="/admin/homepage" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
+          <Home size={20} />
+          <span>Homepage</span>
+        </NavLink>
+        )}
+
         {canAccess('testimonials') && (
         <NavLink to="/admin/testimonials" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
           <MessageSquare size={20} />
@@ -143,12 +149,6 @@ const AdminSidebar = ({ onMobileClose }) => {
         <NavLink to="/admin/reviews" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
           <Star size={20} />
           <span>Product Reviews</span>
-        </NavLink>
-        )}
-        {canAccess('coupons') && (
-        <NavLink to="/admin/coupons" className={({ isActive }) => `admin-nav-link ${isActive ? 'active' : ''}`} onClick={onMobileClose}>
-          <Ticket size={20} />
-          <span>Coupons</span>
         </NavLink>
         )}
         {canAccess('settings') && (

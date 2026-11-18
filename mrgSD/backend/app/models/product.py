@@ -123,6 +123,15 @@ class Product(Base):
     # Selling Price as fixed amount
     selling_price = Column(Float, nullable=False)
     mrp_price = Column(Float, nullable=True)
+    gross_weight = Column(Float, nullable=True)
+    stone_weight = Column('stone_weight_grams', Float, nullable=True)
+    making_charges = Column(Float, nullable=True)
+
+    @property
+    def net_weight(self):
+        if self.gross_weight is None:
+            return None
+        return round(self.gross_weight - (self.stone_weight or 0), 4)
     
     is_new_arrival = Column(Boolean, default=False)
     is_featured = Column(Boolean, default=False)

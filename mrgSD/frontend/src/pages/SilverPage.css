@@ -256,6 +256,13 @@
 
 
 /* Product Cards Overrides */
+@media (max-width: 767px) {
+  .silver-page-wrapper .ivory-toolbar {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
 @media (max-width: 500px) {
   .silver-page-wrapper .pg-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -841,7 +848,7 @@
   border: 1px solid #420d1d;
   border-radius: 5px;
   box-shadow: 0 8px 24px rgba(45, 15, 22, 0.12), 0 2px 6px rgba(45, 15, 22, 0.04);
-  padding: 1.35rem 1.4rem 1.5rem;
+  padding: 4rem 1.4rem 1.5rem;
   height: auto;
   min-height: 0;
   min-width: 0;
@@ -922,7 +929,7 @@
 
 @media (max-width: 400px) {
   .silver-page-wrapper .eira-facet-card {
-    padding: 0.8rem 0.6rem 0.5rem;
+    padding: 3.25rem 0.6rem 0.8rem;
   }
 
   .silver-page-wrapper .eira-facets-categories {
