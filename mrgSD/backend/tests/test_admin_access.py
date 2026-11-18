@@ -29,7 +29,7 @@ class AdminAccessTests(unittest.TestCase):
         bootstrap_owner(self.db)
         self.owner = self.db.query(AdminAccount).filter_by(is_owner=True).one()
         data = StaffInput(username="reviewer", full_name="Review staff", phone_number="+919876543210",
-                          password="staff-password-123", permissions=["reviews"])
+                          password="Staff-Password-123", permissions=["reviews"])
         self.staff_id = add_staff(data, self.owner, self.db)["id"]
         self.staff = self.db.get(AdminAccount, self.staff_id)
 
@@ -47,8 +47,8 @@ class AdminAccessTests(unittest.TestCase):
                         "query_string": query.encode(), "headers": headers})
 
     def test_passwords_are_hashed_and_checked(self):
-        self.assertNotIn("staff-password", self.staff.password_hash)
-        self.assertTrue(verify_password("staff-password-123", self.staff.password_hash))
+        self.assertNotIn("Staff-Password", self.staff.password_hash)
+        self.assertTrue(verify_password("Staff-Password-123", self.staff.password_hash))
         self.assertFalse(verify_password("incorrect", self.staff.password_hash))
 
     def test_owner_bootstrap_does_not_overwrite_password(self):
@@ -88,15 +88,15 @@ class AdminAccessTests(unittest.TestCase):
     def test_owner_can_reset_staff_password_and_revoke_session(self):
         request = self.request("/api/v1/admin/settings/me", self.staff)
         update_staff(self.staff_id, StaffUpdate(permissions=["reviews"], is_active=True,
-                     new_password="reset-password-123"), self.owner, self.db)
-        self.assertTrue(verify_password("reset-password-123", self.staff.password_hash))
+                     new_password="Reset-Password-123"), self.owner, self.db)
+        self.assertTrue(verify_password("Reset-Password-123", self.staff.password_hash))
         with self.assertRaises(HTTPException):
             current_admin(request, self.db)
 
     def test_wrong_current_password_does_not_change_password(self):
         original = self.staff.password_hash
         with self.assertRaises(HTTPException):
-            change_password(PasswordChange(current_password="wrong", new_password="new-password-123"), self.staff, self.db)
+            change_password(PasswordChange(current_password="wrong", new_password="New-Password-123"), self.staff, self.db)
         self.assertEqual(original, self.staff.password_hash)
 
     def test_staff_cannot_manage_accounts(self):
@@ -107,10 +107,10 @@ class AdminAccessTests(unittest.TestCase):
 
     def test_password_change_invalidates_existing_sessions(self):
         request = self.request("/api/v1/admin/settings/me", self.staff)
-        change_password(PasswordChange(current_password="staff-password-123", new_password="new-password-123"), self.staff, self.db)
+        change_password(PasswordChange(current_password="Staff-Password-123", new_password="New-Password-123"), self.staff, self.db)
         with self.assertRaises(HTTPException):
             current_admin(request, self.db)
-        self.assertTrue(verify_password("new-password-123", self.staff.password_hash))
+        self.assertTrue(verify_password("New-Password-123", self.staff.password_hash))
 
     def test_deactivation_and_permission_change_revoke_sessions(self):
         request = self.request("/api/v1/admin/reviews/", self.staff)
@@ -125,7 +125,7 @@ class AdminAccessTests(unittest.TestCase):
     def test_duplicate_staff_and_unknown_modules_rejected(self):
         with self.assertRaises(HTTPException) as exc:
             add_staff(StaffInput(username="another", full_name="Another", phone_number=self.staff.phone_number,
-                                password="another-password", permissions=[]), self.owner, self.db)
+                                password="Another-Password-123", permissions=[]), self.owner, self.db)
         self.assertEqual(exc.exception.status_code, 409)
         with self.assertRaises(HTTPException):
             update_staff(self.staff_id, StaffUpdate(permissions=["settings"], is_active=True), self.owner, self.db)
@@ -134,7 +134,7 @@ class AdminAccessTests(unittest.TestCase):
         with self.assertRaises(HTTPException):
             login(SimpleNamespace(username="reviewer", password="wrong"), self.db)
         with patch("app.services.admin_login.create_otp", return_value="123456"), patch("app.services.admin_login.send_sms_otp") as sms:
-            result = login(SimpleNamespace(username="reviewer", password="staff-password-123"), self.db)
+            result = login(SimpleNamespace(username="reviewer", password="Staff-Password-123"), self.db)
             sms.assert_called_once_with(self.staff.phone_number, "123456")
         with patch("app.services.admin_login.verify_otp", return_value=OTPStatus.VALID):
             result = verify(SimpleNamespace(username="reviewer", challenge=result["challenge"], otp="123456"), self.db)
