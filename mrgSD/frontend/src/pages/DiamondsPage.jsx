@@ -10,7 +10,8 @@ import './DiamondsPage.css';
 
 // Import images
 import neyraHeroCleanBg from '../assets/neyra_hero_clean_bg.jpg';
-import simpleDiamondShowcase from '../assets/simple_diamond_jewellery_showcase.webp';
+import diamondMinimalNecklace from '../assets/diamond_minimal_necklace_navy.webp';
+import diamondMinimalRingBox from '../assets/diamond_minimal_ring_box_navy.webp';
 
 const DiamondsPage = () => {
   const { collectionId } = useParams();
@@ -255,42 +256,26 @@ const DiamondsPage = () => {
               <p className="neyra-solitaire-description">
                 Hand-selected for unmatched clarity and fire, each NEYRA solitaire diamond is custom-set in hallmarked gold and platinum. A timeless emblem of commitment, designed to illuminate life’s defining moments.
               </p>
-
-              {/* Solitaire Craft Highlights */}
-              <div className="neyra-solitaire-features">
-                <div className="solitaire-feature-item">
-                  <div className="feature-text">
-                    <strong>100% Certified Natural</strong>
-                    <span>Individually certified by world-recognized gemological laboratories</span>
-                  </div>
-                </div>
-                <div className="solitaire-feature-item">
-                  <div className="feature-text">
-                    <strong>Precision Cut &amp; Proportions</strong>
-                    <span>Expertly faceted to maximize brilliance, scintillation, and fire</span>
-                  </div>
-                </div>
-                <div className="solitaire-feature-item">
-                  <div className="feature-text">
-                    <strong>Lifetime Buyback &amp; Care</strong>
-                    <span>Complimentary prong inspection, ultrasonic cleaning, and full exchange guarantee</span>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {/* Right Column: Visual Solitaire Showcase */}
+            {/* Right Column: Visual Solitaire Showcase - Overlapping Dual-Card Composition */}
             <div className="neyra-solitaire-visual-col">
-              <div className="neyra-solitaire-image-wrapper">
-                <img 
-                  src={simpleDiamondShowcase} 
-                  alt="NEYRA Solitaire Diamond Pendant & Stud Earrings on Midnight Silk" 
-                  className="neyra-solitaire-main-img"
-                  loading="lazy"
-                />
-                <div className="neyra-solitaire-glints" aria-hidden="true">
-                  <span className="diamond-glint glint-solitaire-crown"><span className="diamond-glint-core" /></span>
-                  <span className="diamond-glint glint-solitaire-side-gem"><span className="diamond-glint-core" /></span>
+              <div className="neyra-solitaire-overlapping-container">
+                <div className="solitaire-overlapping-card solitaire-card-back">
+                  <img 
+                    src={diamondMinimalNecklace} 
+                    alt="Minimal Solitaire Diamond Pendant Necklace on Midnight Navy Silk" 
+                    className="solitaire-overlapping-img"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="solitaire-overlapping-card solitaire-card-front">
+                  <img 
+                    src={diamondMinimalRingBox} 
+                    alt="Delicate Solitaire Diamond Ring in Midnight Navy Velvet Box" 
+                    className="solitaire-overlapping-img"
+                    loading="lazy"
+                  />
                 </div>
               </div>
             </div>

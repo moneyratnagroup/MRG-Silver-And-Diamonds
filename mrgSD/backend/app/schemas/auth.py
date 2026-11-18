@@ -9,18 +9,24 @@ def validate_indian_phone(value: str) -> str:
     """
     cleaned = re.sub(r'[^\d+]', '', value)
     
-    if cleaned.startswith('+91'):
-        if len(cleaned) == 13:
-            return cleaned
-        raise ValueError('Invalid Indian phone number length')
-    
-    if cleaned.startswith('91') and len(cleaned) == 12:
-        return '+' + cleaned
+    ten_digits = None
+    if cleaned.startswith('+91') and len(cleaned) == 13:
+        ten_digits = cleaned[3:]
+    elif cleaned.startswith('91') and len(cleaned) == 12:
+        ten_digits = cleaned[2:]
+    elif len(cleaned) == 10 and cleaned.isdigit():
+        ten_digits = cleaned
+    else:
+        raise ValueError('Invalid Indian phone number format. Must be a 10-digit number.')
         
-    if len(cleaned) == 10 and cleaned.isdigit():
-        return '+91' + cleaned
+    if not re.match(r"^[6-9]\d{9}$", ten_digits):
+        raise ValueError('Mobile number must start with 6, 7, 8, or 9.')
+    if len(set(ten_digits)) <= 1:
+        raise ValueError('Mobile number cannot consist of identical or all-zero digits.')
+    if "00000" in ten_digits:
+        raise ValueError('Mobile number cannot contain an excessive sequence of zeroes.')
         
-    raise ValueError('Invalid Indian phone number format. Must be a 10-digit number.')
+    return '+91' + ten_digits
 
 def validate_strict_email(v: Optional[str]) -> Optional[str]:
     if v is None:

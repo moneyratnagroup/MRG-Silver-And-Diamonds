@@ -1,16 +1,1067 @@
-.admin-settings-page { max-width: 1000px; }
-.admin-settings-page .settings-panel { background: #fff; padding: 24px; margin: 24px 0; border: 1px solid #e5e1dc; border-radius: 10px; }
-.admin-settings-page h2 { font-size: 1.2rem; margin-bottom: 12px; }
-.admin-settings-page p { color: #666; font-size: 0.9rem; margin: 8px 0 16px; }
-.admin-settings-page form { display: grid; gap: 16px; }
-.admin-settings-page label { display: grid; gap: 6px; font-size: 0.9rem; }
-.admin-settings-page input:not([type=checkbox]) { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 5px; }
-.admin-settings-page input:disabled { background: #f5f5f5; color: #777; }
-.admin-settings-page button { width: fit-content; padding: 9px 16px; border: 1px solid #6b1530; color: #6b1530; background: #fff; border-radius: 5px; cursor: pointer; }
-.admin-settings-page button:disabled { opacity: 0.5; cursor: wait; }
-.admin-settings-page fieldset { padding: 16px; border: 1px solid #ddd; }
-.admin-settings-page .settings-permissions { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
-.admin-settings-page .settings-permissions label, .admin-settings-page .settings-checkbox { display: flex; align-items: center; gap: 8px; }
-.admin-settings-page .settings-actions { display: flex; gap: 12px; }
-.admin-settings-page .settings-account { display: flex; justify-content: space-between; align-items: center; gap: 16px; border-bottom: 1px solid #eee; padding: 16px 0; }
-@media (max-width: 600px) { .admin-settings-page .settings-account { align-items: flex-start; flex-direction: column; } }
+/* ==========================================================================
+   Admin Settings & User Role Permissions Styles
+   ========================================================================== */
+
+.admin-settings-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 0 40px;
+}
+
+/* 1. Header Row & Add User Action Button */
+.settings-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.settings-header-row.settings-header-centered {
+  justify-content: center;
+  text-align: center;
+}
+
+.settings-page-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #6b1530;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
+}
+
+.settings-page-subtitle {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.btn-add-user-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #6b1530;
+  color: #ffffff !important;
+  border: 1px solid #6b1530 !important;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(107, 21, 48, 0.18);
+}
+
+.btn-add-user-trigger:hover {
+  background-color: #520f24;
+  border-color: #520f24 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(107, 21, 48, 0.25);
+}
+
+.btn-add-user-trigger.active {
+  background-color: #f8f9fa;
+  color: #666 !important;
+  border-color: #d1d5db !important;
+  box-shadow: none;
+}
+
+.btn-add-user-trigger.active:hover {
+  background-color: #e5e7eb;
+  color: #333 !important;
+}
+
+/* 2. Error Banner */
+.settings-error-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.92rem;
+}
+
+.settings-error-banner button {
+  background: #fff;
+  border: 1px solid #f87171;
+  color: #b91c1c;
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* 3. Settings Panels (Cards) */
+.admin-settings-page .settings-panel {
+  background: #ffffff;
+  padding: 26px 28px;
+  margin: 22px 0;
+  border: 1px solid #e8e4df;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Password Change Panel (Compact & Centered) */
+.admin-settings-page .settings-panel.password-change-panel {
+  max-width: 540px;
+  width: 100%;
+  margin: 28px auto;
+}
+
+.password-change-panel h2 {
+  font-size: 1.5rem;
+  color: #6b1530;
+  margin: 0 0 8px 0;
+}
+
+.password-change-panel p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 20px 0;
+}
+
+.password-change-form {
+  display: grid;
+  gap: 18px;
+}
+
+.panel-header-with-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.panel-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 6px 0;
+}
+
+.panel-description {
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 760px;
+}
+
+.btn-close-panel {
+  background: #f3f4f6 !important;
+  border: 1px solid transparent !important;
+  color: #6b7280 !important;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-close-panel:hover {
+  background: #fee2e2 !important;
+  color: #dc2626 !important;
+}
+
+/* 4. Form Styles & Grids */
+.admin-settings-page form {
+  display: grid;
+  gap: 18px;
+}
+
+.form-grid-two-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.admin-settings-page label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.required-star {
+  color: #dc2626;
+}
+
+.input-label-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-settings-page input:not([type=checkbox]) {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  font-size: 0.92rem;
+  color: #111827;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-settings-page input:not([type=checkbox]):focus {
+  outline: none;
+  border-color: #6b1530;
+  box-shadow: 0 0 0 3px rgba(107, 21, 48, 0.12);
+}
+
+.admin-settings-page input:disabled {
+  background-color: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Phone Input Group with +91 Prefix */
+.phone-input-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.phone-prefix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-right: none;
+  border-radius: 7px 0 0 7px;
+  font-weight: 600;
+  color: #4b5563;
+  font-size: 0.92rem;
+  user-select: none;
+}
+
+.phone-input-group input {
+  border-radius: 0 7px 7px 0 !important;
+}
+
+.field-hint {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.hint-valid {
+  color: #059669;
+  font-weight: 600;
+}
+
+.hint-invalid {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.phone-input-group.input-error input {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+}
+
+.phone-input-group.input-error .phone-prefix {
+  border-color: #dc2626 !important;
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+/* Password Input Wrapper with Visibility Eye Toggle */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 44px !important;
+  box-sizing: border-box;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none !important;
+  border: none !important;
+  color: #6b7280 !important;
+  cursor: pointer;
+  padding: 6px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.18s ease;
+  z-index: 2;
+}
+
+.password-toggle-btn:hover {
+  color: #111827 !important;
+  background-color: #f3f4f6 !important;
+}
+
+/* Password Checklist & Strength Indicators */
+.password-checklist {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 8px;
+}
+
+.checklist-title {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 6px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  transition: all 0.15s ease;
+}
+
+.checklist-item .check-icon {
+  color: #cbd5e1;
+}
+
+.checklist-item.met {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.checklist-item.met .check-icon {
+  color: #16a34a;
+  stroke-width: 3;
+}
+
+/* 5. Permissions Fieldset & Checkbox Grid */
+.permissions-fieldset {
+  margin: 10px 0 6px;
+  padding: 18px 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.fieldset-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fieldset-header legend {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1f2937;
+  padding: 0;
+}
+
+.permission-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-text-link {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  color: #6b1530 !important;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-text-link:hover {
+  color: #8b1e42 !important;
+}
+
+.dot-sep {
+  color: #9ca3af;
+  font-size: 0.8rem;
+}
+
+.settings-permissions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.permission-checkbox-card {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.18s ease;
+}
+
+.permission-checkbox-card:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.permission-checkbox-card.checked {
+  border-color: #6b1530;
+  background: #fff8f9;
+}
+
+.permission-checkbox-card input[type=checkbox] {
+  width: 17px;
+  height: 17px;
+  accent-color: #6b1530;
+  cursor: pointer;
+  margin: 0;
+}
+
+.permission-label-text {
+  font-size: 0.88rem;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+/* 6. Action Buttons */
+.settings-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-primary {
+  width: fit-content;
+  padding: 10px 22px;
+  border: 1px solid #6b1530 !important;
+  color: #ffffff !important;
+  background-color: #6b1530 !important;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #520f24 !important;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  width: fit-content;
+  padding: 10px 18px;
+  border: 1px solid #d1d5db !important;
+  color: #4b5563 !important;
+  background-color: #ffffff !important;
+  border-radius: 7px;
+  font-weight: 500;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+/* 7. Existing Users Panel & Cards */
+.existing-users-panel {
+  border-top: 3px solid #6b1530 !important;
+}
+
+.count-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #f3f4f6;
+  color: #4b5563;
+  padding: 2px 8px;
+  border-radius: 12px;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+.settings-account-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.settings-account-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-account-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.settings-account-card.selected {
+  border-color: #6b1530;
+  background: #fdf6f7;
+  box-shadow: 0 0 0 2px rgba(107, 21, 48, 0.15);
+}
+
+.account-card-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.account-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6b1530 0%, #9e2a4b 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(107, 21, 48, 0.2);
+}
+
+.owner-card .account-avatar {
+  background: linear-gradient(135deg, #b8860b 0%, #dfba6f 100%);
+  color: #2c1a04;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.account-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.account-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-owner {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.badge-active {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-inactive {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+
+.account-meta {
+  color: #6b7280;
+  font-size: 0.86rem;
+  margin: 0 !important;
+}
+
+.account-permissions-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.permissions-summary-text {
+  font-size: 0.82rem;
+  color: #4b5563;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.permissions-summary-text.owner-text {
+  color: #92400e;
+  font-weight: 600;
+}
+
+.account-card-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.badge-all-access {
+  font-size: 0.82rem;
+  color: #92400e;
+  background: #fef9c3;
+  border: 1px solid #fef08a;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.account-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-user-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.18s ease;
+  line-height: 1.2;
+}
+
+.btn-action-edit {
+  background: #fdf2f4;
+  border-color: #f3d4dc;
+  color: #6b1530;
+}
+.btn-action-edit:hover,
+.btn-action-edit.active {
+  background: #6b1530;
+  border-color: #6b1530;
+  color: #ffffff;
+}
+
+.btn-action-password {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #334155;
+}
+.btn-action-password:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.btn-action-delete {
+  background: #fff1f2;
+  border-color: #fecdd3;
+  color: #be123c;
+}
+.btn-action-delete:hover {
+  background: #be123c;
+  border-color: #be123c;
+  color: #ffffff;
+}
+
+.btn-select-user {
+  background: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  color: #374151 !important;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+.btn-select-user:hover {
+  background: #f9fafb !important;
+  border-color: #6b1530 !important;
+  color: #6b1530 !important;
+}
+
+.btn-select-user.btn-selected {
+  background: #6b1530 !important;
+  border-color: #6b1530 !important;
+  color: #ffffff !important;
+}
+
+/* 8. Dedicated Module Permissions Edit Panel */
+.permissions-edit-panel {
+  border: 2px solid #6b1530 !important;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(107, 21, 48, 0.08) !important;
+}
+
+.selected-user-heading-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b1530;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.username-sub {
+  color: #6b7280;
+  font-weight: 400;
+  font-size: 1.05rem;
+}
+
+.status-password-row {
+  margin-top: 8px;
+  align-items: center;
+}
+
+.account-status-toggle-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 14px 16px;
+  border-radius: 8px;
+}
+
+.settings-checkbox-inline {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.settings-checkbox-inline input[type=checkbox] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: #6b1530;
+}
+
+.settings-checkbox-inline strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+.settings-checkbox-inline p {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin: 2px 0 0 0 !important;
+}
+
+.password-reset-wrapper input {
+  padding: 10px 12px;
+}
+
+.owner-all-access-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  color: #92400e;
+  padding: 18px;
+  border-radius: 8px;
+}
+
+.owner-all-access-alert strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.owner-all-access-alert p {
+  color: #78350f !important;
+  margin: 0 !important;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* Subtle animation */
+.animate-fade-down {
+  animation: fadeInDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 9. Modal Styles (Change Password & Delete Dialogs) */
+.settings-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.settings-modal-card {
+  background: #ffffff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #e5e7eb;
+  padding: 26px;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 14px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  font-family: inherit;
+}
+
+.modal-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 0.88rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.btn-close-modal:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.modal-actions.justify-center {
+  justify-content: center;
+}
+
+/* Delete modal specific */
+.delete-modal-card {
+  max-width: 440px;
+  text-align: center;
+}
+
+.modal-icon-danger {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fee2e2;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.delete-modal-warning {
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  color: #991b1b;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 16px 0 20px 0;
+  text-align: left;
+}
+
+.btn-danger {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+  border: 1px solid #dc2626 !important;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-danger:hover {
+  background: #b91c1c !important;
+  border-color: #b91c1c !important;
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Modal Animations */
+.animate-fade-in {
+  animation: fadeIn 0.18s ease-out forwards;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 10. Responsive Breakpoints */
+@media (max-width: 768px) {
+  .form-grid-two-col {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .settings-permissions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-add-user-trigger {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .settings-account-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .account-card-right {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  .account-actions-group {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

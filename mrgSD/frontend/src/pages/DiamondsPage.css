@@ -702,47 +702,12 @@
 
 .neyra-solitaire-description {
   font-family: 'Inter', sans-serif;
-  font-size: 0.96rem;
+  font-size: 1rem;
   line-height: 1.8;
   color: #b5c7d8;
-  margin: 0 0 2rem 0;
+  margin: 0;
   max-width: 520px;
   font-weight: 350;
-}
-
-/* Solitaire Craft Highlight Items */
-.neyra-solitaire-features {
-  display: flex;
-  flex-direction: column;
-  gap: 1.15rem;
-  margin-bottom: 0;
-  width: 100%;
-}
-
-.solitaire-feature-item {
-  display: flex;
-  align-items: flex-start;
-}
-
-.feature-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.feature-text strong {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #f1f6fb;
-  letter-spacing: 0.4px;
-}
-
-.feature-text span {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.84rem;
-  color: #9cb5ca;
-  line-height: 1.5;
 }
 
 /* Luxury Solitaire CTA Button */
@@ -780,7 +745,7 @@
   transform: translateX(4px);
 }
 
-/* Right Column: Visual Solitaire Showcase */
+/* Right Column: Visual Solitaire Showcase - Overlapping Dual-Card Composition */
 .neyra-solitaire-visual-col {
   flex: 1 1 540px;
   display: flex;
@@ -789,59 +754,69 @@
   position: relative;
 }
 
-.neyra-solitaire-image-wrapper {
+.neyra-solitaire-overlapping-container {
   position: relative;
   width: 100%;
-  max-width: 620px;
-  border-radius: 16px;
+  max-width: 560px;
+  height: 490px;
+  margin: 0 auto;
+}
+
+.solitaire-overlapping-card {
+  position: absolute;
   overflow: hidden;
-  border: 1px solid rgba(223, 186, 111, 0.28);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 35px rgba(6, 21, 43, 0.7);
+  border-radius: 16px;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+
+.solitaire-overlapping-card.solitaire-card-back {
+  width: 62%;
+  height: 76%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border: 1px solid rgba(223, 186, 111, 0.35);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 25px rgba(3, 10, 20, 0.8);
   background-color: #06152b;
 }
 
-.neyra-solitaire-main-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+.solitaire-overlapping-card.solitaire-card-front {
+  width: 58%;
+  height: 70%;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  border: 1px solid rgba(223, 186, 111, 0.35);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(3, 10, 20, 0.8);
+  background-color: #06152b;
 }
 
-.neyra-solitaire-image-wrapper:hover .neyra-solitaire-main-img {
-  transform: scale(1.02);
+.solitaire-overlapping-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 28px 56px rgba(0, 0, 0, 0.8), 0 0 40px rgba(223, 186, 111, 0.25);
 }
 
-.neyra-solitaire-glints {
-  position: absolute;
-  top: 0;
-  left: 0;
+.solitaire-overlapping-card.solitaire-card-front:hover {
+  z-index: 3;
+}
+
+.solitaire-overlapping-img {
   width: 100%;
   height: 100%;
-  pointer-events: none;
-  z-index: 4;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Diamond Showcase Sparkle Coordinates on Solitaire Pendant & Stud Earring */
-.glint-solitaire-crown {
-  top: 63%;
-  left: 41%;
-  animation-delay: 0.4s;
-  animation-duration: 3.2s;
-}
-
-.glint-solitaire-side-gem {
-  top: 58%;
-  left: 73%;
-  animation-delay: 1.9s;
-  animation-duration: 3.8s;
-  transform: translate(-50%, -50%) scale(0.85);
+.solitaire-overlapping-card:hover .solitaire-overlapping-img {
+  transform: scale(1.06);
 }
 
 /* Responsive Styles for Solitaire Story */
 @media (max-width: 992px) {
   .neyra-solitaire-story-section {
-    padding: 4rem 0;
+    padding: 3.5rem 0;
   }
 
   .neyra-solitaire-container {
@@ -857,32 +832,24 @@
     max-width: 100%;
   }
 
-  .neyra-solitaire-features {
-    align-items: center;
-    text-align: left;
-  }
-
-  .solitaire-feature-item {
+  .neyra-solitaire-overlapping-container {
     max-width: 480px;
-  }
-
-  .neyra-solitaire-image-wrapper {
-    max-width: 100%;
+    height: 420px;
   }
 }
 
 @media (max-width: 600px) {
   .neyra-solitaire-story-section {
-    padding: 3rem 0;
+    padding: 2.5rem 0;
   }
 
   .neyra-solitaire-headline {
     font-size: 2.2rem;
   }
 
-  .neyra-solitaire-cta-btn {
-    width: 100%;
-    justify-content: center;
+  .neyra-solitaire-overlapping-container {
+    max-width: 340px;
+    height: 300px;
   }
 }
 

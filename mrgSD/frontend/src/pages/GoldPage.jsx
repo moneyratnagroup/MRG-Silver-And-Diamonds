@@ -27,7 +27,8 @@ import featuredItem1 from '../assets/featured_item_1.png';
 import featuredItem2 from '../assets/featured_item_2.png';
 import featuredItem3 from '../assets/featured_item_3.png';
 import featuredItem4 from '../assets/featured_item_4.png';
-import goldHeritageShowcase from '../assets/gold_heritage_showcase.webp';
+import goldMinimalNecklace from '../assets/gold_minimal_necklace_emerald.webp';
+import goldMinimalRingBox from '../assets/gold_minimal_ring_box_emerald.webp';
 
 const GoldPage = () => {
   const { collectionId } = useParams();
@@ -285,41 +286,29 @@ let products = (collectionId && collectionId !== 'all')
                 </h2>
 
                 <p className="mrg-gold-heritage-description">
-                  Every MRG gold creation is forged in certified BIS 916 hallmarked pure gold, celebrating generations of Indian heritage. Handcrafted by master karigars to hold auspicious warmth and grace for life’s most cherished beginnings.
+                  Every MRG gold creation is forged in certified BIS 916 hallmarked pure gold — handcrafted by master karigars to hold auspicious warmth, sacred grace, and generational legacy.
                 </p>
-
-                {/* Craft Pillars */}
-                <div className="mrg-gold-heritage-features">
-                  <div className="gold-feature-item">
-                    <div className="gold-feature-text">
-                      <strong>BIS 916 Hallmarked Purity</strong>
-                      <span>Guaranteed 22K &amp; 18K pure gold with laser-engraved HUID verification</span>
-                    </div>
-                  </div>
-                  <div className="gold-feature-item">
-                    <div className="gold-feature-text">
-                      <strong>Master Goldsmith Artistry</strong>
-                      <span>Intricate filigree, nakshi, and temple motifs crafted with time-honored bench techniques</span>
-                    </div>
-                  </div>
-                  <div className="gold-feature-item">
-                    <div className="gold-feature-text">
-                      <strong>Zero Wastage Promise &amp; Lifetime Care</strong>
-                      <span>100% transparent value assurance, lifetime buyback, and complimentary polishing</span>
-                    </div>
-                  </div>
-                </div>
               </div>
 
-              {/* Right Column: Visual Showcase */}
+              {/* Right Column: Visual Showcase - Overlapping Dual-Card Composition */}
               <div className="mrg-gold-heritage-visual-col">
-                <div className="mrg-gold-heritage-image-wrapper">
-                  <img 
-                    src={goldHeritageShowcase} 
-                    alt="MRG Fine 22K Gold Jewellery Suite on Emerald Silk" 
-                    className="mrg-gold-heritage-main-img"
-                    loading="lazy"
-                  />
+                <div className="gold-heritage-overlapping-container">
+                  <div className="gold-overlapping-card gold-card-back">
+                    <img 
+                      src={goldMinimalNecklace} 
+                      alt="Minimalist Fine 18K Gold Necklace on Forest Green Silk" 
+                      className="gold-overlapping-img"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="gold-overlapping-card gold-card-front">
+                    <img 
+                      src={goldMinimalRingBox} 
+                      alt="Delicate Minimal Gold Ring in Forest Green Velvet Box" 
+                      className="gold-overlapping-img"
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

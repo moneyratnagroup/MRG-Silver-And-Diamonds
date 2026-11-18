@@ -314,27 +314,30 @@
   background: linear-gradient(135deg, #020b06 0%, #071911 50%, #0d2c1d 100%);
   border-top: 1px solid rgba(223, 193, 129, 0.25);
   border-bottom: 1px solid rgba(223, 193, 129, 0.25);
-  padding: 5.5rem 0;
+  padding: 5rem 0;
   overflow: hidden;
   color: #ffffff;
   display: block;
 }
 
 .mrg-gold-heritage-container {
-  max-width: 1360px;
+  max-width: 1300px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 2.5rem;
+  padding: 0 clamp(1.5rem, 3.5vw, 2.5rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 4.5rem;
+  gap: clamp(2rem, 4vw, 4rem);
   position: relative;
   z-index: 2;
+  box-sizing: border-box;
 }
 
 .mrg-gold-heritage-text-col {
   flex: 1 1 520px;
   max-width: 580px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -361,6 +364,7 @@
   color: #ffffff;
   margin: 0 0 1.25rem 0;
   letter-spacing: 0.5px;
+  word-break: break-word;
 }
 
 .mrg-gold-heritage-headline-italic {
@@ -374,161 +378,191 @@
 
 .mrg-gold-heritage-description {
   font-family: 'Inter', sans-serif;
-  font-size: 0.96rem;
+  font-size: 1rem;
   line-height: 1.8;
   color: #b8c8bc;
-  margin: 0 0 2rem 0;
+  margin: 0;
   max-width: 520px;
   font-weight: 350;
 }
 
-/* Gold Craft Highlight Items */
-.mrg-gold-heritage-features {
-  display: flex;
-  flex-direction: column;
-  gap: 1.15rem;
-  margin-bottom: 0;
-  width: 100%;
-}
-
-.gold-feature-item {
-  display: flex;
-  align-items: flex-start;
-}
-
-.gold-feature-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.gold-feature-text strong {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #f3faf5;
-  letter-spacing: 0.4px;
-}
-
-.gold-feature-text span {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.84rem;
-  color: #9cb3a2;
-  line-height: 1.5;
-}
-
-/* Luxury Gold CTA Button */
-.mrg-gold-heritage-cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 13px 34px;
-  background: linear-gradient(135deg, rgba(223, 193, 129, 0.16) 0%, rgba(223, 193, 129, 0.05) 100%);
-  border: 1px solid #dfc181;
-  border-radius: 40px;
-  color: #dfc181;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.mrg-gold-heritage-cta-btn:hover {
-  background: #dfc181;
-  color: #071911;
-  box-shadow: 0 8px 30px rgba(223, 193, 129, 0.35);
-  transform: translateY(-2px);
-}
-
-.gold-btn-arrow {
-  transition: transform 0.3s ease;
-}
-
-.mrg-gold-heritage-cta-btn:hover .gold-btn-arrow {
-  transform: translateX(4px);
-}
-
-/* Right Column: Visual Showcase */
+/* Right Column: Visual Showcase - Overlapping Dual-Card Composition */
 .mrg-gold-heritage-visual-col {
-  flex: 1 1 540px;
+  flex: 1 1 480px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 }
 
-.mrg-gold-heritage-image-wrapper {
+.gold-heritage-overlapping-container {
   position: relative;
   width: 100%;
-  max-width: 620px;
-  border-radius: 16px;
+  max-width: 560px;
+  aspect-ratio: 560 / 490;
+  height: auto;
+  margin: 0 auto;
+}
+
+.gold-overlapping-card {
+  position: absolute;
   overflow: hidden;
-  border: 1px solid rgba(223, 193, 129, 0.28);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 35px rgba(7, 25, 17, 0.7);
+  border-radius: 16px;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+
+.gold-overlapping-card.gold-card-back {
+  width: 62%;
+  height: 76%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border: 1px solid rgba(223, 193, 129, 0.35);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 25px rgba(2, 11, 6, 0.8);
   background-color: #071911;
 }
 
-.mrg-gold-heritage-main-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+.gold-overlapping-card.gold-card-front {
+  width: 58%;
+  height: 70%;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  border: 1px solid rgba(223, 193, 129, 0.35);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.65), 0 0 35px rgba(2, 11, 6, 0.8);
+  background-color: #071911;
 }
 
-.mrg-gold-heritage-image-wrapper:hover .mrg-gold-heritage-main-img {
-  transform: scale(1.02);
+.gold-overlapping-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 28px 56px rgba(0, 0, 0, 0.75), 0 0 40px rgba(223, 193, 129, 0.2);
+}
+
+.gold-overlapping-card.gold-card-front:hover {
+  z-index: 3;
+}
+
+.gold-overlapping-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gold-overlapping-card:hover .gold-overlapping-img {
+  transform: scale(1.06);
 }
 
 /* Responsive Styles for Gold Heritage */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   .mrg-gold-heritage-section {
-    padding: 4rem 0;
+    padding: 3.75rem 0;
   }
 
   .mrg-gold-heritage-container {
     flex-direction: column;
     text-align: center;
-    gap: 3rem;
+    gap: 2.75rem;
     padding: 0 1.5rem;
   }
 
   .mrg-gold-heritage-text-col {
     align-items: center;
     text-align: center;
-    max-width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
   }
 
-  .mrg-gold-heritage-features {
-    align-items: center;
-    text-align: left;
+  .mrg-gold-heritage-headline {
+    font-size: clamp(2.2rem, 5vw, 3rem);
   }
 
-  .gold-feature-item {
-    max-width: 480px;
+  .mrg-gold-heritage-description {
+    max-width: 520px;
+    margin: 0 auto;
   }
 
-  .mrg-gold-heritage-image-wrapper {
-    max-width: 100%;
+  .gold-heritage-overlapping-container {
+    max-width: 460px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .mrg-gold-heritage-section {
     padding: 3rem 0;
   }
 
+  .mrg-gold-heritage-container {
+    gap: 2.25rem;
+    padding: 0 1.25rem;
+  }
+
+  .mrg-gold-heritage-headline {
+    font-size: clamp(2rem, 5.5vw, 2.5rem);
+  }
+
+  .gold-heritage-overlapping-container {
+    max-width: 360px;
+  }
+
+  .gold-overlapping-card {
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 600px) {
   .mrg-gold-heritage-headline {
     font-size: 2.2rem;
   }
+}
 
-  .mrg-gold-heritage-cta-btn {
-    width: 100%;
-    justify-content: center;
+@media (max-width: 480px) {
+  .mrg-gold-heritage-section {
+    padding: 2.25rem 0;
+  }
+
+  .mrg-gold-heritage-container {
+    gap: 1.75rem;
+    padding: 0 1rem;
+  }
+
+  .mrg-gold-heritage-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    margin-bottom: 0.75rem;
+  }
+
+  .mrg-gold-heritage-headline {
+    font-size: 1.95rem;
+    line-height: 1.18;
+    margin-bottom: 0.85rem;
+  }
+
+  .mrg-gold-heritage-description {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    max-width: 340px;
+  }
+
+  .gold-heritage-overlapping-container {
+    max-width: 290px;
+  }
+
+  .gold-overlapping-card {
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 340px) {
+  .gold-heritage-overlapping-container {
+    max-width: 260px;
+  }
+
+  .mrg-gold-heritage-headline {
+    font-size: 1.7rem;
   }
 }
 
